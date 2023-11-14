@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/currency.proto";
+
+/*
+   Cancellation Penalty
+*/
+message CancelPenalty {
+  string from = 2; // from field
+  string to = 3; // to field
+  float penalty = 4; // Penalty amount
+  cmp.types.v1alpha1.Currency currency = 5; // Penalty currency
+  string description = 6; // Description of the penalty
+  repeated string valid_for_rateplan = 7; // For which rateplans the penalty is valid for
+}
+
+/*
+   Cancellation Policy
+*/
+message CancelPolicy {
+  bool refundable = 1; // Cancellation policy refundable or not
+  string free_cancellation_policy_upto = 2; // __doc here__
+  repeated CancelPenalty cancel_penalties = 3; // __doc here__
+}

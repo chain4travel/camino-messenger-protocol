@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+// ## Camino Messenger Protocol Common Package
+//
+// All CMP messages should import and use the header message type
+package cmp.types.v1alpha1;
+
+// ### CM Message Header
+//
+// FIXME: Using version as a single int32 seems logical in my opinion. Less size
+// and simple.
+// FIXME: Do we really need the "info" field?
+//
+message Header {
+  // Protocol Version
+  Version version = 1;
+
+  // Message info
+  string info = 2;
+
+  // End-user wallet ID for personalization purposes
+  string end_user_wallet_address = 5;
+}
+
+// Version
+message Version {
+  // API Version, major version which can have breaking changes (semantic versioning)
+  int32 major = 1;
+  // API Version, minor version has backwards compatible new features (semantic versioning)
+  int32 minor = 2;
+  // API Version, patch version small improvements and bugfixes (semantic versioning)
+  int32 patch = 3;
+}

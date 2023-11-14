@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+// ## This is a package level description example
+//
+// This description is for package `cmp.datatypes.coordinate.v1alpha1` package
+package cmp.types.v1alpha1;
+
+// Coordinate
+message Coordinate {
+  double longitude = 1;
+  double latitude = 2;
+}

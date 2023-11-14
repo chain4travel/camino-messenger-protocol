@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+/*
+ ## Ping Message
+*/
+package cmp.services.ping.v1alpha1;
+
+import "cmp/types/v1alpha1/common.proto";
+
+// FIXME: IMO, Ping requests and reponses should include a timestamp?
+message PingRequest {
+  // Message Header
+  // Contains api version, message info string and end user wallet address
+  cmp.types.v1alpha1.Header header = 1;
+
+  // Ping message
+  string ping_message = 2;
+}
+
+// FIXME: Ping request & reponse messages looks same, do we need two different
+// messages?
+message PingResponse {
+  // Message Header
+  // Contains api version, message info string, sender & receiver wallet
+  // addresses
+  cmp.types.v1alpha1.Header header = 1;
+
+  // Ping message
+  string ping_message = 2;
+}
+
+// The Ping Service definition
+service PingService {
+  // Ping Method
+  rpc Ping(PingRequest) returns (PingResponse);
+}

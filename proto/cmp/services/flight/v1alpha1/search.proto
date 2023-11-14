@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package cmp.services.flight.v1alpha1;
+
+import "cmp/services/flight/v1alpha1/datatypes.proto";
+import "cmp/types/v1alpha1/common.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+
+/*
+   # Flight Search Request Message
+
+   ## Description
+
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam
+   vitae aliquam tincidunt, nunc nisl ultricies nunc, quis aliquam nisl nisl
+   velit. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi.
+
+   ## Diagram
+
+   ![FlightSearch](http://34.36.20.191/tcm/static/diagrams/messages/flight_search.proto.dot.svg)
+
+*/
+message FlightSearchRequest {
+  // Message Header
+  // Contains api version, message info string, sender & receiver wallet
+  // addresses
+  cmp.types.v1alpha1.Header header = 1;
+
+  string external_session_id = 2;
+  string enrichment = 3;
+  string currency = 4;
+  string language = 5;
+  string market = 6;
+  string include_on_request = 7;
+  string include_combinations = 8;
+
+  repeated cmp.types.v1alpha1.Traveller passengers = 9;
+  repeated cmp.services.flight.v1alpha1.FlightSearchCriteria flight_search_criterias = 10;
+  repeated cmp.services.flight.v1alpha1.FlightOfferCriteria flight_offer_criterias = 11;
+}
+
+/*
+   # Flight Search Response Message
+
+   ## Description
+
+   Vitae aliquam tincidunt, nunc nisl ultricies nunc, quis aliquam nisl nisl
+   velit. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi.
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam
+
+   ## Diagram
+
+   ![FlightSearch](http://34.36.20.191/tcm/static/diagrams/messages/flight_search.proto.dot.svg)
+
+*/
+message FlightSearchResponse {
+  // Message Header
+  // Contains api version, message info string, sender & receiver wallet
+  // addresses
+  cmp.types.v1alpha1.Header header = 1;
+
+  string context = 2;
+  string errors = 3;
+  string warnings = 4;
+  string supplier_code = 5;
+  string external_session_id = 6;
+  string search_id = 7;
+  repeated cmp.services.flight.v1alpha1.FlightSearchOption options = 8;
+}

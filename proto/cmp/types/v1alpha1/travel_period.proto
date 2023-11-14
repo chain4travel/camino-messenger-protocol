@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/date.proto";
+
+//
+// Travel Period
+//
+message TravelPeriod {
+  cmp.types.v1alpha1.Date start_date = 1;
+  cmp.types.v1alpha1.Date end_date = 2;
+  bool flexible = 3; // FIXME: Boolean?
+  int32 los_from_nights = 4;
+  int32 los_to_nights = 5;
+}

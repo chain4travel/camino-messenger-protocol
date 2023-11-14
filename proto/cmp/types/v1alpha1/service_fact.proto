@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+// Service Fact
+//
+// Example:
+//   {
+//       "fact" : "Breakage deposit in cash",
+//       "value" : "500€"
+//   },
+//   {
+//       "fact" : "Electricity",
+//       "value" : "1€ per kWh"
+//   },
+//   {
+//       "fact" : "local tax (16+)",
+//       "value" : "2€ per person/day"
+//   },
+//   {                    {
+//       "fact" : "Laundry (initial supply of bed linen and towels)"
+//   },
+//   {
+//       "fact" : "Wireless internet access (WIFI)"
+//   },
+message ServiceFact {
+  string fact = 1;
+  string value = 2;
+}

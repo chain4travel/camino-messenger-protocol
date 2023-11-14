@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package cmp.services.flight.v1alpha1;
+
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/date.proto";
+import "cmp/types/v1alpha1/price.proto";
+
+// Search Option
+//
+// This is for basic property search response's search options
+message FlightSearchOption {
+  string id = 1;
+  string offer_id = 2;
+  repeated FlightSegment segments = 3;
+  cmp.types.v1alpha1.Price price = 4;
+  repeated AnciliaryService anciliary_services = 5;
+  Validity validity = 6;
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 7;
+}
+
+message FlightSegment {
+  string segment_id = 1;
+  string airline = 2;
+  FlightSchedule departure = 3;
+  FlightSchedule arrival = 4;
+  string class_of_service_description = 5;
+  string class_of_service_code = 6;
+  cmp.types.v1alpha1.Price price = 7;
+}
+
+message FlightSchedule {
+  string date = 1;
+  string airport = 2;
+}
+
+message AnciliaryService {
+  string service_id = 1;
+  string name = 2;
+  cmp.types.v1alpha1.Price price = 3;
+}
+
+message Validity {
+  string start = 1;
+  string end = 2;
+}
+
+message FlightSearchCriteria {
+  cmp.types.v1alpha1.Date departure_date = 1;
+  string departure = 2;
+  string arrival = 3;
+  string min_time = 4;
+  string max_time = 5;
+}
+
+message FlightOfferCriteria {
+  CabinCriteria cabin_criteria = 1;
+  ServiceCriteria service_criteria = 2;
+}
+
+message CabinCriteria {
+  CabinType cabin_type = 1;
+  repeated SeatCriteria seat_criteria = 2;
+  int32 row_number = 3;
+}
+
+message CabinType {
+  string class_of_service_code = 1;
+  string class_of_service_description = 2;
+}
+
+message SeatCriteria {
+  repeated SeatType seat_type = 1;
+}
+
+message SeatType {
+  string code = 1;
+  string description = 2;
+}
+
+message ServiceCriteria {
+  bool meal = 1;
+  ServiceSpecialNeed special_needs = 2;
+}
+
+message ServiceSpecialNeed {
+  string code = 1;
+  string description = 2;
+}

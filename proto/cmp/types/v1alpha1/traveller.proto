@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/date.proto";
+
+//
+// Traveller
+//
+message Traveller {
+  // Traveller type from enum below
+  TravellerType type = 1;
+
+  // Age
+  // FIXME: Do we need both age & birthdate? (Protobuf fields are optional, so
+  // we can keep it also)
+  int32 age = 2;
+
+  // Birthdate
+  cmp.types.v1alpha1.Date birthdate = 3;
+
+  // FIXME: An enum for this field will reduce the message size.
+  string nationality = 4;
+}
+
+// Traveller Type
+enum TravellerType {
+  TRAVELLER_TYPE_UNSPECIFIED = 0;
+  TRAVELLER_TYPE_ADULT = 1;
+  TRAVELLER_TYPE_CHILD = 2;
+  TRAVELLER_TYPE_INFANT = 3;
+  TRAVELLER_TYPE_SENIOR = 4;
+}

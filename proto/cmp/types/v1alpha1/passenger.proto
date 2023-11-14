@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+// import "tcm/protobuf/traveller.proto";
+// import "tcm/protobuf/travel_period.proto";
+
+package cmp.types.v1alpha1;
+
+message Passenger {
+  // Todo: Create Passenger message
+}

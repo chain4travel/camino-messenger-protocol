@@ -1,0 +1,14 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: buf.build/chain4travel/camino-messenger-protocol
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: gen/go
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/connect-go
+    out: gen/go
+    opt: paths=source_relative
+  - plugin: buf.build/community/danielgtaylor-betterproto:v1.2.5
+    out: gen/python

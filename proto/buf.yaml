@@ -1,0 +1,9 @@
+version: v1
+name: buf.build/chain4travel/camino-messenger-protocol
+breaking:
+  ignore_unstable_packages: true
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

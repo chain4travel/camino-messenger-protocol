@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+// Filter
+message Filter {
+  string filter_code = 1;
+  string filter_description = 2;
+  // FIXME: How many global types are there? Can this be an enum?
+  repeated string drv_globaltypes = 3;
+}
