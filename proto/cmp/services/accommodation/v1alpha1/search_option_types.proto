@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1alpha1;
+
+import "cmp/services/accommodation/v1alpha1/property_types.proto";
+import "cmp/services/accommodation/v1alpha1/unit_types.proto";
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+
+// ## Search option types for Accommodation Service
+//
+// This type is used in the AccommodationSearchResponse message
+message SearchOption {
+  // Option ID for the search option
+  string option_id = 1;
+
+  // Property's code. FIXME: Is this a vendor specific code? Don't we also have this in PropertyInfo?
+  string property_code = 2;
+
+  // Property information
+  PropertyInfo property_info = 3;
+
+  // Units for this search option (and also for the property above, shouldn't the units be under the ProperyInfo?)
+  repeated Unit units = 4;
+
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 5; //
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 6; //
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 7; // FIXME: We have all these in Unit type also?
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 8; //
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 9; //
+  string remarks = 10; //
+}
+
+// Option flags for the search requests
+message OptionFlags {
+  // Include OnRequest options in the response or only immediately bookable options
+  bool include_on_request = 1;
+
+  // Only show the cheapest option for one product, or include all possible combinations
+  bool include_combinations = 2;
+}

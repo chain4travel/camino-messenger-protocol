@@ -11,23 +11,42 @@ syntax = "proto3";
    This package is a **WIP**. We will probably end up splitting this into smaller and more related
    packages.
 */
-package cmp.types.v1alpha1;
+package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/coordinate.proto";
+import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/price.proto";
 
 /*
    Basic Property Info
 */
-message BasicPropertyInfo {
+message PropertyInfo {
+  // Name of the property
   string property_name = 1;
+
+  // GIATA ID
   string giata_id = 2;
+
+  // Goal ID
   int32 goal_id = 3;
-  string country = 4;
-  string country_code = 5;
+
+  // Country
+  cmp.types.v1alpha1.Country country = 4;
+
+  // Region
   string region = 6;
+
+  // City or Resort. FIXME: Why is this called "city_or_resort"?
   string city_or_resort = 7;
-  cmp.types.v1alpha1.Coordinate location = 8; // Location coordinate of the property
+
+  // Coordinates of the property
+  cmp.types.v1alpha1.Coordinate location = 8;
+
+  // Status of the property. FIXME: Can we make this an enum?
   string status = 9;
+
+  // ## Total Price
+  //
+  // This is only relevant for holiday homes at the moment?
   cmp.types.v1alpha1.Price total_price = 10;
 }

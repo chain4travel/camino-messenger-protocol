@@ -2,25 +2,38 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-import "cmp/types/v1alpha1/currency.proto";
-
-/*
-   Cancellation Penalty
-*/
-message CancelPenalty {
-  string from = 2; // from field
-  string to = 3; // to field
-  float penalty = 4; // Penalty amount
-  cmp.types.v1alpha1.Currency currency = 5; // Penalty currency
-  string description = 6; // Description of the penalty
-  repeated string valid_for_rateplan = 7; // For which rateplans the penalty is valid for
-}
+import "cmp/types/v1alpha1/datetime_range.proto";
+import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/rate_plan.proto";
 
 /*
    Cancellation Policy
 */
 message CancelPolicy {
-  bool refundable = 1; // Cancellation policy refundable or not
-  string free_cancellation_policy_upto = 2; // __doc here__
-  repeated CancelPenalty cancel_penalties = 3; // __doc here__
+  // Cancellation policy refundable or not
+  bool refundable = 1;
+  // __doc here__
+  string free_cancellation_policy_upto = 2;
+  // __doc here__
+  repeated CancelPenalty cancel_penalties = 3;
+}
+
+/*
+   Cancellation Penalty
+*/
+message CancelPenalty {
+  // When this penalty is valid
+  oneof time_frame {
+    cmp.types.v1alpha1.DateTimeRange datetime_range = 1;
+    int32 hours_before = 2;
+  }
+
+  // Penalty value
+  cmp.types.v1alpha1.Price value = 3;
+
+  // Description of the penalty
+  string description = 4;
+
+  // For which rateplan the penalty is valid for
+  repeated RatePlan valid_for_rate_plan = 5;
 }

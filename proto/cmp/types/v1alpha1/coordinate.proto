@@ -7,6 +7,8 @@ package cmp.types.v1alpha1;
 
 // Coordinate
 message Coordinate {
-  double longitude = 1;
-  double latitude = 2;
+  // The latitude in degrees. It must be in the range [-90.0, +90.0].
+  double latitude = 1;
+  // The longitude in degrees. It must be in the range [-180.0, +180.0].
+  double longitude = 2;
 }

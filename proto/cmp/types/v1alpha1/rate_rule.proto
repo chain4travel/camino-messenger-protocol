@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+// Rate Rule
+message RateRule {
+  RateRuleType type = 1;
+  string description = 2;
+}
+
+enum RateRuleType {
+  RATE_RULE_TYPE_UNSPECIFIED = 0;
+  RATE_RULE_TYPE_NON_REFUNDABLE = 1;
+  RATE_RULE_TYPE_REFUNDABLE = 2;
+}

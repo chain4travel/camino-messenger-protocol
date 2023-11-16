@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+/*
+   Date Message
+*/
+message DateTimeRange {
+  google.protobuf.Timestamp start_datetime = 1;
+  google.protobuf.Timestamp end_datetime = 2;
+}

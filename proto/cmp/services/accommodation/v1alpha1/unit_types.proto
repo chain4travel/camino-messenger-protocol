@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1alpha1;
+
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/filter.proto";
+import "cmp/types/v1alpha1/geo_location.proto";
+import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/rate_plan.proto";
+import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/travel_period.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+
+// ## Unit
+//
+// A `Unit` can represent
+message Unit {
+  // Unit Type
+  UnitType type = 1;
+
+  // Beds
+  repeated Bed beds = 2;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 3;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 4;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 5;
+
+  // Price
+  cmp.types.v1alpha1.Price price = 6;
+
+  // Rate plan
+  cmp.types.v1alpha1.RatePlan rate_plan = 7;
+
+  // Rate Rules
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
+
+  // Travel period
+  cmp.types.v1alpha1.TravelPeriod travel_period = 9;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 10;
+
+  // Geo Location
+  cmp.types.v1alpha1.GeoLocation geo_location = 11;
+
+  // Various provider and product specific filters can be provided here in
+  // agreed name/value pairs
+  repeated cmp.types.v1alpha1.Filter filters = 12;
+
+  // Sub units that this unit contains.
+  //
+  // **Examples:**
+  // - Rooms in a holiday home
+  // - Inner rooms inside a hotel's suite room
+  repeated Unit sub_units = 13;
+
+  // Cancel Policies
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
+
+  // Free-text field to provide more detials for better offer personalization.
+  // This field can be provided in combination with a Geo location or as stand-alone.
+  string request_description_text = 15;
+
+  // The speech request is provided as a link to a recording to process for
+  // better offer personalization. This field can be provided in combination
+  // with a Geo location or as stand-alone.
+  string request_description_audio_url = 16;
+
+  // Remaining units
+  int32 remaining_units = 17;
+
+  // Vendor code. Room code of the unit. Ex: "RMSDDB0000"
+  string vendor_code = 18;
+
+  // Remarks
+  string remarks = 19;
+}
+
+message Bed {
+  BedType type = 1;
+  int32 count = 2;
+}
+
+enum BedType {
+  BED_TYPE_UNSPECIFIED = 0;
+  BED_TYPE_SINGLE = 1;
+  BED_TYPE_DOUBLE = 2;
+  BED_TYPE_KING = 3;
+}
+
+enum UnitType {
+  UNIT_TYPE_UNSPECIFIED = 0;
+  UNIT_TYPE_ROOM = 1;
+  UNIT_TYPE_HOLIDAY_HOME = 2;
+}

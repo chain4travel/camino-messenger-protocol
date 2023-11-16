@@ -1,29 +1,29 @@
 syntax = "proto3";
 
-package cmp.services.holiday_home.v1alpha1;
+package cmp.services.accommodation.v1alpha1;
 
-import "cmp/services/holiday_home/v1alpha1/holiday_home_types.proto";
+import "cmp/services/accommodation/v1alpha1/search_option_types.proto";
+import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/currency.proto";
 import "cmp/types/v1alpha1/enrichment.proto";
 import "cmp/types/v1alpha1/language.proto";
-import "cmp/types/v1alpha1/search_option.proto";
 
 /*
-   ### HolidayHomeSearchRequest Message Type
+   ### AccommodationSearchRequest Message Type
 
-   ![HolidayHomeSearchRequestDiagram](http://localhost:3000/img/holiday_home.proto.dot.svg)
+   ![AccommodationSearchRequestDiagram](http://localhost:3000/img/holiday_home.proto.dot.svg)
 
-   The `HolidayHomeSearchRequest` message type facilitates the request for holiday
+   The `AccommodationSearchRequest` message type facilitates the request for holiday
    home searches within the platform. This message type is derived from the `AccommodationSearchRequest` where the hotel specific concepts
-   like room and mealplan have been removed and holiday home specific concepts like deposit, extra laundry change, etc have been incorporated
+   like room and mealplan have been removed and Accommodation specific concepts like deposit, extra laundry change, etc have been incorporated
 
    Developers leveraging this message type should ensure proper validation and
    handling, especially considering fields that are still under review, like
    `speech_request`.
 */
-message HolidayHomeSearchRequest {
+message AccommodationSearchRequest {
   // Message Header. Contains api version, message info string and end user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
@@ -43,18 +43,15 @@ message HolidayHomeSearchRequest {
   // Request generated for a specific market according to ISO 3166-1 Country codes
   cmp.types.v1alpha1.Country country = 6;
 
-  // Include OnRequest options in the response or only immediately bookable options
-  bool include_on_request = 7;
+  // Option flags
+  OptionFlags flags = 7;
 
-  // Only show the cheapest option for one product, or include all possible combinations
-  bool include_combinations = 8;
-
-  // Homes
-  repeated cmp.services.holiday_home.v1alpha1.HolidayHome homes = 9;
+  // Units
+  repeated Unit units = 9;
 }
 
-// Holiday Home Search Response
-message HolidayHomeSearchResponse {
+// Accommodation Search Response
+message AccommodationSearchResponse {
   // Message Header. Contains api version, message info string and end user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
@@ -64,11 +61,11 @@ message HolidayHomeSearchResponse {
   string supplier_code = 5;
   string external_session_id = 6;
   string search_id = 7;
-  repeated cmp.types.v1alpha1.SearchOption options = 8;
+  repeated SearchOption options = 8;
 }
 
-// The Holiday Home Service definition
-service HolidayHomeSearchService {
-  // Holiday Home Search method
-  rpc HolidayHomeSearch(HolidayHomeSearchRequest) returns (HolidayHomeSearchResponse);
+// The Accommodation Service definition
+service AccommodationSearchService {
+  // Accommodation Search method
+  rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);
 }
