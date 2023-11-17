@@ -6,7 +6,7 @@ import "cmp/services/accommodation/v1alpha1/property_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/rate_rule.proto";
-import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/sorting.proto";
 
 // ## Search option types for Accommodation Service
 //
@@ -24,12 +24,12 @@ message SearchOption {
   // Units for this search option (and also for the property above, shouldn't the units be under the ProperyInfo?)
   repeated Unit units = 4;
 
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 5; //
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 6; //
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 7; // FIXME: We have all these in Unit type also?
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 8; //
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 9; //
-  string remarks = 10; //
+  // The RateRule specifies whether an option is non-refundable or not
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 5; 
+  // The cancellation conditions related to an option
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 6; //
+  // Freetext remarks without any functionality
+  string remarks = 7; //
 }
 
 // Option flags for the search requests
@@ -42,4 +42,7 @@ message OptionFlags {
   
   // Limit the maximum number of options included in the response
   int32 max_number_options = 3;
+
+  // Specify the sorting required in the response
+  cmp.types.v1alpha1.Sorting sorting = 4;
 }

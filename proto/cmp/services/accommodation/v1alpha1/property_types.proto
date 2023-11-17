@@ -7,7 +7,9 @@ import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/price.proto";
 
 /*
-   Basic Property Info
+Basic Property Info
+
+test text
 */
 message PropertyInfo {
   // Name of the property
@@ -25,7 +27,8 @@ message PropertyInfo {
   // Region
   string region = 6;
 
-  // City or Resort. FIXME: Why is this called "city_or_resort"?
+  // City or Resort. The fieldname city_or_resort has been chosen as these concepts are used interchangeable in holiday applications and 
+  //business/city break applications and distribution applications have to implement provider specific mapping.
   string city_or_resort = 7;
 
   // Coordinates of the property
@@ -35,7 +38,5 @@ message PropertyInfo {
   string status = 9;
 
   // ## Total Price
-  //
-  // This is only relevant for holiday homes at the moment?
   cmp.types.v1alpha1.Price total_price = 10;
 }

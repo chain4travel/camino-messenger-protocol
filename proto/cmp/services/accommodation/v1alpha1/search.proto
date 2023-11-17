@@ -5,8 +5,6 @@ syntax = "proto3";
 
    The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
 
-   ### Basics Package
-
    This package is a **WIP**.
 */
 
@@ -65,13 +63,14 @@ message AccommodationSearchRequest {
 /*
  ### Accommodation Search Response
 
-The `Accommodation Search Response` message type facilitates the response for accommodations like hotel and holiday
-   home searches within the platform. In the response a search_id must be included and a search_option_id for every bookable 
+The `Accommodation Search Response` message type facilitates the response for accommodations like hotel and holiday 
+home searches within the platform. In the response a search_id must be included and a search_option_id for every bookable 
    option responded. Included, compulsary and optional services can be included. A simple "free cancellation upto" can 
    be set or full cancellation pilicies can be included.
 
  */
 message AccommodationSearchResponse {
+  
   // Message Header. Contains api version, message info string and end user wallet address.
   cmp.types.v1alpha1.Header header = 1;
   // Context for Inventory system communication.
@@ -82,7 +81,7 @@ message AccommodationSearchResponse {
   string warnings = 4;
   // Supplier code from the Inventory System for this search response.
   string supplier_code = 5;
-   // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 6;
   // Search_id to be used in the Validation Request.
   string search_id = 7;
