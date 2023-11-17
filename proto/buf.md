@@ -93,7 +93,7 @@ Protobuf's compact binary serialization format results in smaller message sizes 
 
 In the gRPC metadata you can specify your messageID, from and to wallet addresses, so that the payload remains untouched and encrypted from P2P. You'll also find latency and processing time stamps of the different hops in the metadata, which gives you transparency and helps with troubleshooting.
 
-The `tcm` directory represents the core of our protocol definitions, under which you will find Main Message Types and Nested Messages.
+The `cmp` directory represents the core of our protocol definitions, under which you will find Main Message Types in "services" and Nested Messages in "types".
 
 ## Main Message Types
 
@@ -104,24 +104,23 @@ For most of the products and services there will also be downloadable static dat
 
 See above details in Message Type Standard for more generic details or at the introduction of each Message Type, where we go into more detail of this specific message.
 
-- **ping.proto**: A simple utility message type, essential for health checks and service availability confirmations.
-- **partners.proto**: discovery of all partners trading on the Camino Network
-- **network_fee.proto**: Contains specifications related to network transaction fees.
-- **product_list.proto**: List of products or services available from a provider
-- **product_details.proto**: Description of products or services available from a provider
-- **accommodation.proto**:
-- **holiday_home.proto**: Defines the data structure and associated parameters for holiday homes.
-- **flight.proto**:
-- **activity.proto**: for Tickets & Excursions
-- **rail.proto**: Rail (not started)
-- **cruise.proto**: Cruise (not started)
-- **car_rental.proto**: Rent a car
-- **transfer.proto**: Transfer
-- **insurance.proto**: Insurances (not started)
-- **camping.proto**: Camping (not started)
-- **package.proto**: Packages, inherent format consisting of the above structures for the services/products included in the package
-- **flight_status.proto**: Flight status information
-- **entry_destination.proto**: Entry requirements & Destination information
+- **ping**: A simple utility message type, essential for health checks and service availability confirmations.
+- **partners**: discovery of all partners trading on the Camino Network
+- **network_fee**: Contains specifications related to network transaction fees.
+- **product_list**: List of products or services available from a provider
+- **product_details**: Description of products or services available from a provider
+- **accommodation**: Defines the message type for Accommodations like hotels and holiday homes.
+- **flight**: Defines the message type for Flights.
+- **activity**: for Tickets & Excursions
+- **rail**: Rail (not started)
+- **cruise**: Cruise (not started)
+- **car_rental**: Rent a car
+- **transfer**: Transfer
+- **insurance**: Insurances (not started)
+- **camping**: Camping (not started)
+- **package**: Packages, inherent format consisting of the above structures for the services/products included in the package
+- **flight_status**: Flight status information
+- **entry_destination**: Entry requirements & Destination information
 
 ## Nested Messages - Data Types
 
@@ -135,8 +134,6 @@ Some examples:
 - **distance.proto**: Quantifies and categorizes distances, catering to various units and interpretations.
 - **filter.proto**: Offers dynamic and static filtering capabilities.
 - **geo_location.proto**: A comprehensive protocol that merges various geographical parameters.
-- **holiday_home.proto**: Details about individual holiday homes, including amenities, location, and more.
-- **tcm_message.proto**: The message structure, integrating meta information and inter-message references.
 - **traveller.proto**: Profiles, preferences, and details of travellers.
 - **travel_period.proto**: Specifies the time frame for travel plans, vacations, or any related temporal span.
 
