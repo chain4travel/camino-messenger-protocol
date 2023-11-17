@@ -1,5 +1,15 @@
 syntax = "proto3";
 
+/*
+   ## This is the package level description for Accommodation
+
+   The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
+
+   ### Basics Package
+
+   This package is a **WIP**.
+*/
+
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/services/accommodation/v1alpha1/search_option_types.proto";
@@ -11,20 +21,22 @@ import "cmp/types/v1alpha1/enrichment.proto";
 import "cmp/types/v1alpha1/language.proto";
 
 /*
-   ### AccommodationSearchRequest Message Type
+   ### Accommodation Search Request Message Type
 
    ![AccommodationSearchRequestDiagram](http://localhost:3000/img/holiday_home.proto.dot.svg)
 
-   The `AccommodationSearchRequest` message type facilitates the request for holiday
-   home searches within the platform. This message type is derived from the `AccommodationSearchRequest` where the hotel specific concepts
-   like room and mealplan have been removed and Accommodation specific concepts like deposit, extra laundry change, etc have been incorporated
+   The `Accommodation Search Request` message type facilitates the request for accommodations like hotel and holiday
+   home searches within the platform. In the request the market, language and currency are specified at the top-level.
+   In the Unit we specify the details of the trip like dates, properties or locations or filters.
+   The purpose of such a structure is to allow for multi-room and multi-property searches, so that several rooms or houses
+   can be requested for the same dates and location or for the purpose of a tour or roadtrip, several accommodations for
+   sequential dates and different locations. 
 
-   Developers leveraging this message type should ensure proper validation and
-   handling, especially considering fields that are still under review, like
-   `speech_request`.
+   Developers leveraging this message type should ensure proper validation and handling, especially considering fields 
+   that are still under review, like `speech_request`.
 */
 message AccommodationSearchRequest {
-  // Message Header. Contains api version, message info string and end user wallet address
+  // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
@@ -34,33 +46,47 @@ message AccommodationSearchRequest {
   // Possible values are none, full and thumbnail. If not set, the assumed default value is none.
   cmp.types.v1alpha1.Enrichment enrichment = 3;
 
-  // Requested currency according to ISO 4217 Currency codes
+  // Requested currency in which prices have to be supplied in the response according to ISO 4217 Currency codes
   cmp.types.v1alpha1.Currency currency = 4;
 
-  // Requested language according to ISO 639-1 Language codes
+  // Requested language setting for descriptions in the response according to ISO 639-1 Language codes
   cmp.types.v1alpha1.Language language = 5;
 
   // Request generated for a specific market according to ISO 3166-1 Country codes
   cmp.types.v1alpha1.Country country = 6;
 
-  // Option flags
+  // Option flags for inclusion of OnRequest options and inclusion of only the cheapest or all options.
   OptionFlags flags = 7;
 
   // Units
   repeated Unit units = 9;
 }
 
-// Accommodation Search Response
-message AccommodationSearchResponse {
-  // Message Header. Contains api version, message info string and end user wallet address
-  cmp.types.v1alpha1.Header header = 1;
+/*
+ ### Accommodation Search Response
 
+The `Accommodation Search Response` message type facilitates the response for accommodations like hotel and holiday
+   home searches within the platform. In the response a search_id must be included and a search_option_id for every bookable 
+   option responded. Included, compulsary and optional services can be included. A simple "free cancellation upto" can 
+   be set or full cancellation pilicies can be included.
+
+ */
+message AccommodationSearchResponse {
+  // Message Header. Contains api version, message info string and end user wallet address.
+  cmp.types.v1alpha1.Header header = 1;
+  // Context for Inventory system communication.
   string context = 2;
+  // Errors encountered in the generation of the response. Standardized error list to be created.
   string errors = 3;
+  // Warnings encountered in the generation of the response. 
   string warnings = 4;
+  // Supplier code from the Inventory System for this search response.
   string supplier_code = 5;
+   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 6;
+  // Search_id to be used in the Validation Request.
   string search_id = 7;
+  // Unique combinations of bookable options, like property, 
   repeated SearchOption options = 8;
 }
 

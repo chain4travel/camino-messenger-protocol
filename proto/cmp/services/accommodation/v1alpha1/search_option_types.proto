@@ -39,4 +39,7 @@ message OptionFlags {
 
   // Only show the cheapest option for one product, or include all possible combinations
   bool include_combinations = 2;
+  
+  // Limit the maximum number of options included in the response
+  int32 max_number_options = 3;
 }

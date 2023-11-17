@@ -1,16 +1,5 @@
 syntax = "proto3";
 
-/*
-   ## This is a package level description example
-
-   This description is for package `cmp.types.v1alpha1` package. On the first file's description
-   with a non-empty comment before the `package` directive is used. Other's are ignored.
-
-   ### Basics Package
-
-   This package is a **WIP**. We will probably end up splitting this into smaller and more related
-   packages.
-*/
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/coordinate.proto";
