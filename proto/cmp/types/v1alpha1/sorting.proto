@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 /*
-   Sorting type and order
+   Sorting type and order: this is being used in requests to specify the sorting required in the response.
 */
 message Sorting {
   SortingType sorting_type = 1;

@@ -7,14 +7,28 @@ import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/rate_plan.proto";
 
 /*
-   Cancellation Policy
+  Cancellation Policy: the cancellation policy section consists of 3 options:
+  - a simple boolean for refundable or non-refundable options
+  - a "free cancellation upto" identifier
+  - complete cancellation policies
 */
 message CancelPolicy {
   // Cancellation policy refundable or not
   bool refundable = 1;
-  // __doc here__
-  string free_cancellation_policy_upto = 2;
-  // __doc here__
+  /*
+  The "free cancellation upto" identifier specifies the number of days or hours 
+  before using the product or service, when the booking can be cancelled free of charge. 
+  This is done using the "Duration" definition of ISO 8601. For example P7D means 
+  7 days before the day the product or service is used. P7H would mean 7 hours before 
+  and P2023-04-26T09:30Z would specify an absolute end of the free cancellation period.
+  */
+  string free_cancellation_upto = 2;
+  /*
+  Full cancellation policies can be complex and extensive. Inclusion in search messages 
+  should be avoided because they substantially increase the message size for each option
+  and in general detailed cancellation information is required at a later step in the
+  booking flow.
+  */
   repeated CancelPenalty cancel_penalties = 3;
 }
 

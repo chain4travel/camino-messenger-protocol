@@ -24,7 +24,7 @@ Please do not hesitate to communicate your observations on this documentation li
   - [Semantic Versioning:](#semantic-versioning)
   - [Why Protobuf:](#why-protobuf)
   - [Main Message Types](#main-message-types)
-  - [Nested Messages](#nested-messages)
+  - [Nested Messages](#Nested Messages - Data Types)
 
 ## Message Type Standard
 
@@ -41,7 +41,7 @@ Partner configuration can be managed via the Camino Partner Configurator, which 
 
 1. Partner Request gives you all active Camino Network Partners that are buying or selling their products and services.
 2. The Network Fee Request gives you the cost of a Message to the Camino Network for operating the Camino Messenger and also the cost of specific messages towards specified providers.
-   Because this information is stored on the blockchain, the changes since a certain date/time can be requested using a blockheight parameter.
+   Because this information is stored on the blockchain, the changes since a certain date/time can be requested using a block-height parameter.
 
 Any product or service that can be traded on the Camino Network requires an onboarding process to understands which routes and airplanes an airline of flight provider offers. Or which hotels an accommodation provider and which activities a an excursion provider offers. For this onboarding and mapping process we have designed:
 
