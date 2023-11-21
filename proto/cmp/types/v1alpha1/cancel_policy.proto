@@ -6,55 +6,53 @@ import "cmp/types/v1alpha1/datetime_range.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/rate_plan.proto";
 
-
- // Cancellation Policy: the cancellation policy section consists of 3 options:
- // - a simple boolean for refundable or non-refundable options
- // - a "free cancellation upto" identifier
- // - complete cancellation policies
+// Cancellation Policy: the cancellation policy section consists of 3 options:
+// - a simple boolean for refundable or non-refundable options
+// - a "free cancellation upto" identifier
+// - complete cancellation policies
 
 message CancelPolicy {
   // Cancellation policy refundable or not
   bool refundable = 1;
-  
-  // The "free cancellation upto" identifier specifies the number of days or hours 
-  // before using the product or service, when the booking can be cancelled free of charge. 
-  // This is done using the "Duration" definition of ISO 8601. For example P7D means 
-  // 7 days before the day the product or service is used. P7H would mean 7 hours before 
+
+  // The "free cancellation upto" identifier specifies the number of days or hours
+  // before using the product or service, when the booking can be cancelled free of charge.
+  // This is done using the "Duration" definition of ISO 8601. For example P7D means
+  // 7 days before the day the product or service is used. P7H would mean 7 hours before
   // and P2023-04-26T09:30Z would specify an absolute end of the free cancellation period.
-  
+
   string free_cancellation_upto = 2;
-  
-  // Full cancellation policies can be complex and extensive. Inclusion in search messages 
+
+  // Full cancellation policies can be complex and extensive. Inclusion in search messages
   // should be avoided because they substantially increase the message size for each option
   // and in general detailed cancellation information is required at a later step in the
   // booking flow.
 
-  // Specify several date ranges with their penalties or use several entries with different 
+  // Specify several date ranges with their penalties or use several entries with different
   // hours before specified, like for example 10€ from 240 hours (10 days) before consumption,
-  // 50€ from 5 days before consumption and 100€ from 24 hours before consumption. 
+  // 50€ from 5 days before consumption and 100€ from 24 hours before consumption.
   // Important to understand is that the rules are NOT summed, but only the rule closest
-  // to the consumption moment is used. Conclusively a cancellation at 4 days before 
+  // to the consumption moment is used. Conclusively a cancellation at 4 days before
   // consumpton would cost 50€ and 10 hours before consumption would be 100€ in above example.
-  
+
   repeated CancelPenalty cancel_penalties = 3;
 }
 
-
-  //Cancellation Penalty
+//Cancellation Penalty
 
 message CancelPenalty {
-  // When this penalty is valid. Either use the start and end date of the DateTime range 
+  // When this penalty is valid. Either use the start and end date of the DateTime range
   // or specify the amount of hours before a specific cancellation penalty will be valid.
   oneof time_frame {
     cmp.types.v1alpha1.DateTimeRange datetime_range = 1;
     int32 hours_before = 2;
   }
 
-  // Penalty value. In general just use the net value for the penalty and the currency.
+  // Penalty value.
   // Percentages of the selling price are purposely not allowed for simplicity and uniformity.
   cmp.types.v1alpha1.Price value = 3;
 
-  // Description of the penalty in a non computable manner. The Description should be in 
+  // Description of the penalty in a non computable manner. The Description should be in
   // the language that is specified in the request.
   string description = 4;
 

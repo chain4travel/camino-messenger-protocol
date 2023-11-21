@@ -27,8 +27,8 @@ message Unit {
   repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 4;
   repeated cmp.types.v1alpha1.ServiceFact optional_extras = 5;
 
-  // Price
-  cmp.types.v1alpha1.PriceDetail price = 6;
+  // Price in detail with breakdowns etc
+  cmp.types.v1alpha1.PriceDetail price_detail = 6;
 
   // Rate plan
   cmp.types.v1alpha1.RatePlan rate_plan = 7;
