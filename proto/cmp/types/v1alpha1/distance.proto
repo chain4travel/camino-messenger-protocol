@@ -2,15 +2,15 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-/*
-   Distance with unit
-*/
+
+//   Distance with unit
+
 message Distance {
   int32 value = 1;
   DistanceUnit distance_unit = 2;
 }
 
-/* Distance Unit */
+// Distance Unit 
 enum DistanceUnit {
   DISTANCE_UNIT_UNSPECIFIED = 0;
   DISTANCE_UNIT_METERS = 1;
