@@ -26,7 +26,6 @@ Please do not hesitate to communicate your observations on this documentation li
   - [Main Message Types](#main-message-types)
   - [Nested Messages](#nested-messages---data-types)
 
-
 ## Message Type Standard
 
 In the WhatsApp messenger, you'll find a couple of standardize message types you can exchange with anybody that has the WhatsApp client installed (text, location, audio, video, contact, document,..). The same for the Camino Messenger, all partners need to be able to uniformly use the flight, hotel, car rental, transfer, activities,.. Message Types, no matter to which partner they are connected.
