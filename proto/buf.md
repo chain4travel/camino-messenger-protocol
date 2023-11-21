@@ -24,7 +24,8 @@ Please do not hesitate to communicate your observations on this documentation li
   - [Semantic Versioning:](#semantic-versioning)
   - [Why Protobuf:](#why-protobuf)
   - [Main Message Types](#main-message-types)
-  - [Nested Messages](#Nested Messages - Data Types)
+  - [Nested Messages](#nested-messages---data-types)
+
 
 ## Message Type Standard
 
