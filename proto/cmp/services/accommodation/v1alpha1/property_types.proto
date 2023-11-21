@@ -7,9 +7,9 @@ import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/price.proto";
 
 /*
-Basic Property Info
+   Basic Property Info
 
-test text
+   test text
 */
 message PropertyInfo {
   // Name of the property
@@ -27,7 +27,7 @@ message PropertyInfo {
   // Region
   string region = 6;
 
-  // City or Resort. The fieldname city_or_resort has been chosen as these concepts are used interchangeable in holiday applications and 
+  // City or Resort. The fieldname city_or_resort has been chosen as these concepts are used interchangeable in holiday applications and
   //business/city break applications and distribution applications have to implement provider specific mapping.
   string city_or_resort = 7;
 
@@ -37,6 +37,6 @@ message PropertyInfo {
   // Status of the property. FIXME: Can we make this an enum?
   string status = 9;
 
-  // ## Total Price
-  cmp.types.v1alpha1.Price total_price = 10;
+  // ## Total price in detail, with breakdowns
+  cmp.types.v1alpha1.PriceDetail total_price_detail = 10;
 }

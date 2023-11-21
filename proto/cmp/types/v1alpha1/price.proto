@@ -5,16 +5,24 @@ package cmp.types.v1alpha1;
 import "cmp/types/v1alpha1/currency.proto";
 
 // PriceDetail
+//
+// This message consists of net value as a Price object and additional fields
+// as gross, binding, concept, and breakdown.
+//
+// Breakdown is a recursively inhereted object of PriceDetail. This way complex
+// pricing structures can be represented.
 message PriceDetail {
   Price net = 1;
   float gross = 3;
   bool binding = 4;
   string concept = 5; // FIXME: Can this be an enum?
-  // We can use a single price to represent a price breakdown
-  repeated Price breakdown = 6;
+  // We can use a single PriceDetail to represent a price breakdown
+  repeated PriceDetail breakdown = 6;
 }
 
-// Price
+// Simple Price type
+//
+// Consists of a net vlue and a Currency type.
 message Price {
   cmp.types.v1alpha1.Currency currency = 1;
   float net = 2;
