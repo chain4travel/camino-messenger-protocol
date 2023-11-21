@@ -4,13 +4,18 @@ package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/currency.proto";
 
-// Price
-message Price {
-  cmp.types.v1alpha1.Currency currency = 1;
-  float net = 2;
+// PriceDetail
+message PriceDetail {
+  Price net = 1;
   float gross = 3;
   bool binding = 4;
   string concept = 5; // FIXME: Can this be an enum?
   // We can use a single price to represent a price breakdown
   repeated Price breakdown = 6;
+}
+
+// Price
+message Price {
+  cmp.types.v1alpha1.Currency currency = 1;
+  float net = 2;
 }

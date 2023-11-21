@@ -6,17 +6,9 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 // ### CM Message Header
-//
-// FIXME: Using version as a single int32 seems logical in my opinion. Less size
-// and simple.
-// FIXME: Do we really need the "info" field?
-//
 message Header {
   // Protocol Version
   Version version = 1;
-
-  // Message info
-  string info = 2;
 
   // End-user wallet ID for personalization purposes
   string end_user_wallet_address = 5;
