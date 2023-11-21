@@ -110,12 +110,10 @@ See above details in Message Type Standard for more generic details or at the in
 - **product_list**: List of products or services available from a provider
 - **product_details**: Description of products or services available from a provider
 - **accommodation**: Defines the message type for Accommodations like hotels and holiday homes.
-- **flight**: Defines the message type for Flights.
+- **transport**: Defines the message type for Flights, Rail and Transfer.
 - **activity**: for Tickets & Excursions
-- **rail**: Rail (not started)
 - **cruise**: Cruise (not started)
-- **car_rental**: Rent a car
-- **transfer**: Transfer
+- **car_rental**: Rent a car, Rent a Camper
 - **insurance**: Insurances (not started)
 - **camping**: Camping (not started)
 - **package**: Packages, inherent format consisting of the above structures for the services/products included in the package
