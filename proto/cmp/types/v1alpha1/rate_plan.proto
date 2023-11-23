@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package cmp.types.v1alpha1;
-
-enum RatePlan {
-  RATE_PLAN_UNSPECIFIED = 0;
-  RATE_PLAN_ONE = 1;
-  RATE_PLAN_TWO = 2;
-}

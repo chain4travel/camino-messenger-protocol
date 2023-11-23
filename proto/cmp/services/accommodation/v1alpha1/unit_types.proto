@@ -6,7 +6,6 @@ import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/filter.proto";
 import "cmp/types/v1alpha1/geo_location.proto";
 import "cmp/types/v1alpha1/price.proto";
-import "cmp/types/v1alpha1/rate_plan.proto";
 import "cmp/types/v1alpha1/rate_rule.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
@@ -31,7 +30,7 @@ message Unit {
   cmp.types.v1alpha1.PriceDetail price_detail = 6;
 
   // Rate plan
-  cmp.types.v1alpha1.RatePlan rate_plan = 7;
+  string rate_plan = 7;
 
   // Rate Rules
   repeated cmp.types.v1alpha1.RateRule rate_rules = 8;

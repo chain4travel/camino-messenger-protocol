@@ -15,7 +15,7 @@ message SearchOption {
   // Option ID for the search option
   string option_id = 1;
 
-  // Property's code. FIXME: Is this a vendor specific code? Don't we also have this in PropertyInfo?
+  // Vendor specific property code.
   string property_code = 2;
 
   // Property information

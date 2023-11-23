@@ -3,24 +3,32 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/date.proto";
+import "cmp/types/v1alpha1/country.proto";
 
 //
 // Traveller
 //
 message Traveller {
+  // Guest number, the lowest number is the lead-pax
+  int32 guest_number =1;
   // Traveller type from enum below
-  TravellerType type = 1;
-
-  // Age
-  // FIXME: Do we need both age & birthdate? (Protobuf fields are optional, so
-  // we can keep it also)
-  int32 age = 2;
+  TravellerType type = 2;
 
   // Birthdate
   cmp.types.v1alpha1.Date birthdate = 3;
 
-  // FIXME: An enum for this field will reduce the message size.
-  string nationality = 4;
+  // The country code for the nationality of the traveller. FIXME: Or should we have instead of "UK" "English"?
+  cmp.types.v1alpha1.Country nationality = 4;
+
+  //Gender from the enum below
+  GenderType gender = 5;
+
+  string first_names = 6;
+  string last_name = 7;
+  string second_last_name = 8;
+  string phone_number = 9;
+  string email = 10;
+  string document_number = 11;
 }
 
 // Traveller Type
@@ -30,4 +38,13 @@ enum TravellerType {
   TRAVELLER_TYPE_CHILD = 2;
   TRAVELLER_TYPE_INFANT = 3;
   TRAVELLER_TYPE_SENIOR = 4;
+}
+
+// Gender Type
+enum GenderType {
+  GENDER_TYPE_UNSPECIFIED = 0;
+  GENDER_TYPE_MALE = 1;
+  GENDER_TYPE_FEMALE = 2;
+  GENDER_TYPE_NONBINARY = 3;
+  GENDER_TYPE_AGENDER = 4;
 }
