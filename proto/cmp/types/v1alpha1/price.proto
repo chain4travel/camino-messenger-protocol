@@ -12,17 +12,22 @@ import "cmp/types/v1alpha1/currency.proto";
 // Breakdown is a recursively inhereted object of PriceDetail. This way complex
 // pricing structures can be represented.
 message PriceDetail {
+  // Principle price element
   Price net = 1;
+  // gross price in case taxes or commissions are specified
   float gross = 3;
+  // Identification whether the gross price must be respected towards the end-user 
+  // and the product or service cannot be offered for a lower price.
   bool binding = 4;
-  string concept = 5; // FIXME: Can this be an enum?
-  // We can use a single PriceDetail to represent a price breakdown
+  // Description of the product or service this price(element) is valid for.
+  string concept = 5; 
+  // We can use a single PriceDetail to represent a price breakdown.
   repeated PriceDetail breakdown = 6;
 }
 
 // Simple Price type
 //
-// Consists of a net vlue and a Currency type.
+// Consists of a net value and a Currency type.
 message Price {
   cmp.types.v1alpha1.Currency currency = 1;
   float net = 2;
