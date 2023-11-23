@@ -2,9 +2,12 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// Filter
+// Upfront filtering of possible search options in the search response 
 message Filter {
+  // Filter code agreed between provider and distributor
+  // Should filters be standardized per vertical?
   string filter_code = 1;
+  // Description of the filter code
   string filter_description = 2;
   // FIXME: How many global types are there? Can this be an enum?
   repeated string drv_globaltypes = 3;

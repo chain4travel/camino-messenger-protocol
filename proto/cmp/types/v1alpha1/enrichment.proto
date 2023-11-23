@@ -12,6 +12,8 @@ package cmp.types.v1alpha1;
 // This is done to optimize the size of the protobuf message
 
 enum Enrichment {
+// When a request does not hold the enrichment parameter, no enrichment is included, to keep
+// the message size small and efficient. 
   ENRICHMENT_UNSPECIFIED = 0;
 // No static data to be added to the response to keep the message size as small as possible 
 // for fast transport and processing (default).

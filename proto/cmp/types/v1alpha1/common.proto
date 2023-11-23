@@ -11,7 +11,7 @@ message Header {
   Version version = 1;
 
   // End-user wallet ID for personalization purposes
-  string end_user_wallet_address = 5;
+  string end_user_wallet_address = 2;
 }
 
 // Version

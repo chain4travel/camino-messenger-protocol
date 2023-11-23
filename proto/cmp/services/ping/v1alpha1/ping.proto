@@ -6,8 +6,11 @@ syntax = "proto3";
 package cmp.services.ping.v1alpha1;
 
 import "cmp/types/v1alpha1/common.proto";
+import "google/protobuf/timestamp.proto";
 
-// FIXME: IMO, Ping requests and reponses should include a timestamp?
+// The ping message is designed to test the availability of a provider service
+// and to test the network latency as in the gRPC metadata information the 
+// DateTime is stored of each hop.
 message PingRequest {
   // Message Header
   // Contains api version, message info string and end user wallet address
@@ -15,10 +18,12 @@ message PingRequest {
 
   // Ping message
   string ping_message = 2;
+  // DateTime of the ping request
+  google.protobuf.Timestamp timestamp = 3;
+
 }
 
-// FIXME: Ping request & reponse messages looks same, do we need two different
-// messages?
+
 message PingResponse {
   // Message Header
   // Contains api version, message info string, sender & receiver wallet
@@ -27,6 +32,8 @@ message PingResponse {
 
   // Ping message
   string ping_message = 2;
+  // DateTime of the ping response
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 // The Ping Service definition
