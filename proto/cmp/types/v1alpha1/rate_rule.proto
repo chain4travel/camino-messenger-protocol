@@ -4,12 +4,15 @@ package cmp.types.v1alpha1;
 
 // Rate Rule
 message RateRule {
-  RateRuleType type = 1;
-  string description = 2;
+  RateRuleType rate_type = 1;
+  string rate_description = 2;
+  string rate_reference = 3;
 }
 
 enum RateRuleType {
   RATE_RULE_TYPE_UNSPECIFIED = 0;
-  RATE_RULE_TYPE_NON_REFUNDABLE = 1;
-  RATE_RULE_TYPE_REFUNDABLE = 2;
+  RATE_RULE_TYPE_FLEXIBLE = 1;
+  RATE_RULE_TYPE_RESELLABLE = 2;
+  RATE_RULE_TYPE_NON_REFUNDABLE = 3;
+  RATE_RULE_TYPE_SEMI_NON_REFUNDABLE = 4;
 }
