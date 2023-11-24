@@ -7,9 +7,10 @@ message Filter {
   // Filter code agreed between provider and distributor
   // Should filters be standardized per vertical?
   string filter_code = 1;
-  // Description of the filter code
+  // Description of the filter code.
   string filter_description = 2;
-  // a filter type can be set to for example "DRV GlobalTypes"
+  // a filter type can be set to for example "DRV GlobalTypes".
   string filter_type = 3;
+  // adding a filter value like for example "star rating = 5" or "row number =1".
   string filter_value = 4;
 }
