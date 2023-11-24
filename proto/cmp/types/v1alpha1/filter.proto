@@ -9,6 +9,7 @@ message Filter {
   string filter_code = 1;
   // Description of the filter code
   string filter_description = 2;
-  // FIXME: How many global types are there? Can this be an enum?
-  repeated string drv_globaltypes = 3;
+  // a filter type can be set to for example "DRV GlobalTypes"
+  string filter_type = 3;
+  string filter_value = 4;
 }
