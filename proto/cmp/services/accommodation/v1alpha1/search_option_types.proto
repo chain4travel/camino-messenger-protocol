@@ -15,21 +15,18 @@ message SearchOption {
   // Option ID for the search option
   string option_id = 1;
 
-  // Vendor specific property code.
-  string property_code = 2;
-
   // Property information
-  PropertyInfo property_info = 3;
+  PropertyInfo property_info = 2;
 
   // Units for this search option (and also for the property above, shouldn't the units be under the ProperyInfo?)
-  repeated Unit units = 4;
+  repeated Unit units = 3;
 
   // The RateRule specifies whether an option is non-refundable or not
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 5; 
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 4; 
   // The cancellation conditions related to an option
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 6; //
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 5; //
   // Freetext remarks without any functionality
-  string remarks = 7; //
+  string remarks = 6; //
 }
 
 // Option flags for the search requests
