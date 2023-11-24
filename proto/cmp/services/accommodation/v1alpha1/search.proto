@@ -51,7 +51,7 @@ message AccommodationSearchRequest {
   cmp.types.v1alpha1.Language language = 5;
 
   // Request generated for a specific market according to ISO 3166-1 Country codes
-  cmp.types.v1alpha1.Country country = 6;
+  cmp.types.v1alpha1.Country market = 6;
 
   // Option flags for inclusion of OnRequest options and inclusion of only the cheapest or all options.
   OptionFlags flags = 7;
