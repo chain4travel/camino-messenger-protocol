@@ -21,6 +21,30 @@ message GeoLocation {
 message LocationCodes {
   // List of location codes
   repeated string location_codes = 1;
+  LocationCodeType location_code_type = 2;
+}
+
+// Location Code Type
+enum LocationCodeType {
+  LOCATION_CODE_TYPE_UNSPECIFIED = 0;
+  LOCATION_CODE_TYPE_PROVIDER_CODE = 1;
+  // IATA airport code
+  LOCATION_CODE_TYPE_IATA_CODE = 2;
+  // ICAO airport code
+  LOCATION_CODE_TYPE_ICAO_CODE = 3;
+  // A 3-character code used for train stations. Previously referred to as 
+  // CRS (Computer Reservation System) or NRS (National Reservation System) codes.
+  LOCATION_CODE_TYPE_3ALPHA_CODE = 4;
+  // A 6-digit code for train stations generally used for retail purposes
+  LOCATION_CODE_TYPE_NLC_CODE = 5;
+  // Codes relating to points used in deriving train schedules
+  LOCATION_CODE_TYPE_TIPLOC_CODE = 6;
+  // These codes can refer to locations such as sidings and junctions.
+  // STANOX codes are grouped by geographical area - the first two digits specify
+  // the area in which the location exists.
+  LOCATION_CODE_TYPE_STANOX_CODE = 7;
+  // Used by multi-modal journey planners and timetables
+  LOCATION_CODE_TYPE_ATCO_CODE = 8;
 }
 
 // Geo Circle
