@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+/*
+   Time Message
+*/
+message Time {
+  int32 hours = 1;
+  int32 minutes = 2;
+}
