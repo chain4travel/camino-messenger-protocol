@@ -4,7 +4,7 @@ package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/datetime_range.proto";
 import "cmp/types/v1alpha1/price.proto";
-import "cmp/types/v1alpha1/rate_plan.proto";
+import "google/protobuf/timestamp.proto";
 
 // Cancellation Policy: the cancellation policy section consists of 3 options:
 // - a simple boolean for refundable or non-refundable options
@@ -25,11 +25,11 @@ message CancelPolicy {
   // and in general detailed cancellation information is required at a later step in the
   // booking flow.
 
-  // Specify several date ranges with their penalties relative to the start date-time of the 
+  // Specify several date ranges with their penalties relative to the start date-time of the
   // service. When in the inventory system several entries with different
   // hours before specified, like for example 10€ from 240 hours (10 days) before consumption,
-  // 50€ from 5 days before consumption and 100€ from 24 hours before consumption, they must be 
-  // computed to one uniform format of date ranges and penalties, related to the start DateTime 
+  // 50€ from 5 days before consumption and 100€ from 24 hours before consumption, they must be
+  // computed to one uniform format of date ranges and penalties, related to the start DateTime
   // of the service or product delivery.
 
   repeated CancelPenalty cancel_penalties = 3;
@@ -39,9 +39,8 @@ message CancelPolicy {
 
 message CancelPenalty {
   // When this penalty is valid. Either use the start and end date of the DateTime range
-  
+
   cmp.types.v1alpha1.DateTimeRange datetime_range = 1;
- 
 
   // Penalty value.
   // Percentages of the selling price are purposely not allowed for simplicity and uniformity.
@@ -52,5 +51,5 @@ message CancelPenalty {
   string description = 3;
 
   // For which rateplan the penalty is valid.
-  repeated RatePlan valid_for_rate_plan = 4;
+  repeated string valid_for_rate_plan = 4;
 }

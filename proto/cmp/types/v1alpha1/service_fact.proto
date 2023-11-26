@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+import "cmp/types/v1alpha1/price.proto";
+
 // Service Fact
 //
 // Example:
@@ -24,6 +26,6 @@ package cmp.types.v1alpha1;
 //       "fact" : "Wireless internet access (WIFI)"
 //   },
 message ServiceFact {
-  string fact = 1;
-  string value = 2;
+  string description = 1;
+  Price value = 2;
 }

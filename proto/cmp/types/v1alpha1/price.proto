@@ -15,20 +15,20 @@ message PriceDetail {
   // Principle price element
   Price net = 1;
   // gross price in case taxes or commissions are specified
-  float gross = 3;
-  // Identification whether the gross price must be respected towards the end-user 
+  float gross = 2;
+  // Identification whether the gross price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
-  bool binding = 4;
+  bool binding = 3;
   // Description of the product or service this price(element) is valid for.
-  string description = 5; 
+  string description = 4;
   // Type of price
-  string type = 6;
+  string type = 5;
   // Type code of the price
-  string type_code = 7;
+  string type_code = 6;
   // Description
-  int32 units = 8;
+  int32 units = 7;
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated PriceDetail breakdown = 6;
+  repeated PriceDetail breakdown = 8;
 }
 
 // Simple Price type
