@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+message UUID {
+  string value = 1;
+}

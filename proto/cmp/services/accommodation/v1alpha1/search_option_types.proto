@@ -12,13 +12,14 @@ import "cmp/types/v1alpha1/sorting.proto";
 //
 // This type is used in the AccommodationSearchResponse message
 message SearchOption {
-  // Option ID for the search option
-  string option_id = 1;
+  // Option ID for the search option. This is an increasing number starting at 0 and 
+  // increasing by 1 for every search result.
+  int32 option_id = 1;
 
   // Property information
   PropertyInfo property_info = 2;
 
-  // Units for this search option (and also for the property above, shouldn't the units be under the ProperyInfo?)
+  // Units for this search option.
   repeated Unit units = 3;
 
   // The RateRule specifies whether an option is non-refundable or not

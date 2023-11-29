@@ -4,20 +4,20 @@ package cmp.types.v1alpha1;
 
 // Mealplan ENUM list 
 enum MealPlan {
-MEALPLAN_UNSPECIFIED = 0; // No Mealplan specified
-MEALPLAN_AI = 1; // All Inclusive
-MEALPLAN_AI_PLUS = 2; // All Inclusive + additional services
-MEALPLAN_AI_MINUS = 3; // All Inclusive Light
-MEALPLAN_AIU = 4; // Ultra All Inclusive
-MEALPLAN_BB = 5; // Bed & Breakfast
-MEALPLAN_DO = 6; // Dinner Only
-MEALPLAN_FB = 7; // Full Board
-MEALPLAN_FB_PLUS = 8; // Full Board + additional services
-MEALPLAN_HB = 9; // Half Board
-MEALPLAN_HB_PLUS = 10; // Half Board + additional services
-MEALPLAN_LO = 11; // Lunch Only
-MEALPLAN_RO = 12; // Room Only
-MEALPLAN_DB = 13; // Dinner Buffet
-MEALPLAN_SC = 14; // Self Catering
-MEALPLAN_AP = 15; // Acording to Programme*
+MEAL_PLAN_UNSPECIFIED = 0; // No Mealplan specified
+MEAL_PLAN_AI = 1; // All Inclusive
+MEAL_PLAN_AI_PLUS = 2; // All Inclusive + additional services
+MEAL_PLAN_AI_MINUS = 3; // All Inclusive Light
+MEAL_PLAN_AIU = 4; // Ultra All Inclusive
+MEAL_PLAN_BB = 5; // Bed & Breakfast
+MEAL_PLAN_DO = 6; // Dinner Only
+MEAL_PLAN_FB = 7; // Full Board
+MEAL_PLAN_FB_PLUS = 8; // Full Board + additional services
+MEAL_PLAN_HB = 9; // Half Board
+MEAL_PLAN_HB_PLUS = 10; // Half Board + additional services
+MEAL_PLAN_LO = 11; // Lunch Only
+MEAL_PLAN_RO = 12; // Room Only
+MEAL_PLAN_DB = 13; // Dinner Buffet
+MEAL_PLAN_SC = 14; // Self Catering
+MEAL_PLAN_AP = 15; // Acording to Programme*
 }

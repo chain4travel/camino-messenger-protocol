@@ -19,6 +19,7 @@ import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/currency.proto";
 import "cmp/types/v1alpha1/language.proto";
+import "cmp/types/v1alpha1/uuid.proto";
 
 // ### Accommodation Search Request Message Type
 //
@@ -73,8 +74,8 @@ message AccommodationSearchResponse {
   string supplier_code = 5;
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 6;
-  // Search_id to be used in the Validation Request.
-  string search_id = 7;
+  // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
+  cmp.types.v1alpha1.UUID search_id = 7;
   // Unique combinations of bookable options, like property,
   repeated SearchOption options = 8;
 }
