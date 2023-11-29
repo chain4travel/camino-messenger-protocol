@@ -29,52 +29,57 @@ message Unit {
   // Price in detail with breakdowns etc
   cmp.types.v1alpha1.PriceDetail price_detail = 6;
 
+  // Unit code. Room code of the unit in case of hotel. Ex: "RMSDDB0000"
+  string unit_code = 7;
+
+  // Unit description. In case of enrichment additional description of the unit code. Ex: "Double Standard Room"
+  string unit_description = 8;
+
+  // Mealplan code. Room code of the unit in case of hotel. Ex: "AI" >> FIXME should be an ENUM
+  string meal_plan_code = 9;
+
+  // Mealplan description. In case of enrichment additional description of the unit code. Ex: "All Inclusive"
+  string meal_plan_description = 10;
+
   // Rate plan
-  string rate_plan = 7;
+  string rate_plan = 11;
+
+  // Rateplan description. In case of enrichment additional description of the unit code. Ex: "Package Rate"
+  string rate_plan_description = 12
 
   // Rate Rules
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 13;
 
   // Travel period
-  cmp.types.v1alpha1.TravelPeriod travel_period = 9;
+  cmp.types.v1alpha1.TravelPeriod travel_period = 14;
 
   // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 10;
+  repeated cmp.types.v1alpha1.Traveller travellers = 15;
 
   // Geo Location
-  cmp.types.v1alpha1.GeoLocation geo_location = 11;
+  cmp.types.v1alpha1.GeoLocation geo_location = 16;
 
   // Various provider and product specific filters can be provided here in
   // agreed name/value pairs
-  repeated cmp.types.v1alpha1.Filter filters = 12;
-
-  // Sub units that this unit contains.
-  //
-  // **Examples:**
-  // - Rooms in a holiday home
-  // - Inner rooms inside a hotel's suite room
-  repeated Unit sub_units = 13;
+  repeated cmp.types.v1alpha1.Filter filters = 17;
 
   // Cancel Policies
-  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 18;
 
   // Free-text field to provide more detials for better offer personalization.
   // This field can be provided in combination with a Geo location or as stand-alone.
-  string request_description_text = 15;
+  string request_description_text = 19;
 
   // The speech request is provided as a link to a recording to process for
   // better offer personalization. This field can be provided in combination
   // with a Geo location or as stand-alone.
-  string request_description_audio_url = 16;
+  string request_description_audio_url = 20;
 
   // Remaining units
-  int32 remaining_units = 17;
-
-  // Vendor code. Room code of the unit. Ex: "RMSDDB0000"
-  string vendor_code = 18;
+  int32 remaining_units = 21;
 
   // Remarks
-  string remarks = 19;
+  string remarks = 22;
 }
 
 message Bed {
