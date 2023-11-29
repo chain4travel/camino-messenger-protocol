@@ -5,6 +5,9 @@ syntax = "proto3";
 
    The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
 
+   Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can 
+   be cached and kept up to data with the Product List and Product Details messages.
+
    This package is a **WIP**.
 */
 
