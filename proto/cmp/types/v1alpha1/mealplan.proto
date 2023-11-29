@@ -6,15 +6,15 @@ package cmp.types.v1alpha1;
 enum MealPlan {
 MEALPLAN_UNSPECIFIED = 0; // No Mealplan specified
 MEALPLAN_AI = 1; // All Inclusive
-MEALPLAN_AI+ = 2; // All Inclusive + additional services
-MEALPLAN_AI- = 3; // All Inclusive Light
+MEALPLAN_AI_PLUS = 2; // All Inclusive + additional services
+MEALPLAN_AI_MINUS = 3; // All Inclusive Light
 MEALPLAN_AIU = 4; // Ultra All Inclusive
 MEALPLAN_BB = 5; // Bed & Breakfast
 MEALPLAN_DO = 6; // Dinner Only
 MEALPLAN_FB = 7; // Full Board
-MEALPLAN_FB+ = 8; // Full Board + additional services
+MEALPLAN_FB_PLUS = 8; // Full Board + additional services
 MEALPLAN_HB = 9; // Half Board
-MEALPLAN_HB+ = 10; // Half Board + additional services
+MEALPLAN_HB_PLUS = 10; // Half Board + additional services
 MEALPLAN_LO = 11; // Lunch Only
 MEALPLAN_RO = 12; // Room Only
 MEALPLAN_DB = 13; // Dinner Buffet

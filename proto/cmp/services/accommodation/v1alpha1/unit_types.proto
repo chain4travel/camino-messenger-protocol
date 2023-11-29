@@ -10,10 +10,14 @@ import "cmp/types/v1alpha1/rate_rule.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
 import "cmp/types/v1alpha1/traveller.proto";
+import "cmp/types/v1alpha1/mealplan.proto";
 
 // ## Unit
 //
-// A `Unit` can represent
+// A Unit can represent a room in a hotel. One search option can have multiple units for 
+// multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
+// A unit can also be a different property in a multi-property request for holiday homes.
+// Ex: 1 house for 4 persons and another house for 6 persons.
 message Unit {
   // Unit Type
   UnitType type = 1;
@@ -32,7 +36,8 @@ message Unit {
   // Unit code. Room code of the unit in case of hotel. Ex: "RMSDDB0000"
   string unit_code = 7;
 
-  // Unit description. In case of enrichment additional description of the unit code. Ex: "Double Standard Room"
+  // Unit description. In case of enrichment additional description of the unit code.
+  // Ex: "Double Standard Room"
   string unit_description = 8;
 
   // Mealplan code. Room code of the unit in case of hotel. Ex: "AI" >> FIXME should be an ENUM
@@ -45,7 +50,7 @@ message Unit {
   string rate_plan = 11;
 
   // Rateplan description. In case of enrichment additional description of the unit code. Ex: "Package Rate"
-  string rate_plan_description = 12
+  string rate_plan_description = 12;
 
   // Rate Rules
   repeated cmp.types.v1alpha1.RateRule rate_rules = 13;
