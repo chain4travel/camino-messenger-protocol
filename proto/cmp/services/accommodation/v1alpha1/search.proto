@@ -15,7 +15,6 @@ import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/currency.proto";
-import "cmp/types/v1alpha1/enrichment.proto";
 import "cmp/types/v1alpha1/language.proto";
 
 // ### Accommodation Search Request Message Type
@@ -36,24 +35,20 @@ message AccommodationSearchRequest {
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 2;
 
-  // Enables additional contextual information to be added to the search response.
-  // Possible values are none, full and thumbnail. If not set, the assumed default value is none.
-  cmp.types.v1alpha1.Enrichment enrichment = 3;
-
   // Requested currency in which prices have to be supplied in the response according to ISO 4217 Currency codes
-  cmp.types.v1alpha1.Currency currency = 4;
+  cmp.types.v1alpha1.Currency currency = 3;
 
   // Requested language setting for descriptions in the response according to ISO 639-1 Language codes
-  cmp.types.v1alpha1.Language language = 5;
+  cmp.types.v1alpha1.Language language = 4;
 
   // Request generated for a specific market according to ISO 3166-1 Country codes
-  cmp.types.v1alpha1.Country market = 6;
+  cmp.types.v1alpha1.Country market = 5;
 
   // Option flags for inclusion of OnRequest options and inclusion of only the cheapest or all options.
-  OptionFlags flags = 7;
+  OptionFlags flags = 6;
 
   // Units
-  repeated Unit units = 9;
+  repeated Unit units = 7;
 }
 
 // ### Accommodation Search Response
