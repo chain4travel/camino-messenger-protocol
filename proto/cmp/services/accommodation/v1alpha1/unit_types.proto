@@ -36,7 +36,7 @@ message Unit {
   string unit_description = 8;
 
   // Mealplan code. Room code of the unit in case of hotel. Ex: "AI" >> FIXME should be an ENUM
-  string meal_plan_code = 9;
+  cmp.types.v1alpha1.MealPlan meal_plan_code = 9;
 
   // Mealplan description. In case of enrichment additional description of the unit code. Ex: "All Inclusive"
   string meal_plan_description = 10;
