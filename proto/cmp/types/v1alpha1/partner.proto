@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/token.proto";
+
+message Partner {
+  // Short name of the partner. Ex: Chain4Travel
+  string short_name = 1;
+
+  // Legal name of the partner. Ex: Chain4Travel AG
+  string legal_name = 2;
+
+  // Business description
+  string business_description = 3;
+
+  // Domain for the partner
+  // Ex: chain4travel.com
+  string domain = 4;
+
+  // UUID for DNS TXT Record
+  // Partner needs to create the corresponding DNS TXT record. This will be used
+  // by other partners to verify the ownership of the domain provided above.
+  //
+  // Example UUID:
+  // `85b1d3ec-e992-4af2-9ada-471cae9c0e5d`
+  //
+  // Example DNS TXT record:
+  // `@   IN  TXT  "85b1d3ec-e992-4af2-9ada-471cae9c0e5d"  TTL 3600`
+  string dns_txt_uuid = 5;
+
+  // On chain payment support
+  bool on_chain_payment_supported = 6;
+
+  // Supported tokens for payment on-chain
+  // This is a list of `ERC20Token` type
+  repeated ERC20Token supported_tokens = 7;
+
+  // Off chain payment support
+  bool off_chain_payment_supported = 8;
+
+  // Products
+  repeated PartnerProduct products = 9;
+}
+
+// Partner Product
+//
+// Message representing a product sold by a partner.
+message PartnerProduct {
+  // Service name of the product.
+  // Ex: "cmp.services.accommodation.v1alpha1.AccommodationSearchService"
+  // Ex ChatGPT:
+  string service_name = 1;
+
+  // Service response of the product.
+  // Ex: "cmp.services.accommodation.v1alpha1.AccommodationSearchResponse"
+  string response_name = 2;
+
+  // Result field
+  // Ex: "options"
+  // Representing the field at "cmp.services.accommodation.v1alpha1.AccommodationSearchResponse.options"
+  // which is a SearchOption type
+  string result_field = 3;
+
+  // Result Type. Ex: ResultType.RESULT_TYPE_DISCRETE
+  ResultType result_type = 4;
+
+  // Default bundled price for the product
+  BundledPrice bundled_price = 5;
+
+  // Exclusive bundled prices for specific addresses.
+  // This field should be a serialized proto message of `CustomBundledPrice` type.
+  // The field's scalar type is `bytes` on purpose, so it can be encrypted if
+  // it's desired.
+  repeated bytes custom_bundled_prices = 6;
+}
+
+// Custom Bundle Price
+//
+// This message encapsulates `BundledPrice` message to be used for a custom
+// price per buyer. If it's required, this message can be encrypted before
+// adding it to the `PartnerProduct` message type.
+message CustomBundledPrice {
+  // Address of the wallet that the bundled price below is valid for.
+  string address = 1;
+  // Bundled price that is exclusive to the wallet address above.
+  BundledPrice bundled_price = 2;
+}
+
+// Bundled Price
+//
+// Message representing a bundled price of a product.
+message BundledPrice {
+  // Bundle size.
+  // Example for ChatGPT: 1
+  // Example for SearchOptions: 100
+  int32 results_per_bundle = 1;
+
+  // Bundle Unit, represents the bundle's unit. For example for search results it
+  // should be `BundleUnit.BUNDLE_UNIT_COUNT` or for AI Chat bot results it can be
+  // `BundleUnit.BUNDLE_UNIT_BYTES` or `BundleUnit.BUNDLE_UNIT_KILOBYTES`
+  BundleUnit results_per_bundle_unit = 2;
+
+  // Price per bundle, in nCAMs
+  // Ex: 100
+  int64 price_per_bundle = 3;
+}
+
+enum BundleUnit {
+  BUNDLE_UNIT_UNSPECIFIED = 0;
+  BUNDLE_UNIT_COUNT = 1;
+  BUNDLE_UNIT_BYTES = 2;
+  BUNDLE_UNIT_KILOBYTES = 3;
+  BUNDLE_UNIT_MEGABYTES = 4;
+  // BUNDLE_UNIT_CHARACTERS = 5; // Characters, words??
+}
+
+enum ResultType {
+  RESULT_TYPE_UNSPECIFIED = 0;
+
+  // Objects countable with integers, like the SearchOption of an AccommodationSearchResponse
+  RESULT_TYPE_DISCRETE = 1;
+
+  // Continous data types like strings. Ex: A response from a chat bot can be 100 chars long
+  // or 20000 chars long. Or in bytes or kilobytes for some binary data.
+  RESULT_TYPE_NON_DISCRETE = 2;
+}

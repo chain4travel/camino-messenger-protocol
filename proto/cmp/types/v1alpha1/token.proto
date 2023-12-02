@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+// ERC20 Token Reference
+message ERC20Token {
+  string contract_address = 1;
+  string symbol = 2;
+  uint32 decimals = 3;
+}
