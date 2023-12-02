@@ -41,6 +41,9 @@ message Partner {
 
   // Products
   repeated PartnerProduct products = 9;
+
+  // Partner addresses of the messenger bots
+  repeated string addresses = 10;
 }
 
 // Partner Product
