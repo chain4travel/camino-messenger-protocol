@@ -13,7 +13,7 @@ import "cmp/types/v1alpha1/currency.proto";
 // pricing structures can be represented.
 message PriceDetail {
   // Principle price element
-  Price net = 1;
+  Price price = 1;
   // gross price in case taxes or commissions are specified
   float gross = 2;
   // Identification whether the gross price must be respected towards the end-user

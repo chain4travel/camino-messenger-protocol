@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha1;
+
+import "cmp/services/transport/v1alpha1/trip_types.proto";
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/datetime_range.proto";
+import "cmp/types/v1alpha1/fulfillment.proto";
+import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+
+// Transport search result
+message TransportSearchOption {
+  // Unique option ID for this search
+  string search_option_id = 1;
+
+  // Offer ID
+  // FIXME: Why another ID here? Isn't search_option_id above do the same thing?
+  string offer_id = 2;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 7;
+
+  // Travelling trip (Outbound)
+  Trip travelling_trip = 9;
+
+  // Returning trip (Inbound)
+  Trip returning_trip = 10;
+
+  // Total Price
+  cmp.types.v1alpha1.PriceDetail total_price = 11;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 12;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 13;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 14;
+
+  // Rate Rules
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 15;
+
+  // Fullfillment
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 16; //FIXME
+
+  // Validity of the search option.
+  // `DateTimeRange` type with `start_date` and `end_date`
+  cmp.types.v1alpha1.DateTimeRange validity = 17;
+
+  // Cancel Policy
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 18;
+
+  // Observations
+  string observations = 19;
+}

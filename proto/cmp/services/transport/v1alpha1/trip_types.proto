@@ -2,16 +2,15 @@ syntax = "proto3";
 
 package cmp.services.transport.v1alpha1;
 
+import "cmp/types/v1alpha1/distance.proto";
 import "cmp/types/v1alpha1/geo_location.proto";
+import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/time.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
 // This message type represents a one way trip, either inbound or outbound.
 message Trip {
-  // Departure time for the trip
-  google.protobuf.Timestamp departure_time = 1;
-
   // FIXME: Converting these min/max times to timestamps and use them instead
   // of departure_time would be easier for the partners to implement and use.
   //
@@ -20,14 +19,82 @@ message Trip {
   // `google.protobuf.Timestamp departure_max_time = 2;`
 
   // Departure min time
-  cmp.types.v1alpha1.Time min_time = 2;
+  cmp.types.v1alpha1.Time min_time = 1;
 
   // Departure max time
-  cmp.types.v1alpha1.Time max_time = 3;
+  cmp.types.v1alpha1.Time max_time = 2;
 
-  // Departure location
-  cmp.types.v1alpha1.GeoLocation departure_location = 4;
+  // Departure event
+  TransitEvent departure = 3;
 
-  // Arrival location
-  cmp.types.v1alpha1.GeoLocation arrival_location = 5;
+  // Arrival event
+  TransitEvent arrival = 4;
+
+  // Trip Segments
+  repeated TripSegment trip_segments = 5;
+}
+
+// ### Trip Segment messag type
+// A segment of a trip
+message TripSegment {
+  // Segment ID
+  // Ex: "SEG1234"
+  string segment_id = 1;
+
+  // Provider Code
+  // Ex: "AC"
+  string provider_code = 2;
+
+  // Service Number
+  // Ex: "1234"
+  // FIXME: Should this be an integer?
+  string service_number = 3;
+
+  // Departure
+  TransitEvent departure = 4;
+
+  // Arrival
+  TransitEvent arrival = 5;
+
+  // Service description
+  // Ex: "Economy"
+  string service_description = 6;
+
+  // Service code
+  // Ex: "Y"
+  string service_code = 7;
+
+  // Trip Time
+  // Ex: Time(hours=2, minutes=45)
+  cmp.types.v1alpha1.Time trip_time = 8;
+
+  // Trip Distance
+  // Ex: `Distance(value=15, unit=DistanceType.DISTANCE_UNIT_KILOMETERS)`
+  cmp.types.v1alpha1.Distance trip_distance = 9;
+
+  // Min PAX
+  // Ex: `1`
+  int32 min_pax = 10;
+
+  // Max PAX
+  // Ex: `3`
+  int32 max_max = 11;
+
+  // Luggage
+  // Ex: `3`
+  int32 luggage = 12;
+
+  // Price
+  // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
+  cmp.types.v1alpha1.Price price = 13;
+}
+
+// ### Transit Event message type
+// Represents a departure or arrival event
+message TransitEvent {
+  // Date tim of the event
+  google.protobuf.Timestamp date_time = 1;
+
+  // Event location
+  cmp.types.v1alpha1.GeoLocation location = 2;
 }

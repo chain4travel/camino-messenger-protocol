@@ -5,6 +5,7 @@ syntax = "proto3";
 // The Transport Service is used for flights, train, and bus.
 package cmp.services.transport.v1alpha1;
 
+import "cmp/services/transport/v1alpha1/search_option_types.proto";
 import "cmp/services/transport/v1alpha1/source_types.proto";
 import "cmp/services/transport/v1alpha1/trip_types.proto";
 import "cmp/types/v1alpha1/common.proto";
@@ -32,6 +33,7 @@ message TransportSearchRequest {
   string search_request_description_audio_url = 4;
 
   // Conten source types for this search request
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   repeated ContentSourceType conten_source_types = 5;
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only
@@ -73,5 +75,17 @@ message TransportSearchResponse {
   // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
   cmp.types.v1alpha1.UUID search_id = 7;
 
-  // **** [WIP] ****
+  // Conten source types for this search request
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  repeated ContentSourceType conten_source_types = 8;
+
+  // Transit Search Options (Results)
+  repeated TransportSearchOption options = 9;
+}
+
+// ## Transit Search Service
+//
+// Takes `TransportSearchRequest` message type and returns `TransportSearchResponset` message type.
+service TransportSearchService {
+  rpc TransportSearch(TransportSearchRequest) returns (TransportSearchResponse);
 }

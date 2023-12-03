@@ -71,6 +71,7 @@ message Unit {
   repeated cmp.types.v1alpha1.Filter filters = 17;
 
   // Cancel Policies
+  // FIXME: Should this be a list? Initial json definition had a single element.
   repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 18;
 
   // Free-text field to provide more detials for better offer personalization.

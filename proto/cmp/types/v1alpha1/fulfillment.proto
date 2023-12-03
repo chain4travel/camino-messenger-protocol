@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+message Fulfillment {
+  // Link type
+  // Ex: "LG" or "TC"
+  // FIXME: Enum?
+  string link_type = 1;
+
+  // Link description
+  // Ex: "Baggage conditions"
+  string link_description = 2;
+
+  // Link reference
+  // Ex: "https://api.lyko.tech/v2.1/transfers/ebaa9aed-dbc4-4d51-a41a-336a3c3e9bfc/pdf-terms-and-conditions"
+  string link_ref = 3;
+}
