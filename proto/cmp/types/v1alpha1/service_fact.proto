@@ -10,25 +10,27 @@ import "cmp/types/v1alpha1/price.proto";
 //
 // ```json
 //   {
-//       "fact" : "Breakage deposit in cash",
-//       "value" : "500€"
+//       "description" : "Electricity (price per kWh)",
+//       "price" : {
+//          "net": 100,
+//          "currency": Currency.CURRENCY_EURO
+//        },
 //   },
 //   {
-//       "fact" : "Electricity",
-//       "value" : "1€ per kWh"
+//       "description" : "Local tax (16+) (price per person/day)",
+//       "price" : {
+//          "net": 2,
+//          "currency": Currency.CURRENCY_EURO
+//        },
 //   },
 //   {
-//       "fact" : "local tax (16+)",
-//       "value" : "2€ per person/day"
+//       "description" : "Laundry (initial supply of bed linen and towels)"
 //   },
 //   {
-//       "fact" : "Laundry (initial supply of bed linen and towels)"
-//   },
-//   {
-//       "fact" : "Wireless internet access (WIFI)"
+//       "description" : "Wireless internet access (WIFI)"
 //   },
 // ```
 message ServiceFact {
   string description = 1;
-  Price value = 2;
+  Price price = 2;
 }
