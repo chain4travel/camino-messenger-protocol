@@ -1,16 +1,13 @@
 syntax = "proto3";
 
-/*
-   ## This is the package level description for Accommodation
-
-   The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
-
-   Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can
-   be cached and kept up to data with the Product List and Product Details messages.
-
-   This package is a **WIP**.
-*/
-
+// ## This is the package level description for Accommodation
+//
+// The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
+//
+// Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can
+// be cached and kept up to data with the Product List and Product Details messages.
+//
+// This package is a **WIP**.
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/services/accommodation/v1alpha1/search_option_types.proto";
@@ -36,6 +33,8 @@ message AccommodationSearchRequest {
 
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 2;
+
+  //FIXME: Should we also need to have `freetext` field here?
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;

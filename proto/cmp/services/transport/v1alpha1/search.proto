@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// ## Camino Messenger Protocol Transport Service
+//
+// The Transport Service is used for flights, train, and bus.
+package cmp.services.transport.v1alpha1;
+
+import "cmp/services/transport/v1alpha1/source_types.proto";
+import "cmp/types/v1alpha1/common.proto";
+import "cmp/types/v1alpha1/search_parameters.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+//import "cmp/types/v1alpha1/uuid.proto";
+
+// ### Transport Search Request
+message TransportSearchRequest {
+  // Message Header. Contains api version, message info string and end-user wallet address
+  cmp.types.v1alpha1.Header header = 1;
+
+  // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  string external_session_id = 2;
+
+  // FIXME: This field and the one below is from `freetext` and `speech_request` fields
+  // from initial json files. In the AccommodationSearch we have them inside a `Unit`
+  // type. Is this correct?
+
+  // Free-text field to provide more detials for better offer personalization.
+  string search_request_description_text = 3;
+
+  // The speech request is provided as a link to a recording to process for
+  // better offer personalization.
+  string search_request_description_audio_url = 4;
+
+  // Conten source types for this search request
+  repeated ContentSourceType conten_source_types = 5;
+
+  // Search parameters. Example: inclusion of OnRequest options and inclusion of only
+  // the cheapest or all options.
+  cmp.types.v1alpha1.SearchParameters search_parameters = 6;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 7;
+}

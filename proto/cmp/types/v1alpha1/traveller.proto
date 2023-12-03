@@ -2,15 +2,18 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-import "cmp/types/v1alpha1/date.proto";
 import "cmp/types/v1alpha1/country.proto";
+import "cmp/types/v1alpha1/date.proto";
 
 //
 // Traveller
 //
 message Traveller {
   // Guest number, the lowest number is the lead-pax
-  int32 guest_number =1;
+  int32 guest_number = 1;
+
+  // FIXME: Why we need both traveller type and birthday?
+
   // Traveller type from enum below
   TravellerType type = 2;
 
@@ -23,7 +26,7 @@ message Traveller {
   //Gender from the enum below
   GenderType gender = 5;
 
-  string first_names = 6;
+  string first_names = 6; // FIXME: Why plural here? And not in last name?
   string last_name = 7;
   string second_last_name = 8;
   string phone_number = 9;

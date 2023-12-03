@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha1;
+
+enum ContentSourceType {
+  CONTENT_SOURCE_TYPE_UNSPECIFIED = 0;
+  CONTENT_SOURCE_TYPE_GDS = 1;
+  CONTENT_SOURCE_TYPE_NDC = 2;
+}
