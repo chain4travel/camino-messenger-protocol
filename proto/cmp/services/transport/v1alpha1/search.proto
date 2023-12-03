@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // ## Camino Messenger Protocol Transport Service
 //
-// The Transport Service is used for flights, train, and bus.
+// The Transport Service is used for flights, trains, and buses.
 package cmp.services.transport.v1alpha1;
 
 import "cmp/services/transport/v1alpha1/search_option_types.proto";
@@ -83,7 +83,7 @@ message TransportSearchResponse {
   repeated TransportSearchOption options = 9;
 }
 
-// ## Transit Search Service
+// ## Transport Search Service
 //
 // Takes `TransportSearchRequest` message type and returns `TransportSearchResponset` message type.
 service TransportSearchService {

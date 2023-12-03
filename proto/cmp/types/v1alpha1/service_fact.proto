@@ -7,6 +7,8 @@ import "cmp/types/v1alpha1/price.proto";
 // Service Fact
 //
 // Example:
+//
+// ```json
 //   {
 //       "fact" : "Breakage deposit in cash",
 //       "value" : "500€"
@@ -19,12 +21,13 @@ import "cmp/types/v1alpha1/price.proto";
 //       "fact" : "local tax (16+)",
 //       "value" : "2€ per person/day"
 //   },
-//   {                    {
+//   {
 //       "fact" : "Laundry (initial supply of bed linen and towels)"
 //   },
 //   {
 //       "fact" : "Wireless internet access (WIFI)"
 //   },
+// ```
 message ServiceFact {
   string description = 1;
   Price value = 2;
