@@ -38,6 +38,8 @@ message Partner {
 
   // Supported tokens for payment on-chain
   // This is a list of `ERC20Token` type
+  // Note: Type of this field will depend on the T-Chain implementation
+  // If we go with X-Chain like (assets) we may need to switch to `Asset` type.
   repeated ERC20Token supported_tokens = 7;
 
   // Off chain payment support

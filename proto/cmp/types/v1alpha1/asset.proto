@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// ERC20 Token Reference
-message ERC20Token {
-  string contract_address = 1;
+// An on-chain asset on the Camino Network
+message Asset {
+  string asset_id = 1;
   string name = 2;
   string symbol = 3;
   uint32 decimals = 4;
