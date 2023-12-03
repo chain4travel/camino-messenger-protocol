@@ -5,7 +5,7 @@ syntax = "proto3";
 
    The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
 
-   Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can 
+   Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can
    be cached and kept up to data with the Product List and Product Details messages.
 
    This package is a **WIP**.
@@ -16,9 +16,7 @@ package cmp.services.accommodation.v1alpha1;
 import "cmp/services/accommodation/v1alpha1/search_option_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
-import "cmp/types/v1alpha1/country.proto";
-import "cmp/types/v1alpha1/currency.proto";
-import "cmp/types/v1alpha1/language.proto";
+import "cmp/types/v1alpha1/search_parameters.proto";
 import "cmp/types/v1alpha1/uuid.proto";
 
 // ### Accommodation Search Request Message Type
@@ -39,20 +37,11 @@ message AccommodationSearchRequest {
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 2;
 
-  // Requested currency in which prices have to be supplied in the response according to ISO 4217 Currency codes
-  cmp.types.v1alpha1.Currency currency = 3;
+  // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
+  cmp.types.v1alpha1.SearchParameters search_parameters = 3;
 
-  // Requested language setting for descriptions in the response according to ISO 639-1 Language codes
-  cmp.types.v1alpha1.Language language = 4;
-
-  // Request generated for a specific market according to ISO 3166-1 Country codes
-  cmp.types.v1alpha1.Country market = 5;
-
-  // Option flags for inclusion of OnRequest options and inclusion of only the cheapest or all options.
-  OptionFlags flags = 6;
-
-  // Units
-  repeated Unit units = 7;
+  // Units (rooms or holiday homes)
+  repeated Unit units = 4;
 }
 
 // ### Accommodation Search Response
@@ -64,20 +53,27 @@ message AccommodationSearchRequest {
 message AccommodationSearchResponse {
   // Message Header. Contains api version, message info string and end user wallet address.
   cmp.types.v1alpha1.Header header = 1;
+
   // Context for Inventory system communication.
   string context = 2;
+
   // Errors encountered in the generation of the response. Standardized error list to be created.
   string errors = 3;
+
   // Warnings encountered in the generation of the response.
   string warnings = 4;
+
   // Supplier code from the Inventory System for this search response.
   string supplier_code = 5;
+
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 6;
+
   // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
   cmp.types.v1alpha1.UUID search_id = 7;
+
   // Unique combinations of bookable options, like property,
-  repeated SearchOption options = 8;
+  repeated AccommodationSearchOption options = 8;
 }
 
 // The Accommodation Service definition
@@ -85,6 +81,5 @@ message AccommodationSearchResponse {
 // [Click for the AccommodationSearch Diagram](https://playground.docs.camino.network/assets/files/accommodation_search.proto.dot-175583e9938ec6523a48686688156d80.svg)
 service AccommodationSearchService {
   // Accommodation Search method
-  //
   rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);
 }

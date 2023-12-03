@@ -6,13 +6,13 @@ import "cmp/services/accommodation/v1alpha1/property_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/rate_rule.proto";
-import "cmp/types/v1alpha1/sorting.proto";
 
-// ## Search option types for Accommodation Service
+// ## Search option type for Accommodation Search Service
 //
-// This type is used in the AccommodationSearchResponse message
-message SearchOption {
-  // Option ID for the search option. This is an increasing number starting at 0 and 
+// This type represents a search result and is used in the
+// `AccommodationSearchResponse` message.
+message AccommodationSearchOption {
+  // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
   int32 option_id = 1;
 
@@ -23,24 +23,11 @@ message SearchOption {
   repeated Unit units = 3;
 
   // The RateRule specifies whether an option is non-refundable or not
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 4; 
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 4;
+
   // The cancellation conditions related to an option
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 5; //
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 5;
+
   // Freetext remarks without any functionality
-  string remarks = 6; //
-}
-
-// Option flags for the search requests
-message OptionFlags {
-  // Include OnRequest options in the response or only immediately bookable options
-  bool include_on_request = 1;
-
-  // Only show the cheapest option for one product, or include all possible combinations
-  bool include_combinations = 2;
-  
-  // Limit the maximum number of options included in the response
-  int32 max_number_options = 3;
-
-  // Specify the sorting required in the response
-  cmp.types.v1alpha1.Sorting sorting = 4;
+  string remarks = 6;
 }
