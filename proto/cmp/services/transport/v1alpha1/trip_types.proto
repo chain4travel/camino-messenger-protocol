@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha1;
+
+import "cmp/types/v1alpha1/geo_location.proto";
+import "cmp/types/v1alpha1/time.proto";
+import "google/protobuf/timestamp.proto";
+
+// ### Trip message type
+// This message type represents a one way trip, either inbound or outbound.
+message Trip {
+  // Departure time for the trip
+  google.protobuf.Timestamp departure_time = 1;
+
+  // FIXME: Converting these min/max times to timestamps and use them instead
+  // of departure_time would be easier for the partners to implement and use.
+  //
+  // Something like:
+  // `google.protobuf.Timestamp departure_min_time = 1;`
+  // `google.protobuf.Timestamp departure_max_time = 2;`
+
+  // Departure min time
+  cmp.types.v1alpha1.Time min_time = 2;
+
+  // Departure max time
+  cmp.types.v1alpha1.Time max_time = 3;
+
+  // Departure location
+  cmp.types.v1alpha1.GeoLocation departure_location = 4;
+
+  // Arrival location
+  cmp.types.v1alpha1.GeoLocation arrival_location = 5;
+}

@@ -34,7 +34,7 @@ message AccommodationSearchRequest {
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 2;
 
-  //FIXME: Should we also need to have `freetext` field here?
+  //FIXME: Should we also need to have `freetext` field here? 
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;

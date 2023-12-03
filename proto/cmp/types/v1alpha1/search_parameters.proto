@@ -4,6 +4,7 @@ package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/currency.proto";
+import "cmp/types/v1alpha1/filter.proto";
 import "cmp/types/v1alpha1/language.proto";
 import "cmp/types/v1alpha1/sorting.proto";
 
@@ -29,4 +30,7 @@ message SearchParameters {
 
   // Specify the sorting required in the response
   Sorting sorting = 7;
+
+  // Filters for the search
+  repeated Filter filters = 8;
 }

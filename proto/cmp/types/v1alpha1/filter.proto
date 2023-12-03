@@ -2,15 +2,18 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// Upfront filtering of possible search options in the search response 
+// Upfront filtering of possible search options in the search response
 message Filter {
   // Filter code agreed between provider and distributor
-  // Should filters be standardized per vertical?
+  // FIXME: Should filters be standardized per vertical?
   string filter_code = 1;
+
   // Description of the filter code.
   string filter_description = 2;
-  // a filter type can be set to for example "DRV GlobalTypes".
+
+  // A filter type can be set to for example "DRV GlobalTypes".
   string filter_type = 3;
-  // adding a filter value like for example "star rating = 5" or "row number =1".
+
+  // Adding a filter value like for example "star_rating=5" or "row_number=1".
   string filter_value = 4;
 }

@@ -5,16 +5,16 @@ package cmp.services.accommodation.v1alpha1;
 import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/filter.proto";
 import "cmp/types/v1alpha1/geo_location.proto";
+import "cmp/types/v1alpha1/mealplan.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/rate_rule.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
 import "cmp/types/v1alpha1/traveller.proto";
-import "cmp/types/v1alpha1/mealplan.proto";
 
 // ## Unit
 //
-// A Unit can represent a room in a hotel. One search option can have multiple units for 
+// A Unit can represent a room in a hotel. One search option can have multiple units for
 // multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
 // A unit can also be a different property in a multi-property request for holiday homes.
 // Ex: 1 house for 4 persons and another house for 6 persons.
@@ -66,6 +66,8 @@ message Unit {
 
   // Various provider and product specific filters can be provided here in
   // agreed name/value pairs
+  // FIXME: Should this be in SearchParameters instead of Unit or in both? Do we
+  // need per Unit filters?
   repeated cmp.types.v1alpha1.Filter filters = 17;
 
   // Cancel Policies
@@ -84,6 +86,7 @@ message Unit {
   int32 remaining_units = 21;
 
   // Remarks
+  // FIXME: Is this field "per Unit" or should it be "per search request"?
   string remarks = 22;
 }
 
