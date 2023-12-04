@@ -11,18 +11,11 @@ import "google/protobuf/timestamp.proto";
 // ### Trip message type
 // This message type represents a one way trip, either inbound or outbound.
 message Trip {
-  // FIXME: Converting these min/max times to timestamps and use them instead
-  // of departure_time would be easier for the partners to implement and use.
-  //
-  // Something like:
-  // `google.protobuf.Timestamp departure_min_time = 1;`
-  // `google.protobuf.Timestamp departure_max_time = 2;`
-
   // Departure min time
-  cmp.types.v1alpha1.Time min_time = 1;
+  google.protobuf.Timestamp departure_min_time = 1;
 
   // Departure max time
-  cmp.types.v1alpha1.Time max_time = 2;
+  google.protobuf.Timestamp departure_max_time = 2;
 
   // Departure event
   TransitEvent departure = 3;
