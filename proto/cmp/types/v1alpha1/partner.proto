@@ -27,19 +27,6 @@ message Partner {
   // `@   IN  TXT  "camino-pubkey=043134d4b70236e59f99ae9e6ed9d1d512bacfa83506c9371ff4e372b7837844d82b1c56d81d04a23e25b18ff3f7eb531a5ef17df3bf5730b29e13f854a65b4651"  TTL 3600`
   string domain = 4;
 
-  // UUID for DNS TXT Record
-  // Partner needs to create the corresponding DNS TXT record. This will be used
-  // by other partners to verify the ownership of the domain provided above.
-  //
-  // Example UUID:
-  // `85b1d3ec-e992-4af2-9ada-471cae9c0e5d`
-  //
-  // Example DNS TXT record:
-  // `@   IN  TXT  "85b1d3ec-e992-4af2-9ada-471cae9c0e5d"  TTL 3600`
-  //
-  // Note: T-Chain should not accept same uuid's for different partners. These
-  // uuid fields should be globally unique on the chain.
-
   // On chain payment support
   bool on_chain_payment_supported = 5;
 
