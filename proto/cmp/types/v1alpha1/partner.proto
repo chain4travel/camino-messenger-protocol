@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/token.proto";
-import "cmp/types/v1alpha1/uuid.proto";
 import "cmp/types/v1alpha1/wallet.proto";
 
 message Partner {
@@ -18,6 +17,14 @@ message Partner {
 
   // Domain for the partner
   // Ex: chain4travel.com
+  //
+  // Provider should create two DNS records for their address to verify they own
+  // the `partner_wallet_address` below. Two records should be for public key and
+  // the corresponding address.
+  //
+  // Example DNS TXT Records:
+  // `@   IN  TXT  "camino-t-addr=T-camino1tdkgjhfjq8z4glnvu8davxvdm66jx55tfr6qnz"  TTL 3600`
+  // `@   IN  TXT  "camino-pubkey=043134d4b70236e59f99ae9e6ed9d1d512bacfa83506c9371ff4e372b7837844d82b1c56d81d04a23e25b18ff3f7eb531a5ef17df3bf5730b29e13f854a65b4651"  TTL 3600`
   string domain = 4;
 
   // UUID for DNS TXT Record
@@ -32,29 +39,28 @@ message Partner {
   //
   // Note: T-Chain should not accept same uuid's for different partners. These
   // uuid fields should be globally unique on the chain.
-  cmp.types.v1alpha1.UUID dns_txt_uuid = 5;
 
   // On chain payment support
-  bool on_chain_payment_supported = 6;
+  bool on_chain_payment_supported = 5;
 
   // Supported tokens for payment on-chain
   // This is a list of `ERC20Token` type
   // Note: Type of this field will depend on the T-Chain implementation
   // If we go with X-Chain like (assets) we may need to switch to `Asset` type.
-  repeated ERC20Token supported_tokens = 7;
+  repeated ERC20Token supported_tokens = 6;
 
   // Off chain payment support
-  bool off_chain_payment_supported = 8;
+  bool off_chain_payment_supported = 7;
 
   // Products
-  repeated PartnerProduct products = 9;
+  repeated PartnerProduct products = 8;
 
   // Partner addresses of the messenger bots
-  repeated cmp.types.v1alpha1.WalletAddress addresses = 10;
+  repeated cmp.types.v1alpha1.WalletAddress addresses = 9;
 
   // Partner's consortium member wallet address
   // This address should be the one who creates the entry in Partner Configuration on the chain.
-  cmp.types.v1alpha1.WalletAddress partner_wallet_address = 11;
+  cmp.types.v1alpha1.WalletAddress partner_wallet_address = 10;
 }
 
 // Partner Product
