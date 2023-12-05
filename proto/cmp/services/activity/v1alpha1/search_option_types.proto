@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package cmp.services.activity.v1alpha1;
+
+import "cmp/types/v1alpha1/datetime_range.proto";
+import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/price.proto";
+import "google/protobuf/timestamp.proto";
+
+// ## Search option type for Activity Search Service
+//
+// This type represents a search result and is used in the
+// `ActivitySearchResponse` message.
+message ActivitySearchOption {
+  // Option ID for the search option. This is an increasing number starting at 0 and
+  // increasing by 1 for every search result.
+  int32 option_id = 1;
+
+  // Activity basic info
+  ActivityInfo info = 2;
+
+  // Schedule
+  cmp.types.v1alpha1.DateTimeRange schedule = 3;
+
+  // Activity location
+  ActivityLocation location = 4;
+
+  // Pickup Dropoff
+  repeated PickupDropffEvent pickup_dropoff_events = 5;
+
+  // Min participants
+  int32 min_participants = 6;
+
+  // Max participants
+  int32 max_participants = 7;
+
+  // Price with value and currency code
+  cmp.types.v1alpha1.Price price = 8;
+
+  // Pricing type
+  // Ex: "PerPerson"
+  // FIXME: Enum??
+  string pricing_type = 9;
+}
+
+message ActivityInfo {
+  // Ex: "TC000000"
+  string product_code = 1;
+
+  // Ex: "Helicopter Tour Heli"
+  string product_name = 2;
+
+  // Ex: "EESPMI46VY"
+  string activity_id = 3;
+
+  // Ex: "Tour (40 min)"
+  string activity_name = 4;
+
+  // Ex: "XO"
+  string service_code = 5;
+
+  // Ex: "with transfer from/to hotel"
+  string service_name = 6;
+
+  // Ex: "XA"
+  string category_code = 7;
+
+  // Ex: "Excursions & Activities"
+  string category_name = 8;
+
+  // Ex: "SF"
+  string type_code = 9;
+
+  // Ex: "Safari"
+  string type_name = 10;
+}
+
+// ### Activity Location
+message ActivityLocation {
+  // Ex: "Palma"
+  // FIXME: Why we need this?
+  string address_line = 1;
+
+  // Geo Tree. Country, region, city_or_resort
+  // Ex:
+  // ```python
+  // GeoTree(
+  //   country=Country.COUNTRY_ES,
+  //   region="Mallorca",
+  //   city_or_resort="Palma City",
+  // )
+  // ```
+  cmp.types.v1alpha1.GeoTree geo_tree = 2;
+
+  // Coordinate
+  cmp.types.v1alpha1.Coordinate coordinate = 3;
+}
+
+// ### PickupDropoffEvent
+message PickupDropffEvent {
+  // Ex: "AESPMI43NU",
+  string location_name = 1;
+
+  // FIXME: Description ???
+  // Ex: "true",
+  bool pickup_ind = 2;
+
+  // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
+  string other_info = 3;
+
+  // Ex: "2023-07-15T09:05:00"
+  google.protobuf.Timestamp date_time = 4;
+}

@@ -26,7 +26,7 @@ message SearchParameters {
   bool include_combinations = 5;
 
   // Limit the maximum number of options included in the response
-  int32 max_number_options = 6;
+  int32 max_options = 6;
 
   // Specify the sorting required in the response
   Sorting sorting = 7;
