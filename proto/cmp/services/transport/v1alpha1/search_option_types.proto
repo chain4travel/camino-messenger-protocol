@@ -7,7 +7,7 @@ import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/datetime_range.proto";
 import "cmp/types/v1alpha1/fulfillment.proto";
 import "cmp/types/v1alpha1/price.proto";
-import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/rate.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 

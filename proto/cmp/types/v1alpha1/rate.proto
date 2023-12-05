@@ -9,10 +9,21 @@ message RateRule {
   string rate_reference = 3;
 }
 
+// Rate Rule Type
 enum RateRuleType {
   RATE_RULE_TYPE_UNSPECIFIED = 0;
   RATE_RULE_TYPE_FLEXIBLE = 1;
   RATE_RULE_TYPE_RESELLABLE = 2;
   RATE_RULE_TYPE_NON_REFUNDABLE = 3;
   RATE_RULE_TYPE_SEMI_NON_REFUNDABLE = 4;
+}
+
+message RatePlan {
+  // Rate plan
+  // Ex: ???
+  string rate_plan = 1;
+
+  // Rateplan description. In case of enrichment additional description of the unit code.
+  // Ex: "Package Rate"
+  string rate_plan_description = 2;
 }

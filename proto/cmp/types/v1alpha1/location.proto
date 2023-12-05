@@ -2,25 +2,51 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-import "cmp/types/v1alpha1/coordinate.proto";
 import "cmp/types/v1alpha1/distance.proto";
 
-// ### Geo Location Message
-// Describes a geo location with one of location code, geo circle, geo polygon, or
-// geo tree.
-message GeoLocation {
-  oneof geo_location {
-    LocationCode location_code = 1;
-    GeoCircle geo_circle = 2;
-    GeoPolygon geo_polygon = 3;
-    GeoTree geo_tree = 4;
-  }
+// ### Coordinate
+//
+// Represents a geographic location
+message Coordinate {
+  // The latitude in degrees. It must be in the range [-90.0, +90.0].
+  double latitude = 1;
+  // The longitude in degrees. It must be in the range [-180.0, +180.0].
+  double longitude = 2;
+}
+
+// Geo Circle
+message GeoCircle {
+  cmp.types.v1alpha1.Coordinate center = 1;
+  cmp.types.v1alpha1.Distance radius = 2;
+}
+
+// Geo Polygon
+message GeoPolygon {
+  // GPS points of the polygon
+  repeated cmp.types.v1alpha1.Coordinate points = 1;
+}
+
+// Geo Tree
+message GeoTree {
+  string country = 1;
+  string region = 2;
+  string city_or_resort = 3;
 }
 
 // Location Code
 message LocationCode {
   string location_codes = 1;
   LocationCodeType location_code_type = 2;
+}
+
+// Location Codes
+//
+// Represents a list of `LocationCode` message type.
+//
+// Protobuf `oneof` field type does not support repeated member fields. To get the
+// same functionality we need to wrap the needed message type with another message.
+message LocationCodes {
+  repeated LocationCode location_codes = 1;
 }
 
 // Location Code Type
@@ -52,23 +78,4 @@ enum LocationCodeType {
 
   // Used by multi-modal journey planners and timetables
   LOCATION_CODE_TYPE_ATCO_CODE = 8;
-}
-
-// Geo Circle
-message GeoCircle {
-  cmp.types.v1alpha1.Coordinate center = 1;
-  cmp.types.v1alpha1.Distance radius = 2;
-}
-
-// Geo Polygon
-message GeoPolygon {
-  // GPS points of the polygon
-  repeated cmp.types.v1alpha1.Coordinate points = 1;
-}
-
-// Geo Tree
-message GeoTree {
-  string country = 1;
-  string region = 2;
-  string city_or_resort = 3;
 }

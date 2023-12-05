@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-
 //   Distance unit and value pair
 
 message Distance {
@@ -10,12 +9,12 @@ message Distance {
   DistanceUnit distance_unit = 2;
 }
 
-// Distance Unit 
+// Distance Unit
 enum DistanceUnit {
   DISTANCE_UNIT_UNSPECIFIED = 0;
   DISTANCE_UNIT_METERS = 1;
   DISTANCE_UNIT_KILOMETERS = 2;
   DISTANCE_UNIT_MILES = 3;
   DISTANCE_UNIT_FEET = 4;
-  DISTANCE_UNIT_YARD = 5;
+  DISTANCE_UNIT_YARDS = 5;
 }

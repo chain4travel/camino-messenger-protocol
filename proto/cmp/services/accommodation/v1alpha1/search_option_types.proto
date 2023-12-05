@@ -5,7 +5,7 @@ package cmp.services.accommodation.v1alpha1;
 import "cmp/services/accommodation/v1alpha1/property_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/cancel_policy.proto";
-import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/rate.proto";
 
 // ## Search option type for Accommodation Search Service
 //

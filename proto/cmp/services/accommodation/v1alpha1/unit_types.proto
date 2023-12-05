@@ -4,10 +4,10 @@ package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/filter.proto";
-import "cmp/types/v1alpha1/geo_location.proto";
+import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/mealplan.proto";
 import "cmp/types/v1alpha1/price.proto";
-import "cmp/types/v1alpha1/rate_rule.proto";
+import "cmp/types/v1alpha1/rate.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
 import "cmp/types/v1alpha1/traveller.proto";
@@ -20,75 +20,85 @@ import "cmp/types/v1alpha1/traveller.proto";
 // Ex: 1 house for 4 persons and another house for 6 persons.
 message Unit {
   // Unit Type
+  // Ex: `UnitType.UNIT_TYPE_ROOM`
   UnitType type = 1;
 
-  // Beds
-  repeated Bed beds = 2;
+  // Travel period
+  cmp.types.v1alpha1.TravelPeriod travel_period = 2;
 
-  // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 3;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 4;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 5;
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 3;
+
+  // Beds
+  repeated Bed beds = 4;
+
+  // Geo Location for search
+  oneof geo_location {
+    // FIXME: Do we need a list of location code here? Other fields are not lists.
+    cmp.types.v1alpha1.LocationCodes location_codes = 5;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v1alpha1.Coordinate location_coordinate = 6;
+
+    // Geo tree type, representted by Country, Region, and City_or_Resort.
+    cmp.types.v1alpha1.GeoTree location_geo_tree = 7;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v1alpha1.GeoCircle location_geo_circle = 8;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v1alpha1.GeoPolygon location_geo_polygon = 9;
+  }
 
   // Price in detail with breakdowns etc
-  cmp.types.v1alpha1.PriceDetail price_detail = 6;
+  cmp.types.v1alpha1.PriceDetail price_detail = 10;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 11;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 12;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 13;
 
   // Unit code. Room code of the unit in case of hotel. Ex: "RMSDDB0000"
-  string unit_code = 7;
+  string unit_code = 14;
 
   // Unit description. In case of enrichment additional description of the unit code.
   // Ex: "Double Standard Room"
-  string unit_description = 8;
+  string unit_description = 15;
 
-  // Mealplan code. Room code of the unit in case of hotel. Ex: "AI" >> FIXME should be an ENUM
-  cmp.types.v1alpha1.MealPlan meal_plan_code = 9;
-
-  // Mealplan description. In case of enrichment additional description of the unit code. Ex: "All Inclusive"
-  string meal_plan_description = 10;
+  // Mealplan code.
+  cmp.types.v1alpha1.MealPlan meal_plan_code = 16;
 
   // Rate plan
-  string rate_plan = 11;
-
-  // Rateplan description. In case of enrichment additional description of the unit code. Ex: "Package Rate"
-  string rate_plan_description = 12;
+  cmp.types.v1alpha1.RatePlan rate_plan = 17;
 
   // Rate Rules
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 13;
-
-  // Travel period
-  cmp.types.v1alpha1.TravelPeriod travel_period = 14;
-
-  // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 15;
-
-  // Geo Location
-  cmp.types.v1alpha1.GeoLocation geo_location = 16;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 18;
 
   // Various provider and product specific filters can be provided here in
   // agreed name/value pairs
   // FIXME: Should this be in SearchParameters instead of Unit or in both? Do we
-  // need per Unit filters?
-  repeated cmp.types.v1alpha1.Filter filters = 17;
+  // need per Unit filters? (We have this also in `SearchParameters` now)
+  repeated cmp.types.v1alpha1.Filter filters = 19;
 
   // Cancel Policies
   // FIXME: Should this be a list? Initial json definition had a single element.
-  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 18;
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 20;
 
   // Free-text field to provide more detials for better offer personalization.
   // This field can be provided in combination with a Geo location or as stand-alone.
-  string request_description_text = 19;
+  string request_description_text = 21;
 
   // The speech request is provided as a link to a recording to process for
   // better offer personalization. This field can be provided in combination
   // with a Geo location or as stand-alone.
-  string request_description_audio_url = 20;
+  string request_description_audio_url = 22;
 
   // Remaining units
-  int32 remaining_units = 21;
+  int32 remaining_units = 23;
 
   // Remarks
   // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 22;
+  string remarks = 24;
 }
 
 message Bed {

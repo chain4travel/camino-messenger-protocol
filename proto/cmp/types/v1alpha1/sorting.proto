@@ -19,7 +19,6 @@ enum SortingType {
   SORTING_TYPE_RATING = 4;
 }
 
-
 /* Sorting order */
 enum SortingOrder {
   SORTING_ORDER_UNSPECIFIED = 0;
