@@ -1,8 +1,8 @@
 name: buf-build
 
 on:
-  - push
-  - pull-request
+  push:
+  pull_request:
 
 jobs:
   buf-build:
