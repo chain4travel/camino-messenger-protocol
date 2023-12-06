@@ -7,6 +7,7 @@ import "cmp/types/v1alpha1/currency.proto";
 import "cmp/types/v1alpha1/filter.proto";
 import "cmp/types/v1alpha1/language.proto";
 import "cmp/types/v1alpha1/sorting.proto";
+import "cmp/types/v1alpha1/uuid.proto";
 
 // Search parameters for the search requests
 message SearchParameters {
@@ -33,4 +34,25 @@ message SearchParameters {
 
   // Filters for the search
   repeated Filter filters = 8;
+}
+
+// Search Response Metadata
+message SearchResponseMetadata {
+  // Context for Inventory system communication.
+  string context = 1;
+
+  // Errors encountered in the generation of the response. Standardized error list to be created.
+  string errors = 2;
+
+  // Warnings encountered in the generation of the response.
+  string warnings = 3;
+
+  // Supplier code from the Inventory System for this search response.
+  string supplier_code = 4;
+
+  // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  string external_session_id = 5;
+
+  // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
+  cmp.types.v1alpha1.UUID search_id = 6;
 }

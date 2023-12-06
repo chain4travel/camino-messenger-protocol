@@ -13,10 +13,9 @@ package cmp.services.activity.v1alpha1;
 import "cmp/services/activity/v1alpha1/search_option_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/location.proto";
-import "cmp/types/v1alpha1/search_parameters.proto";
+import "cmp/types/v1alpha1/search.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
 import "cmp/types/v1alpha1/traveller.proto";
-import "cmp/types/v1alpha1/uuid.proto";
 
 // ### Activity Search Request
 //
@@ -87,26 +86,11 @@ message ActivitySearchResponse {
   // Message Header. Contains api version, message info string and end user wallet address.
   cmp.types.v1alpha1.Header header = 1;
 
-  // Context for Inventory system communication.
-  string context = 2;
-
-  // Errors encountered in the generation of the response. Standardized error list to be created.
-  string errors = 3;
-
-  // Warnings encountered in the generation of the response.
-  string warnings = 4;
-
-  // Supplier code from the Inventory System for this search response.
-  string supplier_code = 5;
-
-  // An identifier for external sessions, aiding in tracking and continuity across sessions.
-  string external_session_id = 6;
-
-  // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
-  cmp.types.v1alpha1.UUID search_id = 7;
+  // Search response metadata
+  cmp.types.v1alpha1.SearchResponseMetadata metadata = 2;
 
   // Unique combinations of bookable options
-  repeated ActivitySearchOption options = 8;
+  repeated ActivitySearchOption options = 3;
 }
 
 // ## Activity Search Service
