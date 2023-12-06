@@ -18,6 +18,8 @@ enum RateRuleType {
   RATE_RULE_TYPE_SEMI_NON_REFUNDABLE = 4;
 }
 
+// Rate plan message type
+// Contains `rate_plan` and `rate_plan_description` fields as strings.
 message RatePlan {
   // Rate plan
   // Ex: ???

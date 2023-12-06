@@ -93,7 +93,7 @@ message ActivitySearchResponse {
   repeated ActivitySearchOption options = 3;
 }
 
-// ## Activity Search Service
+// ### Activity Search Service
 //
 // Takes `ActivitySearchRequest` message type and returns `ActivitySearchResponse` message type.
 service ActivitySearchService {

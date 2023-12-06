@@ -4,9 +4,7 @@ package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/date.proto";
 
-//
 // Travel Period
-//
 message TravelPeriod {
   cmp.types.v1alpha1.Date start_date = 1;
   cmp.types.v1alpha1.Date end_date = 2;

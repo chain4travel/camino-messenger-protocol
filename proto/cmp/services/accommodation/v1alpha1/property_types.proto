@@ -6,11 +6,9 @@ import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/price.proto";
 
-/*
-   Basic Property Info
-
-   test text
-*/
+// ### Property Info message type
+//
+// Represents basic property info
 message PropertyInfo {
   // Name of the property
   string property_name = 1;

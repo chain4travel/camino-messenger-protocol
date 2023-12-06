@@ -10,7 +10,6 @@ import "google/protobuf/timestamp.proto";
 // - a simple boolean for refundable or non-refundable options
 // - a "free cancellation upto" DateTime
 // - complete cancellation policies with from/to DateTime stamps
-
 message CancelPolicy {
   // Cancellation policy refundable or not
   bool refundable = 1;
@@ -36,7 +35,6 @@ message CancelPolicy {
 }
 
 //Cancellation Penalty
-
 message CancelPenalty {
   // When this penalty is valid. Either use the start and end date of the DateTime range
 

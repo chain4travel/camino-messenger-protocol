@@ -5,9 +5,7 @@ package cmp.types.v1alpha1;
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/date.proto";
 
-//
 // Traveller
-//
 message Traveller {
   // Guest number, the lowest number is the lead-pax
   int32 guest_number = 1;

@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 //   Distance unit and value pair
-
 message Distance {
   int32 value = 1;
   DistanceUnit distance_unit = 2;

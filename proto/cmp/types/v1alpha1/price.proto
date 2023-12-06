@@ -4,7 +4,7 @@ package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/currency.proto";
 
-// PriceDetail
+// ### PriceDetail
 //
 // This message consists of net value as a Price object and additional fields
 // as gross, binding, concept, and breakdown.
@@ -31,7 +31,7 @@ message PriceDetail {
   repeated PriceDetail breakdown = 8;
 }
 
-// Simple Price type
+// ### Simple Price type
 //
 // Consists of a net value and a Currency type.
 message Price {

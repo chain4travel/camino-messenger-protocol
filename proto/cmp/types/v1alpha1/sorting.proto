@@ -2,15 +2,14 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-/*
-   Sorting type and order: this is being used in requests to specify the sorting required in the response.
-*/
+// Sorting type and order: this is being used in requests to specify the sorting
+// required in the response.
 message Sorting {
   SortingType sorting_type = 1;
   SortingOrder sorting_order = 2;
 }
 
-/* Sorting type */
+// Sorting type
 enum SortingType {
   SORTING_TYPE_UNSPECIFIED = 0;
   SORTING_TYPE_PRICE = 1;
@@ -19,7 +18,7 @@ enum SortingType {
   SORTING_TYPE_RATING = 4;
 }
 
-/* Sorting order */
+// Sorting order
 enum SortingOrder {
   SORTING_ORDER_UNSPECIFIED = 0;
   SORTING_ORDER_ASCENDING = 1;

@@ -59,7 +59,7 @@ message AccommodationSearchResponse {
   repeated AccommodationSearchOption options = 3;
 }
 
-// The Accommodation Service definition
+// ### Accommodation Search Service definition
 //
 // [Click for the AccommodationSearch Diagram](https://playground.docs.camino.network/assets/files/accommodation_search.proto.dot-175583e9938ec6523a48686688156d80.svg)
 service AccommodationSearchService {

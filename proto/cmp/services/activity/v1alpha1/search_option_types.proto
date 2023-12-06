@@ -7,7 +7,7 @@ import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "google/protobuf/timestamp.proto";
 
-// ## Search option type for Activity Search Service
+// ### Search option type for Activity Search Service
 //
 // This type represents a search result and is used in the
 // `ActivitySearchResponse` message.

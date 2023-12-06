@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-// ## Camino Messenger Protocol Common Package
+// ## Camino Messenger Protocol (CMP) Types Package
 //
-// All CMP messages should import and use the header message type
+// Commonly used message types across all CMP messages
 package cmp.types.v1alpha1;
 
 // ### CM Message Header

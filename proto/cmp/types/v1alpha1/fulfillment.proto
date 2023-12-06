@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+// ### Fulfillment message type
 message Fulfillment {
   // Link type
   // Ex: "LG" or "TC"

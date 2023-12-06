@@ -1,15 +1,13 @@
 syntax = "proto3";
 
-/*
- ## Ping Message
-*/
+// ### Ping Message
 package cmp.services.ping.v1alpha1;
 
 import "cmp/types/v1alpha1/common.proto";
 import "google/protobuf/timestamp.proto";
 
 // The ping message is designed to test the availability of a provider service
-// and to test the network latency as in the gRPC metadata information the 
+// and to test the network latency as in the gRPC metadata information the
 // DateTime is stored of each hop.
 message PingRequest {
   // Message Header
@@ -20,9 +18,7 @@ message PingRequest {
   string ping_message = 2;
   // DateTime of the ping request
   google.protobuf.Timestamp timestamp = 3;
-
 }
-
 
 message PingResponse {
   // Message Header

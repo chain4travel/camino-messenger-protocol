@@ -2,11 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-/*
-   ## Language options
-
-   Country options according to ISO 3166-1, with the 31 most popular countries first, using fewer bytes in the code thus reducing message size.
-*/
+// ## Language options
+//
+// Country options according to ISO 3166-1, with the 31 most popular countries
+// first, using fewer bytes in the code thus reducing message size.
 enum Country {
   COUNTRY_UNSPECIFIED = 0;
 

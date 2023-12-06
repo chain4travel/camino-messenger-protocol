@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+// Meal Plan message type
 message MealPlan {
   // Meal Plan Code
   // Ex: `MealPlan.MEAL_PLAN_AI` for "All Inclusive" meal plan.
@@ -12,7 +13,7 @@ message MealPlan {
   string meal_plan_description = 2;
 }
 
-// Mealplan ENUM list
+// Meal plan code ENUM type
 enum MealPlanCode {
   MEAL_PLAN_CODE_UNSPECIFIED = 0; // No Mealplan specified
   MEAL_PLAN_CODE_AI = 1; // All Inclusive

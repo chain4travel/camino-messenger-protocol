@@ -5,6 +5,7 @@ package cmp.types.v1alpha1;
 import "cmp/types/v1alpha1/token.proto";
 import "cmp/types/v1alpha1/wallet.proto";
 
+// ### Partner message type
 message Partner {
   // Short name of the partner. Ex: Chain4Travel
   string short_name = 1;
@@ -113,6 +114,7 @@ message BundledPrice {
   int64 price_per_bundle = 3;
 }
 
+// Bundle unit message type
 enum BundleUnit {
   BUNDLE_UNIT_UNSPECIFIED = 0;
   BUNDLE_UNIT_COUNT = 1;

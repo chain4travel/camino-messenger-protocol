@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.transport.v1alpha1;
 
+// ### Content Source Type message type
 enum ContentSourceType {
   CONTENT_SOURCE_TYPE_UNSPECIFIED = 0;
   CONTENT_SOURCE_TYPE_GDS = 1;
