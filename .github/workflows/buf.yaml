@@ -2,7 +2,13 @@ name: buf
 
 on:
   push:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
   pull_request:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
 
 jobs:
   # Run buf's lint to check for errros
