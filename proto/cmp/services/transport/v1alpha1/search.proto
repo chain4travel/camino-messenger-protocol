@@ -1,8 +1,12 @@
 syntax = "proto3";
 
-// ## Camino Messenger Protocol Transport Service
+// ## This is the package level description for Transport Service
 //
 // The Transport Service is used for flights, trains, and buses.
+//
+// Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can be cached and kept up to data with the Product List and Product Details messages.
+//
+// This package is a WIP.
 package cmp.services.transport.v1alpha1;
 
 import "cmp/services/transport/v1alpha1/search_option_types.proto";
@@ -20,10 +24,6 @@ message TransportSearchRequest {
   // An identifier for external sessions, aiding in tracking and continuity across sessions.
   string external_session_id = 2;
 
-  // FIXME: This field and the one below is from `freetext` and `speech_request` fields
-  // from initial json files. In the AccommodationSearch we have them inside a `Unit`
-  // type. Is this correct?
-
   // Free-text field to provide more detials for better offer personalization.
   string search_request_description_text = 3;
 
@@ -31,8 +31,9 @@ message TransportSearchRequest {
   // better offer personalization.
   string search_request_description_audio_url = 4;
 
-  // Conten source types for this search request
+  // Content source types for this search request to specify which sources to include
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated ContentSourceType conten_source_types = 5;
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only
@@ -43,9 +44,16 @@ message TransportSearchRequest {
   repeated cmp.types.v1alpha1.Traveller travellers = 7;
 
   // Travelling trip
+  // to avoid confusion of the direction of travel that occurs with terms like "inbound"
+  // and "outbound". The travelling trip is also used for "one way" in which case the 
+  // returning trip is omitted. For tours or roadtrips, multiple requests with just a
+  // travelling trip for sequential dates can be submitted to specific suppliers of
+  // each part of tour or roadtrip.
   Trip travelling_trip = 9;
 
   // Returning trip
+  // In many cases our travel plans consist of going to a destination and return to 
+  // the same place where we started
   Trip returning_trip = 10;
 
   // Remarks
@@ -61,6 +69,7 @@ message TransportSearchResponse {
 
   // Conten source types for this search request
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated ContentSourceType conten_source_types = 3;
 
   // Transit Search Options (Results)

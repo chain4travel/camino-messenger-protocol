@@ -9,7 +9,7 @@ import "cmp/types/v1alpha1/time.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
-// This message type represents a one way trip, either inbound or outbound.
+// This message type represents a one way trip, either travelling or returning.
 message Trip {
   // Departure min time
   google.protobuf.Timestamp departure_min_time = 1;
@@ -38,48 +38,57 @@ message TripSegment {
   // Ex: "AC"
   string provider_code = 2;
 
+  // Retailer Code, replacing Marketing carrier
+  // Ex: "BC"
+  string retailer_code = 3;
+
+  // Sub Provider Code, replacing Operating carrier or identifying sub contracted services 
+  // provided by other suppliers
+  // Ex: "BC"
+  string sub_provider_code = 4;
+
   // Service Number
   // Ex: "1234"
-  // FIXME: Should this be an integer?
-  string service_number = 3;
+  // FIXME: Should this be an integer? For flights yes, but for trains and transfers?
+  string service_number = 5;
 
   // Departure
-  TransitEvent departure = 4;
+  TransitEvent departure = 6;
 
   // Arrival
-  TransitEvent arrival = 5;
+  TransitEvent arrival = 7;
 
   // Service description
   // Ex: "Economy"
-  string service_description = 6;
+  string service_description = 8;
 
   // Service code
   // Ex: "Y"
-  string service_code = 7;
+  string service_code = 9;
 
   // Trip Time
   // Ex: Time(hours=2, minutes=45)
-  cmp.types.v1alpha1.Time trip_time = 8;
+  cmp.types.v1alpha1.Time trip_time = 10;
 
   // Trip Distance
   // Ex: `Distance(value=15, unit=DistanceType.DISTANCE_UNIT_KILOMETERS)`
-  cmp.types.v1alpha1.Distance trip_distance = 9;
+  cmp.types.v1alpha1.Distance trip_distance = 11;
 
   // Min PAX
   // Ex: `1`
-  int32 min_pax = 10;
+  int32 min_pax = 12;
 
   // Max PAX
   // Ex: `3`
-  int32 max_max = 11;
+  int32 max_max = 13;
 
   // Luggage
   // Ex: `3`
-  int32 luggage = 12;
+  int32 luggage = 14;
 
   // Price
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
-  cmp.types.v1alpha1.Price price = 13;
+  cmp.types.v1alpha1.Price price = 15;
 }
 
 // ### Transit Event message type

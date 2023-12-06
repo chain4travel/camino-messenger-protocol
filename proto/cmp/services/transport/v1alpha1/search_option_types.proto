@@ -14,19 +14,21 @@ import "cmp/types/v1alpha1/traveller.proto";
 // Transport search result
 message TransportSearchOption {
   // Unique option ID for this search
-  string search_option_id = 1;
+  int32 option_id = 1;
 
   // Offer ID
-  // FIXME: Why another ID here? Isn't search_option_id above do the same thing?
+  // option to carry through an offer identifier for other statefull provider systems like NDC AirShopping RS
   string offer_id = 2;
 
   // Travellers
   repeated cmp.types.v1alpha1.Traveller travellers = 7;
 
-  // Travelling trip (Outbound)
+  // Travelling trip
+  // See search.proto documentation
   Trip travelling_trip = 9;
 
-  // Returning trip (Inbound)
+  // Returning trip
+  // See search.proto documentation
   Trip returning_trip = 10;
 
   // Total Price
@@ -41,10 +43,11 @@ message TransportSearchOption {
   repeated cmp.types.v1alpha1.RateRule rate_rules = 15;
 
   // Fullfillment
-  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 16; //FIXME
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 16; //FIXME: Can linktype be an ENUM?
 
   // Validity of the search option.
-  // `DateTimeRange` type with `start_date` and `end_date`
+  // `DateTimeRange` type with `start_date` and `end_date` in which the option can be booked.
+  // If the start_date is omitted, the offer can be booked until the end-date.
   cmp.types.v1alpha1.DateTimeRange validity = 17;
 
   // Cancel Policy
