@@ -8,7 +8,8 @@ find "$directory" -type f -name "*.proto" | while read -r proto_file; do
     awk '
     !inserted && /^enum|^message/ {
         gsub(/\/path\/to\/directory\//, "", FILENAME) # Remove the base directory path
-        print "// ![Click for diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/" FILENAME ".dot.svg)"
+        print "// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/" FILENAME ".dot.xs.svg)"
+        print "// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/" FILENAME ".dot.svg)"
         inserted=1
     }
     { print }
