@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
+      - ".github/workflows/**"
+  pull_request:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
+      - ".github/workflows/**"
+
+jobs:
+  # Run buf's lint to check for errros
+  buf-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bufbuild/buf-setup-action@v1
+      - uses: bufbuild/buf-lint-action@v1
+        with:
+          input: "proto"
+  # Push the draft branch to buf.build
+  bsr-push-draft:
+    runs-on: ubuntu-latest
+    needs: buf-lint
+    if: github.ref == 'refs/heads/draft'
+    environment: draft
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bufbuild/buf-setup-action@v1
+      - uses: bufbuild/buf-push-action@v1
+        with:
+          input: "proto"
+          draft: true
+          buf_token: ${{ secrets.BUF_BSR_TOKEN }}
+
+  # Generate and upload protodot diagrams
+  diagrams:
+    runs-on: ubuntu-latest
+    needs: buf-lint
+    if: github.ref == 'refs/heads/draft'
+    steps:
+      # Generate diagrams
+      - name: Generate Diagrams
+        run: |
+          wget https://github.com/seamia/protodot/raw/master/binaries/protodot-linux-amd64
+          chmod +x protodot-linux-amd64
+          mkdir -v -p gen/bin
+          mv protodot-linux-amd64 gen/bin/protodot
+          export PATH=${PWD}/gen/bin:${PATH}
+          bash scripts/generate_protodot.sh
+          find gen/diagrams -type f -name "*.dot" -exec rm -f {} +
+          tree gen/diagrams
+
+      # Deploy diagrams
+      - name: Cloud Authentication
+        id: auth
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Upload Diagrams
+        run: |
+          gsutil -m rsync -R -d gen/diagrams gs://docs-cmp-files/diagrams
