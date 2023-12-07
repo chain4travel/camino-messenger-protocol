@@ -59,6 +59,7 @@ jobs:
           mv protodot-linux-amd64 gen/bin/protodot
           export PATH=${PWD}/gen/bin:${PATH}
           bash scripts/generate_protodot.sh
+          # Remove .dot files, we do not need them.
           find gen/diagrams -type f -name "*.dot" -exec rm -f {} +
           tree gen/diagrams
 
