@@ -45,6 +45,7 @@ jobs:
     steps:
       # Generate diagrams
       - name: Generate Diagrams
+        uses: actions/checkout@v4
         run: |
           wget https://github.com/seamia/protodot/raw/master/binaries/protodot-linux-amd64
           chmod +x protodot-linux-amd64
