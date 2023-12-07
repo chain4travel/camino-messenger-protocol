@@ -79,8 +79,8 @@ for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
     ${PROTODOT} -generated ${protofile_dir} -src ${protofile} -output $(basename ${protofile})
 
     # Create a scaled version of the diagram
-    svg_filename="${protofile}.dot.svg"
-    xs_filename="${protofile}.dot.xs.svg"
+    svg_filename="${GENERATED_DIR}/${PROTODOT_DIR}/${protofile}.dot.svg"
+    xs_filename="${GENERATED_DIR}/${PROTODOT_DIR}/${protofile}.dot.xs.svg"
     rsvg-convert "${svg_filename}" -w 850 -f svg -o "${xs_filename}"
 done
 
