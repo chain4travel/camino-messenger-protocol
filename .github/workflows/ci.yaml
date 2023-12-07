@@ -43,9 +43,9 @@ jobs:
     needs: buf-lint
     if: github.ref == 'refs/heads/draft'
     steps:
+      - uses: actions/checkout@v4
       # Generate diagrams
       - name: Generate Diagrams
-        uses: actions/checkout@v4
         run: |
           wget https://github.com/seamia/protodot/raw/master/binaries/protodot-linux-amd64
           chmod +x protodot-linux-amd64
