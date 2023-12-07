@@ -43,7 +43,11 @@ jobs:
     needs: buf-lint
     if: github.ref == 'refs/heads/draft'
     steps:
+      # Setup environment
       - uses: actions/checkout@v4
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
       # Generate diagrams
       - name: Generate Diagrams
         run: |
