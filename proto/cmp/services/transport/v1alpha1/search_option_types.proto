@@ -12,6 +12,8 @@ import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 
 // Transport search result
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.svg)
 message TransportSearchOption {
   // Unique option ID for this search
   int32 option_id = 1;

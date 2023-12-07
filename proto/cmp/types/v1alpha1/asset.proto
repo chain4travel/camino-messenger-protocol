@@ -3,6 +3,8 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 // An on-chain asset on the Camino Network
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/asset.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/asset.proto.dot.svg)
 message Asset {
   string asset_id = 1;
   string name = 2;

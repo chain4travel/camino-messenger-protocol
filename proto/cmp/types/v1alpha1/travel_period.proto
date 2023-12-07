@@ -5,6 +5,8 @@ package cmp.types.v1alpha1;
 import "cmp/types/v1alpha1/date.proto";
 
 // Travel Period
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/travel_period.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/travel_period.proto.dot.svg)
 message TravelPeriod {
   cmp.types.v1alpha1.Date start_date = 1;
   cmp.types.v1alpha1.Date end_date = 2;

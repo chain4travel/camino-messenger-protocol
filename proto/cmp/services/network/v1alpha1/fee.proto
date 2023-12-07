@@ -4,6 +4,8 @@ package cmp.services.network.v1alpha1;
 
 import "cmp/types/v1alpha1/asset.proto";
 
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha1/fee.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha1/fee.proto.dot.svg)
 message NetworkFee {
   // Network fee, unit is nCAM
   // 1 CAM == 1 000 000 000 nCAM

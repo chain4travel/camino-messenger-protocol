@@ -11,6 +11,8 @@ import "cmp/types/v1alpha1/rate.proto";
 //
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_option_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_option_types.proto.dot.svg)
 message AccommodationSearchOption {
   // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.

@@ -9,6 +9,8 @@ import "cmp/types/v1alpha1/price.proto";
 // ### Property Info message type
 //
 // Represents basic property info
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/property_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/property_types.proto.dot.svg)
 message PropertyInfo {
   // Name of the property
   string property_name = 1;

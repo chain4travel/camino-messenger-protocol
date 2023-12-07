@@ -17,6 +17,8 @@ import "cmp/types/v1alpha1/search.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 
 // ### Transport Search Request
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.svg)
 message TransportSearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;

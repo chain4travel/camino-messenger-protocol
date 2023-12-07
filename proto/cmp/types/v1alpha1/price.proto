@@ -11,6 +11,8 @@ import "cmp/types/v1alpha1/currency.proto";
 //
 // Breakdown is a recursively inhereted object of PriceDetail. This way complex
 // pricing structures can be represented.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/price.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
   Price price = 1;

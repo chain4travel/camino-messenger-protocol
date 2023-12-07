@@ -3,6 +3,8 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 // Address and public key for a wallet
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/wallet.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/wallet.proto.dot.svg)
 message WalletAddress {
   // Wallet address
   // Example:

@@ -9,6 +9,8 @@ import "google/protobuf/timestamp.proto";
 // The ping message is designed to test the availability of a provider service
 // and to test the network latency as in the gRPC metadata information the
 // DateTime is stored of each hop.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.svg)
 message PingRequest {
   // Message Header
   // Contains api version, message info string and end user wallet address

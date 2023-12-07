@@ -4,6 +4,8 @@ package cmp.types.v1alpha1;
 
 // Sorting type and order: this is being used in requests to specify the sorting
 // required in the response.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/sorting.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/sorting.proto.dot.svg)
 message Sorting {
   SortingType sorting_type = 1;
   SortingOrder sorting_order = 2;

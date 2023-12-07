@@ -18,6 +18,8 @@ import "cmp/types/v1alpha1/traveller.proto";
 // multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
 // A unit can also be a different property in a multi-property request for holiday homes.
 // Ex: 1 house for 4 persons and another house for 6 persons.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/unit_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/unit_types.proto.dot.svg)
 message Unit {
   // Unit Type
   // Ex: `UnitType.UNIT_TYPE_ROOM`

@@ -7,6 +7,8 @@ package cmp.types.v1alpha1;
 // Language options according to ISO 639-1, with the 26 most popular languages first.
 // This is done to use the smaller values more frequently and thus consume less bytes
 // for this field.
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/language.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/language.proto.dot.svg)
 enum Language {
   LANGUAGE_UNSPECIFIED = 0;
   LANGUAGE_AR = 1; // Arabic

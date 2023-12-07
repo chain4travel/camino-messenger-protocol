@@ -3,6 +3,8 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 // Rate Rule
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/rate.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/rate.proto.dot.svg)
 message RateRule {
   RateRuleType rate_type = 1;
   string rate_description = 2;
