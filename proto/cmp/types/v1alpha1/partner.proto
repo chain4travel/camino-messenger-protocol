@@ -42,8 +42,8 @@ message Partner {
   // Off chain payment support
   bool off_chain_payment_supported = 7;
 
-  // Products
-  repeated PartnerProduct products = 8;
+  // Supported services
+  repeated PartnerService services = 8;
 
   // Partner addresses of the messenger bots
   repeated cmp.types.v1alpha1.WalletAddress addresses = 9;
@@ -53,16 +53,24 @@ message Partner {
   cmp.types.v1alpha1.WalletAddress partner_wallet_address = 10;
 }
 
-// Partner Product
+// Partner Service
 //
-// Message representing a product sold by a partner.
-message PartnerProduct {
-  // Service name of the product.
+// Message representing a service sold by a partner.
+message PartnerService {
+  // Name of the service.
+  //
+  // FIXME: Should we include package name also here? If not, how should the bot
+  // suppossed to find the message? If yes, package name also includes the version
+  // which means partner will need to update supported services with every new
+  // version.
+  //
   // Ex: "cmp.services.accommodation.v1alpha1.AccommodationSearchService"
   // Ex ChatGPT:
   string service_name = 1;
 
-  // Service response of the product.
+  // Response of the service.
+  // FIXME: Do we need this? One can check the service definition and see the response
+  // message type.
   // Ex: "cmp.services.accommodation.v1alpha1.AccommodationSearchResponse"
   string response_name = 2;
 
@@ -75,7 +83,7 @@ message PartnerProduct {
   // Result Type. Ex: ResultType.RESULT_TYPE_DISCRETE
   ResultType result_type = 4;
 
-  // Default bundled price for the product
+  // Default bundled price for the service
   BundledPrice bundled_price = 5;
 
   // Exclusive bundled prices for specific addresses.
@@ -89,7 +97,7 @@ message PartnerProduct {
 //
 // This message encapsulates `BundledPrice` message to be used for a custom
 // price per buyer. If it's required, this message can be encrypted before
-// adding it to the `PartnerProduct` message type.
+// adding it to the `PartnerService` message type.
 message CustomBundledPrice {
   // Address of the wallet that the bundled price below is valid for.
   string address = 1;
@@ -99,10 +107,10 @@ message CustomBundledPrice {
 
 // Bundled Price
 //
-// Message representing a bundled price of a product.
+// Message representing a bundled price of a service.
 message BundledPrice {
   // Bundle size.
-  // Example for ChatGPT: 1
+  // Example for a chat bot: 1
   // Example for SearchOptions: 100
   int32 results_per_bundle = 1;
 
