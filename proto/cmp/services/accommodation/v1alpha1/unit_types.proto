@@ -81,12 +81,14 @@ message Unit {
 
   // Various provider and product specific filters can be provided here in
   // agreed name/value pairs
-  // FIXME: Should this be in SearchParameters instead of Unit or in both? Do we
-  // need per Unit filters? (We have this also in `SearchParameters` now)
+  // FIXME: Should this be in SearchParameters valid for the request and all units
+  // instead of Unit or in both? Do we need per Unit filters? 
+  // We have this also in `SearchParameters` now.
   repeated cmp.types.v1alpha1.Filter filters = 19;
 
   // Cancel Policies
-  // FIXME: Should this be a list? Initial json definition had a single element.
+  // This is a list so that various policies can be expressed
+  // Ex. 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before arrival z€
   repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 20;
 
   // Free-text field to provide more detials for better offer personalization.

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-// ## This is the package level description for Accommodation
+// ## Accommodation
 //
 // The Accommodation Message Type is used for both hotels and holiday homes, often called short term rentals.
 //
@@ -32,10 +32,10 @@ message AccommodationSearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
-  // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  // An identifier for external sessions, aiding in tracking and continuity across messages.
   string external_session_id = 2;
 
-  //FIXME: Should we also need to have `freetext` field here?
+  //FIXME: Should we also need to have `freetext` field here? Yes, we need the freetext and audio fields here
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
