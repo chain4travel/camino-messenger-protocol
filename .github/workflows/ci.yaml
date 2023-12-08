@@ -30,7 +30,17 @@ jobs:
     environment: draft
     steps:
       - uses: actions/checkout@v4
-      - uses: bufbuild/buf-setup-action@v1
+      - name: Install Buf
+        run: |
+          # Install Buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version}}
+          fi
+
       - uses: bufbuild/buf-push-action@v1
         with:
           input: "proto"
