@@ -70,11 +70,11 @@ message Unit {
   // Ex: "Double Standard Room"
   string unit_description = 15;
 
-  // Mealplan code.
-  cmp.types.v1alpha1.MealPlan meal_plan_code = 16;
+  // Mealplan codes
+  repeated cmp.types.v1alpha1.MealPlan meal_plan_codes = 16;
 
-  // Rate plan
-  cmp.types.v1alpha1.RatePlan rate_plan = 17;
+  // Rate plans
+  repeated cmp.types.v1alpha1.RatePlan rate_plan = 17;
 
   // Rate Rules
   repeated cmp.types.v1alpha1.RateRule rate_rules = 18;
@@ -82,7 +82,7 @@ message Unit {
   // Various provider and product specific filters can be provided here in
   // agreed name/value pairs
   // FIXME: Should this be in SearchParameters valid for the request and all units
-  // instead of Unit or in both? Do we need per Unit filters? 
+  // instead of Unit or in both? Do we need per Unit filters?
   // We have this also in `SearchParameters` now.
   repeated cmp.types.v1alpha1.Filter filters = 19;
 
