@@ -17,9 +17,20 @@ jobs:
   buf-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: bufbuild/buf-setup-action@v1
-      - uses: bufbuild/buf-lint-action@v1
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Install buf
+        run: |
+          # Installing buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version}}
+          fi
+      - name: Buf lint
+        uses: bufbuild/buf-lint-action@v1
         with:
           input: "proto"
   # Push the draft branch to buf.build
@@ -29,7 +40,8 @@ jobs:
     if: github.ref == 'refs/heads/draft'
     environment: draft
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout the repo
+        uses: actions/checkout@v4
       - name: Install Buf
         run: |
           # Install Buf
@@ -40,8 +52,8 @@ jobs:
             # Install the defined version
             sudo ./scripts/buf-installer.sh --version=${{ env.buf_version}}
           fi
-
-      - uses: bufbuild/buf-push-action@v1
+      - name: Push to buf.build
+        uses: bufbuild/buf-push-action@v1
         with:
           input: "proto"
           draft: true
@@ -54,7 +66,8 @@ jobs:
     if: github.ref == 'refs/heads/draft'
     steps:
       # Setup environment
-      - uses: actions/checkout@v4
+      - name: Checkout the repo
+        uses: actions/checkout@v4
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v1
       - name: Install librsvg2-bin
@@ -63,17 +76,23 @@ jobs:
       # Generate diagrams
       - name: Generate Diagrams
         run: |
+          # Install protodot
           wget https://github.com/seamia/protodot/raw/master/binaries/protodot-linux-amd64
           chmod +x protodot-linux-amd64
           mkdir -v -p gen/bin
           mv protodot-linux-amd64 gen/bin/protodot
           export PATH=${PWD}/gen/bin:${PATH}
+
+          # Run generator script
           bash scripts/generate_protodot.sh
+
           # Remove .dot files, we do not need them.
           find gen/diagrams -type f -name "*.dot" -exec rm -f {} +
+
+          # Show generated files
           tree gen/diagrams
 
-      # Deploy diagrams
+      # Upload diagrams
       - name: Cloud Authentication
         id: auth
         uses: "google-github-actions/auth@v1"
@@ -85,4 +104,5 @@ jobs:
 
       - name: Upload Diagrams
         run: |
-          gsutil -m rsync -R -d gen/diagrams gs://docs-cmp-files/diagrams
+          # '-J' options is to set Content-Encoding to gzip
+          gsutil -m rsync -J -R -d gen/diagrams gs://docs-cmp-files/diagrams
