@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1alpha1;
+
+import "cmp/services/accommodation/v1alpha1/property_types.proto";
+import "cmp/types/v1alpha1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+message AccommodationProductListRequest {
+  // Message header
+  cmp.types.v1alpha1.Header header = 1;
+
+  // Only respond with the products that are modified after this timestamp
+  google.protobuf.Timestamp modified_after = 2;
+}
+
+message AccommodationProductListResponse {
+  // Message header
+  cmp.types.v1alpha1.Header header = 1;
+
+  // Product list: Properties
+  repeated Property properties = 2;
+}
+
+// ### Accommodation Product List Service
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/list.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/list.proto.dot.svg)
+service AccommodationProductListService {
+  // Returns product list for accommodation (properties)
+  rpc AccommodationProductList(AccommodationProductListRequest) returns (AccommodationProductListResponse);
+}

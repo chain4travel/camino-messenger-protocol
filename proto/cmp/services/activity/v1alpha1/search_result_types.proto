@@ -45,6 +45,9 @@ message ActivitySearchResult {
   string pricing_type = 9;
 }
 
+// ### Activity Info
+//
+// FIXME: We need optimizations in this type
 message ActivityInfo {
   // Ex: "TC000000"
   string product_code = 1;

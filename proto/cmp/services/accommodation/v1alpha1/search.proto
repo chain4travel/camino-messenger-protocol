@@ -26,8 +26,6 @@ import "cmp/types/v1alpha1/search.proto";
 //
 // Developers leveraging this message type should ensure proper validation and handling, especially considering fields
 // that are still under review, like `speech_request`.
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.svg)
 message AccommodationSearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
@@ -61,7 +59,8 @@ message AccommodationSearchResponse {
 
 // ### Accommodation Search Service definition
 //
-// [Click for the AccommodationSearch Diagram](https://playground.docs.camino.network/assets/files/accommodation_search.proto.dot-175583e9938ec6523a48686688156d80.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.svg)
 service AccommodationSearchService {
   // Accommodation Search method
   rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);

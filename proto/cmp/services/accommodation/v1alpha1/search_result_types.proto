@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v1alpha1;
 
-import "cmp/services/accommodation/v1alpha1/property_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/rate.proto";
 
 // ### Search result type for Accommodation Search Service
@@ -19,11 +19,11 @@ message AccommodationSearchResult {
   // increasing by 1 for every search result.
   int32 result_id = 1;
 
-  // Property information
-  PropertyInfo property_info = 2;
+  // Units for this search result
+  repeated Unit units = 2;
 
-  // Units for this search result.
-  repeated Unit units = 3;
+  // ## Total price in detail, with breakdowns
+  cmp.types.v1alpha1.PriceDetail total_price_detail = 3;
 
   // The RateRule specifies whether a search result is non-refundable or not
   repeated cmp.types.v1alpha1.RateRule rate_rules = 4;

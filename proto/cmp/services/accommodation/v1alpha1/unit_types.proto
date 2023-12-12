@@ -66,9 +66,12 @@ message Unit {
   // Remaining units
   int32 remaining_units = 15;
 
+  // Propert code
+  string property_code = 16;
+
   // Remarks
   // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 16;
+  string remarks = 17;
 }
 
 message Bed {
