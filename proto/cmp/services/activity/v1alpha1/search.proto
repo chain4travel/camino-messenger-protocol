@@ -26,8 +26,8 @@ message ActivitySearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
-  // An identifier for external sessions, aiding in tracking and continuity across sessions.
-  string external_session_id = 2;
+  // Search request metadata
+  cmp.types.v1alpha1.SearchRequestMetadata metadata = 2;
 
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
