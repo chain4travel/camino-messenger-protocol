@@ -7,9 +7,6 @@ import "cmp/types/v1alpha1/partner.proto";
 // ### Partner Configuration message type
 //
 // This message type represents the partner configuration on T-Chain (not implemented yet)
-//
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha1/partner_configuration.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha1/partner_configuration.proto.dot.svg)
 message PartnerConfiguration {
   // List of partners from the on-chain Partner Configuration
   repeated cmp.types.v1alpha1.Partner partners = 1;
@@ -33,8 +30,12 @@ message GetPartnerConfigurationResponse {
   int32 current_block_height = 2;
 }
 
+// ### Get Partner Configuration Service
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha1/partner_configuration.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha1/partner_configuration.proto.dot.svg)
 service GetPartnerConfigurationService {
-  // Get Partner Configuration Service
+  // #### GetPartnerConfiguration
   //
   // Takes `GetPartnerConfigurationRequest` which contains optional block height
   // and partner wallet addresses and returns `GetPartnerConfigurationResponse`

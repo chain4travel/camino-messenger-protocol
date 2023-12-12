@@ -20,8 +20,6 @@ import "cmp/types/v1alpha1/traveller.proto";
 // ### Activity Search Request
 //
 // Search request for Activities
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search.proto.dot.svg)
 message ActivitySearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
@@ -98,6 +96,9 @@ message ActivitySearchResponse {
 // ### Activity Search Service
 //
 // Takes `ActivitySearchRequest` message type and returns `ActivitySearchResponse` message type.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search.proto.dot.svg)
 service ActivitySearchService {
   rpc ActivitySearch(ActivitySearchRequest) returns (ActivitySearchResponse);
 }

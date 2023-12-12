@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-// ## This is the package level description for Transport Service
+// ## Transport Service
 //
 // The Transport Service is used for flights, trains, and buses.
 //
-// Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can be cached and kept up to data with the Product List and Product Details messages.
+// Any search message response in the Camino Messenger Protocol only includes dynamic
+// data. Static data can be cached and kept up to data with the Product List and
+// Product Details messages.
 //
 // This package is a WIP.
 package cmp.services.transport.v1alpha1;
@@ -17,8 +19,6 @@ import "cmp/types/v1alpha1/search.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 
 // ### Transport Search Request
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.svg)
 message TransportSearchRequest {
   // Message Header. Contains api version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
@@ -71,9 +71,12 @@ message TransportSearchResponse {
   repeated TransportSearchResult results = 4;
 }
 
-// ## Transport Search Service
+// ### Transport Search Service
 //
 // Takes `TransportSearchRequest` message type and returns `TransportSearchResponse` message type.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.svg)
 service TransportSearchService {
   rpc TransportSearch(TransportSearchRequest) returns (TransportSearchResponse);
 }

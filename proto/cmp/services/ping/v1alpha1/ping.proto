@@ -9,32 +9,32 @@ import "google/protobuf/timestamp.proto";
 // The ping message is designed to test the availability of a provider service
 // and to test the network latency as in the gRPC metadata information the
 // DateTime is stored of each hop.
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.svg)
 message PingRequest {
   // Message Header
-  // Contains api version, message info string and end user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
   // Ping message
   string ping_message = 2;
+
   // DateTime of the ping request
   google.protobuf.Timestamp timestamp = 3;
 }
 
 message PingResponse {
   // Message Header
-  // Contains api version, message info string, sender & receiver wallet
-  // addresses
   cmp.types.v1alpha1.Header header = 1;
 
   // Ping message
   string ping_message = 2;
+
   // DateTime of the ping response
   google.protobuf.Timestamp timestamp = 3;
 }
 
 // The Ping Service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1alpha1/ping.proto.dot.svg)
 service PingService {
   // Ping Method
   rpc Ping(PingRequest) returns (PingResponse);
