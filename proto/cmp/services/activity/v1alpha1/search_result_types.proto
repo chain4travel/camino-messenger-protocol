@@ -13,7 +13,7 @@ import "google/protobuf/timestamp.proto";
 // `ActivitySearchResponse` message.
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_option_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_option_types.proto.dot.svg)
-message ActivitySearchOption {
+message ActivitySearchResult {
   // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
   int32 option_id = 1;

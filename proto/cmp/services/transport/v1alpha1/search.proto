@@ -9,7 +9,7 @@ syntax = "proto3";
 // This package is a WIP.
 package cmp.services.transport.v1alpha1;
 
-import "cmp/services/transport/v1alpha1/search_option_types.proto";
+import "cmp/services/transport/v1alpha1/search_result_types.proto";
 import "cmp/services/transport/v1alpha1/source_types.proto";
 import "cmp/services/transport/v1alpha1/trip_types.proto";
 import "cmp/types/v1alpha1/common.proto";
@@ -47,14 +47,14 @@ message TransportSearchRequest {
 
   // Travelling trip
   // to avoid confusion of the direction of travel that occurs with terms like "inbound"
-  // and "outbound". The travelling trip is also used for "one way" in which case the 
+  // and "outbound". The travelling trip is also used for "one way" in which case the
   // returning trip is omitted. For tours or roadtrips, multiple requests with just a
   // travelling trip for sequential dates can be submitted to specific suppliers of
   // each part of tour or roadtrip.
   Trip travelling_trip = 9;
 
   // Returning trip
-  // In many cases our travel plans consist of going to a destination and return to 
+  // In many cases our travel plans consist of going to a destination and return to
   // the same place where we started
   Trip returning_trip = 10;
 
@@ -74,8 +74,8 @@ message TransportSearchResponse {
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated ContentSourceType conten_source_types = 3;
 
-  // Transit Search Options (Results)
-  repeated TransportSearchOption options = 4;
+  // Transit search results
+  repeated TransportSearchResult results = 4;
 }
 
 // ## Transport Search Service

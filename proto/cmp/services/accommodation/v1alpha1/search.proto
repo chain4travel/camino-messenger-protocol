@@ -10,7 +10,7 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v1alpha1;
 
-import "cmp/services/accommodation/v1alpha1/search_option_types.proto";
+import "cmp/services/accommodation/v1alpha1/search_result_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/search.proto";
@@ -57,8 +57,8 @@ message AccommodationSearchResponse {
   // Search response metadata
   cmp.types.v1alpha1.SearchResponseMetadata metadata = 2;
 
-  // Unique combinations of bookable options, like property,
-  repeated AccommodationSearchOption options = 3;
+  // Unique combinations of bookable search results, like property,
+  repeated AccommodationSearchResult results = 3;
 }
 
 // ### Accommodation Search Service definition
