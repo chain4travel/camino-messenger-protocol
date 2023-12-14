@@ -14,6 +14,8 @@ import "cmp/services/accommodation/v1alpha1/search_result_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/search.proto";
+import "cmp/types/v1alpha1/travel_period.proto";
+import "cmp/types/v1alpha1/traveller.proto";
 
 // ### Accommodation Search Request Message Type
 //
@@ -36,8 +38,14 @@ message AccommodationSearchRequest {
   // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
 
-  // Units (rooms or holiday homes)
-  repeated Unit units = 4;
+  // Travel period
+  cmp.types.v1alpha1.TravelPeriod travel_period = 4;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 5;
+
+  // Unit Types
+  repeated UnitType unit_types = 6;
 }
 
 // ### Accommodation Search Response

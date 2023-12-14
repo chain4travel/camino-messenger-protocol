@@ -80,6 +80,9 @@ message SearchParameters {
   repeated RatePlan rate_plan = 17;
 
   // Rate Rules
+  // FIXME: Did we decided to remove this from SearchParameters?
+  // FIXME: Maybe some users/distributors would want to search for only
+  // FIXME: RESELLABLE offers?
   repeated RateRule rate_rules = 18;
 }
 

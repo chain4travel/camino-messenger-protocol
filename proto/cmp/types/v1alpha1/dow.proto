@@ -19,18 +19,14 @@ package cmp.types.v1alpha1;
 //
 // See this table with DOW logic:
 //
-// | DOW      |  Sunday  |  Saturday  |  Friday  |  Thursday  | Wednesday |  Tuesday  |  Monday  |
+// | DOW      |  Sunday   |  Saturday  |  Friday  |  Thursday  | Wednesday |  Tuesday  |  Monday  |
 // |:--------:|:---------:|:----------:|:--------:|:----------:|:---------:|:---------:|:--------:|
-// | Binary   | 1000000   | 0100000    | 0010000  | 0001000    | 0000100   | 0000010   | 0000001 |
+// | Binary   | 1000000   | 0100000    | 0010000  | 0001000    | 0000100   | 0000010   | 0000001  |
 // | Exponent | 2^6       | 2^5        | 2^4      | 2^3        | 2^2       | 2^1       | 2^0      |
 // | Result   | 64        | 32         | 16       | 8          | 4         | 2         | 1        |
-//
-//
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/dow.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/dow.proto.dot.svg)
 message DayOfWeek {
   int32 dow = 1;
 }
-
-

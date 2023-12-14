@@ -28,9 +28,9 @@ message Unit {
   // Unit code. Room code of the unit in case of hotel. Ex: "RMSDDB0000"
   string unit_code = 2;
 
-  // Unit description. In case of enrichment additional description of the unit code.
+  // Unit name. In case of enrichment additional name of the unit code.
   // Ex: "Double Standard Room"
-  string unit_description = 3;
+  string unit_name = 3;
 
   // Travel period
   cmp.types.v1alpha1.TravelPeriod travel_period = 4;
@@ -55,7 +55,7 @@ message Unit {
   // Rate plan
   cmp.types.v1alpha1.RatePlan rate_plan = 12;
 
-  // Rate Rules
+  // Rate Rule
   cmp.types.v1alpha1.RateRule rate_rule = 13;
 
   // Cancel Policies
