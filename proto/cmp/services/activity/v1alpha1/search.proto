@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // ### Activity Services
 //
-// The Activity services are used for both hotels and holiday homes, often called short term rentals.
+// The Activity services are used for both tickets and excursions
 //
 // Any search message response in the Camino Messenger Protocol only includes dynamic data. Static data can
 // be cached and kept up to data with the Product List and Product Details messages.
@@ -38,12 +38,16 @@ message ActivitySearchRequest {
 
   // ### Source Location
   //
-  // For search, set only one of the field at once.
+  // For search, set only one of the fields at once.
+  // Source location indicates the customer’s position at the start of the service. Typical value would be 
+  // the stay hotel or the touristic destination. The source location is needed for service and transfer
+  // availability, pickup location and pickup time calculation. 
   //
   // This one of field enforces only one of the fields below. They all share memory,
   // setting one will remove the others.
   oneof source_location {
-    // FIXME: Do we need a list of location code here? Other fields are not lists.
+    // The code and code type of a stay location the provider will be able to process
+    // Ex. GiataID
     cmp.types.v1alpha1.LocationCodes source_location_codes = 6;
 
     // Single geographic point represented by two double fields.
@@ -62,23 +66,28 @@ message ActivitySearchRequest {
   // ### Service Location
   //
   // For search, set only one of the field at once.
+  // Service location specifies the areas involved in aticket or excursion service.
+  // Service location indicates the area of the requested services. Typical value would be the region or resort.
   //
   // This one of field enforces only one of the fields below. They all share memory,
   // setting one will remove the others.
   //
-  // FIXME: Why we don't have the `location_code` here?
-  oneof service_location {
+   oneof service_location {
+    // The code and code type of a stay location the distributor will be able to process
+    // Ex. Google Place ID, OpenStreetMap Ref, Here ID or any other agreed code type.
+    cmp.types.v1alpha1.LocationCodes service_location_codes = 11;
+
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha1.Coordinate service_location_coordinate = 11;
+    cmp.types.v1alpha1.Coordinate service_location_coordinate = 12;
 
     // Geo tree type, representted by Country, Region, and City_or_Resort.
-    cmp.types.v1alpha1.GeoTree service_location_geo_tree = 12;
+    cmp.types.v1alpha1.GeoTree service_location_geo_tree = 13;
 
     // Geo circle. Represented by a coordinate and a distance for radius
-    cmp.types.v1alpha1.GeoCircle service_location_geo_circle = 13;
+    cmp.types.v1alpha1.GeoCircle service_location_geo_circle = 14;
 
     // Geo polygon. Represented by a list of coordinate points.
-    cmp.types.v1alpha1.GeoPolygon service_location_geo_polygon = 14;
+    cmp.types.v1alpha1.GeoPolygon service_location_geo_polygon = 15;
   }
 }
 
