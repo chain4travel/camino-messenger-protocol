@@ -101,17 +101,18 @@ message ActivityLocation {
 // ### PickupDropoffEvent
 message PickupDropoffEvent {
   // Ex: "AESPMI43NU",
-  string location_name = 1;
-
-  // FIXME: Description ???
+  string location_code = 1;
+  // Ex: "Sunny Beach Hotel",
+  string location_name = 2;
+  
   // Ex: "true",
-  bool pickup_ind = 2;
+  bool pickup_ind = 3;
 
   // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
-  string other_info = 3;
+  string other_info = 4;
 
   // Ex: "2023-07-15T09:05:00"
-  google.protobuf.Timestamp date_time = 4;
+  google.protobuf.Timestamp date_time = 5;
 }
 
 enum PricingType {

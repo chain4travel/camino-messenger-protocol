@@ -74,7 +74,7 @@ message ActivitySearchRequest {
   //
    oneof service_location {
     // The code and code type of a stay location the distributor will be able to process
-    // Ex. Google Place ID, OpenStreetMap Ref, Here ID or any other agreed code type.
+    // Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or any other agreed code type.
     cmp.types.v1alpha1.LocationCodes service_location_codes = 11;
 
     // Single geographic point represented by two double fields.
