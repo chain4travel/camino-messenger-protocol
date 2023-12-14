@@ -28,7 +28,7 @@ message ActivitySearchResult {
   ActivityLocation location = 4;
 
   // Pickup Dropoff
-  repeated PickupDropffEvent pickup_dropoff_events = 5;
+  repeated PickupDropoffEvent pickup_dropoff_events = 5;
 
   // Min participants
   int32 min_participants = 6;
@@ -40,9 +40,8 @@ message ActivitySearchResult {
   cmp.types.v1alpha1.Price price = 8;
 
   // Pricing type
-  // Ex: "PerPerson"
-  // FIXME: Enum??
-  string pricing_type = 9;
+  // Ex: "PerPerson", "PerGroup"
+   PricingType pricing_type = 9;
 }
 
 // ### Activity Info
@@ -102,7 +101,7 @@ message ActivityLocation {
 }
 
 // ### PickupDropoffEvent
-message PickupDropffEvent {
+message PickupDropoffEvent {
   // Ex: "AESPMI43NU",
   string location_name = 1;
 
@@ -115,4 +114,10 @@ message PickupDropffEvent {
 
   // Ex: "2023-07-15T09:05:00"
   google.protobuf.Timestamp date_time = 4;
+}
+
+enum PricingType {
+  PRICING_TYPE_UNSPECIFIED = 0;
+  PRICING_TYPE_PERPERSON = 1;
+  PRICING_TYPE_PERGROUP = 2;
 }
