@@ -8,9 +8,18 @@ import "cmp/types/v1alpha1/date.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/travel_period.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/travel_period.proto.dot.svg)
 message TravelPeriod {
+  // Start date of a trip for messages where no Date/Time is required (datetime_range.proto) when the travelling starts.
   cmp.types.v1alpha1.Date start_date = 1;
+  // End date of a trip for messages where no Date/Time is required (datetime_range.proto) when the travelling ends. 
+  // The end date is different when the trip is a one-way from point A to B compared to when the trip is a fortnight
+  // holiday and the customers return home on the end date.
   cmp.types.v1alpha1.Date end_date = 2;
-  bool flexible = 3; // FIXME: Boolean?
+  // Start and end date can be set wider than the desired length of a trip, so that various alternatives can be considered
+  // Ex start date = 1 April, End date is 30 June, stay would be for 7 nights
+  // Setting the boolean to true means that the period between start and end date should be more than the "Length of Stay"
+  bool flexible = 3;
+  // Ex start date = 1 April, End date is 30 June, stay would be for 7 to 7 nights
+  // Ex start date = 1 April, End date is 30 June, stay would be for 7 to 10 nights
   int32 los_from_nights = 4;
   int32 los_to_nights = 5;
 }
