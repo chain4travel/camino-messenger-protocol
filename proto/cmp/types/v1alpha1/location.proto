@@ -8,6 +8,7 @@ import "cmp/types/v1alpha1/distance.proto";
 // ### Coordinate
 //
 // Represents a geographic location
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/location.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/location.proto.dot.svg)
 message Coordinate {
@@ -64,8 +65,8 @@ enum LocationCodeType {
   // ICAO airport code
   LOCATION_CODE_TYPE_ICAO_CODE = 3;
 
-  // A 3-character code used for train stations. Previously referred to as
-  // CRS (Computer Reservation System) or NRS (National Reservation System) codes.
+  // A 3-character code used for train stations. Previously referred to as CRS
+  // (Computer Reservation System) or NRS (National Reservation System) codes.
   LOCATION_CODE_TYPE_3ALPHA_CODE = 4;
 
   // A 6-digit code for train stations generally used for retail purposes
@@ -74,9 +75,9 @@ enum LocationCodeType {
   // Codes relating to points used in deriving train schedules
   LOCATION_CODE_TYPE_TIPLOC_CODE = 6;
 
-  // These codes can refer to locations such as sidings and junctions.
-  // STANOX codes are grouped by geographical area - the first two digits specify
-  // the area in which the location exists.
+  // These codes can refer to locations such as sidings and junctions. STANOX codes
+  // are grouped by geographical area - the first two digits specify the area in
+  // which the location exists.
   LOCATION_CODE_TYPE_STANOX_CODE = 7;
 
   // Used by multi-modal journey planners and timetables
@@ -93,5 +94,4 @@ enum LocationCodeType {
 
   // Used in combination with the HERE Places API
   LOCATION_CODE_TYPE_HERE_ID = 12;
-
 }

@@ -3,14 +3,17 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 // Meal Plan message type
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/mealplan.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/mealplan.proto.dot.svg)
 message MealPlan {
   // Meal Plan Code
+  //
   // Ex: `MealPlan.MEAL_PLAN_AI` for "All Inclusive" meal plan.
   MealPlanCode meal_plan_code = 1;
 
   // Mealplan description. In case of enrichment additional description of the unit code.
+  //
   // Ex: "All Inclusive"
   string meal_plan_description = 2;
 }

@@ -6,29 +6,37 @@ import "cmp/types/v1alpha1/currency.proto";
 
 // ### PriceDetail
 //
-// This message consists of net value as a Price object and additional fields
-// as gross, binding, concept, and breakdown.
+// This message consists of net value as a Price object and additional fields as
+// gross, binding, concept, and breakdown.
 //
 // Breakdown is a recursively inhereted object of PriceDetail. This way complex
 // pricing structures can be represented.
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/price.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
   Price price = 1;
+
   // gross price in case taxes or commissions are specified
   float gross = 2;
+
   // Identification whether the gross price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
   bool binding = 3;
+
   // Description of the product or service this price(element) is valid for.
   string description = 4;
+
   // Type of price
   string type = 5;
+
   // Type code of the price
   string type_code = 6;
+
   // Description
   int32 units = 7;
+
   // We can use a single PriceDetail to represent a price breakdown.
   repeated PriceDetail breakdown = 8;
 }

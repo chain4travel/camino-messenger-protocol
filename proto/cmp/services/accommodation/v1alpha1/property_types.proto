@@ -49,7 +49,7 @@ message Property {
   string website = 11;
 
   // Status of the property
-  // FIXME: Chaned "deactivated" to "status". But we should still make this an enum. ??
+  // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
   string status = 12;
 
   // GIATA ID

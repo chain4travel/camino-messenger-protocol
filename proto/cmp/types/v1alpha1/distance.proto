@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// ### Distance unit and value pair
+// Distance unit and value pair
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/distance.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/distance.proto.dot.svg)
 message Distance {

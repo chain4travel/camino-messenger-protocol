@@ -4,9 +4,9 @@ syntax = "proto3";
 //
 // The Transport Service is used for flights, trains, and buses.
 //
-// Any search message response in the Camino Messenger Protocol only includes dynamic
-// data. Static data can be cached and kept up to data with the Product List and
-// Product Details messages.
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data. Static data can be cached and kept up to data with the Product List
+// and Product Details messages.
 //
 // This package is a WIP.
 package cmp.services.transport.v1alpha1;
@@ -21,22 +21,29 @@ import "cmp/types/v1alpha1/traveller.proto";
 
 // ### Transport Search Request
 message TransportSearchRequest {
-  // Message header. Contains API version, message info string and end-user wallet address
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
   cmp.types.v1alpha1.Header header = 1;
 
   // Search request metadata
   cmp.types.v1alpha1.SearchRequestMetadata metadata = 2;
 
   // Generic search parameters
-  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all options.
+  //
+  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all
+  // options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
 
   // Transport specific search parameters
+  //
   // Ex: ??
   TransportSearchParameters search_parameters_transport = 4;
 
-  // Content source types for this search request to specify which sources to include
-  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // Content source types for this search request to specify which sources to
+  // include.
+  //
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
+  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated ContentSourceType conten_source_types = 5;
 
@@ -44,14 +51,16 @@ message TransportSearchRequest {
   repeated cmp.types.v1alpha1.Traveller travellers = 6;
 
   // Travelling trip
-  // to avoid confusion of the direction of travel that occurs with terms like "inbound"
-  // and "outbound". The travelling trip is also used for "one way" in which case the
-  // returning trip is omitted. For tours or roadtrips, multiple requests with just a
-  // travelling trip for sequential dates can be submitted to specific suppliers of
-  // each part of tour or roadtrip.
+  //
+  // To avoid confusion of the direction of travel that occurs with terms like
+  // "inbound" and "outbound". The travelling trip is also used for "one way" in
+  // which case the returning trip is omitted. For tours or roadtrips, multiple
+  // requests with just a travelling trip for sequential dates can be submitted to
+  // specific suppliers of each part of tour or roadtrip.
   Trip travelling_trip = 7;
 
   // Returning trip
+  //
   // In many cases our travel plans consist of going to a destination and return to
   // the same place where we started
   Trip returning_trip = 8;
@@ -61,14 +70,17 @@ message TransportSearchRequest {
 }
 
 message TransportSearchResponse {
-  // Message header. Contains API version, message info string and end-user wallet address
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
   cmp.types.v1alpha1.Header header = 1;
 
   // Search response metadata
   cmp.types.v1alpha1.SearchResponseMetadata metadata = 2;
 
-  // Conten source types for this search request
-  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS, ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // Conten source types for this search request.
+  //
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
+  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated ContentSourceType conten_source_types = 3;
 
@@ -78,7 +90,8 @@ message TransportSearchResponse {
 
 // ### Transport Search Service
 //
-// Takes `TransportSearchRequest` message type and returns `TransportSearchResponse` message type.
+// Takes `TransportSearchRequest` message type and returns `TransportSearchResponse`
+// message type.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search.proto.dot.svg)

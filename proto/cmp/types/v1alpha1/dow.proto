@@ -2,20 +2,22 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// DOW
+// ### Day of Week
 //
-// DOW means DayOfWeek and is used to determine specific arrival days of the week a customer would like to go on holidays
-// for example only travelling on a Saturday or Sunday.
-// It is also used to express that a show, tour or excursion is only taking place on Sundays. Or that a forthnight
-// Flotilla Sailing starts on Saturday.
+// DOW means DayOfWeek and is used to determine specific arrival days of the week a
+// customer would like to go on holidays for example only travelling on a Saturday
+// or Sunday. It is also used to express that a show, tour or excursion is only
+// taking place on Sundays. Or that a forthnight Flotilla Sailing starts on
+// Saturday.
 //
-// we are using a bitmask like this:
+// We are using a bitmask like this:
 //
-// dow = 112
-// the intention is to express Friday, Saturday and Sunday, which is binary 1110000, which computes to DOW=112,
-// like just fri+sat is 110000 which computes to DOW=48 or Monday and Tuesday which computes to DOW=3
-// This is easy to calculate with basic integer mathematics, like for Sunday + Wednesday you sum 64 + 4 = 68,
-// so you set the field to 68.
+// With `dow=112` the intention is to express Friday, Saturday and Sunday, which is
+// binary 1110000, which computes to `dow=112`, like just fri+sat is `110000` which
+// computes to `dow=48` or Monday and Tuesday which computes to `dow=3`.
+//
+// This is easy to calculate with basic integer mathematics, like for Sunday +
+// Wednesday you sum 64 + 4 = 68, so you set the field to 68.
 //
 // See this table with DOW logic:
 //

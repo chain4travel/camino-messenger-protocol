@@ -6,6 +6,7 @@ import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/date.proto";
 
 // Traveller
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/traveller.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/traveller.proto.dot.svg)
 message Traveller {
@@ -20,7 +21,9 @@ message Traveller {
   // Birthdate
   cmp.types.v1alpha1.Date birthdate = 3;
 
-  // The country code for the nationality of the traveller. FIXME: Or should we have instead of "UK" "English"?
+  // The country code for the nationality of the traveller.
+  //
+  // FIXME: Or should we have instead of "UK" "English"?
   cmp.types.v1alpha1.Country nationality = 4;
 
   //Gender from the enum below

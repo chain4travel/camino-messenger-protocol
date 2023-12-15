@@ -6,9 +6,9 @@ package cmp.services.ping.v1alpha1;
 import "cmp/types/v1alpha1/common.proto";
 import "google/protobuf/timestamp.proto";
 
-// The ping message is designed to test the availability of a provider service
-// and to test the network latency as in the gRPC metadata information the
-// DateTime is stored of each hop.
+// The ping message is designed to test the availability of a provider service and
+// to test the network latency as in the gRPC metadata information the DateTime is
+// stored of each hop.
 message PingRequest {
   // Message Header
   cmp.types.v1alpha1.Header header = 1;

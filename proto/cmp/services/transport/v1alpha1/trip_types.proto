@@ -9,6 +9,7 @@ import "cmp/types/v1alpha1/time.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
+//
 // This message type represents a one way trip, either travelling or returning.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.xs.svg)
@@ -26,11 +27,12 @@ message Trip {
   // Arrival event
   TransitEvent arrival = 4;
 
-  // Trip Segments
+  // Trip segments
   repeated TripSegment trip_segments = 5;
 }
 
 // ### Trip Segment messag type
+//
 // A segment of a trip
 message TripSegment {
   // Segment ID
@@ -45,14 +47,18 @@ message TripSegment {
   // Ex: "BC"
   string retailer_code = 3;
 
-  // Sub Provider Code, replacing Operating carrier or identifying sub contracted services
-  // provided by other suppliers
+  // Sub Provider Code, replacing Operating carrier or identifying sub contracted
+  // services provided by other suppliers.
+  //
   // Ex: "BC"
   string sub_provider_code = 4;
 
   // Service Number
+  //
   // Ex: "1234"
-  // FIXME: Should this be an integer? For flights yes, but for trains and transfers?
+  //
+  // FIXME: Should this be an integer? For flights yes, but for trains and
+  // transfers?
   string service_number = 5;
 
   // Departure
@@ -62,6 +68,7 @@ message TripSegment {
   TransitEvent arrival = 7;
 
   // Service description
+  //
   // Ex: "Economy"
   string service_description = 8;
 
@@ -70,31 +77,38 @@ message TripSegment {
   string service_code = 9;
 
   // Trip Time
+  //
   // Ex: Time(hours=2, minutes=45)
   cmp.types.v1alpha1.Time trip_time = 10;
 
   // Trip Distance
+  //
   // Ex: `Distance(value=15, unit=DistanceType.DISTANCE_UNIT_KILOMETERS)`
   cmp.types.v1alpha1.Distance trip_distance = 11;
 
   // Min PAX
+  //
   // Ex: `1`
   int32 min_pax = 12;
 
   // Max PAX
+  //
   // Ex: `3`
   int32 max_max = 13;
 
   // Luggage
+  //
   // Ex: `3`
   int32 luggage = 14;
 
   // Price
+  //
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
   cmp.types.v1alpha1.Price price = 15;
 }
 
 // ### Transit Event message type
+//
 // Represents a departure or arrival event
 message TransitEvent {
   // Date tim of the event

@@ -13,8 +13,8 @@ import "cmp/types/v1alpha1/rate.proto";
 message AccommodationSearchParameters {
   // Geo Location for search, set only one of the fields at once.
   //
-  // This "one of" field enforces only one of the fields below. They all share memory,
-  // setting one will remove the others.
+  // This "one of" field enforces only one of the fields below. They all share
+  // memory, setting one will remove the others.
   oneof geo_location {
     // FIXME: Do we need a list of location code here? Other fields are not lists.
     cmp.types.v1alpha1.LocationCodes location_codes = 1;

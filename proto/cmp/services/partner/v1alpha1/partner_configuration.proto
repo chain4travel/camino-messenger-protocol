@@ -6,18 +6,19 @@ import "cmp/types/v1alpha1/partner.proto";
 
 // ### Partner Configuration message type
 //
-// This message type represents the partner configuration on T-Chain (not implemented yet)
+// This message type represents the partner configuration on T-Chain (not
+// implemented yet)
 message PartnerConfiguration {
   // List of partners from the on-chain Partner Configuration
   repeated cmp.types.v1alpha1.Partner partners = 1;
 }
 
 message GetPartnerConfigurationRequest {
-  // Only respond with updated partners after this block height
+  // Only respond with updated partners after this block height.
   int32 block_height = 2;
 
-  // Partner wallet addresses
-  // Response is returned with only partners that have these addresses
+  // Partner wallet addresses. Response is returned with only partners that have
+  // these addresses.
   repeated string partner_addresses = 3;
 }
 
@@ -25,8 +26,7 @@ message GetPartnerConfigurationResponse {
   // Partner configuration
   PartnerConfiguration partner_configuration = 1;
 
-  // Current block height
-  // Distributors can keep this info for later reference
+  // Current block height. Distributors can keep this info for later reference.
   int32 current_block_height = 2;
 }
 
@@ -37,10 +37,10 @@ message GetPartnerConfigurationResponse {
 service GetPartnerConfigurationService {
   // #### GetPartnerConfiguration
   //
-  // Takes `GetPartnerConfigurationRequest` which contains optional block height
-  // and partner wallet addresses and returns `GetPartnerConfigurationResponse`
-  // which contains the current block height and the`PartnerConfiguration` for
-  // the given addresses (if any, returns all if none is provided) and only if
-  // the data is changed after the provided block height.
+  // Takes `GetPartnerConfigurationRequest` which contains optional block height and
+  // partner wallet addresses and returns `GetPartnerConfigurationResponse` which
+  // contains the current block height and the`PartnerConfiguration` for the given
+  // addresses (if any, returns all if none is provided) and only if the data is
+  // changed after the provided block height.
   rpc GetPartnerConfiguration(GetPartnerConfigurationRequest) returns (GetPartnerConfigurationResponse);
 }

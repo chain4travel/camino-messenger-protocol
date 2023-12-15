@@ -4,7 +4,7 @@ package cmp.types.v1alpha1;
 
 // Email
 //
-// Email type for hotels, holiday homes etc
+// Email type for hotels, holiday homes etc.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/email.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/email.proto.dot.svg)

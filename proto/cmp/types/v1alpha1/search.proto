@@ -17,10 +17,12 @@ import "cmp/types/v1alpha1/uuid.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/search.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/search.proto.dot.svg)
 message SearchParameters {
-  // Requested currency in which prices have to be supplied in the response according to ISO 4217 Currency codes
+  // Requested currency in which prices have to be supplied in the response
+  // according to ISO 4217 Currency codes
   Currency currency = 1;
 
-  // Requested language setting for descriptions in the response according to ISO 639-1 Language codes
+  // Requested language setting for descriptions in the response according to ISO
+  // 639-1 Language codes
   Language language = 2;
 
   // Request generated for a specific market according to ISO 3166-1 Country codes
@@ -29,7 +31,8 @@ message SearchParameters {
   // Include OnRequest options in the response or only immediately bookable options
   bool include_on_request = 4;
 
-  // Only show the cheapest option for one product, or include all possible combinations
+  // Only show the cheapest option for one product, or include all possible
+  // combinations
   bool include_combinations = 5;
 
   // Limit the maximum number of options included in the response
@@ -38,18 +41,17 @@ message SearchParameters {
   // Specify the sorting required in the response
   Sorting sorting = 7;
 
-  // Filters for the search
-  // Various provider and product specific filters can be provided here in
-  // agreed name/value pairs
+  // Filters for the search. Various provider and product specific filters can be
+  // provided here in agreed name/value pairs.
   repeated Filter filters = 8;
 
-  // Free-text field to provide more detials for better offer personalization.
-  // This field can be provided in combination with a Geo location or as stand-alone.
+  // Free-text field to provide more detials for better offer personalization. This
+  // field can be provided in combination with a Geo location or as stand-alone.
   string search_description_text = 9;
 
   // The speech is provided as a link to a recording to process for better offer
-  // personalization. This field can be provided in combination with a Geo
-  // location or as stand-alone.
+  // personalization. This field can be provided in combination with a Geo location
+  // or as stand-alone.
   string search_description_audio_url = 10;
 }
 
@@ -68,7 +70,7 @@ message SearchParametersSpecific {
     // Geo tree type, representted by Country, Region, and City_or_Resort.
     GeoTree location_geo_tree = 11;
 
-    // Geo circle. Represented by a coordinate and a distance for radius
+    // Geo circle. Represented by a coordinate and a distance for radius.
     GeoCircle location_geo_circle = 12;
 
     // Geo polygon. Represented by a list of coordinate points.
@@ -82,15 +84,16 @@ message SearchParametersSpecific {
   repeated RatePlan rate_plan = 17;
 
   // Rate Rules
-  // FIXME: Did we decided to remove this from SearchParameters?
-  // FIXME: Maybe some users/distributors would want to search for only
-  // FIXME: RESELLABLE offers?
+  //
+  // FIXME: Did we decided to remove this from SearchParameters? Maybe some
+  // users/distributors would want to search for only RESELLABLE offers?
   repeated RateRule rate_rules = 18;
 }
 
 // Search Response Metadata
 message SearchRequestMetadata {
-  // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  // An identifier for external sessions, aiding in tracking and continuity across
+  // sessions.
   string external_session_id = 1;
 }
 
@@ -99,7 +102,8 @@ message SearchResponseMetadata {
   // Context for Inventory system communication.
   string context = 1;
 
-  // Errors encountered in the generation of the response. Standardized error list to be created.
+  // Errors encountered in the generation of the response. Standardized error list
+  // to be created.
   string errors = 2;
 
   // Warnings encountered in the generation of the response.
@@ -108,9 +112,11 @@ message SearchResponseMetadata {
   // Supplier code from the Inventory System for this search response.
   string supplier_code = 4;
 
-  // An identifier for external sessions, aiding in tracking and continuity across sessions.
+  // An identifier for external sessions, aiding in tracking and continuity across
+  // sessions.
   string external_session_id = 5;
 
-  // Search_id to be used in the Validation Request. This must be a UUID according to RFC 4122
+  // Search_id to be used in the Validation Request. This must be a UUID according
+  // to RFC 4122
   UUID search_id = 6;
 }

@@ -4,6 +4,8 @@ package cmp.services.network.v1alpha1;
 
 import "cmp/types/v1alpha1/asset.proto";
 
+// ### Network Fee Message Type
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha1/fee.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha1/fee.proto.dot.svg)
 message NetworkFee {
@@ -12,8 +14,9 @@ message NetworkFee {
   int32 amount = 1;
 
   // Asset of the fee
-  // FIXME: Not sure if we need this. For CAM it's a well known asset on the
-  // chain but maybe we'll need other assets also?
+  //
+  // FIXME: Not sure if we need this. For CAM it's a well known asset on the chain
+  // but maybe we'll need other assets also?
   cmp.types.v1alpha1.Asset asset = 2;
 }
 
