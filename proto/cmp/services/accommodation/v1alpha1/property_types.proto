@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1alpha1;
+
+import "cmp/types/v1alpha1/address.proto";
+import "cmp/types/v1alpha1/email.proto";
+import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/phone.proto";
+import "google/protobuf/timestamp.proto";
+
+// ### Property message type
+//
+// Represents property info for an accommodation product
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/property_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/property_types.proto.dot.svg)
+message Property {
+  // Ex: "2023-08-28T12:03:50",
+  google.protobuf.Timestamp last_modified = 1;
+
+  // Ex: "AESPMI1234"
+  string property_code = 2;
+
+  // Ex: "Beach Hotel Alanya"
+  string name = 3;
+
+  // Ex: "Hilton"
+  string chain = 4;
+
+  // Ex: CategoryRating.CATEGORY_RATING_4_5
+  CategoryRating category_rating = 5;
+
+  // Ex: CategoryUnit.CATEGORY_UNIT_PALMS
+  CategoryUnit category_unit = 6;
+
+  // Ex: Address type
+  cmp.types.v1alpha1.Address address = 7;
+
+  // Emails
+  repeated cmp.types.v1alpha1.Email emails = 8;
+
+  // Phones
+  repeated cmp.types.v1alpha1.Phone phones = 9;
+
+  // Location coordinate
+  cmp.types.v1alpha1.Coordinate coordinate = 10;
+
+  // Ex: "www.hotel.com"
+  string website = 11;
+
+  // Status of the property
+  // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
+  string status = 12;
+
+  // GIATA ID
+  string giata_id = 13;
+
+  // Goal ID
+  int32 goal_id = 14;
+
+  // Airports
+  // Ex: ["PMI", "ZRH", "AYT"]
+  repeated string airports = 15;
+}
+
+enum CategoryRating {
+  CATEGORY_RATING_UNSPECIFIED = 0;
+  CATEGORY_RATING_0_5 = 1;
+  CATEGORY_RATING_1_0 = 2;
+  CATEGORY_RATING_1_5 = 3;
+  CATEGORY_RATING_2_0 = 4;
+  CATEGORY_RATING_2_5 = 5;
+  CATEGORY_RATING_3_0 = 6;
+  CATEGORY_RATING_3_5 = 7;
+  CATEGORY_RATING_4_0 = 8;
+  CATEGORY_RATING_4_5 = 9;
+  CATEGORY_RATING_5_0 = 10;
+  CATEGORY_RATING_5_5 = 11;
+  CATEGORY_RATING_6_0 = 12;
+  CATEGORY_RATING_6_5 = 13;
+  CATEGORY_RATING_7_0 = 14;
+  CATEGORY_RATING_7_5 = 15;
+  CATEGORY_RATING_8_0 = 16;
+  CATEGORY_RATING_8_5 = 17;
+  CATEGORY_RATING_9_0 = 18;
+  CATEGORY_RATING_9_5 = 19;
+  CATEGORY_RATING_10_0 = 20;
+}
+
+enum CategoryUnit {
+  CATEGORY_UNIT_UNSPECIFIED = 0;
+  CATEGORY_UNIT_STARS = 1;
+  CATEGORY_UNIT_PALMS = 2;
+}

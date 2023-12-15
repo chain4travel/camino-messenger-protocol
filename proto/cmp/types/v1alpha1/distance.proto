@@ -2,19 +2,21 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-/*
-   Distance with unit
-*/
+// Distance unit and value pair
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/distance.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/distance.proto.dot.svg)
 message Distance {
   int32 value = 1;
   DistanceUnit distance_unit = 2;
 }
 
-/* Distance Unit */
+// Distance Unit
 enum DistanceUnit {
   DISTANCE_UNIT_UNSPECIFIED = 0;
   DISTANCE_UNIT_METERS = 1;
   DISTANCE_UNIT_KILOMETERS = 2;
   DISTANCE_UNIT_MILES = 3;
   DISTANCE_UNIT_FEET = 4;
+  DISTANCE_UNIT_YARDS = 5;
 }

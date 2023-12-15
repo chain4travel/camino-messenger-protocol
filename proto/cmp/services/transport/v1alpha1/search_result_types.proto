@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha1;
+
+import "cmp/services/transport/v1alpha1/trip_types.proto";
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/datetime_range.proto";
+import "cmp/types/v1alpha1/fulfillment.proto";
+import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/rate.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+
+// Transport search result
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.svg)
+message TransportSearchResult {
+  // Unique option ID for this search
+  int32 option_id = 1;
+
+  // Offer ID.
+  //
+  // Option to carry through an offer identifier for other stateful provider systems
+  // like NDC AirShopping RS
+  string offer_id = 2;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 3;
+
+  // Travelling trip. See `search.proto` documentation
+  Trip travelling_trip = 4;
+
+  // Returning trip. See `search.proto` documentation
+  Trip returning_trip = 5;
+
+  // Total Price
+  cmp.types.v1alpha1.PriceDetail total_price = 6;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 7;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 8;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 9;
+
+  // Rate Rules
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 10;
+
+  // Fulfillment
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 11; //FIXME: Can linktype be an ENUM?
+
+  // Validity of the search option.
+  //
+  // `DateTimeRange` type with `start_date` and `end_date` in which the option can
+  // be booked. If the start_date is omitted, the offer can be booked until the
+  // end-date.
+  cmp.types.v1alpha1.DateTimeRange validity = 12;
+
+  // Cancel Policy
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 13;
+
+  // Observations
+  string observations = 14;
+}

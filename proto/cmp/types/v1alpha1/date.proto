@@ -2,93 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-/*
-   # Date Message
-
-   --- START MARKDOWN TEST ---
-
-   # Markdown Features
-
-   ## Headers
-
-   # Header 1
-   ## Header 2
-   ### Header 3
-   #### Header 4
-   ##### Header 5
-   ###### Header 6
-
-   ## Text Emphasis
-
-   *Italic* or _Italic_
-
-   **Bold** or __Bold__
-
-   **_Bold and Italic_** or ***Bold and Italic***
-
-   ~~Strikethrough~~
-
-   ## Lists
-
-   ### Unordered
-   Does not work with asterisk (*) and also seems like sub lists are not supported.
-
-   - Item 1
-   - Item 2
-     - Sub-item 2.1
-     - Sub-item 2.2
-
-   ### Ordered
-   1. First item
-   2. Second item
-   3. Third item
-
-   ## Links
-
-   [Chain4Travel AG](https://chain4travel.com//)
-
-   ## Images
-
-   ![C4TxHexens](https://api.strapi.camino.network//uploads/22976_c_0_0_1200_675_w_800_h_450_49e8683ec1.webp)
-
-   ## Blockquotes
-
-   > This is a blockquote.
-
-   ## Inline Code
-
-   Here is `inline code`.
-
-   ## Code Blocks
-
-   ```python
-   print("Hello, World!")
-   ```
-
-   ## Tables
-
-   | Header 1 | Header 2 |
-   |----------|----------|
-   | Row1Col1 | Row1Col2 |
-   | Row2Col1 | Row2Col2 |
-
-   ## Horizontal Rule
-
-   ---
-
-   ## Task Lists
-
-   - [x] Completed task
-   - [ ] Incomplete task
-
-   ## Line Breaks
-
-   First line.
-   Second line.
-
-   --- END MARKDOWN TEST ---
-
-*/
+// Date Message
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/date.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/date.proto.dot.svg)
 message Date {
   int32 year = 1;
   int32 month = 2;

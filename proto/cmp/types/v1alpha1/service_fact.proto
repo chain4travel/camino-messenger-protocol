@@ -2,28 +2,37 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+import "cmp/types/v1alpha1/price.proto";
+
 // Service Fact
 //
 // Example:
+//
+// ```json
 //   {
-//       "fact" : "Breakage deposit in cash",
-//       "value" : "500€"
-//   },
-//   {
-//       "fact" : "Electricity",
-//       "value" : "1€ per kWh"
-//   },
-//   {
-//       "fact" : "local tax (16+)",
-//       "value" : "2€ per person/day"
-//   },
-//   {                    {
-//       "fact" : "Laundry (initial supply of bed linen and towels)"
+//       "description" : "Electricity (price per kWh)",
+//       "price" : {
+//          "net": 100,
+//          "currency": Currency.CURRENCY_EURO
+//        },
 //   },
 //   {
-//       "fact" : "Wireless internet access (WIFI)"
+//       "description" : "Local tax (16+) (price per person/day)",
+//       "price" : {
+//          "net": 2,
+//          "currency": Currency.CURRENCY_EURO
+//        },
 //   },
+//   {
+//       "description" : "Laundry (initial supply of bed linen and towels)"
+//   },
+//   {
+//       "description" : "Wireless internet access (WIFI)"
+//   },
+// ```
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/service_fact.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/service_fact.proto.dot.svg)
 message ServiceFact {
-  string fact = 1;
-  string value = 2;
+  string description = 1;
+  Price price = 2;
 }

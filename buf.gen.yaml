@@ -12,3 +12,5 @@ plugins:
     opt: paths=source_relative
   - plugin: buf.build/community/danielgtaylor-betterproto:v1.2.5
     out: gen/python
+  - plugin: buf.build/protocolbuffers/python:v25.1
+    out: gen/pbpy

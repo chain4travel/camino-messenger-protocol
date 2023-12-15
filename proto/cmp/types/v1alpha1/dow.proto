@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+// ### Day of Week
+//
+// DOW means DayOfWeek and is used to determine specific arrival days of the week a
+// customer would like to go on holidays for example only travelling on a Saturday
+// or Sunday. It is also used to express that a show, tour or excursion is only
+// taking place on Sundays. Or that a forthnight Flotilla Sailing starts on
+// Saturday.
+//
+// We are using a bitmask like this:
+//
+// With `dow=112` the intention is to express Friday, Saturday and Sunday, which is
+// binary 1110000, which computes to `dow=112`, like just fri+sat is `110000` which
+// computes to `dow=48` or Monday and Tuesday which computes to `dow=3`.
+//
+// This is easy to calculate with basic integer mathematics, like for Sunday +
+// Wednesday you sum 64 + 4 = 68, so you set the field to 68.
+//
+// See this table with DOW logic:
+//
+// | DOW      |  Sunday   |  Saturday  |  Friday  |  Thursday  | Wednesday |  Tuesday  |  Monday  |
+// |:--------:|:---------:|:----------:|:--------:|:----------:|:---------:|:---------:|:--------:|
+// | Binary   | 1000000   | 0100000    | 0010000  | 0001000    | 0000100   | 0000010   | 0000001  |
+// | Exponent | 2^6       | 2^5        | 2^4      | 2^3        | 2^2       | 2^1       | 2^0      |
+// | Result   | 64        | 32         | 16       | 8          | 4         | 2         | 1        |
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/dow.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/dow.proto.dot.svg)
+message DayOfWeek {
+  int32 dow = 1;
+}

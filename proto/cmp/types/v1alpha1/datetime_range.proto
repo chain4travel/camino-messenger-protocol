@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// Date Range Message
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/datetime_range.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/datetime_range.proto.dot.svg)
+message DateTimeRange {
+  google.protobuf.Timestamp start_datetime = 1;
+  google.protobuf.Timestamp end_datetime = 2;
+}

@@ -2,10 +2,22 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// Filter
+// Upfront filtering of possible search options in the search response
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/filter.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/filter.proto.dot.svg)
 message Filter {
+  // Filter code agreed between provider and distributor
+  //
+  // FIXME: Should filters be standardized per vertical?
   string filter_code = 1;
+
+  // Description of the filter code.
   string filter_description = 2;
-  // FIXME: How many global types are there? Can this be an enum?
-  repeated string drv_globaltypes = 3;
+
+  // A filter type can be set to for example "DRV GlobalTypes".
+  string filter_type = 3;
+
+  // Adding a filter value like for example "star_rating=5" or "row_number=1".
+  string filter_value = 4;
 }

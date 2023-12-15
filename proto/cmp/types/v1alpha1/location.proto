@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/country.proto";
+import "cmp/types/v1alpha1/distance.proto";
+
+// ### Coordinate
+//
+// Represents a geographic location
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/location.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/location.proto.dot.svg)
+message Coordinate {
+  // The latitude in degrees. It must be in the range [-90.0, +90.0].
+  double latitude = 1;
+  // The longitude in degrees. It must be in the range [-180.0, +180.0].
+  double longitude = 2;
+}
+
+// Geo Circle
+message GeoCircle {
+  cmp.types.v1alpha1.Coordinate center = 1;
+  cmp.types.v1alpha1.Distance radius = 2;
+}
+
+// Geo Polygon
+message GeoPolygon {
+  // GPS points of the polygon
+  repeated cmp.types.v1alpha1.Coordinate points = 1;
+}
+
+// Geo Tree
+message GeoTree {
+  Country country = 1;
+  string region = 2;
+  string city_or_resort = 3;
+}
+
+// Location Code
+message LocationCode {
+  string location_codes = 1;
+  LocationCodeType location_code_type = 2;
+}
+
+// Location Codes
+//
+// Represents a list of `LocationCode` message type.
+//
+// Protobuf `oneof` field type does not support repeated member fields. To get the
+// same functionality we need to wrap the needed message type with another message.
+message LocationCodes {
+  repeated LocationCode location_codes = 1;
+}
+
+// Location Code Type
+enum LocationCodeType {
+  LOCATION_CODE_TYPE_UNSPECIFIED = 0;
+
+  LOCATION_CODE_TYPE_PROVIDER_CODE = 1;
+
+  // IATA airport code
+  LOCATION_CODE_TYPE_IATA_CODE = 2;
+
+  // ICAO airport code
+  LOCATION_CODE_TYPE_ICAO_CODE = 3;
+
+  // A 3-character code used for train stations. Previously referred to as CRS
+  // (Computer Reservation System) or NRS (National Reservation System) codes.
+  LOCATION_CODE_TYPE_3ALPHA_CODE = 4;
+
+  // A 6-digit code for train stations generally used for retail purposes
+  LOCATION_CODE_TYPE_NLC_CODE = 5;
+
+  // Codes relating to points used in deriving train schedules
+  LOCATION_CODE_TYPE_TIPLOC_CODE = 6;
+
+  // These codes can refer to locations such as sidings and junctions. STANOX codes
+  // are grouped by geographical area - the first two digits specify the area in
+  // which the location exists.
+  LOCATION_CODE_TYPE_STANOX_CODE = 7;
+
+  // Used by multi-modal journey planners and timetables
+  LOCATION_CODE_TYPE_ATCO_CODE = 8;
+
+  // Used in combination with the Google Places API
+  LOCATION_CODE_TYPE_GOOGLE_PLACE_ID = 9;
+
+  // Used in combination with the Foursquare Places API
+  LOCATION_CODE_TYPE_FOURSQUARE_FSQ_ID = 10;
+
+  // Used in combination with the OSM Overpass API
+  LOCATION_CODE_TYPE_OPENSTREETMAPS_REF = 11;
+
+  // Used in combination with the HERE Places API
+  LOCATION_CODE_TYPE_HERE_ID = 12;
+}

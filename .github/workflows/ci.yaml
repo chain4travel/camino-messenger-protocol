@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
+      - ".github/workflows/**"
+  pull_request:
+    # Only run when there are changes under proto dir
+    paths:
+      - "proto/**"
+      - ".github/workflows/**"
+
+jobs:
+  # Run buf's lint to check for errros
+  buf-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Install buf
+        run: |
+          # Installing buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version}}
+          fi
+      - name: Buf lint
+        uses: bufbuild/buf-lint-action@v1
+        with:
+          input: "proto"
+  # Push the draft branch to buf.build
+  bsr-push-draft:
+    runs-on: ubuntu-latest
+    needs: buf-lint
+    if: github.ref == 'refs/heads/draft'
+    environment: draft
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Install Buf
+        run: |
+          # Install Buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version}}
+          fi
+      - name: Push to buf.build
+        uses: bufbuild/buf-push-action@v1
+        with:
+          input: "proto"
+          draft: true
+          buf_token: ${{ secrets.BUF_BSR_TOKEN }}
+
+  # Generate and upload protodot diagrams
+  diagrams:
+    runs-on: ubuntu-latest
+    needs: buf-lint
+    if: github.ref == 'refs/heads/draft'
+    steps:
+      # Setup environment
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+      - name: Install librsvg2-bin
+        run: sudo apt-get install -y librsvg2-bin
+
+      # Generate diagrams
+      - name: Generate Diagrams
+        run: |
+          # Install protodot
+          wget https://github.com/seamia/protodot/raw/master/binaries/protodot-linux-amd64
+          chmod +x protodot-linux-amd64
+          mkdir -v -p gen/bin
+          mv protodot-linux-amd64 gen/bin/protodot
+          export PATH=${PWD}/gen/bin:${PATH}
+
+          # Run generator script
+          bash scripts/generate_protodot.sh
+
+          # Remove .dot files, we do not need them.
+          find gen/diagrams -type f -name "*.dot" -exec rm -f {} +
+
+          # Show generated files
+          tree gen/diagrams
+
+      # Upload diagrams
+      - name: Cloud Authentication
+        id: auth
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Upload Diagrams
+        run: |
+          # '-J' options is to set Content-Encoding to gzip
+          gsutil -m rsync -J -R -d gen/diagrams gs://docs-cmp-files/diagrams
