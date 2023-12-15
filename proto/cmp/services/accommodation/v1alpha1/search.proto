@@ -10,6 +10,7 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v1alpha1;
 
+import "cmp/services/accommodation/v1alpha1/search_parameters_types.proto";
 import "cmp/services/accommodation/v1alpha1/search_result_types.proto";
 import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
@@ -35,17 +36,22 @@ message AccommodationSearchRequest {
   // Search request metadata
   cmp.types.v1alpha1.SearchRequestMetadata metadata = 2;
 
-  // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
-  cmp.types.v1alpha1.SearchParameters search_parameters = 3;
+  // Generic Search Parameters
+  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all options.
+  cmp.types.v1alpha1.SearchParameters search_parameters_generic = 3;
+
+  // Accommodation Specific Search Parameters
+  // Ex: Specific search parameters like geo location, meal plan, rate plan and rate rules.
+  AccommodationSearchParameters search_parameters_accommodation = 4;
 
   // Travel period
-  cmp.types.v1alpha1.TravelPeriod travel_period = 4;
+  cmp.types.v1alpha1.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 5;
+  repeated cmp.types.v1alpha1.Traveller travellers = 6;
 
   // Unit Types
-  repeated UnitType unit_types = 6;
+  repeated UnitType unit_types = 7;
 }
 
 // ### Accommodation Search Response

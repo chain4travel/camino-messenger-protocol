@@ -43,6 +43,17 @@ message SearchParameters {
   // agreed name/value pairs
   repeated Filter filters = 8;
 
+  // Free-text field to provide more detials for better offer personalization.
+  // This field can be provided in combination with a Geo location or as stand-alone.
+  string search_description_text = 9;
+
+  // The speech is provided as a link to a recording to process for better offer
+  // personalization. This field can be provided in combination with a Geo
+  // location or as stand-alone.
+  string search_description_audio_url = 10;
+}
+
+message SearchParametersSpecific {
   // Geo Location for search, set only one of the fields at once.
   //
   // This one of field enforces only one of the fields below. They all share memory,
@@ -63,15 +74,6 @@ message SearchParameters {
     // Geo polygon. Represented by a list of coordinate points.
     GeoPolygon location_geo_polygon = 13;
   }
-
-  // Free-text field to provide more detials for better offer personalization.
-  // This field can be provided in combination with a Geo location or as stand-alone.
-  string search_description_text = 14;
-
-  // The speech is provided as a link to a recording to process for better offer
-  // personalization. This field can be provided in combination with a Geo
-  // location or as stand-alone.
-  string search_description_audio_url = 15;
 
   // Mealplan codes
   repeated MealPlan meal_plan_codes = 16;
