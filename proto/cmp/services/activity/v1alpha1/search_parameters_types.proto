@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package cmp.services.activity.v1alpha1;
+
+// ### Activity Search Parameters
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_parameters_types.proto.dot.svg)
+message ActivitySearchParameters {}

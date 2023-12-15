@@ -10,6 +10,7 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.activity.v1alpha1;
 
+import "cmp/services/activity/v1alpha1/search_parameters_types.proto";
 import "cmp/services/activity/v1alpha1/search_result_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/location.proto";
@@ -21,46 +22,51 @@ import "cmp/types/v1alpha1/traveller.proto";
 //
 // Search request for Activities
 message ActivitySearchRequest {
-  // Message Header. Contains api version, message info string and end-user wallet address
+  // Message header. Contains API version, message info string and end-user wallet address
   cmp.types.v1alpha1.Header header = 1;
 
   // Search request metadata
   cmp.types.v1alpha1.SearchRequestMetadata metadata = 2;
 
-  // Search parameters. Example: inclusion of OnRequest options and inclusion of only the cheapest or all options.
-  cmp.types.v1alpha1.SearchParameters search_parameters = 3;
+  // Generic search parameters
+  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all options.
+  cmp.types.v1alpha1.SearchParameters search_parameters_generic = 3;
+
+  // Activiy specific search parameters
+  // Ex: ??
+  ActivitySearchParameters search_parameters_activity = 4;
 
   // Travel period
-  cmp.types.v1alpha1.TravelPeriod travel_period = 4;
+  cmp.types.v1alpha1.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 5;
+  repeated cmp.types.v1alpha1.Traveller travellers = 6;
 
   // ### Source Location
   //
   // For search, set only one of the fields at once.
-  // Source location indicates the customer’s position at the start of the service. Typical value would be 
+  // Source location indicates the customer’s position at the start of the service. Typical value would be
   // the stay hotel or the touristic destination. The source location is needed for service and transfer
-  // availability, pickup location and pickup time calculation. 
+  // availability, pickup location and pickup time calculation.
   //
   // This one of field enforces only one of the fields below. They all share memory,
   // setting one will remove the others.
   oneof source_location {
     // The code and code type of a stay location the provider will be able to process
     // Ex. GiataID
-    cmp.types.v1alpha1.LocationCodes source_location_codes = 6;
+    cmp.types.v1alpha1.LocationCodes source_location_codes = 7;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha1.Coordinate source_location_coordinate = 7;
+    cmp.types.v1alpha1.Coordinate source_location_coordinate = 8;
 
     // Geo tree type, representted by Country, Region, and City_or_Resort.
-    cmp.types.v1alpha1.GeoTree source_location_geo_tree = 8;
+    cmp.types.v1alpha1.GeoTree source_location_geo_tree = 9;
 
     // Geo circle. Represented by a coordinate and a distance for radius
-    cmp.types.v1alpha1.GeoCircle source_location_geo_circle = 9;
+    cmp.types.v1alpha1.GeoCircle source_location_geo_circle = 10;
 
     // Geo polygon. Represented by a list of coordinate points.
-    cmp.types.v1alpha1.GeoPolygon source_location_geo_polygon = 10;
+    cmp.types.v1alpha1.GeoPolygon source_location_geo_polygon = 11;
   }
 
   // ### Service Location
@@ -72,27 +78,27 @@ message ActivitySearchRequest {
   // This one of field enforces only one of the fields below. They all share memory,
   // setting one will remove the others.
   //
-   oneof service_location {
+  oneof service_location {
     // The code and code type of a stay location the distributor will be able to process
     // Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or any other agreed code type.
-    cmp.types.v1alpha1.LocationCodes service_location_codes = 11;
+    cmp.types.v1alpha1.LocationCodes service_location_codes = 12;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha1.Coordinate service_location_coordinate = 12;
+    cmp.types.v1alpha1.Coordinate service_location_coordinate = 13;
 
     // Geo tree type, representted by Country, Region, and City_or_Resort.
-    cmp.types.v1alpha1.GeoTree service_location_geo_tree = 13;
+    cmp.types.v1alpha1.GeoTree service_location_geo_tree = 14;
 
     // Geo circle. Represented by a coordinate and a distance for radius
-    cmp.types.v1alpha1.GeoCircle service_location_geo_circle = 14;
+    cmp.types.v1alpha1.GeoCircle service_location_geo_circle = 15;
 
     // Geo polygon. Represented by a list of coordinate points.
-    cmp.types.v1alpha1.GeoPolygon service_location_geo_polygon = 15;
+    cmp.types.v1alpha1.GeoPolygon service_location_geo_polygon = 16;
   }
 }
 
 message ActivitySearchResponse {
-  // Message Header. Contains api version, message info string and end user wallet address.
+  // Message header. Contains API version, message info string and end user wallet address.
   cmp.types.v1alpha1.Header header = 1;
 
   // Search response metadata

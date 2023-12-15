@@ -10,6 +10,7 @@ import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
 // This message type represents a one way trip, either travelling or returning.
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.svg)
 message Trip {

@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.transport.v1alpha1;
 
 // ### Content Source Type message type
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/source_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/source_types.proto.dot.svg)
 enum ContentSourceType {
@@ -11,5 +12,5 @@ enum ContentSourceType {
   CONTENT_SOURCE_TYPE_NDC = 2;
   CONTENT_SOURCE_TYPE_OWN_PRODUCT = 3;
   CONTENT_SOURCE_TYPE_DIRECT_CONTRACT = 4;
-  CONTENT_SOURCE_TYPE_3RD_PARTY = 5; 
+  CONTENT_SOURCE_TYPE_3RD_PARTY = 5;
 }
