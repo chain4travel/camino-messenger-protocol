@@ -55,41 +55,6 @@ message SearchParameters {
   string search_description_audio_url = 10;
 }
 
-message SearchParametersSpecific {
-  // Geo Location for search, set only one of the fields at once.
-  //
-  // This one of field enforces only one of the fields below. They all share memory,
-  // setting one will remove the others.
-  oneof geo_location {
-    // FIXME: Do we need a list of location code here? Other fields are not lists.
-    LocationCodes location_codes = 9;
-
-    // Single geographic point represented by two double fields.
-    Coordinate location_coordinate = 10;
-
-    // Geo tree type, representted by Country, Region, and City_or_Resort.
-    GeoTree location_geo_tree = 11;
-
-    // Geo circle. Represented by a coordinate and a distance for radius.
-    GeoCircle location_geo_circle = 12;
-
-    // Geo polygon. Represented by a list of coordinate points.
-    GeoPolygon location_geo_polygon = 13;
-  }
-
-  // Mealplan codes
-  repeated MealPlan meal_plan_codes = 16;
-
-  // Rate plans
-  repeated RatePlan rate_plan = 17;
-
-  // Rate Rules
-  //
-  // FIXME: Did we decided to remove this from SearchParameters? Maybe some
-  // users/distributors would want to search for only RESELLABLE offers?
-  repeated RateRule rate_rules = 18;
-}
-
 // Search Response Metadata
 message SearchRequestMetadata {
   // An identifier for external sessions, aiding in tracking and continuity across
