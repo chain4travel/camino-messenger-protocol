@@ -20,6 +20,7 @@ enum SortingType {
   SORTING_TYPE_POPULARITY = 2;
   SORTING_TYPE_DISTANCE = 3;
   SORTING_TYPE_RATING = 4;
+  SORTING_TYPE_EMISSION = 5;
 }
 
 // Sorting order
