@@ -14,13 +14,38 @@ message Baggage {
 
   // maximum number of the specified bagage type allowed
   int32 max_baggage = 2;
+
+  // maximum weith of each of the specified bagage type allowed
+  int32 max_baggage_weight = 3;
+
+  // Dimensions
+  //
+  // Dimensions unit specification for length, width and height (cm or inches)
+  DimensionType dimension_type = 5;
+
+  // maximum height of the specified bagage type allowed
+  // maximum length, width and height of the specified bagage type allowed
+  int32 max_baggage_length = 6;
+  int32 max_baggage_width = 7;
+  int32 max_baggage_height = 8;
 }
 
-// Meal plan code ENUM type
+// Baggage type ENUM type
 enum BaggageType {
   BAGGAGE_TYPE_UNSPECIFIED = 0; // No Baggage type specified
   BAGGAGE_TYPE_CARRY_ON = 1; // Carry-on
   BAGGAGE_TYPE_CARRY_ON_OVERHEAD = 2; // Carry-on overhead
   BAGGAGE_TYPE_CARRY_ON_PERSONAL = 3; // Carry-on personal item
   BAGGAGE_TYPE_CHECKED = 4; // Checked
+  BAGGAGE_TYPE_ODD_SIZE = 5; // Odd size checked baggage
+  BAGGAGE_TYPE_SKI = 6; // Skis
+  BAGGAGE_TYPE_GOLF = 7; // Golf bags
+  BAGGAGE_TYPE_SURF = 8; // (wind)Surf or Kite boards
+}
+
+// Baggage dimensions unit ENUM type
+enum DimensionType {
+  DIMENSION_TYPE_UNSPECIFIED = 0; // No Baggage dimensions unit specified
+  DIMENSION_TYPE_CM = 1; // Centimeters
+  DIMENSION_TYPE_INCH = 2; // Inches
 }
