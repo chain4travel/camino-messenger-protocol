@@ -2,8 +2,57 @@ syntax = "proto3";
 
 package cmp.services.transport.v1alpha1;
 
+import "cmp/types/v1alpha1/time.proto";
+import "cmp/types/v1alpha1/price.proto";
+
 // ### Transport Search Parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_parameters_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_parameters_types.proto.dot.svg)
-message TransportSearchParameters {}
+message TransportSearchParameters {
+  // Specify one or more type codes to be included in the search response
+  // Ex: "SF"
+  repeated string product_code = 1;
+
+  // Duration
+  // Specify the minimal and maximum duration of an activity to be included in the search response
+  cmp.types.v1alpha1.Time min_duration = 2;
+  cmp.types.v1alpha1.Time max_duration = 3;
+
+  // Pricerange
+  // Specify the minimum and maximum price of an activity to be included in the search response
+  cmp.types.v1alpha1.Price min_price = 4;
+  cmp.types.v1alpha1.Price max_price = 5;
+
+  // Brandcode
+  // Specify one or more brand codes or distribution channels for which assigned product is
+  // to be included in the search response
+  repeated string brand_code = 6;  
+
+  // Maximum number of segments
+  // Specify the maximum number of segments a trip might be containing
+  // if only a direct flight, transfer or train journey the maximum number of segments is set to one.
+  int32 max_segments = 7;  
+
+  // Travelling
+  // Specify the departure and/or arrival time of the trip
+  cmp.types.v1alpha1.Time travelling_min_departure_time = 8;
+  cmp.types.v1alpha1.Time travelling_max_departure_time = 9;
+  cmp.types.v1alpha1.Time travelling_min_arrival_time = 10;
+  cmp.types.v1alpha1.Time travelling_max_arrival_time = 11;
+
+  // Returning
+  // Specify the departure and/or arrival time of the trip
+  cmp.types.v1alpha1.Time returning_min_departure_time = 12;
+  cmp.types.v1alpha1.Time returning_max_departure_time = 13;
+  cmp.types.v1alpha1.Time returning_min_arrival_time = 14;
+  cmp.types.v1alpha1.Time returning_max_arrival_time = 15;
+
+  // using filters
+  // filters have a code, a type and a value.
+  // filters for business class, first class or economy flights can be set using filters and IATA codelist
+  // filters for private, shuttle, speedyshuttle can be based on GlobalTypes or OTA codelist
+  // filters for 1st or 2nd class train can be based UIC codes or OTA codelist
+  // filters can also be set for provider specific codes
+  // see filter.proto for more details
+}
