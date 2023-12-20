@@ -56,7 +56,7 @@ jobs:
       - name: Update URLs with branch name
         run: |
           # Add branch name to URLs
-          find proto -type f -name '*.proto' -print0 | xargs -0 -I {} ./scripts/replace_url.sh {} ${github.ref_name}
+          find proto -type f -name '*.proto' -print0 | xargs -0 -I {} ./scripts/replace_url.sh {} ${{ github.ref_name }}
       - name: Push to buf.build
         uses: bufbuild/buf-push-action@v1
         with:
@@ -110,4 +110,4 @@ jobs:
       - name: Upload Diagrams
         run: |
           # '-J' options is to set Content-Encoding to gzip
-          gsutil -m rsync -J -R -d gen/diagrams gs://docs-cmp-files/diagrams/${github.ref_name}
+          gsutil -m rsync -J -R -d gen/diagrams gs://docs-cmp-files/diagrams/${{ github.ref_name }}
