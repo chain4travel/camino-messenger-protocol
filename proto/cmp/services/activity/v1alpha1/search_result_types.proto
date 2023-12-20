@@ -105,8 +105,12 @@ message PickupDropoffEvent {
   // Ex: "Sunny Beach Hotel",
   string location_name = 2;
 
-  // Ex: "true",
-  bool pickup_ind = 3;
+  // True if this pickup location is selected for the activity
+  //
+  // Ex: "true"
+  //
+  // FIXME: How is this relevant for the search result message?
+  bool pickup_indicator = 3;
 
   // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
   string other_info = 4;
