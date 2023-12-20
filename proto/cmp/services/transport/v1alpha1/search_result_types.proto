@@ -24,40 +24,41 @@ message TransportSearchResult {
   // Option to carry through an offer identifier for other stateful provider systems
   // like NDC AirShopping RS
   string offer_id = 2;
+  string segment_id = 3;
 
   // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 3;
+  repeated cmp.types.v1alpha1.Traveller travellers = 4;
 
   // Travelling trip. See `search.proto` documentation
-  Trip travelling_trip = 4;
+  Trip travelling_trip = 5;
 
   // Returning trip. See `search.proto` documentation
-  Trip returning_trip = 5;
+  Trip returning_trip = 6;
 
   // Total Price
-  cmp.types.v1alpha1.PriceDetail total_price = 6;
+  cmp.types.v1alpha1.PriceDetail total_price = 7;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 7;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 8;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 9;
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 8;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 9;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 10;
 
   // Rate Rules
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 10;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 11;
 
   // Fulfillment
-  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 11; //FIXME: Can linktype be an ENUM?
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 12; //FIXME: Can linktype be an ENUM?
 
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can
   // be booked. If the start_date is omitted, the offer can be booked until the
   // end-date.
-  cmp.types.v1alpha1.DateTimeRange validity = 12;
+  cmp.types.v1alpha1.DateTimeRange validity = 13;
 
   // Cancel Policy
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 13;
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 14;
 
   // Observations
-  string observations = 14;
+  string observations = 15;
 }
