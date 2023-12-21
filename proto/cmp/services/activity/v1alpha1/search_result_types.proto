@@ -20,7 +20,7 @@ message ActivitySearchResult {
   int32 result_id = 1;
 
   // Activity basic info
-  ActivityInfo info = 2;
+  Activity info = 2;
 
   // Schedule
   cmp.types.v1alpha1.DateTimeRange schedule = 3;
@@ -45,10 +45,10 @@ message ActivitySearchResult {
   PricingType pricing_type = 9;
 }
 
-// ### Activity Info
+// Represents an Activity product.
 //
 // FIXME: We need optimizations in this type
-message ActivityInfo {
+message Activity {
   // Ex: "TC000000"
   string product_code = 1;
 
@@ -78,6 +78,12 @@ message ActivityInfo {
 
   // Ex: "Safari"
   string type_name = 10;
+
+  // Status
+  //
+  // FIXME: We need to make this an ENUM (this is also used for several other
+  // verticals)
+  string status = 11;
 }
 
 // ### Activity Location
@@ -99,8 +105,12 @@ message PickupDropoffEvent {
   // Ex: "Sunny Beach Hotel",
   string location_name = 2;
 
-  // Ex: "true",
-  bool pickup_ind = 3;
+  // True if this pickup location is selected for the activity
+  //
+  // Ex: "true"
+  //
+  // FIXME: How is this relevant for the search result message?
+  bool pickup_indicator = 3;
 
   // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
   string other_info = 4;
