@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package cmp.services.transport.v1alpha1;
 
-import "cmp/types/v1alpha1/distance.proto";
+import "cmp/types/v1alpha1/baggage.proto";
 import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/measurement.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/time.proto";
-import "cmp/types/v1alpha1/baggage.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
@@ -84,8 +84,8 @@ message TripSegment {
 
   // Trip Distance
   //
-  // Ex: `Distance(value=15, unit=DistanceType.DISTANCE_UNIT_KILOMETERS)`
-  cmp.types.v1alpha1.Distance trip_distance = 11;
+  // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
+  cmp.types.v1alpha1.Length trip_distance = 11;
 
   // Min PAX
   //
