@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v1alpha1;
 
 import "cmp/types/v1alpha1/country.proto";
-import "cmp/types/v1alpha1/distance.proto";
+import "cmp/types/v1alpha1/measurement.proto";
 
 // ### Coordinate
 //
@@ -21,7 +21,7 @@ message Coordinate {
 // Geo Circle
 message GeoCircle {
   cmp.types.v1alpha1.Coordinate center = 1;
-  cmp.types.v1alpha1.Distance radius = 2;
+  cmp.types.v1alpha1.Length radius = 2;
 }
 
 // Geo Polygon
