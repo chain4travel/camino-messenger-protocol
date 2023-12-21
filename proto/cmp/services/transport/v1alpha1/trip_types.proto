@@ -6,6 +6,7 @@ import "cmp/types/v1alpha1/distance.proto";
 import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/time.proto";
+import "cmp/types/v1alpha1/baggage.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Trip message type
@@ -99,7 +100,7 @@ message TripSegment {
   // Luggage
   //
   // Ex: `3`
-  int32 luggage = 14;
+  cmp.types.v1alpha1.Baggage baggage = 14;
 
   // Price
   //
