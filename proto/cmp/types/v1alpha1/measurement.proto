@@ -11,6 +11,14 @@ message Length {
   LengthUnit unit = 2;
 }
 
+// Represents a dimension type, for example, to be used in baggage message type
+message Dimension {
+  int32 length = 1;
+  int32 width = 2;
+  int32 height = 3;
+  LengthUnit unit = 4;
+}
+
 // Length Unit
 enum LengthUnit {
   LENGTH_UNIT_UNSPECIFIED = 0;
@@ -26,7 +34,7 @@ enum LengthUnit {
 
 // Weight type
 //
-// Used for weight
+// Ex: Used for weight in baggage message type
 message Weight {
   int32 value = 1;
   WeightUnit unit = 2;
@@ -37,4 +45,5 @@ enum WeightUnit {
   WEIGHT_UNIT_UNSPECIFIED = 0;
   WEIGHT_UNIT_GRAM = 1;
   WEIGHT_UNIT_KILOGRAM = 2;
+  WEIGHT_UNIT_POUND = 3;
 }

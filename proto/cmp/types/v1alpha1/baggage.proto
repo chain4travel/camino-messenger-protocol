@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+import "cmp/types/v1alpha1/measurement.proto";
+
 // Baggage message type
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/baggage.proto.dot.xs.svg)
@@ -12,22 +14,14 @@ message Baggage {
   // Enum of allowed baggage types.
   BaggageType baggage_type = 1;
 
-  // maximum number of the specified bagage type allowed
-  int32 max_baggage = 2;
+  // Maximum number of the specified baggage count allowed for this type
+  int32 max_count = 2;
 
-  // maximum weith of each of the specified bagage type allowed
-  int32 max_baggage_weight = 3;
+  // Maximum weith of each of the specified bagage type allowed
+  Weight max_weight = 3;
 
-  // Dimensions
-  //
-  // Dimensions unit specification for length, width and height (cm or inches)
-  DimensionType dimension_type = 5;
-
-  // maximum height of the specified bagage type allowed
-  // maximum length, width and height of the specified bagage type allowed
-  int32 max_baggage_length = 6;
-  int32 max_baggage_width = 7;
-  int32 max_baggage_height = 8;
+  // Maximum length, width and height of the specified bagage type allowed
+  Dimension max_dimension = 4;
 }
 
 // Baggage type ENUM type
@@ -41,11 +35,4 @@ enum BaggageType {
   BAGGAGE_TYPE_SKI = 6; // Skis
   BAGGAGE_TYPE_GOLF = 7; // Golf bags
   BAGGAGE_TYPE_SURF = 8; // (wind)Surf or Kite boards
-}
-
-// Baggage dimensions unit ENUM type
-enum DimensionType {
-  DIMENSION_TYPE_UNSPECIFIED = 0; // No Baggage dimensions unit specified
-  DIMENSION_TYPE_CM = 1; // Centimeters
-  DIMENSION_TYPE_INCH = 2; // Inches
 }
