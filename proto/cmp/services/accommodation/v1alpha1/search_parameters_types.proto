@@ -5,8 +5,9 @@ package cmp.services.accommodation.v1alpha1;
 import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/meal_plan.proto";
 import "cmp/types/v1alpha1/rate.proto";
+import "cmp/types/v1alpha1/product_code.proto";
 
-// ### Activity Search Parameters
+// ### Accommodation Search Parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_parameters_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_parameters_types.proto.dot.svg)
@@ -39,8 +40,10 @@ message AccommodationSearchParameters {
   repeated cmp.types.v1alpha1.RatePlan rate_plan = 7;
 
   // Rate Rules
-  // FIXME: Did we decided to remove this from SearchParameters?
-  // FIXME: Maybe some users/distributors would want to search for only
-  // FIXME: RESELLABLE offers?
+  // To be used when searching for specific rates like refundable or resellable offers
   repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
+
+  // Product code list
+  // Here a list of property codes would be used
+  repeated cmp.types.v1alpha1.ProductCode product_codes = 9;
 }
