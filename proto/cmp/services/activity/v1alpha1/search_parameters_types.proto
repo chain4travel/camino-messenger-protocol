@@ -5,6 +5,7 @@ package cmp.services.activity.v1alpha1;
 import "cmp/types/v1alpha1/language.proto";
 import "cmp/types/v1alpha1/time.proto";
 import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/product_code.proto";
 
 // ### Activity Search Parameters
 //
@@ -21,7 +22,7 @@ message ActivitySearchParameters {
   // Specify one or more product codes to be included in the search response 
   //
   // Ex: "TC000000"
-  repeated string product_code = 2;
+  repeated cmp.types.v1alpha1.ProductCode product_codes = 2;
 
   // Specify one or more activity IDs to be included in the search response
   //

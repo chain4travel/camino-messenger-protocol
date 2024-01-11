@@ -4,6 +4,7 @@ package cmp.services.transport.v1alpha1;
 
 import "cmp/types/v1alpha1/time.proto";
 import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/product_code.proto";
 
 // ### Transport Search Parameters
 //
@@ -12,7 +13,7 @@ import "cmp/types/v1alpha1/price.proto";
 message TransportSearchParameters {
   // Specify one or more type codes to be included in the search response
   // Ex: "SF"
-  repeated string product_code = 1;
+  repeated cmp.types.v1alpha1.ProductCode product_codes = 1;
 
   // Duration
   // Specify the minimal and maximum duration of an activity to be included in the search response
