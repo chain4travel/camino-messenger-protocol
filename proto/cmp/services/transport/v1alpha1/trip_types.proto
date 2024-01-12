@@ -9,8 +9,6 @@ import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/time.proto";
 import "google/protobuf/timestamp.proto";
 
-// ### Trip message type
-//
 // This message type represents a one way trip, either travelling or returning.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.xs.svg)
@@ -95,7 +93,7 @@ message TripSegment {
   // Max PAX
   //
   // Ex: `3`
-  int32 max_max = 13;
+  int32 max_pax = 13;
 
   // Luggage
   //

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+message Bed {
+  BedType type = 1;
+  int32 count = 2;
+}
+
+enum BedType {
+  BED_TYPE_UNSPECIFIED = 0;
+  BED_TYPE_SINGLE = 1;
+  BED_TYPE_DOUBLE = 2;
+  BED_TYPE_KING = 3;
+}

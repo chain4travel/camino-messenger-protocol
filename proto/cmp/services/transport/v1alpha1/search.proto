@@ -11,13 +11,11 @@ syntax = "proto3";
 // This package is a WIP.
 package cmp.services.transport.v1alpha1;
 
-import "cmp/services/transport/v1alpha1/search_parameters_types.proto";
+import "cmp/services/transport/v1alpha1/search_query_types.proto";
 import "cmp/services/transport/v1alpha1/search_result_types.proto";
 import "cmp/services/transport/v1alpha1/source_types.proto";
-import "cmp/services/transport/v1alpha1/trip_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/search.proto";
-import "cmp/types/v1alpha1/traveller.proto";
 
 // ### Transport Search Request
 message TransportSearchRequest {
@@ -34,36 +32,16 @@ message TransportSearchRequest {
   // options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
 
-  // Transport specific search parameters
-  //
-  // Ex: ??
-  TransportSearchParameters search_parameters_transport = 4;
-
   // Content source types for this search request to specify which sources to
   // include.
   //
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated ContentSourceType conten_source_types = 5;
+  repeated ContentSourceType conten_source_types = 4;
 
-  // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 6;
-
-  // Travelling trip
-  //
-  // To avoid confusion of the direction of travel that occurs with terms like
-  // "inbound" and "outbound". The travelling trip is also used for "one way" in
-  // which case the returning trip is omitted. For tours or roadtrips, multiple
-  // requests with just a travelling trip for sequential dates can be submitted to
-  // specific suppliers of each part of tour or roadtrip.
-  Trip travelling_trip = 7;
-
-  // Returning trip
-  //
-  // In many cases our travel plans consist of going to a destination and return to
-  // the same place where we started
-  Trip returning_trip = 8;
+  // Multiple search queries for this search request
+  repeated TransportSearchQuery queries = 5;
 
   // Remarks
   string remarks = 9;
@@ -88,7 +66,7 @@ message TransportSearchResponse {
   repeated TransportSearchResult results = 4;
 }
 
-// ### Transport Search Service
+// Transport Search Service definition.
 //
 // Takes `TransportSearchRequest` message type and returns `TransportSearchResponse`
 // message type.

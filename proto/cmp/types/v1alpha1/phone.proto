@@ -2,9 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// Phone
-//
-// Phone type for hotels, holiday homes etc
+// Phone type to be used in various types as hotels, holiday homes etc.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/phone.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/phone.proto.dot.svg)

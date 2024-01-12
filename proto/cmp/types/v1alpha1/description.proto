@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha1;
+
+import "cmp/types/v1alpha1/language.proto";
+
+message LocalizedDescriptionSet {
+  // Language
+  Language language = 1;
+
+  // Desctription set
+  repeated Description descriptions = 2;
+}
+
+message Description {
+  // Category of the description like "General", "Amenities".
+  string category = 1;
+
+  // Description text
+  string text = 2;
+}

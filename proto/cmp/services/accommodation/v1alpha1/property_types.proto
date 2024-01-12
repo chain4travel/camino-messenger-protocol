@@ -3,9 +3,17 @@ syntax = "proto3";
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/address.proto";
+import "cmp/types/v1alpha1/bed.proto";
+import "cmp/types/v1alpha1/cancel_policy.proto";
+import "cmp/types/v1alpha1/description.proto";
 import "cmp/types/v1alpha1/email.proto";
+import "cmp/types/v1alpha1/file.proto";
 import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/meal_plan.proto";
 import "cmp/types/v1alpha1/phone.proto";
+import "cmp/types/v1alpha1/rate.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Property message type
@@ -91,4 +99,106 @@ enum CategoryUnit {
   CATEGORY_UNIT_UNSPECIFIED = 0;
   CATEGORY_UNIT_STARS = 1;
   CATEGORY_UNIT_PALMS = 2;
+}
+
+// This message type contains extended info about a property
+message PropertyExtendedInfo {
+  // Property
+  Property property = 1;
+
+  // Images
+  repeated cmp.types.v1alpha1.Image images = 2;
+
+  // Videos
+  repeated cmp.types.v1alpha1.Video videos = 3;
+
+  // Segmentation classification
+  repeated string classification = 4;
+
+  // Property descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet localized_descriptions = 5;
+
+  // Room descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet localized_room_descriptions = 6;
+
+  // Payment type. Ex: "MERCHANT"
+  string payment_type = 7;
+
+  // Status. FIXME: This needs to be an enum!?
+  string status = 8;
+}
+
+message Room {
+  string code = 1;
+  string name = 2;
+  repeated cmp.types.v1alpha1.Image images = 3;
+  repeated cmp.types.v1alpha1.Video videos = 4;
+
+  // Room descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet descriptions = 5;
+
+  // Meal plan (Board code)
+  cmp.types.v1alpha1.MealPlan meal_plan = 6;
+
+  // FIXME: Need board description & amenities here
+
+  // Rate plans
+  repeated cmp.types.v1alpha1.RatePlan rate_plans = 7;
+
+  // Rate Rule
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
+
+  // Beds
+  repeated cmp.types.v1alpha1.Bed beds = 9;
+
+  // Occupancy
+  Occupancy occupancy = 10;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact included_services = 11;
+  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 12;
+  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 13;
+
+  // This is a list so that various policies can be expressed.
+  //
+  // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
+  // arrival z€
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
+}
+
+message Occupancy {
+  // Min guests
+  int32 min_guests = 1;
+
+  // Max guests
+  int32 max_guests = 2;
+
+  // Standard occupancy
+  int32 standard_occupancy = 3;
+
+  // Full payers
+  int32 full_payers = 4;
+
+  // If infants are counted in total guests or not
+  bool infant_counted_in_total_guests = 5;
+
+  // Occupancy options
+  repeated OccupancyOption occupancy_options = 6;
+}
+
+message OccupancyOption {
+  // Guest type like adult, child, infant.
+  cmp.types.v1alpha1.TravellerType guest_type = 1;
+
+  // Min guests
+  int32 min = 2;
+
+  // Max guests
+  int32 max = 3;
+
+  // Min age
+  int32 min_age = 4;
+
+  // Max age
+  int32 max_age = 5;
 }

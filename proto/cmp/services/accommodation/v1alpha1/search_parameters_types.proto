@@ -4,10 +4,11 @@ package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/meal_plan.proto";
-import "cmp/types/v1alpha1/rate.proto";
 import "cmp/types/v1alpha1/product_code.proto";
+import "cmp/types/v1alpha1/rate.proto";
 
-// ### Accommodation Search Parameters
+// This type is used in search requests for parameters like location, meal plan
+// codes etc.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_parameters_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search_parameters_types.proto.dot.svg)

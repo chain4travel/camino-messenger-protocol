@@ -52,33 +52,36 @@ message SearchParameters {
   string search_description_audio_url = 10;
 }
 
-// Search Response Metadata
+// This message type is used in every search request to contain the request metadata
 message SearchRequestMetadata {
+  // Request unique identifier
+  UUID request_id = 1;
+
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 1;
+  string external_session_id = 2;
 }
 
-// Search Response Metadata
+// This message type is used in every search response to contain the response metadata
 message SearchResponseMetadata {
+  // Search_id to be used in the Validation Request. This must be a UUID according
+  // to RFC 4122
+  UUID search_id = 1;
+
   // Context for Inventory system communication.
-  string context = 1;
+  string context = 2;
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
-  string errors = 2;
+  string errors = 3;
 
   // Warnings encountered in the generation of the response.
-  string warnings = 3;
+  string warnings = 4;
 
   // Supplier code from the Inventory System for this search response.
-  string supplier_code = 4;
+  string supplier_code = 5;
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 5;
-
-  // Search_id to be used in the Validation Request. This must be a UUID according
-  // to RFC 4122
-  UUID search_id = 6;
+  string external_session_id = 6;
 }
