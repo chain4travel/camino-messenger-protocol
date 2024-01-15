@@ -4,7 +4,6 @@ package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/address.proto";
 import "cmp/types/v1alpha1/bed.proto";
-import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/description.proto";
 import "cmp/types/v1alpha1/email.proto";
 import "cmp/types/v1alpha1/file.proto";
@@ -124,8 +123,15 @@ message PropertyExtendedInfo {
   // Payment type. Ex: "MERCHANT"
   string payment_type = 7;
 
-  // Status. FIXME: This needs to be an enum!?
-  string status = 8;
+  // Status
+  PropertyStatus status = 8;
+}
+
+enum PropertyStatus {
+  PROPERTY_STATUS_UNSPECIFIED = 0;
+  PROPERTY_STATUS_DRAFT = 1;
+  PROPERTY_STATUS_CONFIRMED = 2;
+  PROPERTY_STATUS_RETIRED = 3;
 }
 
 message Room {
@@ -158,12 +164,6 @@ message Room {
   repeated cmp.types.v1alpha1.ServiceFact included_services = 11;
   repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 12;
   repeated cmp.types.v1alpha1.ServiceFact optional_extras = 13;
-
-  // This is a list so that various policies can be expressed.
-  //
-  // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
-  // arrival z€
-  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
 }
 
 message Occupancy {
