@@ -34,5 +34,5 @@ import "cmp/types/v1alpha1/price.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/service_fact.proto.dot.svg)
 message ServiceFact {
   string description = 1;
-  Price price = 2;
+  PriceDetail price_detail = 2;
 }
