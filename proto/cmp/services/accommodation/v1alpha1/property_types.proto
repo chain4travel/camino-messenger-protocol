@@ -125,6 +125,9 @@ message PropertyExtendedInfo {
 
   // Status
   PropertyStatus status = 8;
+
+  // Rooms
+  repeated Room rooms = 9;
 }
 
 enum PropertyStatus {
