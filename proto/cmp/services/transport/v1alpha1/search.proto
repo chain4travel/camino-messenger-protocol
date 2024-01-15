@@ -13,8 +13,8 @@ package cmp.services.transport.v1alpha1;
 
 import "cmp/services/transport/v1alpha1/search_query_types.proto";
 import "cmp/services/transport/v1alpha1/search_result_types.proto";
-import "cmp/services/transport/v1alpha1/source_types.proto";
 import "cmp/types/v1alpha1/common.proto";
+import "cmp/types/v1alpha1/content_source.proto";
 import "cmp/types/v1alpha1/search.proto";
 
 // ### Transport Search Request
@@ -32,19 +32,11 @@ message TransportSearchRequest {
   // options.
   cmp.types.v1alpha1.SearchParameters search_parameters = 3;
 
-  // Content source types for this search request to specify which sources to
-  // include.
-  //
-  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
-  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
-  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated ContentSourceType conten_source_types = 4;
-
   // Multiple search queries for this search request
-  repeated TransportSearchQuery queries = 5;
+  repeated TransportSearchQuery queries = 4;
 
   // Remarks
-  string remarks = 9;
+  string remarks = 5;
 }
 
 message TransportSearchResponse {
@@ -60,7 +52,7 @@ message TransportSearchResponse {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated ContentSourceType conten_source_types = 3;
+  repeated cmp.types.v1alpha1.ContentSourceType conten_source_types = 3;
 
   // Transit search results
   repeated TransportSearchResult results = 4;

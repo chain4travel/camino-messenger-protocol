@@ -41,38 +41,36 @@ message Unit {
   // Beds
   repeated cmp.types.v1alpha1.Bed beds = 6;
 
-  // Price in detail with breakdowns etc
+  // Price in detail with breakdowns
   cmp.types.v1alpha1.PriceDetail price_detail = 7;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 8;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 9;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 10;
+  repeated cmp.types.v1alpha1.ServiceFact services = 8;
 
   // Mealplan code
-  cmp.types.v1alpha1.MealPlan meal_plan_code = 11;
+  cmp.types.v1alpha1.MealPlan meal_plan_code = 9;
 
   // Rate plan
-  cmp.types.v1alpha1.RatePlan rate_plan = 12;
+  cmp.types.v1alpha1.RatePlan rate_plan = 10;
 
   // Rate Rule
-  cmp.types.v1alpha1.RateRule rate_rule = 13;
+  cmp.types.v1alpha1.RateRule rate_rule = 11;
 
   // This is a list so that various policies can be expressed.
   //
   // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
   // arrival z€
-  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 12;
 
   // Remaining units
-  int32 remaining_units = 15;
+  int32 remaining_units = 13;
 
   // Property code
-  cmp.types.v1alpha1.ProductCode property_code = 16;
+  cmp.types.v1alpha1.ProductCode property_code = 14;
 
   // Remarks
   // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 17;
+  string remarks = 15;
 }
 
 enum UnitType {

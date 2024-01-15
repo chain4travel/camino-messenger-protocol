@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
+import "cmp/types/v1alpha1/content_source.proto";
 import "cmp/types/v1alpha1/country.proto";
 import "cmp/types/v1alpha1/currency.proto";
 import "cmp/types/v1alpha1/filter.proto";
@@ -50,6 +51,14 @@ message SearchParameters {
   // personalization. This field can be provided in combination with a Geo location
   // or as stand-alone.
   string search_description_audio_url = 10;
+
+  // Content source types for this search request to specify which sources to
+  // include.
+  //
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
+  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
+  repeated ContentSourceType content_source_types = 11;
 }
 
 // This message type is used in every search request to contain the request metadata

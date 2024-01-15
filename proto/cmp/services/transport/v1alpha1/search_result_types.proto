@@ -38,26 +38,24 @@ message TransportSearchResult {
   cmp.types.v1alpha1.PriceDetail total_price = 6;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 7;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 8;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 9;
+  repeated cmp.types.v1alpha1.ServiceFact services = 7;
 
   // Rate Rules
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 10;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
 
   // Fulfillment
-  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 11; //FIXME: Can linktype be an ENUM?
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 9; //FIXME: Can linktype be an ENUM?
 
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can
   // be booked. If the start_date is omitted, the offer can be booked until the
   // end-date.
-  cmp.types.v1alpha1.DateTimeRange validity = 12;
+  cmp.types.v1alpha1.DateTimeRange validity = 10;
 
   // Cancel Policy
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 13;
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 11;
 
   // Observations
-  string observations = 14;
+  string observations = 12;
 }

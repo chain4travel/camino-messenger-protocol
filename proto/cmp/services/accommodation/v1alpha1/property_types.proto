@@ -10,7 +10,6 @@ import "cmp/types/v1alpha1/file.proto";
 import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/meal_plan.proto";
 import "cmp/types/v1alpha1/phone.proto";
-import "cmp/types/v1alpha1/rate.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 import "google/protobuf/timestamp.proto";
@@ -134,7 +133,7 @@ enum PropertyStatus {
   PROPERTY_STATUS_UNSPECIFIED = 0;
   PROPERTY_STATUS_DRAFT = 1;
   PROPERTY_STATUS_CONFIRMED = 2;
-  PROPERTY_STATUS_RETIRED = 3;
+  PROPERTY_STATUS_EXPIRED = 3;
 }
 
 message Room {
@@ -147,26 +146,18 @@ message Room {
   repeated cmp.types.v1alpha1.LocalizedDescriptionSet descriptions = 5;
 
   // Meal plan (Board code)
-  cmp.types.v1alpha1.MealPlan meal_plan = 6;
+  repeated cmp.types.v1alpha1.MealPlan meal_plan = 6;
 
   // FIXME: Need board description & amenities here
 
-  // Rate plans
-  repeated cmp.types.v1alpha1.RatePlan rate_plans = 7;
-
-  // Rate Rule
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 8;
-
   // Beds
-  repeated cmp.types.v1alpha1.Bed beds = 9;
+  repeated cmp.types.v1alpha1.Bed beds = 7;
 
   // Occupancy
-  Occupancy occupancy = 10;
+  Occupancy total_occupancy = 8;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 11;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 12;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 13;
+  repeated cmp.types.v1alpha1.ServiceFact services = 9;
 }
 
 message Occupancy {

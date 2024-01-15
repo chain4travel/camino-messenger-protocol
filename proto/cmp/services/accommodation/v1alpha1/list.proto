@@ -22,7 +22,7 @@ message AccommodationProductListResponse {
   repeated Property properties = 2;
 }
 
-// ### Accommodation Product List Service
+// Accommodation product list service definition
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/list.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/list.proto.dot.svg)

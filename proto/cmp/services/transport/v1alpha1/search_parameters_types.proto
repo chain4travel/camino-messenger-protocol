@@ -36,27 +36,15 @@ message TransportSearchParameters {
   // one.
   int32 max_segments = 7;
 
-  // Minimum departure time of the travelling trip
-  cmp.types.v1alpha1.Time travelling_min_departure_time = 8;
+  // Minimum departure time of the trip
+  cmp.types.v1alpha1.Time trip_min_departure_time = 8;
 
-  // Maximum departure time of the travelling trip
-  cmp.types.v1alpha1.Time travelling_max_departure_time = 9;
+  // Maximum departure time of the trip
+  cmp.types.v1alpha1.Time trip_max_departure_time = 9;
 
-  // Minimum arrival time of the travelling trip
-  cmp.types.v1alpha1.Time travelling_min_arrival_time = 10;
+  // Minimum arrival time of the trip
+  cmp.types.v1alpha1.Time trip_min_arrival_time = 10;
 
-  // Maximum arrival time of the travelling trip
-  cmp.types.v1alpha1.Time travelling_max_arrival_time = 11;
-
-  // Minimum departure time of the returning trip
-  cmp.types.v1alpha1.Time returning_min_departure_time = 12;
-
-  // Maximum departure time of the returning trip
-  cmp.types.v1alpha1.Time returning_max_departure_time = 13;
-
-  // Minimum arrival time of the returning trip
-  cmp.types.v1alpha1.Time returning_min_arrival_time = 14;
-
-  // Maximum arrival time of the returning trip
-  cmp.types.v1alpha1.Time returning_max_arrival_time = 15;
+  // Maximum arrival time of the trip
+  cmp.types.v1alpha1.Time trip_max_arrival_time = 11;
 }
