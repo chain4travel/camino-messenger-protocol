@@ -7,7 +7,6 @@ PROTODOT="protodot"
 GENERATED_DIR="${1:-gen}"
 PROTO_DIR="${2:-proto/cmp}"
 PROTODOT_DIR="${3:-diagrams}"
-VERSION="v1alpha1"
 
 declare -a BIG_ENUMS=(
     "country.proto"
@@ -67,6 +66,12 @@ for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
     fi
 done
 
+# Get TIMESTAMP google/protobuf/timestamp.proto
+TIMESTAMP_DIR=${PROTO_DIR}/google/protobuf
+TIMESTAMP_FILENAME=${TIMESTAMP_DIR}/timestamp.proto
+mkdir -p ${TIMESTAMP_DIR}
+curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/timestamp.proto > $TIMESTAMP_FILENAME
+
 # Generate diagrams
 for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
     # Set proto file dir
@@ -89,3 +94,6 @@ for truncated_file in "${TRUNCATE[@]}"; do
     # Revert the truncated files back
     revert_protobuf ${truncated_file}
 done
+
+# Clean up TIMESTAMP google/protobuf/timestamp.proto
+rm -rfv ${TIMESTAMP_DIR}
