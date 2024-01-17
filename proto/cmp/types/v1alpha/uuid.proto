@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// ### UUID message type
+//
+// This must be a UUID according to RFC 4122 standard.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/uuid.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/uuid.proto.dot.svg)
+message UUID {
+  string value = 1;
+}

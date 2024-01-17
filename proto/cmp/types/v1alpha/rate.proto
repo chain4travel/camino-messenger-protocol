@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// Rate Rule
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/rate.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/rate.proto.dot.svg)
+message RateRule {
+  RateRuleType rate_type = 1;
+  string rate_description = 2;
+  string rate_reference = 3;
+}
+
+// Rate Rule Type
+enum RateRuleType {
+  RATE_RULE_TYPE_UNSPECIFIED = 0;
+  RATE_RULE_TYPE_FLEXIBLE = 1;
+  RATE_RULE_TYPE_RESELLABLE = 2;
+  RATE_RULE_TYPE_NON_REFUNDABLE = 3;
+  RATE_RULE_TYPE_SEMI_NON_REFUNDABLE = 4;
+}
+
+// Rate plan message type. Contains `rate_plan` and `rate_plan_description` fields
+// as strings.
+message RatePlan {
+  // Rate plan
+  //
+  // Ex: ???
+  string rate_plan = 1;
+
+  // Rateplan description. In case of enrichment additional description of the unit code.
+  //
+  // Ex: "Package Rate"
+  string rate_plan_description = 2;
+}

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+// ## Accommodation Services
+//
+// The Accommodation services are used for both hotels and holiday homes, often
+// called short term rentals.
+//
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data. Static data can be cached and kept up to data with the Product List
+// and Product Details messages.
+//
+// This package is a **WIP**.
+package cmp.services.accommodation.v1alpha;
+
+import "cmp/services/accommodation/v1alpha/search_query_types.proto";
+import "cmp/services/accommodation/v1alpha/search_result_types.proto";
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/search.proto";
+
+// The `Accommodation Search Request` message type facilitates the request for
+// accommodations like hotel and holiday home searches within the platform. In the
+// request the market, language and currency are specified at the top-level.
+//
+// In the Unit we specify the details of the trip like dates, properties or
+// locations or filters. The purpose of such a structure is to allow for multi-room
+// and multi-property searches. This means that there is no grouping of different
+// room, mealplan or rateplan options in single room or single property searches.
+// Each AccommodationSearchResult is one bookable option.
+//
+// Several rooms or houses can be requested for the same dates and location or for
+// the purpose of a tour or roadtrip, several accommodations or properties for
+// sequential dates and different locations. This is done by specifying multiple
+// Units for the same or different periods, the same or different accommodations or
+// properties, specifying which travellers sleep in which unit.
+//
+// Developers leveraging this message type should ensure proper validation and
+// handling, especially considering fields that are still under review, like
+// `speech_request`.
+message AccommodationSearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search request metadata
+  cmp.types.v1alpha.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
+  // only the cheapest or all options.
+  cmp.types.v1alpha.SearchParameters search_parameters_generic = 3;
+
+  // This field represents a list of search queries that can be used to create
+  // multiroom multi location searches.
+  repeated AccommodationSearchQuery queries = 4;
+}
+
+// The `Accommodation Search Response` message type facilitates the response for
+// accommodations like hotel and holiday home searches within the platform.
+//
+// In the response a search_id must be included and a search_option_id for every
+// bookable option responded. Included, compulsary and optional services can be
+// included. A simple "free cancellation upto" can be set or full cancellation
+// pilicies can be included.
+message AccommodationSearchResponse {
+  // Message header. Contains API version, message info string and end user wallet
+  // address.
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search response metadata
+  cmp.types.v1alpha.SearchResponseMetadata metadata = 2;
+
+  // Unique combinations of bookable search results, like property,
+  repeated AccommodationSearchResult results = 3;
+}
+
+// Service definition for Accommodation search
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/search.proto.dot.svg)
+service AccommodationSearchService {
+  // Accommodation Search method
+  rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);
+}

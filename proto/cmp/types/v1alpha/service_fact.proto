@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+import "cmp/types/v1alpha/price.proto";
+
+// Service fact message type
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.svg)
+message ServiceFact {
+  string description = 1;
+  PriceDetail price_detail = 2;
+  ServiceAvailabilityType availability_type = 3;
+  ChargeBasisType charge_basis = 4;
+}
+
+enum ServiceAvailabilityType {
+  SERVICE_AVAILABILITY_TYPE_UNSPECIFIED = 0;
+  SERVICE_AVAILABILITY_TYPE_INCLUDED = 1;
+  SERVICE_AVAILABILITY_TYPE_COMPULSORY = 2;
+  SERVICE_AVAILABILITY_TYPE_OPTIONAL = 3;
+}
+
+enum ChargeBasisType {
+  CHARGE_BASIS_TYPE_UNSPECIFIED = 0;
+  CHARGE_BASIS_TYPE_PER_PAX = 1;
+  CHARGE_BASIS_TYPE_PER_PAX_PER_DAY = 2;
+  CHARGE_BASIS_TYPE_PER_UNIT = 3;
+  CHARGE_BASIS_TYPE_PER_UNIT_PER_DAY = 4;
+  CHARGE_BASIS_TYPE_PER_DAY = 5;
+  CHARGE_BASIS_TYPE_ONCE = 6;
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha;
+
+import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/time.proto";
+
+// ### Transport Search Parameters
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_parameters_types.proto.dot.svg)
+message TransportSearchParameters {
+  // Specify one or more type codes to be included in the search response
+  // Ex: "SF"
+  repeated cmp.types.v1alpha.ProductCode product_codes = 1;
+
+  // The minimum duration of a transport to be included in the search response
+  cmp.types.v1alpha.Time min_duration = 2;
+
+  // The maximum duration of a transport to be included in the search response
+  cmp.types.v1alpha.Time max_duration = 3;
+
+  // The minimum price of a transport to be included in the search response
+  cmp.types.v1alpha.Price min_price = 4;
+
+  // The maximum price of a transport to be included in the search response
+  cmp.types.v1alpha.Price max_price = 5;
+
+  // One or more brand codes or distribution channels for which assigned product is
+  // to be included in the search response
+  repeated string brand_code = 6;
+
+  // The maximum number of segments a trip might be containing, if only a direct
+  // flight, transfer, or train journey the maximum number of segments is set to
+  // one.
+  int32 max_segments = 7;
+
+  // Minimum departure time of the trip
+  cmp.types.v1alpha.Time trip_min_departure_time = 8;
+
+  // Maximum departure time of the trip
+  cmp.types.v1alpha.Time trip_max_departure_time = 9;
+
+  // Minimum arrival time of the trip
+  cmp.types.v1alpha.Time trip_min_arrival_time = 10;
+
+  // Maximum arrival time of the trip
+  cmp.types.v1alpha.Time trip_max_arrival_time = 11;
+}

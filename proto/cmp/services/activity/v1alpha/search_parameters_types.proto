@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package cmp.services.activity.v1alpha;
+
+import "cmp/types/v1alpha/language.proto";
+import "cmp/types/v1alpha/time.proto";
+import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/product_code.proto";
+
+// ### Activity Search Parameters
+//
+// These are Activity specific search parameters
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_parameters_types.proto.dot.svg)
+message ActivitySearchParameters {
+  // Specify the language(s) a potential guide should speak for example a tour in
+  // the Anne Frank house in Amsterdam in French or the tour at the pyramids in
+  // Egypt should be in Russian
+  repeated cmp.types.v1alpha.Language spoken_language = 1;
+
+  // Specify one or more product codes to be included in the search response
+  //
+  // Ex: "TC000000"
+  repeated cmp.types.v1alpha.ProductCode product_codes = 2;
+
+  // Specify one or more activity IDs to be included in the search response
+  //
+  // Ex: "EESPMI46VY"
+  repeated string activity_id = 3;
+
+  // Specify one or more service codes to be included in the search response
+  //
+  // Ex: "XO"
+  repeated string service_code = 4;
+
+  // Specify one or more category codes to be included in the search response
+  //
+  // Ex: "XA"
+  repeated string category_code = 5;
+
+  // Specify one or more type codes to be included in the search response
+  //
+  // Ex: "SF"
+  repeated string type_code = 6;
+
+  // Duration
+  //
+  // Specify the minimal and maximum duration of an activity to be included in the
+  // search response
+  cmp.types.v1alpha.Time min_duration = 7;
+  cmp.types.v1alpha.Time max_duration = 8;
+
+  // Pricerange
+  //
+  // Specify the minimum and maximum price of an activity to be included in the
+  // search response
+  cmp.types.v1alpha.Price min_price = 9;
+  cmp.types.v1alpha.Price max_price = 10;
+
+  // Specify one or more brand codes or distribution channels for which assigned
+  // product is to be included in the search response
+  repeated string brand_code = 11;
+}
