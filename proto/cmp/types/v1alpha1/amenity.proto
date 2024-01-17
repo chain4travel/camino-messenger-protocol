@@ -4,6 +4,33 @@ package cmp.types.v1alpha1;
 
 // Amenity message type
 //
+// Examples:
+//
+// - Amenity message with a single attribute
+//
+// ```python
+// Amenity(
+//     type = AmenityType.AMENITY_TYPE_THEMES,
+//     attributes = {
+//         "theme": "Second-line beach hotel"
+//     }
+// )
+// ```
+//
+// - Amenity message with multiple attributes
+//
+// ```python
+// Amenity(
+//     type = AmenityType.AMENITY_TYPE_INTERNET,
+//     attributes = {
+//         "lobby": "WiFi",
+//         "charge": "extra fee",
+//         "fee": "20",
+//         "fee_unit": "EUR"
+//     }
+// )
+// ```
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/amenity.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha1/amenity.proto.dot.svg)
 message Amenity {
