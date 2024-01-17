@@ -18,7 +18,7 @@ message AccommodationProductInfoRequest {
   repeated cmp.types.v1alpha1.Language languages = 3;
 
   // Property codes
-  repeated string propert_codes = 4;
+  repeated string property_codes = 4;
 }
 
 message AccommodationProductInfoResponse {

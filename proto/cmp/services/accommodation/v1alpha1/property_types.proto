@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/address.proto";
+import "cmp/types/v1alpha1/amenity.proto";
 import "cmp/types/v1alpha1/bed.proto";
 import "cmp/types/v1alpha1/description.proto";
 import "cmp/types/v1alpha1/email.proto";
@@ -148,8 +149,6 @@ message Room {
   // Meal plan (Board code)
   repeated cmp.types.v1alpha1.MealPlan meal_plan = 6;
 
-  // FIXME: Need board description & amenities here
-
   // Beds
   repeated cmp.types.v1alpha1.Bed beds = 7;
 
@@ -158,6 +157,9 @@ message Room {
 
   // Services
   repeated cmp.types.v1alpha1.ServiceFact services = 9;
+
+  // Amenities
+  repeated cmp.types.v1alpha1.Amenity amenities = 10;
 }
 
 message Occupancy {
