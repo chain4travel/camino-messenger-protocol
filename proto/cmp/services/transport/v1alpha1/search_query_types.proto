@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha1;
+
+import "cmp/services/transport/v1alpha1/search_parameters_types.proto";
+import "cmp/types/v1alpha1/date.proto";
+import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/traveller.proto";
+
+// Transport search query. Multiple trips can be send, each representing multi-leg
+// journey.
+//
+// Ex:
+// - 1 trip in trips : One way journey from PMI to BCN.
+// - 2 trips in trips: Roundtrip journey from PMI to BCN and then BCN to PMI.
+// - 3 trips in trips: PMI->BCN + BCN->BER + BER->PMI (1 two legged flight (connection) and 1 direct (return) flight)
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_query_types.proto.dot.xs.svg)
+// [Open Message
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_query_types.proto.dot.svg)
+message TransportSearchQuery {
+  // ID
+  int32 query_id = 1;
+
+  // Travellers
+  repeated cmp.types.v1alpha1.Traveller travellers = 2;
+
+  // Trips
+  repeated QueryTrip trips = 3;
+}
+
+// Version of `Trip` object in `trip_types.prot` for search request's queries. It
+// contains only departure and arrival objects, lacking the segments field.
+message QueryTrip {
+  // Departure event
+  QueryTransitEvent departure = 1;
+
+  // Arrival event
+  QueryTransitEvent arrival = 2;
+
+  // Transport specific search parameters
+  TransportSearchParameters search_parameters_transport = 3;
+}
+
+// Represents a departure or arrival event for search request's query. This type is
+// different from `TransitEvent` in `trip_types.proto` by having a `date` object
+// instead of a `datetime` object.
+message QueryTransitEvent {
+  // Date time of the event
+  cmp.types.v1alpha1.Date date = 1;
+
+  // Event location
+  cmp.types.v1alpha1.LocationCode location_code = 2;
+}

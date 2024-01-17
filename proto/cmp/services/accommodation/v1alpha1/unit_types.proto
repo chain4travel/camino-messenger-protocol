@@ -2,18 +2,19 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v1alpha1;
 
+import "cmp/types/v1alpha1/bed.proto";
 import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/meal_plan.proto";
 import "cmp/types/v1alpha1/price.proto";
+import "cmp/types/v1alpha1/product_code.proto";
 import "cmp/types/v1alpha1/rate.proto";
 import "cmp/types/v1alpha1/service_fact.proto";
 import "cmp/types/v1alpha1/travel_period.proto";
 import "cmp/types/v1alpha1/traveller.proto";
 
-// ### Unit
-//
 // A Unit can represent a room in a hotel. One search option can have multiple units
 // for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
+//
 // A unit can also be a different property in a multi-property request for holiday
 // homes. Ex: 1 house for 4 persons and another house for 6 persons.
 //
@@ -38,52 +39,38 @@ message Unit {
   repeated cmp.types.v1alpha1.Traveller travellers = 5;
 
   // Beds
-  repeated Bed beds = 6;
+  repeated cmp.types.v1alpha1.Bed beds = 6;
 
-  // Price in detail with breakdowns etc
+  // Price in detail with breakdowns
   cmp.types.v1alpha1.PriceDetail price_detail = 7;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 8;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 9;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 10;
+  repeated cmp.types.v1alpha1.ServiceFact services = 8;
 
   // Mealplan code
-  cmp.types.v1alpha1.MealPlan meal_plan_code = 11;
+  cmp.types.v1alpha1.MealPlan meal_plan_code = 9;
 
   // Rate plan
-  cmp.types.v1alpha1.RatePlan rate_plan = 12;
+  cmp.types.v1alpha1.RatePlan rate_plan = 10;
 
   // Rate Rule
-  cmp.types.v1alpha1.RateRule rate_rule = 13;
+  cmp.types.v1alpha1.RateRule rate_rule = 11;
 
-  // Cancel Policies
-  // This is a list so that various policies can be expressed
+  // This is a list so that various policies can be expressed.
+  //
   // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
   // arrival z€
-  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 14;
+  repeated cmp.types.v1alpha1.CancelPolicy cancel_policies = 12;
 
   // Remaining units
-  int32 remaining_units = 15;
+  int32 remaining_units = 13;
 
-  // Propert code
-  string property_code = 16;
+  // Property code
+  cmp.types.v1alpha1.ProductCode property_code = 14;
 
   // Remarks
   // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 17;
-}
-
-message Bed {
-  BedType type = 1;
-  int32 count = 2;
-}
-
-enum BedType {
-  BED_TYPE_UNSPECIFIED = 0;
-  BED_TYPE_SINGLE = 1;
-  BED_TYPE_DOUBLE = 2;
-  BED_TYPE_KING = 3;
+  string remarks = 15;
 }
 
 enum UnitType {

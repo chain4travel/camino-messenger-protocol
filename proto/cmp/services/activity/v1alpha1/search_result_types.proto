@@ -8,10 +8,9 @@ import "cmp/types/v1alpha1/location.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "google/protobuf/timestamp.proto";
 
-// ### Search option type for Activity Search Service
+// This type represents a search result and is used in the `ActivitySearchResponse`
+// message.
 //
-// This type represents a search result and is used in the
-// `ActivitySearchResponse` message.
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_option_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha1/search_option_types.proto.dot.svg)
 message ActivitySearchResult {
@@ -115,7 +114,7 @@ message PickupDropoffEvent {
   // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
   string other_info = 4;
 
-  // Ex: "2023-07-15T09:05:00"
+  // Datetime of the pickup dropoff event as Unix timestamp
   google.protobuf.Timestamp date_time = 5;
 }
 

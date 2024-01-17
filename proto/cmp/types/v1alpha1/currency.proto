@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha1;
 
-// ### Currency list of ISO 4217 standard
+// Currency list of ISO 4217 standard
 //
 // First 20 currencies are the most traded currencies in the world. This is done to
 // optimize the size of the protobuf message size.

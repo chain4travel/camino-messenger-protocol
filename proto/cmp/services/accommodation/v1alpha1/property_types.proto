@@ -3,9 +3,16 @@ syntax = "proto3";
 package cmp.services.accommodation.v1alpha1;
 
 import "cmp/types/v1alpha1/address.proto";
+import "cmp/types/v1alpha1/amenity.proto";
+import "cmp/types/v1alpha1/bed.proto";
+import "cmp/types/v1alpha1/description.proto";
 import "cmp/types/v1alpha1/email.proto";
+import "cmp/types/v1alpha1/file.proto";
 import "cmp/types/v1alpha1/location.proto";
+import "cmp/types/v1alpha1/meal_plan.proto";
 import "cmp/types/v1alpha1/phone.proto";
+import "cmp/types/v1alpha1/service_fact.proto";
+import "cmp/types/v1alpha1/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 // ### Property message type
@@ -91,4 +98,103 @@ enum CategoryUnit {
   CATEGORY_UNIT_UNSPECIFIED = 0;
   CATEGORY_UNIT_STARS = 1;
   CATEGORY_UNIT_PALMS = 2;
+}
+
+// This message type contains extended info about a property
+message PropertyExtendedInfo {
+  // Property
+  Property property = 1;
+
+  // Images
+  repeated cmp.types.v1alpha1.Image images = 2;
+
+  // Videos
+  repeated cmp.types.v1alpha1.Video videos = 3;
+
+  // Segmentation classification
+  repeated string classification = 4;
+
+  // Property descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet localized_descriptions = 5;
+
+  // Room descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet localized_room_descriptions = 6;
+
+  // Payment type. Ex: "MERCHANT"
+  string payment_type = 7;
+
+  // Status
+  PropertyStatus status = 8;
+
+  // Rooms
+  repeated Room rooms = 9;
+}
+
+enum PropertyStatus {
+  PROPERTY_STATUS_UNSPECIFIED = 0;
+  PROPERTY_STATUS_DRAFT = 1;
+  PROPERTY_STATUS_CONFIRMED = 2;
+  PROPERTY_STATUS_EXPIRED = 3;
+}
+
+message Room {
+  string code = 1;
+  string name = 2;
+  repeated cmp.types.v1alpha1.Image images = 3;
+  repeated cmp.types.v1alpha1.Video videos = 4;
+
+  // Room descriptions
+  repeated cmp.types.v1alpha1.LocalizedDescriptionSet descriptions = 5;
+
+  // Meal plan (Board code)
+  repeated cmp.types.v1alpha1.MealPlan meal_plan = 6;
+
+  // Beds
+  repeated cmp.types.v1alpha1.Bed beds = 7;
+
+  // Occupancy
+  Occupancy total_occupancy = 8;
+
+  // Services
+  repeated cmp.types.v1alpha1.ServiceFact services = 9;
+
+  // Amenities
+  repeated cmp.types.v1alpha1.Amenity amenities = 10;
+}
+
+message Occupancy {
+  // Min guests
+  int32 min_guests = 1;
+
+  // Max guests
+  int32 max_guests = 2;
+
+  // Standard occupancy
+  int32 standard_occupancy = 3;
+
+  // Full payers
+  int32 full_payers = 4;
+
+  // If infants are counted in total guests or not
+  bool infant_counted_in_total_guests = 5;
+
+  // Occupancy options
+  repeated OccupancyOption occupancy_options = 6;
+}
+
+message OccupancyOption {
+  // Guest type like adult, child, infant.
+  cmp.types.v1alpha1.TravellerType guest_type = 1;
+
+  // Min guests
+  int32 min = 2;
+
+  // Max guests
+  int32 max = 3;
+
+  // Min age
+  int32 min_age = 4;
+
+  // Max age
+  int32 max_age = 5;
 }

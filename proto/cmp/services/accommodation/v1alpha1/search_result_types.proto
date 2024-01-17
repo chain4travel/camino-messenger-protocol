@@ -7,8 +7,6 @@ import "cmp/types/v1alpha1/cancel_policy.proto";
 import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/rate.proto";
 
-// ### Search result type for Accommodation Search Service
-//
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
 //
@@ -19,18 +17,21 @@ message AccommodationSearchResult {
   // increasing by 1 for every search result.
   int32 result_id = 1;
 
+  // This field represents the query ID associated with the search result.
+  int32 query_id = 2;
+
   // Units for this search result
-  repeated Unit units = 2;
+  repeated Unit units = 3;
 
   // ## Total price in detail, with breakdowns
-  cmp.types.v1alpha1.PriceDetail total_price_detail = 3;
+  cmp.types.v1alpha1.PriceDetail total_price_detail = 4;
 
   // The RateRule specifies whether a search result is non-refundable or not
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 4;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 5;
 
   // The cancellation conditions related to an option
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 5;
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 6;
 
   // Freetext remarks without any functionality
-  string remarks = 6;
+  string remarks = 7;
 }

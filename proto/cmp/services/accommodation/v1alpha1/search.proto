@@ -12,34 +12,28 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v1alpha1;
 
-import "cmp/services/accommodation/v1alpha1/search_parameters_types.proto";
+import "cmp/services/accommodation/v1alpha1/search_query_types.proto";
 import "cmp/services/accommodation/v1alpha1/search_result_types.proto";
-import "cmp/services/accommodation/v1alpha1/unit_types.proto";
 import "cmp/types/v1alpha1/common.proto";
 import "cmp/types/v1alpha1/search.proto";
-import "cmp/types/v1alpha1/travel_period.proto";
-import "cmp/types/v1alpha1/traveller.proto";
 
-// ### Accommodation Search Request Message Type
-//
 // The `Accommodation Search Request` message type facilitates the request for
 // accommodations like hotel and holiday home searches within the platform. In the
-// request the market, language and currency are specified at the top-level. 
-// 
-// In the Unit we specify the details of the trip like dates, properties or locations or
-// filters. The purpose of such a structure is to allow for multi-room and
-// multi-property searches.
-// This means that there is no grouping of different room, mealplan or rateplan options
-// in single room or single property searches. Each AccommodationSearchResult is one 
-// bookable option.
+// request the market, language and currency are specified at the top-level.
 //
-// Several rooms or houses can be requested for the same dates and location or 
-// for the purpose of a tour or roadtrip, several accommodations or properties for 
-// sequential dates and different locations. This is done by specifying multiple Units
-// for the same or different periods, the same or different accommodations or properties,
-// specifying which travellers sleep in which unit.
-// 
-//// Developers leveraging this message type should ensure proper validation and
+// In the Unit we specify the details of the trip like dates, properties or
+// locations or filters. The purpose of such a structure is to allow for multi-room
+// and multi-property searches. This means that there is no grouping of different
+// room, mealplan or rateplan options in single room or single property searches.
+// Each AccommodationSearchResult is one bookable option.
+//
+// Several rooms or houses can be requested for the same dates and location or for
+// the purpose of a tour or roadtrip, several accommodations or properties for
+// sequential dates and different locations. This is done by specifying multiple
+// Units for the same or different periods, the same or different accommodations or
+// properties, specifying which travellers sleep in which unit.
+//
+// Developers leveraging this message type should ensure proper validation and
 // handling, especially considering fields that are still under review, like
 // `speech_request`.
 message AccommodationSearchRequest {
@@ -54,22 +48,11 @@ message AccommodationSearchRequest {
   // only the cheapest or all options.
   cmp.types.v1alpha1.SearchParameters search_parameters_generic = 3;
 
-  // Accommodation specific search parameters Ex: Specific search parameters like
-  // geo location, meal plan, rate plan and rate rules.
-  AccommodationSearchParameters search_parameters_accommodation = 4;
-
-  // Travel period
-  cmp.types.v1alpha1.TravelPeriod travel_period = 5;
-
-  // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 6;
-
-  // Unit Types
-  repeated UnitType unit_types = 7;
+  // This field represents a list of search queries that can be used to create
+  // multiroom multi location searches.
+  repeated AccommodationSearchQuery queries = 4;
 }
 
-// ### Accommodation Search Response
-//
 // The `Accommodation Search Response` message type facilitates the response for
 // accommodations like hotel and holiday home searches within the platform.
 //
@@ -89,7 +72,7 @@ message AccommodationSearchResponse {
   repeated AccommodationSearchResult results = 3;
 }
 
-// ### Accommodation Search Service definition
+// Service definition for Accommodation search
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha1/search.proto.dot.svg)

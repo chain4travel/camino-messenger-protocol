@@ -9,31 +9,30 @@ import "cmp/types/v1alpha1/price.proto";
 import "cmp/types/v1alpha1/time.proto";
 import "google/protobuf/timestamp.proto";
 
-// ### Trip message type
-//
 // This message type represents a one way trip, either travelling or returning.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/trip_types.proto.dot.svg)
 message Trip {
-  // Departure min time
-  google.protobuf.Timestamp departure_min_time = 1;
-
-  // Departure max time
-  google.protobuf.Timestamp departure_max_time = 2;
-
   // Departure event
-  TransitEvent departure = 3;
+  TransitEvent departure = 1;
 
   // Arrival event
-  TransitEvent arrival = 4;
+  TransitEvent arrival = 2;
 
   // Trip segments
-  repeated TripSegment trip_segments = 5;
+  repeated TripSegment segments = 3;
 }
 
-// ### Trip Segment messag type
-//
+// Represents a departure or arrival event
+message TransitEvent {
+  // Date time of the event
+  google.protobuf.Timestamp date_time = 1;
+
+  // Event location
+  cmp.types.v1alpha1.LocationCode location_code = 2;
+}
+
 // A segment of a trip
 message TripSegment {
   // Segment ID
@@ -95,7 +94,7 @@ message TripSegment {
   // Max PAX
   //
   // Ex: `3`
-  int32 max_max = 13;
+  int32 max_pax = 13;
 
   // Luggage
   //
@@ -106,15 +105,4 @@ message TripSegment {
   //
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
   cmp.types.v1alpha1.Price price = 15;
-}
-
-// ### Transit Event message type
-//
-// Represents a departure or arrival event
-message TransitEvent {
-  // Date tim of the event
-  google.protobuf.Timestamp date_time = 1;
-
-  // Event location
-  cmp.types.v1alpha1.LocationCode location_code = 2;
 }

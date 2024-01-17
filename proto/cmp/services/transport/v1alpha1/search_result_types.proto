@@ -13,51 +13,52 @@ import "cmp/types/v1alpha1/traveller.proto";
 
 // Transport search result
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_option_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha1/search_result_types.proto.dot.svg)
 message TransportSearchResult {
-  // Unique option ID for this search
-  int32 option_id = 1;
+  // Unique result ID
+  int32 result_id = 1;
+
+  // Query ID is the id of the query this result is generated for
+  int32 query_id = 2;
 
   // Offer ID.
   //
   // Option to carry through an offer identifier for other stateful provider systems
   // like NDC AirShopping RS
-  string offer_id = 2;
+  string offer_id = 3;
 
   // Travellers
-  repeated cmp.types.v1alpha1.Traveller travellers = 3;
+  repeated cmp.types.v1alpha1.Traveller travellers = 4;
 
   // Travelling trip. See `search.proto` documentation
-  Trip travelling_trip = 4;
+  Trip travelling_trip = 5;
 
   // Returning trip. See `search.proto` documentation
-  Trip returning_trip = 5;
+  Trip returning_trip = 6;
 
   // Total Price
-  cmp.types.v1alpha1.PriceDetail total_price = 6;
+  cmp.types.v1alpha1.PriceDetail total_price = 7;
 
   // Services
-  repeated cmp.types.v1alpha1.ServiceFact included_services = 7;
-  repeated cmp.types.v1alpha1.ServiceFact compulsory_extras = 8;
-  repeated cmp.types.v1alpha1.ServiceFact optional_extras = 9;
+  repeated cmp.types.v1alpha1.ServiceFact services = 8;
 
   // Rate Rules
-  repeated cmp.types.v1alpha1.RateRule rate_rules = 10;
+  repeated cmp.types.v1alpha1.RateRule rate_rules = 9;
 
   // Fulfillment
-  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 11; //FIXME: Can linktype be an ENUM?
+  repeated cmp.types.v1alpha1.Fulfillment fulfillments = 10; //FIXME: Can linktype be an ENUM?
 
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can
   // be booked. If the start_date is omitted, the offer can be booked until the
   // end-date.
-  cmp.types.v1alpha1.DateTimeRange validity = 12;
+  cmp.types.v1alpha1.DateTimeRange validity = 11;
 
   // Cancel Policy
-  cmp.types.v1alpha1.CancelPolicy cancel_policy = 13;
+  cmp.types.v1alpha1.CancelPolicy cancel_policy = 12;
 
   // Observations
-  string observations = 14;
+  string observations = 13;
 }
