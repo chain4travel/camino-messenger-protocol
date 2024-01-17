@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// Time Message
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/time.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/time.proto.dot.svg)
+message Time {
+  int32 hours = 1;
+  int32 minutes = 2;
+}

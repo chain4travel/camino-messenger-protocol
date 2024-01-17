@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+// ### Activity Services
+//
+// The Activity services are used for both tickets and excursions
+//
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data. Static data can be cached and kept up to data with the Product List
+// and Product Details messages.
+//
+// This package is a **WIP**.
+package cmp.services.activity.v1alpha;
+
+import "cmp/services/activity/v1alpha/search_parameters_types.proto";
+import "cmp/services/activity/v1alpha/search_result_types.proto";
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/location.proto";
+import "cmp/types/v1alpha/search.proto";
+import "cmp/types/v1alpha/travel_period.proto";
+import "cmp/types/v1alpha/traveller.proto";
+
+// ### Activity Search Request
+//
+// Search request for Activities
+message ActivitySearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search request metadata
+  cmp.types.v1alpha.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters
+  //
+  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all
+  // options.
+  cmp.types.v1alpha.SearchParameters search_parameters_generic = 3;
+
+  // Activiy specific search parameters
+  // Ex: ??
+  ActivitySearchParameters search_parameters_activity = 4;
+
+  // Travel period
+  cmp.types.v1alpha.TravelPeriod travel_period = 5;
+
+  // Travellers
+  repeated cmp.types.v1alpha.Traveller travellers = 6;
+
+  // ### Source Location
+  //
+  // For search, set only one of the fields at once. Source location indicates the
+  // customer’s position at the start of the service. Typical value would be the
+  // stay hotel or the touristic destination. The source location is needed for
+  // service and transfer availability, pickup location and pickup time calculation.
+  //
+  // This one of field enforces only one of the fields below. They all share memory,
+  // setting one will remove the others.
+  oneof source_location {
+    // The code and code type of a stay location the provider will be able to process
+    // Ex. GiataID
+    cmp.types.v1alpha.LocationCodes source_location_codes = 7;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v1alpha.Coordinate source_location_coordinate = 8;
+
+    // Geo tree type, representted by Country, Region, and City_or_Resort.
+    cmp.types.v1alpha.GeoTree source_location_geo_tree = 9;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v1alpha.GeoCircle source_location_geo_circle = 10;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v1alpha.GeoPolygon source_location_geo_polygon = 11;
+  }
+
+  // ### Service Location
+  //
+  // For search, set only one of the field at once. Service location specifies the
+  // areas involved in aticket or excursion service. Service location indicates the
+  // area of the requested services. Typical value would be the region or resort.
+  //
+  // This one of field enforces only one of the fields below. They all share memory,
+  // setting one will remove the others.
+  oneof service_location {
+    // The code and code type of a stay location the distributor will be able to process
+    // Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or any other agreed code type.
+    cmp.types.v1alpha.LocationCodes service_location_codes = 12;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v1alpha.Coordinate service_location_coordinate = 13;
+
+    // Geo tree type, representted by Country, Region, and City_or_Resort.
+    cmp.types.v1alpha.GeoTree service_location_geo_tree = 14;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v1alpha.GeoCircle service_location_geo_circle = 15;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v1alpha.GeoPolygon service_location_geo_polygon = 16;
+  }
+}
+
+message ActivitySearchResponse {
+  // Message header. Contains API version, message info string and end user wallet
+  // address.
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search response metadata
+  cmp.types.v1alpha.SearchResponseMetadata metadata = 2;
+
+  // Unique combinations of bookable search results
+  repeated ActivitySearchResult results = 3;
+}
+
+// ### Activity Search Service
+//
+// Takes `ActivitySearchRequest` message type and returns `ActivitySearchResponse` message type.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search.proto.dot.svg)
+service ActivitySearchService {
+  rpc ActivitySearch(ActivitySearchRequest) returns (ActivitySearchResponse);
+}

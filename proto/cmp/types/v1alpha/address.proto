@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+import "cmp/types/v1alpha/location.proto";
+
+// Address
+//
+// This type represents an address for a home or hotel etc.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/address.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/address.proto.dot.svg)
+message Address {
+  string line_1 = 1;
+  string line_2 = 2;
+  string district = 3;
+  int32 zip_code = 5;
+  GeoTree geo_tree = 6;
+}

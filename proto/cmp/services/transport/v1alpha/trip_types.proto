@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha;
+
+import "cmp/types/v1alpha/baggage.proto";
+import "cmp/types/v1alpha/location.proto";
+import "cmp/types/v1alpha/measurement.proto";
+import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/time.proto";
+import "google/protobuf/timestamp.proto";
+
+// This message type represents a one way trip, either travelling or returning.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/trip_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/trip_types.proto.dot.svg)
+message Trip {
+  // Departure event
+  TransitEvent departure = 1;
+
+  // Arrival event
+  TransitEvent arrival = 2;
+
+  // Trip segments
+  repeated TripSegment segments = 3;
+}
+
+// Represents a departure or arrival event
+message TransitEvent {
+  // Date time of the event
+  google.protobuf.Timestamp date_time = 1;
+
+  // Event location
+  cmp.types.v1alpha.LocationCode location_code = 2;
+}
+
+// A segment of a trip
+message TripSegment {
+  // Segment ID
+  // Ex: "SEG1234"
+  string segment_id = 1;
+
+  // Provider Code
+  // Ex: "AC"
+  string provider_code = 2;
+
+  // Retailer Code, replacing Marketing carrier
+  // Ex: "BC"
+  string retailer_code = 3;
+
+  // Sub Provider Code, replacing Operating carrier or identifying sub contracted
+  // services provided by other suppliers.
+  //
+  // Ex: "BC"
+  string sub_provider_code = 4;
+
+  // Service Number
+  //
+  // Ex: "1234"
+  //
+  // FIXME: Should this be an integer? For flights yes, but for trains and
+  // transfers?
+  string service_number = 5;
+
+  // Departure
+  TransitEvent departure = 6;
+
+  // Arrival
+  TransitEvent arrival = 7;
+
+  // Service description
+  //
+  // Ex: "Economy"
+  string service_description = 8;
+
+  // Service code
+  // Ex: "Y"
+  string service_code = 9;
+
+  // Trip Time
+  //
+  // Ex: Time(hours=2, minutes=45)
+  cmp.types.v1alpha.Time trip_time = 10;
+
+  // Trip Distance
+  //
+  // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
+  cmp.types.v1alpha.Length trip_distance = 11;
+
+  // Min PAX
+  //
+  // Ex: `1`
+  int32 min_pax = 12;
+
+  // Max PAX
+  //
+  // Ex: `3`
+  int32 max_pax = 13;
+
+  // Luggage
+  //
+  // Ex: `3`
+  cmp.types.v1alpha.Baggage baggage = 14;
+
+  // Price
+  //
+  // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
+  cmp.types.v1alpha.Price price = 15;
+}

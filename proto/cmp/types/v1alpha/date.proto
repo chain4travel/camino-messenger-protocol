@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// Date Message
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/date.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/date.proto.dot.svg)
+message Date {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+}

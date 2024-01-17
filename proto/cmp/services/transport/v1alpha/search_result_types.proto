@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1alpha;
+
+import "cmp/services/transport/v1alpha/trip_types.proto";
+import "cmp/types/v1alpha/cancel_policy.proto";
+import "cmp/types/v1alpha/datetime_range.proto";
+import "cmp/types/v1alpha/fulfillment.proto";
+import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/rate.proto";
+import "cmp/types/v1alpha/service_fact.proto";
+import "cmp/types/v1alpha/traveller.proto";
+
+// Transport search result
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_result_types.proto.dot.svg)
+message TransportSearchResult {
+  // Unique result ID
+  int32 result_id = 1;
+
+  // Query ID is the id of the query this result is generated for
+  int32 query_id = 2;
+
+  // Offer ID.
+  //
+  // Option to carry through an offer identifier for other stateful provider systems
+  // like NDC AirShopping RS
+  string offer_id = 3;
+
+  // Travellers
+  repeated cmp.types.v1alpha.Traveller travellers = 4;
+
+  // Travelling trip. See `search.proto` documentation
+  Trip travelling_trip = 5;
+
+  // Returning trip. See `search.proto` documentation
+  Trip returning_trip = 6;
+
+  // Total Price
+  cmp.types.v1alpha.PriceDetail total_price = 7;
+
+  // Services
+  repeated cmp.types.v1alpha.ServiceFact services = 8;
+
+  // Rate Rules
+  repeated cmp.types.v1alpha.RateRule rate_rules = 9;
+
+  // Fulfillment
+  repeated cmp.types.v1alpha.Fulfillment fulfillments = 10; //FIXME: Can linktype be an ENUM?
+
+  // Validity of the search option.
+  //
+  // `DateTimeRange` type with `start_date` and `end_date` in which the option can
+  // be booked. If the start_date is omitted, the offer can be booked until the
+  // end-date.
+  cmp.types.v1alpha.DateTimeRange validity = 11;
+
+  // Cancel Policy
+  cmp.types.v1alpha.CancelPolicy cancel_policy = 12;
+
+  // Observations
+  string observations = 13;
+}

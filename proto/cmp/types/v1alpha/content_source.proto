@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// ### Content Source Type message type
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/content_source.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/content_source.proto.dot.svg)
+enum ContentSourceType {
+  CONTENT_SOURCE_TYPE_UNSPECIFIED = 0;
+  CONTENT_SOURCE_TYPE_GDS = 1;
+  CONTENT_SOURCE_TYPE_NDC = 2;
+  CONTENT_SOURCE_TYPE_OWN_PRODUCT = 3;
+  CONTENT_SOURCE_TYPE_DIRECT_CONTRACT = 4;
+  CONTENT_SOURCE_TYPE_3RD_PARTY = 5;
+}
