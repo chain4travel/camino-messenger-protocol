@@ -76,7 +76,7 @@ message TripSegment {
   // Arrival
   TransitEvent arrival = 7;
 
-  // Service Type Flights, trains and transfers often offer different service types
+  // Flights, trains and transfers often offer different service types
   // for a product. Think about economy or business for flights, first and second
   // class on trains and a shared shuttle or a private transfer.
 
