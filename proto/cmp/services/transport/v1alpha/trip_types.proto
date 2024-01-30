@@ -10,7 +10,6 @@ import "cmp/types/v1alpha/time.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
-
 // This message type represents a one way trip, either travelling or returning.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/trip_types.proto.dot.xs.svg)
