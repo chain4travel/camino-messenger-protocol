@@ -67,7 +67,7 @@ message TripSegment {
   // Eurostar, but others just use a code or a number (SNCF). 
   //
   // Transfers are often identified by just a product code servicing an area.
-  cmp.types.v1alpha.ProductCode product = 5;
+  cmp.types.v1alpha.ProductCode product_code = 5;
   
 
   // Departure
