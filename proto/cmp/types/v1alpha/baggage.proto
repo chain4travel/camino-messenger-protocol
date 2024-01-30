@@ -17,7 +17,7 @@ message Baggage {
   // Maximum number of the specified baggage count allowed for this type
   int32 max_count = 2;
 
-  // Maximum weith of each of the specified baggage type allowed
+  // Maximum weight of each of the specified baggage type allowed
   Weight max_weight = 3;
 
   // Maximum length, width and height of the specified bagage type allowed
