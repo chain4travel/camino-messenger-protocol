@@ -79,16 +79,14 @@ message TripSegment {
   // Flights, trains and transfers often offer different service types
   // for a product. Think about economy or business for flights, first and second
   // class on trains and a shared shuttle or a private transfer.
-
-
-  // Service type code examples.
+  //
+  // Service type code examples:
   // flight: "Y", "J", "F".
   // train: "1st", "2nd" or "S", "C", "P"
   // transfer: "S", "P", "VIP", "SS"
   string service_type_code = 8;
 
-  //Service type description examples
-  //
+  // Service type description examples:
   // flight: "Economy Class", "Business Class", "First Class"
   // train: "First Class", "Second Class" or "standard", "comfort", and "premium",..
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
