@@ -22,6 +22,10 @@ message Baggage {
 
   // Maximum length, width and height of the specified bagage type allowed
   Dimension max_dimension = 4;
+
+  // traveller ID to specify the various types of bagage for each of participants of
+  // a trip.
+  int32 traveller_id = 5;
 }
 
 // Baggage type ENUM type

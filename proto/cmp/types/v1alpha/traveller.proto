@@ -10,8 +10,9 @@ import "cmp/types/v1alpha/date.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/traveller.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/traveller.proto.dot.svg)
 message Traveller {
-  // Guest number, the lowest number is the lead-pax
-  int32 guest_number = 1;
+  // Guest number, the lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, like baggage.
+  int32 traveller_id = 1;
 
   // FIXME: Why we need both traveller type and birthday?
 

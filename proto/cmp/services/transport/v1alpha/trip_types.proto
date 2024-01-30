@@ -7,7 +7,9 @@ import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/measurement.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/time.proto";
+import "cmp/types/v1alpha/product_code.proto";
 import "google/protobuf/timestamp.proto";
+
 
 // This message type represents a one way trip, either travelling or returning.
 //
@@ -39,27 +41,35 @@ message TripSegment {
   // Ex: "SEG1234"
   string segment_id = 1;
 
-  // Provider Code
-  // Ex: "AC"
+  // Provider Code Ex: "EW" for Eurowings in case of a flight. DB for Deutsche Bahn
+  // in case of train. HT for Holiday Taxi or MTS for MTS in case of a transfer.
   string provider_code = 2;
 
-  // Retailer Code, replacing Marketing carrier
-  // Ex: "BC"
+  // Retailer Code, replacing Marketing carrier The example would be where Iberia is
+  // selling an Iberia Express flight. So in this example the retailer_code for
+  // Iberia would be "IB" and the provider_code for Iberia Express would be "I2".
+  // Similar "interline" or "code share" operation may exist in rail and transfer.
   string retailer_code = 3;
 
   // Sub Provider Code, replacing Operating carrier or identifying sub contracted
   // services provided by other suppliers.
   //
-  // Ex: "BC"
+  // DB could be selling an intenational train trip operated by the Dutch Nederlands
+  // Spoorwegen (NS) or the French SNCF. Holiday Taxis could be selling a transfer
+  // that is operated by Transunion.
   string sub_provider_code = 4;
 
-  // Service Number
+  // Product Code and Number
   //
-  // Ex: "1234"
+  // For flights we use the IATA or ICAO airline code in the code field and the
+  // flight number in the number field.
   //
-  // FIXME: Should this be an integer? For flights yes, but for trains and
-  // transfers?
-  string service_number = 5;
+  // For train some operators use a combination of a code and a number like
+  // Eurostar, but others just use a code or a number (SNCF). 
+  //
+  // Transfers are often identified by just a product code servicing an area.
+  cmp.types.v1alpha.ProductCode product = 5;
+  
 
   // Departure
   TransitEvent departure = 6;
@@ -67,14 +77,23 @@ message TripSegment {
   // Arrival
   TransitEvent arrival = 7;
 
-  // Service description
-  //
-  // Ex: "Economy"
-  string service_description = 8;
+  // Service Type Flights, trains and transfers often offer different service types
+  // for a product. Think about economy or business for flights, first and second
+  // class on trains and a shared shuttle or a private transfer.
 
-  // Service code
-  // Ex: "Y"
-  string service_code = 9;
+
+  // Service type code examples.
+  // flight: "Y", "J", "F".
+  // train: "1st", "2nd" or "S", "C", "P"
+  // transfer: "S", "P", "VIP", "SS"
+  string service_type_code = 8;
+
+  //Service type description examples
+  //
+  // flight: "Economy Class", "Business Class", "First Class"
+  // train: "First Class", "Second Class" or "standard", "comfort", and "premium",..
+  // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
+  string service_type_description = 9;
 
   // Trip Time
   //
