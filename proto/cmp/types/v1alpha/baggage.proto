@@ -17,11 +17,16 @@ message Baggage {
   // Maximum number of the specified baggage count allowed for this type
   int32 max_count = 2;
 
-  // Maximum weith of each of the specified bagage type allowed
+  // Maximum weight of each of the specified baggage type allowed
   Weight max_weight = 3;
 
   // Maximum length, width and height of the specified bagage type allowed
   Dimension max_dimension = 4;
+
+  // traveller ID to specify the various types of baggage for each of participants
+  // of a trip. If there is just a total of different types of baggage, then it is
+  // the total for the booking and not specific to each participant.
+  int32 traveller_id = 5;
 }
 
 // Baggage type ENUM type

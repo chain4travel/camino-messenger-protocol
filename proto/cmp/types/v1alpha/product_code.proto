@@ -9,8 +9,16 @@ package cmp.types.v1alpha;
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_code.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_code.proto.dot.svg)
 message ProductCode {
+
+  // In most cases like in accommodation, just the field "code" and "type" will be
+  // used. For example in case of a GiataID (for example code=182568), a provider
+  // hotel code (for example MTS hotel code=AESPMI1234), a transfer code, etc.
+  // However, for flight and train it is common to have a code and a number like "EW
+  // 51" or "ICE 2803", which would then be code=EW and number=51 or code=ICE and
+  // number=2803
   string code = 1;
-  ProductCodeType type = 2;
+  int32 number = 2;
+  ProductCodeType type = 3;
 }
 
 // Product Code type
@@ -19,4 +27,6 @@ enum ProductCodeType {
   PRODUCT_CODE_TYPE_PROVIDER = 1;
   PRODUCT_CODE_TYPE_GIATA = 2;
   PRODUCT_CODE_TYPE_GOAL_ID = 3;
+  PRODUCT_CODE_TYPE_IATA = 4;
+  PRODUCT_CODE_TYPE_ICAO = 5;
 }
