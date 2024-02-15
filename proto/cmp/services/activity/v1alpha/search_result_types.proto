@@ -7,6 +7,7 @@ import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/price.proto";
 import "google/protobuf/timestamp.proto";
+import "cmp/types/v1alpha/product_code.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
@@ -46,43 +47,46 @@ message ActivitySearchResult {
 
 // Represents an Activity product.
 //
-// FIXME: We need optimizations in this type
+// See extensive explanations in search_parameters_types
 message Activity {
   // Ex: "TC000000"
-  string product_code = 1;
+  cmp.types.v1alpha.SupplierProductCodeProductCode supplier_codes = 1;
+
+  // Product code which can be of different types
+  cmp.types.v1alpha.ProductCode product_code = 2;
 
   // Ex: "Helicopter Tour Heli"
-  string product_name = 2;
+  string product_name = 3;
 
   // Ex: "EESPMI46VY"
-  string activity_id = 3;
+  string activity_id = 4;
 
   // Ex: "Tour (40 min)"
-  string activity_name = 4;
+  string activity_name = 5;
 
   // Ex: "XO"
-  string service_code = 5;
+  string service_code = 6;
 
   // Ex: "with transfer from/to hotel"
-  string service_name = 6;
+  string service_name = 7;
 
   // Ex: "XA"
-  string category_code = 7;
+  string category_code = 8;
 
   // Ex: "Excursions & Activities"
-  string category_name = 8;
+  string category_name = 9;
 
   // Ex: "SF"
-  string type_code = 9;
+  string type_code = 10;
 
   // Ex: "Safari"
-  string type_name = 10;
+  string type_name = 11;
 
   // Status
   //
   // FIXME: We need to make this an ENUM (this is also used for several other
   // verticals)
-  string status = 11;
+  string status = 12;
 }
 
 // ### Activity Location

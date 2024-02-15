@@ -65,12 +65,16 @@ message Unit {
   // Remaining units
   int32 remaining_units = 13;
 
-  // Property code
+  // Property code which can be of different types
   cmp.types.v1alpha.ProductCode property_code = 14;
+ 
+  // Property code
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 15;
 
   // Remarks
-  // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 15;
+  // Non structural aspects related to the unit a supplier wants to include in the search
+  // response
+  string remarks = 16;
 }
 
 enum UnitType {

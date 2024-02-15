@@ -14,6 +14,7 @@ import "cmp/types/v1alpha/phone.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
+import "cmp/types/v1alpha/product_code.proto";
 
 // ### Property message type
 //
@@ -26,48 +27,45 @@ message Property {
   google.protobuf.Timestamp last_modified = 1;
 
   // Ex: "AESPMI1234"
-  string property_code = 2;
+  cmp.types.v1alpha.SupplierProductCodeProductCode supplier_codes = 2;
+
+  // Product code which can be of different types
+  repeated cmp.types.v1alpha.ProductCode product_code = 3;
 
   // Ex: "Beach Hotel Alanya"
-  string name = 3;
+  string name = 4;
 
   // Ex: "Hilton"
-  string chain = 4;
+  string chain = 5;
 
   // Ex: CategoryRating.CATEGORY_RATING_4_5
-  CategoryRating category_rating = 5;
+  CategoryRating category_rating = 6;
 
   // Ex: CategoryUnit.CATEGORY_UNIT_PALMS
-  CategoryUnit category_unit = 6;
+  CategoryUnit category_unit = 7;
 
   // Ex: Address type
-  cmp.types.v1alpha.Address address = 7;
+  cmp.types.v1alpha.Address address = 8;
 
   // Emails
-  repeated cmp.types.v1alpha.Email emails = 8;
+  repeated cmp.types.v1alpha.Email emails = 9;
 
   // Phones
-  repeated cmp.types.v1alpha.Phone phones = 9;
+  repeated cmp.types.v1alpha.Phone phones = 10;
 
   // Location coordinate
-  cmp.types.v1alpha.Coordinate coordinate = 10;
+  cmp.types.v1alpha.Coordinate coordinate = 11;
 
   // Ex: "www.hotel.com"
-  string website = 11;
+  string website = 12;
 
   // Status of the property
   // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
-  string status = 12;
-
-  // GIATA ID
-  string giata_id = 13;
-
-  // Goal ID
-  int32 goal_id = 14;
+  string status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
-  repeated string airports = 15;
+  repeated string airports = 14;
 }
 
 enum CategoryRating {

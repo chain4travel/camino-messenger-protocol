@@ -45,6 +45,9 @@ message AccommodationSearchParameters {
   repeated cmp.types.v1alpha.RateRule rate_rules = 8;
 
   // Product code list
-  // Here a list of property codes would be used
+  // Here a list of property codes would be used that could be of different types
   repeated cmp.types.v1alpha.ProductCode product_codes = 9;
+
+  // Or a list of provider codes would be used
+  repeated cmp.types.v1alpha.SupplierProductCode supplier_codes = 10;
 }

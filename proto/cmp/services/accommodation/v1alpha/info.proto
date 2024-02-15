@@ -6,6 +6,7 @@ import "cmp/services/accommodation/v1alpha/property_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/language.proto";
 import "google/protobuf/timestamp.proto";
+import "cmp/types/v1alpha/product_code.proto";
 
 message AccommodationProductInfoRequest {
   // Message header
@@ -18,7 +19,7 @@ message AccommodationProductInfoRequest {
   repeated cmp.types.v1alpha.Language languages = 3;
 
   // Property codes
-  repeated string property_codes = 4;
+  repeated cmp.types.v1alpha.SupplierProductCodeProductCode supplier_codes = 4;
 }
 
 message AccommodationProductInfoResponse {
