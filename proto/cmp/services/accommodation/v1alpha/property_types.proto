@@ -136,28 +136,42 @@ enum PropertyStatus {
 }
 
 message Room {
-  string code = 1;
-  string name = 2;
-  repeated cmp.types.v1alpha.Image images = 3;
-  repeated cmp.types.v1alpha.Video videos = 4;
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
+  // often no room codes are used.
+  string supplier_room_code = 1;
+
+   // Room name. In case of hotel a standardized room name is often derrived from
+   // room code structures. Fo holiday homes we expect names like "Master Bedroom",
+   // "Second Bedroom" or "Bathroom" when specific descriptions for each room are
+   // available.
+  string supplier_room_name = 2;
+
+  // Original room name as assigned by the hotel. In case of spefifically designated room
+  // names by chains and both the chain and the customer wants to adhere to them.
+  // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  // For holiday homes specific room names if availbale can be given.
+  string original_room_name =3;
+
+  repeated cmp.types.v1alpha.Image images = 4;
+  repeated cmp.types.v1alpha.Video videos = 5;
 
   // Room descriptions
-  repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
 
   // Meal plan (Board code)
-  repeated cmp.types.v1alpha.MealPlan meal_plan = 6;
+  repeated cmp.types.v1alpha.MealPlan meal_plan = 7;
 
   // Beds
-  repeated cmp.types.v1alpha.Bed beds = 7;
+  repeated cmp.types.v1alpha.Bed beds = 8;
 
   // Occupancy
-  Occupancy total_occupancy = 8;
+  Occupancy total_occupancy = 9;
 
   // Services
-  repeated cmp.types.v1alpha.ServiceFact services = 9;
+  repeated cmp.types.v1alpha.ServiceFact services = 10;
 
   // Amenities
-  repeated cmp.types.v1alpha.Amenity amenities = 10;
+  repeated cmp.types.v1alpha.Amenity amenities = 11;
 }
 
 message Occupancy {
