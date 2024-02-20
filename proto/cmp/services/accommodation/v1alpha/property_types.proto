@@ -137,13 +137,16 @@ enum PropertyStatus {
 
 message Room {
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
-  // often no room codes are used.
+  // often no room codes are used. This code must explicitly match the supplier_room_code
+  // in the ProductList and the ProductInfo messages, so that the static data like room
+  // amenities, descriptions, images etc. can be married to the dynamic price and
+  // availability data for display to the end user.
   string supplier_room_code = 1;
 
    // Room name. In case of hotel a standardized room name is often derrived from
-   // room code structures. Fo holiday homes we expect names like "Master Bedroom",
-   // "Second Bedroom" or "Bathroom" when specific descriptions for each room are
-   // available.
+   // room code structures. Exmple: "superior seaview room".
+   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
+   // "Bathroom" when specific descriptions for each room are available.
   string supplier_room_name = 2;
 
   // Original room name as assigned by the hotel. In case of spefifically designated room
