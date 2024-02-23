@@ -99,7 +99,7 @@ enum CategoryUnit {
 }
 
 enum Status {
-  CATEGORY_UNIT_UNSPECIFIED = 0;
+  STATUS_UNSPECIFIED = 0;
   DRAFT = 1;
   ACTIVE = 2;
   DEACTIVATED = 3;
