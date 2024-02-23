@@ -5,7 +5,6 @@ package cmp.services.activity.v1alpha;
 import "cmp/services/activity/v1alpha/search_result_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "google/protobuf/timestamp.proto";
-import "cmp/types/v1alpha/product_code.proto";
 
 message ActivityProductListRequest {
   // Message header

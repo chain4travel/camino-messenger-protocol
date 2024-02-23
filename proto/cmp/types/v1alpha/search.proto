@@ -9,7 +9,6 @@ import "cmp/types/v1alpha/filter.proto";
 import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/sorting.proto";
 import "cmp/types/v1alpha/uuid.proto";
-import "cmp/types/v1alpha/product_code.proto";
 
 // Search parameters for the search requests
 //
