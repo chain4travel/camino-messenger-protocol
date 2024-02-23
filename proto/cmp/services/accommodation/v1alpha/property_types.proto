@@ -27,7 +27,7 @@ message Property {
   google.protobuf.Timestamp last_modified = 1;
 
   // Ex: "AESPMI1234"
-  cmp.types.v1alpha.SupplierProductCodeProductCode supplier_codes = 2;
+  cmp.types.v1alpha.SupplierProductCode supplier_codes = 2;
 
   // Product code which can be of different types
   repeated cmp.types.v1alpha.ProductCode product_code = 3;
@@ -61,7 +61,7 @@ message Property {
 
   // Status of the property
   // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
-  string status = 13;
+  Status status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
@@ -96,6 +96,13 @@ enum CategoryUnit {
   CATEGORY_UNIT_UNSPECIFIED = 0;
   CATEGORY_UNIT_STARS = 1;
   CATEGORY_UNIT_PALMS = 2;
+}
+
+enum Status {
+  CATEGORY_UNIT_UNSPECIFIED = 0;
+  DRAFT = 1;
+  ACTIVE = 2;
+  DEACTIVATED = 3;
 }
 
 // This message type contains extended info about a property

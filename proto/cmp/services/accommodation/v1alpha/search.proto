@@ -21,7 +21,7 @@ import "cmp/types/v1alpha/search.proto";
 // accommodations like hotel and holiday home searches within the platform. In the
 // request the market, language and currency are specified at the top-level.
 //
-// In "queries"" we specify the details of the trip like dates, properties or
+// In "queries" we specify the details of the trip like dates, properties or
 // locations or filters. The purpose of such a structure is to allow for multi-room
 // and multi-property search requests. 
 //

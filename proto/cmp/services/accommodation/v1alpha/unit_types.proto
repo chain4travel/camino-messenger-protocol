@@ -54,7 +54,7 @@ message Unit {
   // Price in detail with breakdowns
   cmp.types.v1alpha.PriceDetail price_detail = 8;
 
-  // Services
+  // Included, compulsory and optional services available
   repeated cmp.types.v1alpha.ServiceFact services = 9;
 
   // Mealplan code
@@ -72,13 +72,13 @@ message Unit {
   // arrival z€
   repeated cmp.types.v1alpha.CancelPolicy cancel_policies = 13;
 
-  // Remaining units
+  // Number of remaining units at the time of calculation
   int32 remaining_units = 14;
 
   // Property code which can be of different types
   cmp.types.v1alpha.ProductCode property_code = 15;
  
-  // Property code
+  // Supplier Property code, consistent in ProductList, ProductInfo and Search
   cmp.types.v1alpha.SupplierProductCode supplier_code = 16;
 
   // Remarks

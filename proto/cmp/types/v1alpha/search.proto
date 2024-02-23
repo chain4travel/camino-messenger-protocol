@@ -51,12 +51,11 @@ message SearchParameters {
 
   // Free-text field to provide more detials for better offer personalization. This
   // field can be provided in combination with a Geo location or as stand-alone.
-  string search_description_text = 10;
-
-  // The speech is provided as a link to a recording to process for better offer
-  // personalization. This field can be provided in combination with a Geo location
+  // If speech is provided as a recording for better offer personalization, then
+  // the recording has to be processed to text.
+  // This field can be provided in combination with a Geo location
   // or as stand-alone.
-  string search_description_audio_url = 11;
+  string search_description_text = 10;
 
   // Content source types for this search request to specify which sources to
   // include.
@@ -64,7 +63,7 @@ message SearchParameters {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated ContentSourceType content_source_types = 12;
+  repeated ContentSourceType content_source_types = 11;
 }
 
 // This message type is used in every search request to contain the request metadata

@@ -98,7 +98,7 @@ message TripSegment {
   // Trip Time
   //
   // Ex: Time(hours=2, minutes=45)
-  cmp.types.v1alpha.Time trip_time = 11;
+  cmp.types.v1alpha.Time trip_duration = 11;
 
   // Trip Distance
   //
