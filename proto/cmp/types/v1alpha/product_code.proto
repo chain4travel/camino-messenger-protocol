@@ -34,7 +34,7 @@ enum ProductCodeType {
 
 message SupplierProductCode {
 
-  // The supplier product code is unique for a product provider by the supplier and it 
+  // The supplier product code is unique for a product provided by the supplier and it 
   // must remain consistent across the different messages like the ProductList, ProductInfo
   // and Search messages. Mapping is done on static data, however making a search request
   // with a GiataID or an ICAO code, could return one or more search results with each
