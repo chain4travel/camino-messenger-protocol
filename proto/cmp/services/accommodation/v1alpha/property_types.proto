@@ -100,9 +100,9 @@ enum CategoryUnit {
 
 enum Status {
   STATUS_UNSPECIFIED = 0;
-  DRAFT = 1;
-  ACTIVE = 2;
-  DEACTIVATED = 3;
+  STATUS_DRAFT = 1;
+  STATUS_ACTIVE = 2;
+  STATUS_DEACTIVATED = 3;
 }
 
 // This message type contains extended info about a property
