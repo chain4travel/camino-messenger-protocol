@@ -6,7 +6,7 @@ import "cmp/types/v1alpha/baggage.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/measurement.proto";
 import "cmp/types/v1alpha/price.proto";
-import "cmp/types/v1alpha/time.proto";
+import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -98,7 +98,7 @@ message TripSegment {
   // Trip Time
   //
   // Ex: Time(hours=2, minutes=45)
-  cmp.types.v1alpha.Time trip_duration = 11;
+  cmp.types.v1alpha.Duration trip_duration = 11;
 
   // Trip Distance
   //

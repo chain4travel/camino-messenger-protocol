@@ -61,7 +61,7 @@ message Property {
 
   // Status of the property
   // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
-  Status status = 13;
+  PropertyStatus status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
@@ -96,13 +96,6 @@ enum CategoryUnit {
   CATEGORY_UNIT_UNSPECIFIED = 0;
   CATEGORY_UNIT_STARS = 1;
   CATEGORY_UNIT_PALMS = 2;
-}
-
-enum Status {
-  STATUS_UNSPECIFIED = 0;
-  STATUS_DRAFT = 1;
-  STATUS_ACTIVE = 2;
-  STATUS_DEACTIVATED = 3;
 }
 
 // This message type contains extended info about a property

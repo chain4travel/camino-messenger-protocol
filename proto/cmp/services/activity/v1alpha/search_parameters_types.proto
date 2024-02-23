@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.activity.v1alpha;
 
 import "cmp/types/v1alpha/language.proto";
-import "cmp/types/v1alpha/time.proto";
+import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 
@@ -61,8 +61,8 @@ message ActivitySearchParameters {
   //
   // Specify the minimal and maximum duration of an activity to be included in the
   // search response
-  cmp.types.v1alpha.Time min_duration = 8;
-  cmp.types.v1alpha.Time max_duration = 9;
+  cmp.types.v1alpha.Duration min_duration = 8;
+  cmp.types.v1alpha.Duration max_duration = 9;
 
   // Pricerange
   //

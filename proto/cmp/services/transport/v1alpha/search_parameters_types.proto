@@ -5,6 +5,7 @@ package cmp.services.transport.v1alpha;
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/time.proto";
+import "cmp/types/v1alpha/duration.proto";
 
 // ### Transport Search Parameters
 //
@@ -21,10 +22,10 @@ message TransportSearchParameters {
   repeated cmp.types.v1alpha.SupplierProductCode supplier_code_codes = 2;
 
   // The minimum duration of a transport to be included in the search response
-  cmp.types.v1alpha.Time min_duration = 3;
+  cmp.types.v1alpha.Duration min_duration = 3;
 
   // The maximum duration of a transport to be included in the search response
-  cmp.types.v1alpha.Time max_duration = 4;
+  cmp.types.v1alpha.Duration max_duration = 4;
 
   // The minimum price of a transport to be included in the search response
   cmp.types.v1alpha.Price min_price = 5;
