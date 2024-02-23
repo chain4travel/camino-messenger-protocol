@@ -60,8 +60,7 @@ message Property {
   string website = 12;
 
   // Status of the property
-  // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
-  PropertyStatus status = 13;
+    PropertyStatus status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
@@ -98,6 +97,13 @@ enum CategoryUnit {
   CATEGORY_UNIT_PALMS = 2;
 }
 
+enum PropertyStatus {
+  PROPERTY_STATUS_UNSPECIFIED = 0;
+  PROPERTY_STATUS_DRAFT = 1;
+  PROPERTY_STATUS_CONFIRMED = 2;
+  PROPERTY_STATUS_EXPIRED = 3;
+}
+
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
   // Property
@@ -121,18 +127,8 @@ message PropertyExtendedInfo {
   // Payment type. Ex: "MERCHANT"
   string payment_type = 7;
 
-  // Status
-  PropertyStatus status = 8;
-
   // Rooms
-  repeated Room rooms = 9;
-}
-
-enum PropertyStatus {
-  PROPERTY_STATUS_UNSPECIFIED = 0;
-  PROPERTY_STATUS_DRAFT = 1;
-  PROPERTY_STATUS_CONFIRMED = 2;
-  PROPERTY_STATUS_EXPIRED = 3;
+  repeated Room rooms = 8;
 }
 
 message Room {

@@ -95,9 +95,7 @@ message TripSegment {
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
   string service_type_description = 10;
 
-  // Trip Time
-  //
-  // Ex: Time(hours=2, minutes=45)
+  // Trip duration in minutes
   cmp.types.v1alpha.Duration trip_duration = 11;
 
   // Trip Distance
