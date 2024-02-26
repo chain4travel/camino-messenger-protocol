@@ -27,7 +27,7 @@ message Property {
   google.protobuf.Timestamp last_modified = 1;
 
   // Ex: "AESPMI1234"
-  cmp.types.v1alpha.SupplierProductCode supplier_codes = 2;
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
   repeated cmp.types.v1alpha.ProductCode product_code = 3;
