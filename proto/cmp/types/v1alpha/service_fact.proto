@@ -5,6 +5,17 @@ package cmp.types.v1alpha;
 import "cmp/types/v1alpha/price.proto";
 
 // Service fact message type
+// Service facts are smaller services that are included, can be booked optionally
+// or must be booked together with a main product or service. For example on Christmas
+// eve a gala dinner is included in the stay. Or an early check-in can be booked when
+// travellers have an early flight. Or cleaning cost must be included for every booking
+// of a holiday home.
+//
+// It is important that these optional, included or compulsary services are simple. For
+// complex combinations like a hotel with a rent-a-car or a skipass or ski lessons, packages
+// should be used so that each service can be described properly and a choice of what car,
+// which ski pass and what level of ski class that be properly selected.
+//
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.svg)

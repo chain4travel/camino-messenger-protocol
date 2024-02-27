@@ -14,6 +14,7 @@ import "cmp/types/v1alpha/phone.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
+import "cmp/types/v1alpha/product_code.proto";
 
 // ### Property message type
 //
@@ -26,48 +27,44 @@ message Property {
   google.protobuf.Timestamp last_modified = 1;
 
   // Ex: "AESPMI1234"
-  string property_code = 2;
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
+
+  // Product code which can be of different types
+  repeated cmp.types.v1alpha.ProductCode product_code = 3;
 
   // Ex: "Beach Hotel Alanya"
-  string name = 3;
+  string name = 4;
 
   // Ex: "Hilton"
-  string chain = 4;
+  string chain = 5;
 
   // Ex: CategoryRating.CATEGORY_RATING_4_5
-  CategoryRating category_rating = 5;
+  CategoryRating category_rating = 6;
 
   // Ex: CategoryUnit.CATEGORY_UNIT_PALMS
-  CategoryUnit category_unit = 6;
+  CategoryUnit category_unit = 7;
 
   // Ex: Address type
-  cmp.types.v1alpha.Address address = 7;
+  cmp.types.v1alpha.Address address = 8;
 
   // Emails
-  repeated cmp.types.v1alpha.Email emails = 8;
+  repeated cmp.types.v1alpha.Email emails = 9;
 
   // Phones
-  repeated cmp.types.v1alpha.Phone phones = 9;
+  repeated cmp.types.v1alpha.Phone phones = 10;
 
   // Location coordinate
-  cmp.types.v1alpha.Coordinate coordinate = 10;
+  cmp.types.v1alpha.Coordinate coordinate = 11;
 
   // Ex: "www.hotel.com"
-  string website = 11;
+  string website = 12;
 
   // Status of the property
-  // FIXME: Changed "deactivated" to "status". But we should still make this an enum. ??
-  string status = 12;
-
-  // GIATA ID
-  string giata_id = 13;
-
-  // Goal ID
-  int32 goal_id = 14;
+    PropertyStatus status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
-  repeated string airports = 15;
+  repeated string airports = 14;
 }
 
 enum CategoryRating {
@@ -100,6 +97,13 @@ enum CategoryUnit {
   CATEGORY_UNIT_PALMS = 2;
 }
 
+enum PropertyStatus {
+  PROPERTY_STATUS_UNSPECIFIED = 0;
+  PROPERTY_STATUS_DRAFT = 1;
+  PROPERTY_STATUS_CONFIRMED = 2;
+  PROPERTY_STATUS_EXPIRED = 3;
+}
+
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
   // Property
@@ -123,43 +127,50 @@ message PropertyExtendedInfo {
   // Payment type. Ex: "MERCHANT"
   string payment_type = 7;
 
-  // Status
-  PropertyStatus status = 8;
-
   // Rooms
-  repeated Room rooms = 9;
-}
-
-enum PropertyStatus {
-  PROPERTY_STATUS_UNSPECIFIED = 0;
-  PROPERTY_STATUS_DRAFT = 1;
-  PROPERTY_STATUS_CONFIRMED = 2;
-  PROPERTY_STATUS_EXPIRED = 3;
+  repeated Room rooms = 8;
 }
 
 message Room {
-  string code = 1;
-  string name = 2;
-  repeated cmp.types.v1alpha.Image images = 3;
-  repeated cmp.types.v1alpha.Video videos = 4;
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
+  // often no room codes are used. This code must explicitly match the supplier_room_code
+  // in the ProductList and the ProductInfo messages, so that the static data like room
+  // amenities, descriptions, images etc. can be married to the dynamic price and
+  // availability data for display to the end user.
+  string supplier_room_code = 1;
+
+   // Room name. In case of hotel a standardized room name is often derrived from
+   // room code structures. Exmple: "superior seaview room".
+   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
+   // "Bathroom" when specific descriptions for each room are available.
+  string supplier_room_name = 2;
+
+  // Original room name as assigned by the hotel. In case of spefifically designated room
+  // names by chains and both the chain and the customer wants to adhere to them.
+  // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  // For holiday homes specific room names if availbale can be given.
+  string original_room_name =3;
+
+  repeated cmp.types.v1alpha.Image images = 4;
+  repeated cmp.types.v1alpha.Video videos = 5;
 
   // Room descriptions
-  repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
 
   // Meal plan (Board code)
-  repeated cmp.types.v1alpha.MealPlan meal_plan = 6;
+  repeated cmp.types.v1alpha.MealPlan meal_plan = 7;
 
   // Beds
-  repeated cmp.types.v1alpha.Bed beds = 7;
+  repeated cmp.types.v1alpha.Bed beds = 8;
 
   // Occupancy
-  Occupancy total_occupancy = 8;
+  Occupancy total_occupancy = 9;
 
   // Services
-  repeated cmp.types.v1alpha.ServiceFact services = 9;
+  repeated cmp.types.v1alpha.ServiceFact services = 10;
 
   // Amenities
-  repeated cmp.types.v1alpha.Amenity amenities = 10;
+  repeated cmp.types.v1alpha.Amenity amenities = 11;
 }
 
 message Occupancy {

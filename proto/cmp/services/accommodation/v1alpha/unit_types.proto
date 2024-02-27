@@ -25,52 +25,66 @@ message Unit {
   // Ex: `UnitType.UNIT_TYPE_ROOM`
   UnitType type = 1;
 
-  // Unit code. Room code of the unit in case of hotel. Ex: "RMSDDB0000"
-  string unit_code = 2;
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
+  // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
+  // the static data like room amenities, descriptions, images etc. can be married to the
+  // dynamic price and availability data for display to the end user.
+  string supplier_room_code = 2;
 
-  // Unit name. In case of enrichment additional name of the unit code.
-  // Ex: "Double Standard Room"
-  string unit_name = 3;
+  // Room name. In case of enrichment additional name of the unit code.
+  // In theory, this field should never be included as it is already available in
+  // the static data. However, some providers prefer to be specific to avoid room
+  // mapping issues. Ex: "Double Standard Room"
+  string supplier_room_name = 3;
+
+  // Original room name as assigned by the hotel. In case of spefifically designated room
+  // names by chains and both the chain and the customer wants to adhere to them.
+  // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  string original_room_name = 4;
 
   // Travel period
-  cmp.types.v1alpha.TravelPeriod travel_period = 4;
+  cmp.types.v1alpha.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 5;
+  repeated cmp.types.v1alpha.Traveller travellers = 6;
 
   // Beds
-  repeated cmp.types.v1alpha.Bed beds = 6;
+  repeated cmp.types.v1alpha.Bed beds = 7;
 
   // Price in detail with breakdowns
-  cmp.types.v1alpha.PriceDetail price_detail = 7;
+  cmp.types.v1alpha.PriceDetail price_detail = 8;
 
-  // Services
-  repeated cmp.types.v1alpha.ServiceFact services = 8;
+  // Included, compulsory and optional services available
+  repeated cmp.types.v1alpha.ServiceFact services = 9;
 
   // Mealplan code
-  cmp.types.v1alpha.MealPlan meal_plan_code = 9;
+  cmp.types.v1alpha.MealPlan meal_plan_code = 10;
 
   // Rate plan
-  cmp.types.v1alpha.RatePlan rate_plan = 10;
+  cmp.types.v1alpha.RatePlan rate_plan = 11;
 
   // Rate Rule
-  cmp.types.v1alpha.RateRule rate_rule = 11;
+  cmp.types.v1alpha.RateRule rate_rule = 12;
 
   // This is a list so that various policies can be expressed.
   //
   // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
   // arrival z€
-  repeated cmp.types.v1alpha.CancelPolicy cancel_policies = 12;
+  repeated cmp.types.v1alpha.CancelPolicy cancel_policies = 13;
 
-  // Remaining units
-  int32 remaining_units = 13;
+  // Number of remaining units at the time of calculation
+  int32 remaining_units = 14;
 
-  // Property code
-  cmp.types.v1alpha.ProductCode property_code = 14;
+  // Property code which can be of different types
+  cmp.types.v1alpha.ProductCode property_code = 15;
+ 
+  // Supplier Property code, consistent in ProductList, ProductInfo and Search
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 16;
 
   // Remarks
-  // FIXME: Is this field "per Unit" or should it be "per search request"?
-  string remarks = 15;
+  // Non structural aspects related to the unit a supplier wants to include in the search
+  // response
+  string remarks = 17;
 }
 
 enum UnitType {

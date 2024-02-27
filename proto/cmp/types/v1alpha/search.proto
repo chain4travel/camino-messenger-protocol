@@ -26,31 +26,35 @@ message SearchParameters {
   // Request generated for a specific market according to ISO 3166-1 Country codes
   Country market = 3;
 
+  // Request generated for a specific brand or point-of-sale by one distributor
+  // Specify one or more brand codes or distribution channels for which assigned
+  // product is to be included in the search response
+  repeated string brand_code = 4;
+
   // Include OnRequest options in the response or only immediately bookable options
-  bool include_on_request = 4;
+  bool include_on_request = 5;
 
   // Only show the cheapest option for one product, or include all possible
   // combinations
-  bool include_combinations = 5;
+  bool include_combinations = 6;
 
   // Limit the maximum number of options included in the response
-  int32 max_options = 6;
+  int32 max_options = 7;
 
   // Specify the sorting required in the response
-  Sorting sorting = 7;
+  Sorting sorting = 8;
 
   // Filters for the search. Various provider and product specific filters can be
   // provided here in agreed name/value pairs.
-  repeated Filter filters = 8;
+  repeated Filter filters = 9;
 
   // Free-text field to provide more detials for better offer personalization. This
   // field can be provided in combination with a Geo location or as stand-alone.
-  string search_description_text = 9;
-
-  // The speech is provided as a link to a recording to process for better offer
-  // personalization. This field can be provided in combination with a Geo location
+  // If speech is provided as a recording for better offer personalization, then
+  // the recording has to be processed to text.
+  // This field can be provided in combination with a Geo location
   // or as stand-alone.
-  string search_description_audio_url = 10;
+  string search_description_text = 10;
 
   // Content source types for this search request to specify which sources to
   // include.
