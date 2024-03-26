@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+import "cmp/types/v1alpha/time.proto";
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookable.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookable.proto.dot.svg)
+message Bookability {
+  Bookability bookable = 1;
+
+  // In case of a bookable=on_request status, a confirmation time should be given
+  cmp.types.v1alpha.Time confirmation_time = 2;
+}
+
+enum Bookability {
+  BOOKABILITY_UNSPECIFIED = 0;
+  BOOKABILITY_AVAILABLE = 1;
+  BOOKABILITY_ON_REQUEST = 2;
+}

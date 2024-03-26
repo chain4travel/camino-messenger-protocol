@@ -6,6 +6,7 @@ import "cmp/services/accommodation/v1alpha/unit_types.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/rate.proto";
+import "cmp/types/v1alpha/bookable.proto";
 
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
@@ -34,4 +35,7 @@ message AccommodationSearchResult {
 
   // Freetext remarks without any functionality
   string remarks = 7;
+
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v1alpha.Bookability bookable = 8;  
 }

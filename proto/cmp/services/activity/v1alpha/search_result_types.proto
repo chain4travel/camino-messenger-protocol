@@ -8,6 +8,7 @@ import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/price.proto";
 import "google/protobuf/timestamp.proto";
 import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/bookable.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
@@ -70,8 +71,8 @@ message Activity {
   // These are in general also supplier specific
   string service_code = 4;
 
-  // Status
-  string status = 5;
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v1alpha.Bookability bookable = 8;  
 }
 
 // ### Activity Location

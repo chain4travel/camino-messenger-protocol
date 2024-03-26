@@ -49,16 +49,19 @@ message TransportSearchResult {
   // Fulfillment
   repeated cmp.types.v1alpha.Fulfillment fulfillments = 10; //FIXME: Can linktype be an ENUM?
 
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v1alpha.Bookability bookable = 11; 
+    
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can
   // be booked. If the start_date is omitted, the offer can be booked until the
   // end-date.
-  cmp.types.v1alpha.DateTimeRange validity = 11;
+  cmp.types.v1alpha.DateTimeRange validity = 12;
 
   // Cancel Policy
-  cmp.types.v1alpha.CancelPolicy cancel_policy = 12;
+  cmp.types.v1alpha.CancelPolicy cancel_policy = 13;
 
   // Observations
-  string observations = 13;
+  string observations = 14;
 }
