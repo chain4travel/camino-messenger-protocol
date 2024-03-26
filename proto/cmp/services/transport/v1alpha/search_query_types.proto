@@ -5,7 +5,7 @@ package cmp.services.transport.v1alpha;
 import "cmp/services/transport/v1alpha/search_parameters_types.proto";
 import "cmp/types/v1alpha/date.proto";
 import "cmp/types/v1alpha/location.proto";
-import "cmp/types/v1alpha/traveller_basic.proto";
+import "cmp/types/v1alpha/traveller.proto";
 
 // Transport search query. Multiple trips can be send, each representing multi-leg
 // journey.

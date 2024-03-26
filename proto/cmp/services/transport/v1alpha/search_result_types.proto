@@ -29,10 +29,10 @@ message TransportSearchResult {
   string offer_id = 3;
 
   // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 4;
+   repeated int32 traveller_ids = 6;
 
   // Travelling trip. See `search.proto` documentation
-  Trip travelling_trip = 5;
+  repeated Trip travelling_trip = 5;
 
   // Returning trip. See `search.proto` documentation
   Trip returning_trip = 6;

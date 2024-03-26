@@ -17,6 +17,7 @@ import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/content_source.proto";
 import "cmp/types/v1alpha/search.proto";
 
+
 // ### Transport Search Request
 message TransportSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
@@ -56,6 +57,9 @@ message TransportSearchResponse {
 
   // Transit search results
   repeated TransportSearchResult results = 4;
+
+  // Travellers
+  repeated cmp.types.v1alpha.BasicTraveller travellers = 5;
 }
 
 // Transport Search Service definition.

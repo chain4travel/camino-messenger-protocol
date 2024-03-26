@@ -15,14 +15,9 @@ import "google/protobuf/timestamp.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/trip_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/trip_types.proto.dot.svg)
 message Trip {
-  // Departure event
-  TransitEvent departure = 1;
-
-  // Arrival event
-  TransitEvent arrival = 2;
-
-  // Trip segments
-  repeated TripSegment segments = 3;
+  // Departure and Arrival dates and times can be derrived from the first and last segments
+  // Trip segments are the legs offered
+  repeated TripSegment segments = 1;
 }
 
 // Represents a departure or arrival event

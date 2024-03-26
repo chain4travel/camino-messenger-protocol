@@ -45,8 +45,9 @@ message Unit {
   // Travel period
   cmp.types.v1alpha.TravelPeriod travel_period = 5;
 
-  // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 6;
+  // Traveller_id is a list of travellers related to this unit. The details can be found in
+  // the search response repeated travellers field
+  repeated int32 traveller_ids = 6;
 
   // Beds
   repeated cmp.types.v1alpha.Bed beds = 7;

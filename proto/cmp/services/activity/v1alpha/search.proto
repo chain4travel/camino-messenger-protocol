@@ -17,7 +17,7 @@ import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller_basic.proto";
+import "cmp/types/v1alpha/traveller.proto";
 
 // ### Activity Search Request
 //
@@ -110,6 +110,9 @@ message ActivitySearchResponse {
 
   // Unique combinations of bookable search results
   repeated ActivitySearchResult results = 3;
+
+  // The traveller_id is specified in each unit and only detailed once in the search response
+  repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 }
 
 // ### Activity Search Service
