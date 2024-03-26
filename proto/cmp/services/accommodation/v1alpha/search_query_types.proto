@@ -5,7 +5,7 @@ package cmp.services.accommodation.v1alpha;
 import "cmp/services/accommodation/v1alpha/search_parameters_types.proto";
 import "cmp/services/accommodation/v1alpha/unit_types.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller.proto";
+import "cmp/types/v1alpha/traveller_basic.proto";
 
 message AccommodationSearchQuery {
   // Integer query ID, unique per search request
@@ -19,7 +19,7 @@ message AccommodationSearchQuery {
   cmp.types.v1alpha.TravelPeriod travel_period = 3;
 
   // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 4;
+  repeated cmp.types.v1alpha.BasicTraveller traveller = 4;
 
   // Total number of rooms / holiday homes
   int32 unit_count = 5;

@@ -17,7 +17,7 @@ import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller.proto";
+import "cmp/types/v1alpha/traveller_basic.proto";
 
 // ### Activity Search Request
 //
@@ -44,7 +44,7 @@ message ActivitySearchRequest {
   cmp.types.v1alpha.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 6;
+  repeated cmp.types.v1alpha.BasicTraveller travellers = 6;
 
   // ### Source Location
   //

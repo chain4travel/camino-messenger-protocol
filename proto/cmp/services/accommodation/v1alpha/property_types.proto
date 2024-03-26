@@ -27,7 +27,7 @@ message Property {
   // Ex: "2023-08-28T12:03:50",
   google.protobuf.Timestamp last_modified = 1;
 
-  // Ex: "AESPMI1234"
+  // Supplier product Code
   cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
