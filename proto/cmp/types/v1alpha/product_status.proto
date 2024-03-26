@@ -2,17 +2,14 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// Sorting type and order
+// Product Status
 //
 // This is being used in responses to specify the status of a product of any message type.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_status.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_status.proto.dot.svg)
-message ProductStatus {
-  ProductStatus status = 1;
-  }
 
-// Status
+// Status of a product
 enum ProductStatus {
   PRODUCT_STATUS_UNSPECIFIED = 0;
   PRODUCT_STATUS_NEW = 1;
