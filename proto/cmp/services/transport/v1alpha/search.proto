@@ -16,6 +16,7 @@ import "cmp/services/transport/v1alpha/search_result_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/content_source.proto";
 import "cmp/types/v1alpha/search.proto";
+import "cmp/types/v1alpha/traveller.proto";
 
 
 // ### Transport Search Request
