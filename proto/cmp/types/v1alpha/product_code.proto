@@ -18,6 +18,10 @@ message ProductCode {
   // number=2803. It is not recommended to concatenate for example the airline code
   // and the flight number into the code field as "EW 51", as this would cause different
   // implementations for providers of the same product.
+  //
+  // Please note that when utilizing licensed codes or formats such as GiataID and DRV
+  // GlobalTypes, it is the partners' responsibility to confirm and settle any associated
+  // license fees directly with the respective organizations
   string code = 1;
   int32 number = 2;
   ProductCodeType type = 3;

@@ -55,38 +55,17 @@ message Activity {
   // Product code which can be of different types
   cmp.types.v1alpha.ProductCode product_code = 2;
 
-  // Ex: "Helicopter Tour Heli"
-  string product_name = 3;
-
   // Ex: "EESPMI46VY"
-  string activity_id = 4;
-
-  // Ex: "Tour (40 min)"
-  string activity_name = 5;
+  string unit_id = 3;
 
   // Ex: "XO"
-  string service_code = 6;
-
-  // Ex: "with transfer from/to hotel"
-  string service_name = 7;
-
-  // Ex: "XA"
-  string category_code = 8;
-
-  // Ex: "Excursions & Activities"
-  string category_name = 9;
-
-  // Ex: "SF"
-  string type_code = 10;
-
-  // Ex: "Safari"
-  string type_name = 11;
+  string service_code = 4;
 
   // Status
   //
   // FIXME: We need to make this an ENUM (this is also used for several other
   // verticals)
-  string status = 12;
+  string status = 5;
 }
 
 // ### Activity Location

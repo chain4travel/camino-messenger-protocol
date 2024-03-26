@@ -15,6 +15,7 @@ import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
 import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/product_status.proto";
 
 // ### Property message type
 //
@@ -60,7 +61,7 @@ message Property {
   string website = 12;
 
   // Status of the property
-    PropertyStatus status = 13;
+  cmp.types.v1alpha.ProductStatus status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
@@ -95,13 +96,6 @@ enum CategoryUnit {
   CATEGORY_UNIT_UNSPECIFIED = 0;
   CATEGORY_UNIT_STARS = 1;
   CATEGORY_UNIT_PALMS = 2;
-}
-
-enum PropertyStatus {
-  PROPERTY_STATUS_UNSPECIFIED = 0;
-  PROPERTY_STATUS_DRAFT = 1;
-  PROPERTY_STATUS_CONFIRMED = 2;
-  PROPERTY_STATUS_EXPIRED = 3;
 }
 
 // This message type contains extended info about a property
