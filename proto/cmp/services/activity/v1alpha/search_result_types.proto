@@ -50,29 +50,31 @@ message ActivitySearchResult {
 //
 // See extensive explanations in search_parameters_types
 message Activity {
+    // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was last updated
+  google.protobuf.Timestamp last_modified = 1;
   // Supplier Product codes for the result
   // These must match the supplier codes provided in the ProductList and
   // ProductInfo messages
-  cmp.types.v1alpha.SupplierProductCode supplier_code = 1;
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
 
   // External Product codes for the result. These can be of different types
-  cmp.types.v1alpha.ProductCode product_code = 2;
+  cmp.types.v1alpha.ProductCode product_code = 3;
 
   // Unit IDfor the result
   // The purpose of this concept is to allow for different activities for one product
   // like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga".
   // Code and description match the information provided in the ProductList and 
   // ProductInfo message. These are in general also supplier specific.
-  string unit_id = 3;
+  string unit_id = 4;
 
   // Service codes for the result
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the ProductInfo message
   // These are in general also supplier specific
-  string service_code = 4;
+  string service_code = 5;
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v1alpha.Bookability bookable = 8;  
+  cmp.types.v1alpha.Bookability bookable = 6;  
 }
 
 // ### Activity Location

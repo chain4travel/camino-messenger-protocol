@@ -24,7 +24,7 @@ import "cmp/types/v1alpha/product_status.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.svg)
 message Property {
-  // Ex: "2023-08-28T12:03:50",
+  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was last updated
   google.protobuf.Timestamp last_modified = 1;
 
   // Supplier product Code
