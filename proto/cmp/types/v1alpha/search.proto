@@ -81,14 +81,18 @@ message SearchResponseMetadata {
   // to RFC 4122
   UUID search_id = 1;
 
-  // Context for Inventory system communication.
+  // Context for Inventory system concepts that need to be included in a search response,
+  // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
+  // serialized combination of these codes.
   string context = 2;
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
   string errors = 3;
 
-  // Warnings encountered in the generation of the response.
+  // Warnings encountered in the generation of the response. This section might include
+  // information about fields not processed due to incompatibilities with the
+  // inventory system
   string warnings = 4;
 
   // Supplier code from the Inventory System for this search response.
