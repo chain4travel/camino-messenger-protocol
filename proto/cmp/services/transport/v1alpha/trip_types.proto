@@ -9,6 +9,7 @@ import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "google/protobuf/timestamp.proto";
+import "cmp/types/v1alpha/service_fact.proto";
 
 // This message type represents a one way trip, either travelling or returning.
 //
@@ -90,31 +91,36 @@ message TripSegment {
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
   string service_type_description = 10;
 
+  // Included, optional or compulsary services for this segment or leg. Just a code and
+  // description can be included if it is a package (seat, priority, large carry-on).
+  // or a price detail can be included for optionally pre-ordered meals for example.
+  repeated cmp.types.v1alpha.ServiceFact services = 11;
+
   // Trip duration in minutes
-  cmp.types.v1alpha.Duration trip_duration = 11;
+  cmp.types.v1alpha.Duration trip_duration = 12;
 
   // Trip Distance
   //
   // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
-  cmp.types.v1alpha.Length trip_distance = 12;
+  cmp.types.v1alpha.Length trip_distance = 13;
 
   // Min PAX
   //
   // Ex: `1`
-  int32 min_pax = 13;
+  int32 min_pax = 14;
 
   // Max PAX
   //
   // Ex: `3`
-  int32 max_pax = 14;
+  int32 max_pax = 15;
 
   // Luggage
   //
   // Ex: `3`
-  cmp.types.v1alpha.Baggage baggage = 15;
+  cmp.types.v1alpha.Baggage baggage = 16;
 
   // Price
   //
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
-  cmp.types.v1alpha.Price price = 16;
+  cmp.types.v1alpha.Price price = 17;
 }

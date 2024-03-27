@@ -10,7 +10,7 @@ import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/rate.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller.proto";
+
 
 // A Unit can represent a room in a hotel. One search option can have multiple units
 // for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.

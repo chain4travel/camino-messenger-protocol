@@ -5,7 +5,7 @@ package cmp.services.accommodation.v1alpha;
 import "cmp/services/accommodation/v1alpha/search_parameters_types.proto";
 import "cmp/services/accommodation/v1alpha/unit_types.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller_basic.proto";
+import "cmp/types/v1alpha/traveller.proto";
 
 message AccommodationSearchQuery {
   // Integer query ID, unique per search request

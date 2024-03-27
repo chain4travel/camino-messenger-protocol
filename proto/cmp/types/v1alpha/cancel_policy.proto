@@ -15,11 +15,12 @@ import "google/protobuf/timestamp.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/cancel_policy.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/cancel_policy.proto.dot.svg)
 message CancelPolicy {
-  // Cancellation policy refundable or not
+  // the search result is refundable or not (at least one cancellation penalty exists
+  // that provides a (partial) refund)
   bool refundable = 1;
 
   // The "free cancellation upto" identifier specifies the exact DateTime upto when
-  // a booking can be cancelled free of charge.
+  // this search result can be cancelled free of charge.
   google.protobuf.Timestamp free_cancellation_upto = 2;
 
   // Full cancellation policies can be complex and extensive. Inclusion in search
