@@ -10,6 +10,7 @@ import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/rate.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
+import "cmp/types/v1alpha/bookable.proto";
 
 // Transport search result
 //
@@ -29,7 +30,7 @@ message TransportSearchResult {
   string offer_id = 3;
 
   // Travellers
-   repeated int32 traveller_ids = 6;
+   repeated int32 traveller_ids = 4;
 
   // Travelling trip. See `search.proto` documentation
   repeated Trip travelling_trip = 5;

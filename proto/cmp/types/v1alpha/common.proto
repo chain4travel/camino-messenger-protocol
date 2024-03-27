@@ -36,6 +36,12 @@ package cmp.types.v1alpha;
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/common.proto.dot.svg)
 message Header {
   // Protocol Version
+  // The request and response should always hold the true version implemented.
+  // This will help transparency and troubleshooting when issues arise. For example
+  // in case a new filter is introduced with version 1.3.0 and a response by a supply
+  // partner is still in version 1.1.0 that does not have the new filter. Obviously the
+  // supply partner has not processed the new field and the response is not filtered as
+  // specified in the request.
   Version version = 1;
 
   // End-user wallet ID for personalization purposes
