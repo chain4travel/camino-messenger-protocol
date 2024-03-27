@@ -6,7 +6,7 @@ import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/price.proto";
 import "google/protobuf/timestamp.proto";
 
-// Cancellation Policy: The cancellation policy section consists of 3 options:
+// Change Policy: The change policy section consists of 3 options:
 //
 // - A simple boolean for refundable or non-refundable options
 // - A "free cancellation upto" DateTime

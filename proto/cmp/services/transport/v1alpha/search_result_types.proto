@@ -4,6 +4,7 @@ package cmp.services.transport.v1alpha;
 
 import "cmp/services/transport/v1alpha/trip_types.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
+import "cmp/types/v1alpha/change_policy.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/fulfillment.proto";
 import "cmp/types/v1alpha/price.proto";
@@ -58,6 +59,9 @@ message TransportSearchResult {
   // Cancel Policy
   cmp.types.v1alpha.CancelPolicy cancel_policy = 12;
 
+  // Change Policy
+  cmp.types.v1alpha.ChangePolicy change_policy = 13;
+
   // Observations
-  string observations = 13;
+  string observations = 14;
 }
