@@ -70,8 +70,6 @@ import "cmp/types/v1alpha/traveller.proto";
 // requests with multiple rooms or homes, the same room or home is not offered twice
 // to different travellers.
 //
-//
-
 message AccommodationSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
