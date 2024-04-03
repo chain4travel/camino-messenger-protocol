@@ -43,6 +43,7 @@ message PriceDetail {
 //
 message Price { 
 	string value = 1; 
+  // Decimals between 0 and 18
 	int32 decimals = 2;
   Currency currency =3;
 }
