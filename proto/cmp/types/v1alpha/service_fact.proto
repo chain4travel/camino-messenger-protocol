@@ -51,6 +51,9 @@ message ServiceFact {
   // actually are actually a combination of several services, like the typical
   // priority boarding, which also allows for a larger carry-on bag.
   repeated ServiceFact details = 6;
+
+  // the count of the number of services required
+  int32 count = 7;
 }
 
 enum ServiceAvailabilityType {

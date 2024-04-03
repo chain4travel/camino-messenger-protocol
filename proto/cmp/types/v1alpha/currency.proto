@@ -2,6 +2,56 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+import "google/protobuf/empty.proto";
+import "cmp/types/v1alpha/token.proto";
+
+// Definition of the price message:
+// The combination of "value" and "decimals" fields express always the value of the
+// currency, not of the fraction of the currency [ ETH not wei, CAM and not aCAM,
+// BTC and not Satoshi, EUR not EUR-Cents ]
+// Be aware that partners should not do rounding with crypto currencies.
+//
+// Example implementations:
+// off-chain payment of 100 € or 100 $:
+//  value=10000
+//  decimals=2
+//  iso_currency=EUR or USD
+//
+// on-chain payment of 100.65 EURSH
+//  value=10065
+//  decimals=2
+//  token_currency=EURSH
+//  contract_address=0x5b1c852dad36854B0dFFF61d2C13F108D8E01975
+//  this currency has 5 decimals on Columbus and conclusively to mint the value of
+//  10065 must be divided by 10^2 = 100.65 EURSH and minted in its smallest fraction
+//  by multiplying  100.65 EURSH * 10^5 => 10065000 
+//  (example conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
+//
+// on-chain payment of 0.0065 BTC
+//  value=65
+//  decimals=4
+//  token_currency=BTC
+//  contract_address=0x05bBC1DEEA1c3C154E0b5Ef72bBcfF3660b9E4cE
+//  this currency has 8 decimals on Columbus and conclusively to mint the value of
+//  0.0065 must be divided by 10^4 = 0.000065 and minted in its smallest fraction
+//  by multiplying 0.000065 * 10^8 => 650000
+//
+// on-chain payment of 1 nCAM
+//  value=1
+//  decimals=9
+//  native_token_currency=CAM
+//  this currency has denominator 18 on Columbus and conclusively to mint the value of
+//  1 nCam must be divided by 10^9 = 0.000000001 CAM and minted in its smallest fraction
+//  by multiplying 0.000000001 * 10^18 => 1000000000 aCAM
+message Currency {
+  oneof currency {
+    cmp.types.v1alpha.IsoCurrency iso_currency = 1;
+		
+    cmp.types.v1alpha.TokenCurrency token_currency = 2;
+    
+		google.protobuf.Empty native_token = 3;
+	}
+}
 // Currency list of ISO 4217 standard
 //
 // First 20 currencies are the most traded currencies in the world. This is done to
@@ -9,163 +59,163 @@ package cmp.types.v1alpha;
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/currency.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/currency.proto.dot.svg)
-enum Currency {
-  CURRENCY_UNSPECIFIED = 0; // Placeholder or unspecified currency
+enum IsoCurrency {
+  ISO_CURRENCY_UNSPECIFIED = 0; // Placeholder or unspecified currency
 
-  CURRENCY_AUD = 1; // Australian dollar
-  CURRENCY_BRL = 2; // Brazilian real
-  CURRENCY_CAD = 3; // Canadian dollar
-  CURRENCY_CHF = 4; // Swiss franc
-  CURRENCY_CNY = 5; // Renminbi (China)
-  CURRENCY_EUR = 6; // Euro
-  CURRENCY_GBP = 7; // British pound
-  CURRENCY_HKD = 8; // Hong Kong dollar
-  CURRENCY_IDR = 9; // Indonesian rupiah
-  CURRENCY_INR = 10; // Indian rupee
-  CURRENCY_JPY = 11; // Japanese yen
-  CURRENCY_KRW = 12; // South Korean won
-  CURRENCY_MXN = 13; // Mexican peso
-  CURRENCY_NOK = 14; // Norwegian krone
-  CURRENCY_RUB = 15; // Russian ruble
-  CURRENCY_SAR = 16; // Saudi riyal
-  CURRENCY_SEK = 17; // Swedish krona
-  CURRENCY_SGD = 18; // Singapore dollar
-  CURRENCY_TRY = 19; // Turkish lira
-  CURRENCY_USD = 20; // United States dollar
+  ISO_CURRENCY_AUD = 1; // Australian dollar
+  ISO_CURRENCY_BRL = 2; // Brazilian real
+  ISO_CURRENCY_CAD = 3; // Canadian dollar
+  ISO_CURRENCY_CHF = 4; // Swiss franc
+  ISO_CURRENCY_CNY = 5; // Renminbi (China)
+  ISO_CURRENCY_EUR = 6; // Euro
+  ISO_CURRENCY_GBP = 7; // British pound
+  ISO_CURRENCY_HKD = 8; // Hong Kong dollar
+  ISO_CURRENCY_IDR = 9; // Indonesian rupiah
+  ISO_CURRENCY_INR = 10; // Indian rupee
+  ISO_CURRENCY_JPY = 11; // Japanese yen
+  ISO_CURRENCY_KRW = 12; // South Korean won
+  ISO_CURRENCY_MXN = 13; // Mexican peso
+  ISO_CURRENCY_NOK = 14; // Norwegian krone
+  ISO_CURRENCY_RUB = 15; // Russian ruble
+  ISO_CURRENCY_SAR = 16; // Saudi riyal
+  ISO_CURRENCY_SEK = 17; // Swedish krona
+  ISO_CURRENCY_SGD = 18; // Singapore dollar
+  ISO_CURRENCY_TRY = 19; // Turkish lira
+  ISO_CURRENCY_USD = 20; // United States dollar
 
-  CURRENCY_AED = 21; // United Arab Emirates dirham
-  CURRENCY_AFN = 22; // Afghan afghani
-  CURRENCY_ALL = 23; // Albanian lek
-  CURRENCY_AMD = 24; // Armenian dram
-  CURRENCY_ANG = 25; // Netherlands Antillean guilder
-  CURRENCY_AOA = 26; // Angolan kwanza
-  CURRENCY_ARS = 27; // Argentine peso
-  CURRENCY_AWG = 28; // Aruban florin
-  CURRENCY_AZN = 29; // Azerbaijani manat
-  CURRENCY_BAM = 30; // Bosnia and Herzegovina convertible mark
-  CURRENCY_BBD = 31; // Barbados dollar
-  CURRENCY_BDT = 32; // Bangladeshi taka
-  CURRENCY_BGN = 33; // Bulgarian lev
-  CURRENCY_BHD = 34; // Bahraini dinar
-  CURRENCY_BIF = 35; // Burundian franc
-  CURRENCY_BMD = 36; // Bermudian dollar
-  CURRENCY_BND = 37; // Brunei dollar
-  CURRENCY_BOB = 38; // Bolivian boliviano
-  CURRENCY_BSD = 39; // Bahamian dollar
-  CURRENCY_BTN = 40; // Bhutanese ngultrum
-  CURRENCY_BWP = 41; // Botswana pula
-  CURRENCY_BYN = 42; // Belarusian ruble
-  CURRENCY_BZD = 43; // Belize dollar
-  CURRENCY_CDF = 44; // Congolese franc
-  CURRENCY_CLP = 45; // Chilean peso
-  CURRENCY_COP = 46; // Colombian peso
-  CURRENCY_CRC = 47; // Costa Rican colón
-  CURRENCY_CUC = 48; // Cuban convertible peso
-  CURRENCY_CUP = 49; // Cuban peso
-  CURRENCY_CVE = 50; // Cape Verdean escudo
-  CURRENCY_CZK = 51; // Czech koruna
-  CURRENCY_DJF = 52; // Djiboutian franc
-  CURRENCY_DKK = 53; // Danish krone
-  CURRENCY_DOP = 54; // Dominican peso
-  CURRENCY_DZD = 55; // Algerian dinar
-  CURRENCY_EGP = 56; // Egyptian pound
-  CURRENCY_ERN = 57; // Eritrean nakfa
-  CURRENCY_ETB = 58; // Ethiopian birr
-  CURRENCY_FJD = 59; // Fijian dollar
-  CURRENCY_FKP = 60; // Falkland Islands pound
-  CURRENCY_GEL = 61; // Georgian lari
-  CURRENCY_GHS = 62; // Ghanaian cedi
-  CURRENCY_GIP = 63; // Gibraltar pound
-  CURRENCY_GMD = 64; // Gambian dalasi
-  CURRENCY_GNF = 65; // Guinean franc
-  CURRENCY_GTQ = 66; // Guatemalan quetzal
-  CURRENCY_GYD = 67; // Guyanese dollar
-  CURRENCY_HNL = 68; // Honduran lempira
-  CURRENCY_HRK = 69; // Croatian kuna
-  CURRENCY_HTG = 70; // Haitian gourde
-  CURRENCY_HUF = 71; // Hungarian forint
-  CURRENCY_ILS = 72; // Israeli new shekel
-  CURRENCY_IQD = 73; // Iraqi dinar
-  CURRENCY_IRR = 74; // Iranian rial
-  CURRENCY_ISK = 75; // Icelandic króna
-  CURRENCY_JMD = 76; // Jamaican dollar
-  CURRENCY_JOD = 77; // Jordanian dinar
-  CURRENCY_KES = 78; // Kenyan shilling
-  CURRENCY_KGS = 79; // Kyrgyzstani som
-  CURRENCY_KHR = 80; // Cambodian riel
-  CURRENCY_KMF = 81; // Comoro franc
-  CURRENCY_KPW = 82; // North Korean won
-  CURRENCY_KWD = 83; // Kuwaiti dinar
-  CURRENCY_KYD = 84; // Cayman Islands dollar
-  CURRENCY_KZT = 85; // Kazakhstani tenge
-  CURRENCY_LAK = 86; // Lao kip
-  CURRENCY_LBP = 87; // Lebanese pound
-  CURRENCY_LKR = 88; // Sri Lanka rupee
-  CURRENCY_LRD = 89; // Liberian dollar
-  CURRENCY_LSL = 90; // Lesotho loti
-  CURRENCY_LYD = 91; // Libyan dinar
-  CURRENCY_MAD = 92; // Moroccan dirham
-  CURRENCY_MDL = 93; // Moldovan leu
-  CURRENCY_MGA = 94; // Malagasy ariary
-  CURRENCY_MKD = 95; // Macedonian denar
-  CURRENCY_MMK = 96; // Myanmar kyat
-  CURRENCY_MNT = 97; // Mongolian tögrög
-  CURRENCY_MOP = 98; // Macanese pataca
-  CURRENCY_MRU = 99; // Mauritanian ouguiya
-  CURRENCY_MUR = 100; // Mauritian rupee
-  CURRENCY_MVR = 101; // Maldivian rufiyaa
-  CURRENCY_MWK = 102; // Malawian kwacha
-  CURRENCY_MYR = 103; // Malaysian ringgit
-  CURRENCY_MZN = 104; // Mozambican metical
-  CURRENCY_NAD = 105; // Namibian dollar
-  CURRENCY_NGN = 106; // Nigerian naira
-  CURRENCY_NIO = 107; // Nicaraguan córdoba
-  CURRENCY_NPR = 108; // Nepalese rupee
-  CURRENCY_NZD = 109; // New Zealand dollar
-  CURRENCY_OMR = 110; // Omani rial
-  CURRENCY_PAB = 111; // Panamanian balboa
-  CURRENCY_PEN = 112; // Peruvian sol
-  CURRENCY_PGK = 113; // Papua New Guinean kina
-  CURRENCY_PHP = 114; // Philippine peso
-  CURRENCY_PKR = 115; // Pakistani rupee
-  CURRENCY_PLN = 116; // Polish złoty
-  CURRENCY_PYG = 117; // Paraguayan guaraní
-  CURRENCY_QAR = 118; // Qatari riyal
-  CURRENCY_RON = 119; // Romanian leu
-  CURRENCY_RSD = 120; // Serbian dinar
-  CURRENCY_RWF = 121; // Rwandan franc
-  CURRENCY_SBD = 122; // Solomon Islands dollar
-  CURRENCY_SCR = 123; // Seychellois rupee
-  CURRENCY_SDG = 124; // Sudanese pound
-  CURRENCY_SHP = 125; // Saint Helena pound
-  CURRENCY_SLL = 126; // Sierra Leonean leone
-  CURRENCY_SOS = 127; // Somali shilling
-  CURRENCY_SRD = 128; // Surinamese dollar
-  CURRENCY_SSP = 129; // South Sudanese pound
-  CURRENCY_STN = 130; // São Tomé and Príncipe dobra
-  CURRENCY_SVC = 131; // Salvadoran colón
-  CURRENCY_SYP = 132; // Syrian pound
-  CURRENCY_SZL = 133; // Swazi lilangeni
-  CURRENCY_THB = 134; // Thai baht
-  CURRENCY_TJS = 135; // Tajikistani somoni
-  CURRENCY_TMT = 136; // Turkmenistan manat
-  CURRENCY_TND = 137; // Tunisian dinar
-  CURRENCY_TOP = 138; // Tongan paʻanga
-  CURRENCY_TTD = 139; // Trinidad and Tobago dollar
-  CURRENCY_TWD = 140; // New Taiwan dollar
-  CURRENCY_TZS = 141; // Tanzanian shilling
-  CURRENCY_UAH = 142; // Ukrainian hryvnia
-  CURRENCY_UGX = 143; // Ugandan shilling
-  CURRENCY_UYU = 144; // Uruguayan peso
-  CURRENCY_UZS = 145; // Uzbekistani soʻm
-  CURRENCY_VND = 146; // Vietnamese đồng
-  CURRENCY_VUV = 147; // Vanuatu vatu
-  CURRENCY_WST = 148; // Samoan tālā
-  CURRENCY_XAF = 149; // Central African CFA franc
-  CURRENCY_XCD = 150; // East Caribbean dollar
-  CURRENCY_XOF = 151; // West African CFA franc
-  CURRENCY_XPF = 152; // CFP franc
-  CURRENCY_YER = 153; // Yemeni rial
-  CURRENCY_ZAR = 154; // South African rand
-  CURRENCY_ZMW = 155; // Zambian kwacha
+  ISO_CURRENCY_AED = 21; // United Arab Emirates dirham
+  ISO_CURRENCY_AFN = 22; // Afghan afghani
+  ISO_CURRENCY_ALL = 23; // Albanian lek
+  ISO_CURRENCY_AMD = 24; // Armenian dram
+  ISO_CURRENCY_ANG = 25; // Netherlands Antillean guilder
+  ISO_CURRENCY_AOA = 26; // Angolan kwanza
+  ISO_CURRENCY_ARS = 27; // Argentine peso
+  ISO_CURRENCY_AWG = 28; // Aruban florin
+  ISO_CURRENCY_AZN = 29; // Azerbaijani manat
+  ISO_CURRENCY_BAM = 30; // Bosnia and Herzegovina convertible mark
+  ISO_CURRENCY_BBD = 31; // Barbados dollar
+  ISO_CURRENCY_BDT = 32; // Bangladeshi taka
+  ISO_CURRENCY_BGN = 33; // Bulgarian lev
+  ISO_CURRENCY_BHD = 34; // Bahraini dinar
+  ISO_CURRENCY_BIF = 35; // Burundian franc
+  ISO_CURRENCY_BMD = 36; // Bermudian dollar
+  ISO_CURRENCY_BND = 37; // Brunei dollar
+  ISO_CURRENCY_BOB = 38; // Bolivian boliviano
+  ISO_CURRENCY_BSD = 39; // Bahamian dollar
+  ISO_CURRENCY_BTN = 40; // Bhutanese ngultrum
+  ISO_CURRENCY_BWP = 41; // Botswana pula
+  ISO_CURRENCY_BYN = 42; // Belarusian ruble
+  ISO_CURRENCY_BZD = 43; // Belize dollar
+  ISO_CURRENCY_CDF = 44; // Congolese franc
+  ISO_CURRENCY_CLP = 45; // Chilean peso
+  ISO_CURRENCY_COP = 46; // Colombian peso
+  ISO_CURRENCY_CRC = 47; // Costa Rican colón
+  ISO_CURRENCY_CUC = 48; // Cuban convertible peso
+  ISO_CURRENCY_CUP = 49; // Cuban peso
+  ISO_CURRENCY_CVE = 50; // Cape Verdean escudo
+  ISO_CURRENCY_CZK = 51; // Czech koruna
+  ISO_CURRENCY_DJF = 52; // Djiboutian franc
+  ISO_CURRENCY_DKK = 53; // Danish krone
+  ISO_CURRENCY_DOP = 54; // Dominican peso
+  ISO_CURRENCY_DZD = 55; // Algerian dinar
+  ISO_CURRENCY_EGP = 56; // Egyptian pound
+  ISO_CURRENCY_ERN = 57; // Eritrean nakfa
+  ISO_CURRENCY_ETB = 58; // Ethiopian birr
+  ISO_CURRENCY_FJD = 59; // Fijian dollar
+  ISO_CURRENCY_FKP = 60; // Falkland Islands pound
+  ISO_CURRENCY_GEL = 61; // Georgian lari
+  ISO_CURRENCY_GHS = 62; // Ghanaian cedi
+  ISO_CURRENCY_GIP = 63; // Gibraltar pound
+  ISO_CURRENCY_GMD = 64; // Gambian dalasi
+  ISO_CURRENCY_GNF = 65; // Guinean franc
+  ISO_CURRENCY_GTQ = 66; // Guatemalan quetzal
+  ISO_CURRENCY_GYD = 67; // Guyanese dollar
+  ISO_CURRENCY_HNL = 68; // Honduran lempira
+  ISO_CURRENCY_HRK = 69; // Croatian kuna
+  ISO_CURRENCY_HTG = 70; // Haitian gourde
+  ISO_CURRENCY_HUF = 71; // Hungarian forint
+  ISO_CURRENCY_ILS = 72; // Israeli new shekel
+  ISO_CURRENCY_IQD = 73; // Iraqi dinar
+  ISO_CURRENCY_IRR = 74; // Iranian rial
+  ISO_CURRENCY_ISK = 75; // Icelandic króna
+  ISO_CURRENCY_JMD = 76; // Jamaican dollar
+  ISO_CURRENCY_JOD = 77; // Jordanian dinar
+  ISO_CURRENCY_KES = 78; // Kenyan shilling
+  ISO_CURRENCY_KGS = 79; // Kyrgyzstani som
+  ISO_CURRENCY_KHR = 80; // Cambodian riel
+  ISO_CURRENCY_KMF = 81; // Comoro franc
+  ISO_CURRENCY_KPW = 82; // North Korean won
+  ISO_CURRENCY_KWD = 83; // Kuwaiti dinar
+  ISO_CURRENCY_KYD = 84; // Cayman Islands dollar
+  ISO_CURRENCY_KZT = 85; // Kazakhstani tenge
+  ISO_CURRENCY_LAK = 86; // Lao kip
+  ISO_CURRENCY_LBP = 87; // Lebanese pound
+  ISO_CURRENCY_LKR = 88; // Sri Lanka rupee
+  ISO_CURRENCY_LRD = 89; // Liberian dollar
+  ISO_CURRENCY_LSL = 90; // Lesotho loti
+  ISO_CURRENCY_LYD = 91; // Libyan dinar
+  ISO_CURRENCY_MAD = 92; // Moroccan dirham
+  ISO_CURRENCY_MDL = 93; // Moldovan leu
+  ISO_CURRENCY_MGA = 94; // Malagasy ariary
+  ISO_CURRENCY_MKD = 95; // Macedonian denar
+  ISO_CURRENCY_MMK = 96; // Myanmar kyat
+  ISO_CURRENCY_MNT = 97; // Mongolian tögrög
+  ISO_CURRENCY_MOP = 98; // Macanese pataca
+  ISO_CURRENCY_MRU = 99; // Mauritanian ouguiya
+  ISO_CURRENCY_MUR = 100; // Mauritian rupee
+  ISO_CURRENCY_MVR = 101; // Maldivian rufiyaa
+  ISO_CURRENCY_MWK = 102; // Malawian kwacha
+  ISO_CURRENCY_MYR = 103; // Malaysian ringgit
+  ISO_CURRENCY_MZN = 104; // Mozambican metical
+  ISO_CURRENCY_NAD = 105; // Namibian dollar
+  ISO_CURRENCY_NGN = 106; // Nigerian naira
+  ISO_CURRENCY_NIO = 107; // Nicaraguan córdoba
+  ISO_CURRENCY_NPR = 108; // Nepalese rupee
+  ISO_CURRENCY_NZD = 109; // New Zealand dollar
+  ISO_CURRENCY_OMR = 110; // Omani rial
+  ISO_CURRENCY_PAB = 111; // Panamanian balboa
+  ISO_CURRENCY_PEN = 112; // Peruvian sol
+  ISO_CURRENCY_PGK = 113; // Papua New Guinean kina
+  ISO_CURRENCY_PHP = 114; // Philippine peso
+  ISO_CURRENCY_PKR = 115; // Pakistani rupee
+  ISO_CURRENCY_PLN = 116; // Polish złoty
+  ISO_CURRENCY_PYG = 117; // Paraguayan guaraní
+  ISO_CURRENCY_QAR = 118; // Qatari riyal
+  ISO_CURRENCY_RON = 119; // Romanian leu
+  ISO_CURRENCY_RSD = 120; // Serbian dinar
+  ISO_CURRENCY_RWF = 121; // Rwandan franc
+  ISO_CURRENCY_SBD = 122; // Solomon Islands dollar
+  ISO_CURRENCY_SCR = 123; // Seychellois rupee
+  ISO_CURRENCY_SDG = 124; // Sudanese pound
+  ISO_CURRENCY_SHP = 125; // Saint Helena pound
+  ISO_CURRENCY_SLL = 126; // Sierra Leonean leone
+  ISO_CURRENCY_SOS = 127; // Somali shilling
+  ISO_CURRENCY_SRD = 128; // Surinamese dollar
+  ISO_CURRENCY_SSP = 129; // South Sudanese pound
+  ISO_CURRENCY_STN = 130; // São Tomé and Príncipe dobra
+  ISO_CURRENCY_SVC = 131; // Salvadoran colón
+  ISO_CURRENCY_SYP = 132; // Syrian pound
+  ISO_CURRENCY_SZL = 133; // Swazi lilangeni
+  ISO_CURRENCY_THB = 134; // Thai baht
+  ISO_CURRENCY_TJS = 135; // Tajikistani somoni
+  ISO_CURRENCY_TMT = 136; // Turkmenistan manat
+  ISO_CURRENCY_TND = 137; // Tunisian dinar
+  ISO_CURRENCY_TOP = 138; // Tongan paʻanga
+  ISO_CURRENCY_TTD = 139; // Trinidad and Tobago dollar
+  ISO_CURRENCY_TWD = 140; // New Taiwan dollar
+  ISO_CURRENCY_TZS = 141; // Tanzanian shilling
+  ISO_CURRENCY_UAH = 142; // Ukrainian hryvnia
+  ISO_CURRENCY_UGX = 143; // Ugandan shilling
+  ISO_CURRENCY_UYU = 144; // Uruguayan peso
+  ISO_CURRENCY_UZS = 145; // Uzbekistani soʻm
+  ISO_CURRENCY_VND = 146; // Vietnamese đồng
+  ISO_CURRENCY_VUV = 147; // Vanuatu vatu
+  ISO_CURRENCY_WST = 148; // Samoan tālā
+  ISO_CURRENCY_XAF = 149; // Central African CFA franc
+  ISO_CURRENCY_XCD = 150; // East Caribbean dollar
+  ISO_CURRENCY_XOF = 151; // West African CFA franc
+  ISO_CURRENCY_XPF = 152; // CFP franc
+  ISO_CURRENCY_YER = 153; // Yemeni rial
+  ISO_CURRENCY_ZAR = 154; // South African rand
+  ISO_CURRENCY_ZMW = 155; // Zambian kwacha
 }

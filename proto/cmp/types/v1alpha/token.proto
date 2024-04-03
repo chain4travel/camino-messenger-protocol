@@ -2,13 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// ERC20 Token Reference
+// Token Reference
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/token.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/token.proto.dot.svg)
-message ERC20Token {
+message TokenCurrency {
   string contract_address = 1;
-  string name = 2;
-  string symbol = 3;
-  uint32 decimals = 4;
 }

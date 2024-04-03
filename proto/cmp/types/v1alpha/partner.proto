@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-import "cmp/types/v1alpha/token.proto";
 import "cmp/types/v1alpha/wallet.proto";
+import "cmp/types/v1alpha/currency.proto";
 
 // ### Partner message type
 //
@@ -41,7 +41,7 @@ message Partner {
   //
   // Note: Type of this field will depend on the T-Chain implementation If we go
   // with X-Chain like (assets) we may need to switch to `Asset` type.
-  repeated ERC20Token supported_tokens = 6;
+  repeated Currency supported_currencies = 6;
 
   // Off chain payment support
   bool off_chain_payment_supported = 7;
