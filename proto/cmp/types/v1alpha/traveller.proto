@@ -4,6 +4,7 @@ package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/country.proto";
 import "cmp/types/v1alpha/date.proto";
+import "cmp/types/v1alpha/document.proto";
 
 // Traveller
 //
@@ -45,15 +46,27 @@ message ExtensiveTraveller {
   // referencing services linked to specific participants, like baggage.
   int32 traveller_id = 1;
 
-  //Gender from the enum below
+  // Gender from the enum below
   GenderType gender = 2;
 
-  string first_names = 3;
-  string last_name = 4;
-  string second_last_name = 5;
+  // Many systems might just have one field for all first names and just one field
+  // for all surnames of a traveller. However, we see many countries with many
+  // surnames and authorities that require the names data to be correctly registered
+  // as in the passport of the traveller. In this case you can for example find in
+  // the fist name field "Diana Frances" and in the surname field "Spencer". However
+  // with double barrelled surnames this becomes problematic like in the case of
+  // firstname: "Winnie" Surname: "Madikizela-Mandela". In Spanish tradition, double
+  // surnames are the norm, which are composed of surname of their fathers, followed
+  // by the (first) surname of their mothers. These names are combined without
+  // hyphen for example Julio Iglesias de la Cueva and Enrique Iglesias Preysler.
+  // Conclusively systems that haye a limited number of first name and surname
+  // fields can just use one antry and systems that have multipl can fit John legen
+  // into first_name: John, first_name: Roger, surname: Stephens, surname: Legend.
+  repeated string first_names = 3;
+  repeated string surnames = 4;
   string phone_number = 6;
   string email = 7;
-  string document_number = 8;
+  cmp.types.v1alpha.Document document = 8;
 }
 
 // Gender Type

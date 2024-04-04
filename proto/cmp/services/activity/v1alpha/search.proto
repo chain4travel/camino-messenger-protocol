@@ -111,7 +111,9 @@ message ActivitySearchResponse {
   // Unique combinations of bookable search results
   repeated ActivitySearchResult results = 3;
 
-  // The traveller_id is specified in each unit and only detailed once in the search response
+  // The traveller_id is specified in each result and the ids are detailed with
+  // basic traveller data only once in the top-level search response to avoid
+  // repetition.
   repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 }
 
