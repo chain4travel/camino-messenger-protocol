@@ -9,7 +9,8 @@ import "cmp/types/v1alpha/time.proto";
 message Bookability {
   Bookable bookable = 1;
 
-  // In case of a bookable=on_request status, a confirmation time should be given
+  // In case of a bookable=on_request status, a confirmation time should be
+  // given
   cmp.types.v1alpha.Time confirmation_time = 2;
 }
 
