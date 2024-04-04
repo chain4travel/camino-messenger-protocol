@@ -8,8 +8,6 @@ package cmp.types.v1alpha;
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_status.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_status.proto.dot.svg)
-
-// Status of a product
 enum ProductStatus {
   PRODUCT_STATUS_UNSPECIFIED = 0;
   PRODUCT_STATUS_NEW = 1;

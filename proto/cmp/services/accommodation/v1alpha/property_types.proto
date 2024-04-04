@@ -11,11 +11,11 @@ import "cmp/types/v1alpha/file.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/meal_plan.proto";
 import "cmp/types/v1alpha/phone.proto";
+import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/product_status.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
-import "cmp/types/v1alpha/product_code.proto";
-import "cmp/types/v1alpha/product_status.proto";
 
 // ### Property message type
 //
@@ -24,7 +24,8 @@ import "cmp/types/v1alpha/product_status.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.svg)
 message Property {
-  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was last updated
+  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
+  // last updated
   google.protobuf.Timestamp last_modified = 1;
 
   // Supplier product Code
@@ -133,17 +134,17 @@ message Room {
   // availability data for display to the end user.
   string supplier_room_code = 1;
 
-   // Room name. In case of hotel a standardized room name is often derrived from
-   // room code structures. Exmple: "superior seaview room".
-   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
-   // "Bathroom" when specific descriptions for each room are available.
+  // Room name. In case of hotel a standardized room name is often derrived from
+  // room code structures. Exmple: "superior seaview room".
+  // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
+  // "Bathroom" when specific descriptions for each room are available.
   string supplier_room_name = 2;
 
   // Original room name as assigned by the hotel. In case of spefifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
   // For holiday homes specific room names if availbale can be given.
-  string original_room_name =3;
+  string original_room_name = 3;
 
   repeated cmp.types.v1alpha.Image images = 4;
   repeated cmp.types.v1alpha.Video videos = 5;

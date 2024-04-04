@@ -6,8 +6,8 @@ import "cmp/types/v1alpha/currency.proto";
 
 // ### PriceDetail
 //
-// This message consists of net value as a Price object and additional fields as
-// gross, binding, concept, and breakdown.
+// This message consists of the value as a Price object and additional fields as
+// binding, concept, and breakdown.
 //
 // Breakdown is a recursively inhereted object of PriceDetail. This way complex
 // pricing structures can be represented.
@@ -26,7 +26,9 @@ message PriceDetail {
   string description = 3;
 
   // If not specified, the default of the boolean is false which means it is
-  // included in the price
+  // included in the price. If set to True, it means that this PriceDetail is only
+  // payable locally. For example local tourism tax that you pay at the reception of
+  // a hotel. Intended to be used in the breakdown.
   bool locally_payable = 4;
 
   // Type of price
@@ -41,9 +43,52 @@ message PriceDetail {
 
 // ### Simple Price type message Price
 //
+// Value of the price, this should be an integer converted to string.
+//
+// This field is a string intentionally. Because the currency can be a crypto
+// currency, we need a reliable way to represent big integers as most of the
+// crypto currencies have 18 decimals precision.
+//
+// Definition of the price message:
+// The combination of "value" and "decimals" fields express always the value of the
+// currency, not of the fraction of the currency [ ETH not wei, CAM and not aCAM,
+// BTC and not Satoshi, EUR not EUR-Cents ]
+// Be aware that partners should not do rounding with crypto currencies.
+//
+// Example implementations:
+// off-chain payment of 100 € or 100 $:
+//  value=10000
+//  decimals=2
+//  iso_currency=EUR or USD
+//
+// on-chain payment of 100.65 EURSH
+//  value=10065
+//  decimals=2
+//  token_currency=EURSH
+//  contract_address=0x...
+//  this currency has 5 decimals on Columbus and conclusively to mint the value of
+//  10065 must be divided by 10^2 = 100.65 EURSH and minted in its smallest fraction
+//  by multiplying  100.65 EURSH * 10^5 => 10065000 
+//  (example conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
+//
+// on-chain payment of 0.0065 BTC
+//  value=65
+//  decimals=4
+//  token_currency=BTC
+//  contract_address=0x...
+//  this currency has 8 decimals on Columbus and conclusively to mint the value of
+//  0.0065 must be divided by 10^4 = 0.000065 and minted in its smallest fraction
+//  by multiplying 0.000065 * 10^8 => 650000
+//
+// on-chain payment of 1 nCAM
+//  value=1
+//  decimals=9
+//  native_token_currency=CAM
+//  this currency has denominator 18 on Columbus and conclusively to mint the value of
+//  1 nCam must be divided by 10^9 = 0.000000001 CAM and minted in its smallest fraction
+//  by multiplying 0.000000001 * 10^18 => 1000000000 aCAM
 message Price { 
 	string value = 1; 
-  // Decimals between 0 and 18
 	int32 decimals = 2;
   Currency currency =3;
 }

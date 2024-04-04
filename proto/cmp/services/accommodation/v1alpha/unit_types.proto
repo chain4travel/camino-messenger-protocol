@@ -11,7 +11,6 @@ import "cmp/types/v1alpha/rate.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/travel_period.proto";
 
-
 // A Unit can represent a room in a hotel. One search option can have multiple units
 // for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
 //
@@ -78,7 +77,7 @@ message Unit {
 
   // Property code which can be of different types
   cmp.types.v1alpha.ProductCode property_code = 15;
- 
+
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
   cmp.types.v1alpha.SupplierProductCode supplier_code = 16;
 

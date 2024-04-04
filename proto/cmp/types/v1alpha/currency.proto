@@ -5,44 +5,7 @@ package cmp.types.v1alpha;
 import "google/protobuf/empty.proto";
 import "cmp/types/v1alpha/token.proto";
 
-// Definition of the price message:
-// The combination of "value" and "decimals" fields express always the value of the
-// currency, not of the fraction of the currency [ ETH not wei, CAM and not aCAM,
-// BTC and not Satoshi, EUR not EUR-Cents ]
-// Be aware that partners should not do rounding with crypto currencies.
-//
-// Example implementations:
-// off-chain payment of 100 € or 100 $:
-//  value=10000
-//  decimals=2
-//  iso_currency=EUR or USD
-//
-// on-chain payment of 100.65 EURSH
-//  value=10065
-//  decimals=2
-//  token_currency=EURSH
-//  contract_address=0x5b1c852dad36854B0dFFF61d2C13F108D8E01975
-//  this currency has 5 decimals on Columbus and conclusively to mint the value of
-//  10065 must be divided by 10^2 = 100.65 EURSH and minted in its smallest fraction
-//  by multiplying  100.65 EURSH * 10^5 => 10065000 
-//  (example conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
-//
-// on-chain payment of 0.0065 BTC
-//  value=65
-//  decimals=4
-//  token_currency=BTC
-//  contract_address=0x05bBC1DEEA1c3C154E0b5Ef72bBcfF3660b9E4cE
-//  this currency has 8 decimals on Columbus and conclusively to mint the value of
-//  0.0065 must be divided by 10^4 = 0.000065 and minted in its smallest fraction
-//  by multiplying 0.000065 * 10^8 => 650000
-//
-// on-chain payment of 1 nCAM
-//  value=1
-//  decimals=9
-//  native_token_currency=CAM
-//  this currency has denominator 18 on Columbus and conclusively to mint the value of
-//  1 nCam must be divided by 10^9 = 0.000000001 CAM and minted in its smallest fraction
-//  by multiplying 0.000000001 * 10^18 => 1000000000 aCAM
+// See extensive explanation at Price in price.proto
 message Currency {
   oneof currency {
     cmp.types.v1alpha.IsoCurrency iso_currency = 1;
