@@ -132,19 +132,19 @@ message Room {
   // in the ProductList and the ProductInfo messages, so that the static data like room
   // amenities, descriptions, images etc. can be married to the dynamic price and
   // availability data for display to the end user.
-  string supplier_room_code = 1;
+  string supplier_code = 1;
 
   // Room name. In case of hotel a standardized room name is often derrived from
   // room code structures. Exmple: "superior seaview room".
   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
   // "Bathroom" when specific descriptions for each room are available.
-  string supplier_room_name = 2;
+  string supplier_name = 2;
 
   // Original room name as assigned by the hotel. In case of spefifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
   // For holiday homes specific room names if availbale can be given.
-  string original_room_name = 3;
+  string original_name = 3;
 
   repeated cmp.types.v1alpha.Image images = 4;
   repeated cmp.types.v1alpha.Video videos = 5;

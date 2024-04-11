@@ -66,7 +66,7 @@ message ExtensiveTraveller {
   repeated string surnames = 4;
   string phone_number = 6;
   string email = 7;
-  cmp.types.v1alpha.Document document = 8;
+  repeated cmp.types.v1alpha.Document document = 8;
 }
 
 // Gender Type

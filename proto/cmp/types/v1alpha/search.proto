@@ -88,12 +88,12 @@ message SearchResponseMetadata {
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
-  string errors = 3;
+  repeated string errors = 3;
 
   // Warnings encountered in the generation of the response. This section might include
   // information about fields not processed due to incompatibilities with the
   // inventory system
-  string warnings = 4;
+  repeated string warnings = 4;
 
   // Supplier code from the Inventory System for this search response.
   string supplier_code = 5;
