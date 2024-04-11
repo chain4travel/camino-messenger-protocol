@@ -48,7 +48,7 @@ message ServiceFact {
   ChargeBasisType charge_basis = 5;
 
   // We can use a single ServiceFact to express just one service. But many services
-  // actually are actually a combination of several services, like the typical
+  // are actually a combination of several services, like the typical
   // priority boarding, which also allows for a larger carry-on bag.
   repeated ServiceFact details = 6;
 
