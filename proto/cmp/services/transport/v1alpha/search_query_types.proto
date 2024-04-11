@@ -22,7 +22,7 @@ message TransportSearchQuery {
   // ID
   int32 query_id = 1;
 
-  // Travellers
+  // Global definition of the travellers for all requests to be used via the traveller_id
   repeated cmp.types.v1alpha.BasicTraveller travellers = 2;
 
   // Trips
