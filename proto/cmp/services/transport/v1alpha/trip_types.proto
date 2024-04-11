@@ -3,13 +3,13 @@ syntax = "proto3";
 package cmp.services.transport.v1alpha;
 
 import "cmp/types/v1alpha/baggage.proto";
+import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/measurement.proto";
 import "cmp/types/v1alpha/price.proto";
-import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/product_code.proto";
-import "google/protobuf/timestamp.proto";
 import "cmp/types/v1alpha/service_fact.proto";
+import "google/protobuf/timestamp.proto";
 
 // This message type represents a one way trip, either travelling or returning.
 //
@@ -60,11 +60,11 @@ message TripSegment {
   // flight number in the number field.
   //
   // For train some operators use a combination of a code and a number like
-  // Eurostar, but others just use a code or a number (SNCF). 
+  // Eurostar, but others just use a code or a number (SNCF).
   //
   // Transfers are often identified by just a product code servicing an area.
   cmp.types.v1alpha.ProductCode product_code = 5;
-  
+
   // Supplier specific code, matching the supplier code in ProductList and ProductInfo
   // messages
   cmp.types.v1alpha.SupplierProductCode supplier_code = 6;

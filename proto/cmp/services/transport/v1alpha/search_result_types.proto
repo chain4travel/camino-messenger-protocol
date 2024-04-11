@@ -3,13 +3,13 @@ syntax = "proto3";
 package cmp.services.transport.v1alpha;
 
 import "cmp/services/transport/v1alpha/trip_types.proto";
+import "cmp/types/v1alpha/bookable.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
 import "cmp/types/v1alpha/change_policy.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/fulfillment.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/rate.proto";
-import "cmp/types/v1alpha/bookable.proto";
 
 // Transport search result
 //
@@ -29,7 +29,7 @@ message TransportSearchResult {
   string offer_id = 3;
 
   // Travellers
-   repeated int32 traveller_ids = 4;
+  repeated int32 traveller_ids = 4;
 
   // Travelling trip. A travelling trip can be repeated and will be in many cases 2
   // trips: an outbound and returning trip from and to the same destination.
@@ -50,8 +50,8 @@ message TransportSearchResult {
   repeated cmp.types.v1alpha.Fulfillment fulfillments = 8;
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v1alpha.Bookability bookable = 9; 
-    
+  cmp.types.v1alpha.Bookability bookable = 9;
+
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can

@@ -2,19 +2,20 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-import "google/protobuf/empty.proto";
 import "cmp/types/v1alpha/token.proto";
+import "google/protobuf/empty.proto";
 
 // See extensive explanation at Price in price.proto
 message Currency {
   oneof currency {
     cmp.types.v1alpha.IsoCurrency iso_currency = 1;
-    
+
     cmp.types.v1alpha.TokenCurrency token_currency = 2;
-    
+
     google.protobuf.Empty native_token = 3;
-	}
+  }
 }
+
 // Currency list of ISO 4217 standard
 //
 // First 20 currencies are the most traded currencies in the world. This is done to

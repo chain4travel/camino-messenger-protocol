@@ -22,7 +22,7 @@ message Filter {
   //
   // Conclusively we recommend to filter using standards. It is much better to filter
   // for seaview or seaside rooms using for example DRV global types supported by many
-  // providers of the Camino Nnetwork, than to implement specific logics per provider, 
+  // providers of the Camino Nnetwork, than to implement specific logics per provider,
   // using their unique codes
   string filter_code = 1;
 

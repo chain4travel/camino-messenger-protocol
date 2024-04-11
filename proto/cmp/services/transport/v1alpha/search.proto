@@ -18,7 +18,6 @@ import "cmp/types/v1alpha/content_source.proto";
 import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/traveller.proto";
 
-
 // ### Transport Search Request
 message TransportSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet

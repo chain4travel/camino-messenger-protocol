@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.services.transport.v1alpha;
 
+import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/time.proto";
-import "cmp/types/v1alpha/duration.proto";
 
 // ### Transport Search Parameters
 //

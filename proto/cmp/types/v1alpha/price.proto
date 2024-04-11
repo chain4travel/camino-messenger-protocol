@@ -16,7 +16,7 @@ import "cmp/types/v1alpha/price_type.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/price.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/price.proto.dot.svg)
 message PriceDetail {
-	// Principle price element
+  // Principle price element
   Price price = 1;
 
   // Identification whether the price must be respected towards the end-user
@@ -65,7 +65,7 @@ message PriceDetail {
 //  the contract address, we get the decimals decimals and the currency name or
 //  abbreviation: 8 decimals & WBTC Because we see 4 decimals specified in the
 //  message we divide 65 by 10^4 == 0.0065 WBTC (for showing in the front-end UIs)
-// 
+//
 //  This currency has 8 decimals on-chain and conclusively to use the value of
 //  0.0065 for on-chain operations must be converted to big integer as bigint(65) *
 //  10^(8-4) == 650000
@@ -74,8 +74,8 @@ message PriceDetail {
 //  Columbus and conclusively to mint the value of 1 nCam must be divided by 10^9 =
 //  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
 //  10^18 => 1000000000 aCAM
-message Price { 
-  string value = 1; 
+message Price {
+  string value = 1;
   int32 decimals = 2;
   Currency currency = 3;
 }
