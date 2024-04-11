@@ -25,7 +25,7 @@ syntax = "proto3";
 // Protobuf keeps the **order of the values inside a repeated field**. Conclusively if
 // you specify for example in a transport message trips travelling 1 June DUS-NYC,
 // travelling 15 June LAS->LAX, travelling 15 June LAX->LAS, returning NYC->DUS, by specifying
-// the reips in this order it is defined that the trip in the middle is a same day return
+// the trips in this order it is defined that the trip in the middle is a same day return
 // LAS to LAX and not LAX to LAS as then it should have been specified as travelling 15 June
 // LAX->LAS, travelling 15 June LAS->LAX.
 package cmp.types.v1alpha;

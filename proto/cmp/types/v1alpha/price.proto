@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/currency.proto";
+import "cmp/types/v1alpha/price_type.proto";
 
 // ### PriceDetail
 //
@@ -15,7 +16,7 @@ import "cmp/types/v1alpha/currency.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/price.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/price.proto.dot.svg)
 message PriceDetail {
-  // Principle price element
+	// Principle price element
   Price price = 1;
 
   // Identification whether the price must be respected towards the end-user
@@ -31,11 +32,8 @@ message PriceDetail {
   // a hotel. Intended to be used in the breakdown.
   bool locally_payable = 4;
 
-  // Type of price
-  string type = 5;
-
-  // Type code of the price
-  string type_code = 6;
+  // Type of price and price code
+  PriceTypeCode price_type_code =5;
 
   // We can use a single PriceDetail to represent a price breakdown.
   repeated PriceDetail breakdown = 7;
@@ -77,7 +75,7 @@ message PriceDetail {
 //  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
 //  10^18 => 1000000000 aCAM
 message Price { 
-	string value = 1; 
-	int32 decimals = 2;
-  Currency currency =3;
+  string value = 1; 
+  int32 decimals = 2;
+  Currency currency = 3;
 }

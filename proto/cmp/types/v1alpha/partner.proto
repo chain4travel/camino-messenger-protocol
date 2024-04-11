@@ -37,10 +37,7 @@ message Partner {
   // On chain payment support
   bool on_chain_payment_supported = 5;
 
-  // Supported tokens for payment on-chain
-  //
-  // Note: Type of this field will depend on the T-Chain implementation If we go
-  // with X-Chain like (assets) we may need to switch to `Asset` type.
+  // Supported tokens for payment (on-chain)
   repeated Currency supported_currencies = 6;
 
   // Off chain payment support
