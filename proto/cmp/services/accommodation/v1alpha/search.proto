@@ -108,7 +108,7 @@ message AccommodationSearchResponse {
   // Unique combinations of bookable search results, like property,
   repeated AccommodationSearchResult results = 3;
 
-  // The traveller_id is specified in each unit and only detailed once in the search response
+  // Global definition of the travellers for all results to be used via the traveller_id each unit. 
   repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 }
 
