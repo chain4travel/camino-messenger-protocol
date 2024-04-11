@@ -33,10 +33,10 @@ message PriceDetail {
   bool locally_payable = 4;
 
   // Type of price and price code
-  PriceTypeCode price_type_code =5;
+  PriceTypeCode price_type_code = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated PriceDetail breakdown = 7;
+  repeated PriceDetail breakdown = 6;
 }
 
 // ### Simple Price type message Price

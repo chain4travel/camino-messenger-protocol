@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/wallet.proto";
-import "cmp/types/v1alpha/currency.proto";
+import "cmp/types/v1alpha/token.proto";
 
 // ### Partner message type
 //
@@ -34,24 +34,22 @@ message Partner {
   // FIXME: Need review here!
   string domain = 4;
 
-  // On chain payment support
-  bool on_chain_payment_supported = 5;
-
-  // Supported tokens for payment (on-chain)
-  repeated Currency supported_currencies = 6;
+  // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
+  // then means that on-chain payment is supported.
+  repeated TokenCurrency supported_currencies = 5;
 
   // Off chain payment support
-  bool off_chain_payment_supported = 7;
+  bool off_chain_payment_supported = 6;
 
   // Supported services
-  repeated PartnerService services = 8;
+  repeated PartnerService services = 7;
 
   // Partner addresses of the messenger bots
-  repeated cmp.types.v1alpha.WalletAddress addresses = 9;
+  repeated cmp.types.v1alpha.WalletAddress addresses = 8;
 
   // Partner's consortium member wallet address. This address should be the one who
   // creates the entry in Partner Configuration on the chain.
-  cmp.types.v1alpha.WalletAddress partner_wallet_address = 10;
+  cmp.types.v1alpha.WalletAddress partner_wallet_address = 9;
 }
 
 // Partner Service

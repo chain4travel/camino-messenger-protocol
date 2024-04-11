@@ -8,13 +8,13 @@ message PriceTypeCode {
   string type_code = 1;
 
   // A price type can be a type of service or produc delivered or form part of the fee or tax breakdown
-  oneof type{
+  oneof type {
     PriceType price_type = 2;
     TaxCode tax_code = 3;
     FeeCode fee_code = 4;
   }
 
-enum PriceType{
+enum PriceType {
   PRICE_TYPE_UNSPECIFIED = 0;
   PRICE_TYPE_BASE_RATE = 1;
   PRICE_TYPE_OVERRIDE = 2;
@@ -29,7 +29,7 @@ enum PriceType{
   PRICE_TYPE_EXTRA = 11;
 }
 
-enum TaxCode{
+enum TaxCode {
   TAX_CODE_UNSPECIFIED = 0;
   TAX_CODE_ASSESSMENT_TAX = 1;
   TAX_CODE_LICENSE_TAX = 2;
@@ -65,7 +65,7 @@ enum TaxCode{
   TAX_CODE_ZERO_RATED_TAX = 32;
 }
 
-enum FeeCode{
+enum FeeCode {
   FEE_CODE_UNSPECIFIED = 0;
   FEE_CODE_ADDITIONAL_DAY = 1;
   FEE_CODE_ADDITIONAL_DISTANCE = 2;
