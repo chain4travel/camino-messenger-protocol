@@ -36,7 +36,7 @@ message Partner {
 
   // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
   // then means that on-chain payment is supported.
-  repeated TokenCurrency supported_currencies = 5;
+  repeated TokenCurrency on_chain_currencies = 5;
 
   // Off chain payment support
   bool off_chain_payment_supported = 6;
