@@ -17,7 +17,7 @@ message ActivitySearchParameters {
   // Specify the language(s) a potential guide should speak for example a tour in
   // the Anne Frank house in Amsterdam in French or the tour at the pyramids in
   // Egypt should be in Russian
-  repeated cmp.types.v1alpha.Language spoken_language = 1;
+  repeated cmp.types.v1alpha.Language spoken_languages = 1;
 
   // Specify one or more supplier codes to be included in the search response
   // These must match the supplier codes provided in the ProductList and
@@ -39,7 +39,7 @@ message ActivitySearchParameters {
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the ProductInfo message
   // These are in general also supplier specific
-  repeated string service_code = 5;
+  repeated string service_codes = 5;
 
   // Duration
   //

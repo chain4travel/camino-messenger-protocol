@@ -19,7 +19,7 @@ message AccommodationSearchQuery {
   cmp.types.v1alpha.TravelPeriod travel_period = 3;
 
   // Travellers
-  repeated cmp.types.v1alpha.BasicTraveller traveller = 4;
+  repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 
   // Total number of rooms / holiday homes
   int32 unit_count = 5;

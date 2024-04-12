@@ -56,5 +56,5 @@ message ChangeType {
   string description = 4;
 
   // For which rateplan the policy is valid.
-  repeated string valid_for_rate_plan = 5;
+  repeated string valid_for_rate_plans = 5;
 }

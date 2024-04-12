@@ -32,7 +32,7 @@ message Property {
   cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
-  repeated cmp.types.v1alpha.ProductCode product_code = 3;
+  repeated cmp.types.v1alpha.ProductCode product_codes = 3;
 
   // Ex: "Beach Hotel Alanya"
   string name = 4;
@@ -111,7 +111,7 @@ message PropertyExtendedInfo {
   repeated cmp.types.v1alpha.Video videos = 3;
 
   // Segmentation classification
-  repeated string classification = 4;
+  repeated string classifications = 4;
 
   // Property descriptions
   repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 5;
@@ -153,7 +153,7 @@ message Room {
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
 
   // Meal plan (Board code)
-  repeated cmp.types.v1alpha.MealPlan meal_plan = 7;
+  repeated cmp.types.v1alpha.MealPlan meal_plans = 7;
 
   // Beds
   repeated cmp.types.v1alpha.Bed beds = 8;

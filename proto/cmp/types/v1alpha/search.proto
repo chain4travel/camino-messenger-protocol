@@ -29,7 +29,7 @@ message SearchParameters {
   // Request generated for a specific brand or point-of-sale by one distributor
   // Specify one or more brand codes or distribution channels for which assigned
   // product is to be included in the search response
-  repeated string brand_code = 4;
+  repeated string brand_codes = 4;
 
   // Include OnRequest options in the response or only immediately bookable options
   bool include_on_request = 5;

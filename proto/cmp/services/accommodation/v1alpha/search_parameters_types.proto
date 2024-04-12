@@ -38,7 +38,7 @@ message AccommodationSearchParameters {
   repeated cmp.types.v1alpha.MealPlan meal_plan_codes = 6;
 
   // Rate plans
-  repeated cmp.types.v1alpha.RatePlan rate_plan = 7;
+  repeated cmp.types.v1alpha.RatePlan rate_plans = 7;
 
   // Rate Rules
   // To be used when searching for specific rates like refundable or resellable offers

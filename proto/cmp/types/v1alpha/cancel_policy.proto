@@ -53,5 +53,5 @@ message CancelPenalty {
   string description = 3;
 
   // For which rateplan the penalty is valid.
-  repeated string valid_for_rate_plan = 4;
+  repeated string valid_for_rate_plans = 4;
 }

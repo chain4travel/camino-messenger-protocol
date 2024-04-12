@@ -36,7 +36,7 @@ message PriceDetail {
   PriceTypeCode price_type_code = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated PriceDetail breakdown = 6;
+  repeated PriceDetail breakdowns = 6;
 }
 
 // ### Simple Price type message Price
