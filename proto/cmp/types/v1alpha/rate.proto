@@ -28,7 +28,7 @@ enum RateRuleType {
 }
 
 // Rate plan message type. Contains `rate_plan` and `rate_plan_description` fields
-// as strings.The eneumeration for RatePlanType is meant for uniformed and
+// as strings. The enumeration for RatePlanType is meant for uniformed and
 // standardized display.
 message RatePlan {
   // Rate plan
