@@ -16,6 +16,7 @@ import "cmp/services/accommodation/v1alpha/search_query_types.proto";
 import "cmp/services/accommodation/v1alpha/search_result_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/search.proto";
+import "cmp/types/v1alpha/traveller.proto";
 
 // The `Accommodation Search Request` message type facilitates the request for
 // accommodations like hotel and holiday home searches within the platform. In the
@@ -23,7 +24,7 @@ import "cmp/types/v1alpha/search.proto";
 //
 // In "queries" we specify the details of the trip like dates, properties or
 // locations or filters. The purpose of such a structure is to allow for multi-room
-// and multi-property search requests. 
+// and multi-property search requests.
 //
 // For the response this means that there is no grouping of different
 // room, mealplan or rateplan options in single room or single property searches.
@@ -33,7 +34,7 @@ import "cmp/types/v1alpha/search.proto";
 // a search for 1 room for 2 adults would be just 1 query, with one travel period and
 // one set of search parameters. The response has one query_id with many result_ids
 // for various rooms, mealplans and rateplans in one hotel and depending on the search
-// parameters, again for other hotels. Each property+room+rateplan+mealplan is one 
+// parameters, again for other hotels. Each property+room+rateplan+mealplan is one
 // result_id with just one unit.
 //
 // The simple example is also applicable for holiday homes where one or multiple
@@ -62,15 +63,13 @@ import "cmp/types/v1alpha/search.proto";
 // In this case the number of rooms is specified and the total amount of travellers,
 // but no distribution of travellers per room is detailed in the request. The reponse
 // then hold multiple units for one search_id and result_id, so that if 5 rooms are
-// requested, but only 2 standard rooms are available, the requested amount can be 
+// requested, but only 2 standard rooms are available, the requested amount can be
 // completed with a different room type (superior, seaview,..)
 //
 // In general, the number of available rooms should be considered to ensure that for
 // requests with multiple rooms or homes, the same room or home is not offered twice
 // to different travellers.
 //
-//
-
 message AccommodationSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
@@ -108,6 +107,9 @@ message AccommodationSearchResponse {
 
   // Unique combinations of bookable search results, like property,
   repeated AccommodationSearchResult results = 3;
+
+  // Global definition of the travellers for all results to be used via the traveller_id each unit.
+  repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 }
 
 // Service definition for Accommodation search

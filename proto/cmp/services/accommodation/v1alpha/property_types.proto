@@ -11,10 +11,11 @@ import "cmp/types/v1alpha/file.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/meal_plan.proto";
 import "cmp/types/v1alpha/phone.proto";
+import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/product_status.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
-import "cmp/types/v1alpha/product_code.proto";
 
 // ### Property message type
 //
@@ -23,14 +24,15 @@ import "cmp/types/v1alpha/product_code.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.svg)
 message Property {
-  // Ex: "2023-08-28T12:03:50",
+  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
+  // last updated
   google.protobuf.Timestamp last_modified = 1;
 
-  // Ex: "AESPMI1234"
+  // Supplier product Code
   cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
-  repeated cmp.types.v1alpha.ProductCode product_code = 3;
+  repeated cmp.types.v1alpha.ProductCode product_codes = 3;
 
   // Ex: "Beach Hotel Alanya"
   string name = 4;
@@ -60,7 +62,7 @@ message Property {
   string website = 12;
 
   // Status of the property
-    PropertyStatus status = 13;
+  cmp.types.v1alpha.ProductStatus status = 13;
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
@@ -97,13 +99,6 @@ enum CategoryUnit {
   CATEGORY_UNIT_PALMS = 2;
 }
 
-enum PropertyStatus {
-  PROPERTY_STATUS_UNSPECIFIED = 0;
-  PROPERTY_STATUS_DRAFT = 1;
-  PROPERTY_STATUS_CONFIRMED = 2;
-  PROPERTY_STATUS_EXPIRED = 3;
-}
-
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
   // Property
@@ -116,7 +111,7 @@ message PropertyExtendedInfo {
   repeated cmp.types.v1alpha.Video videos = 3;
 
   // Segmentation classification
-  repeated string classification = 4;
+  repeated string classifications = 4;
 
   // Property descriptions
   repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 5;
@@ -137,19 +132,19 @@ message Room {
   // in the ProductList and the ProductInfo messages, so that the static data like room
   // amenities, descriptions, images etc. can be married to the dynamic price and
   // availability data for display to the end user.
-  string supplier_room_code = 1;
+  string supplier_code = 1;
 
-   // Room name. In case of hotel a standardized room name is often derrived from
-   // room code structures. Exmple: "superior seaview room".
-   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
-   // "Bathroom" when specific descriptions for each room are available.
-  string supplier_room_name = 2;
+  // Room name. In case of hotel a standardized room name is often derrived from
+  // room code structures. Exmple: "superior seaview room".
+  // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
+  // "Bathroom" when specific descriptions for each room are available.
+  string supplier_name = 2;
 
   // Original room name as assigned by the hotel. In case of spefifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
   // For holiday homes specific room names if availbale can be given.
-  string original_room_name =3;
+  string original_name = 3;
 
   repeated cmp.types.v1alpha.Image images = 4;
   repeated cmp.types.v1alpha.Video videos = 5;
@@ -158,7 +153,7 @@ message Room {
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
 
   // Meal plan (Board code)
-  repeated cmp.types.v1alpha.MealPlan meal_plan = 7;
+  repeated cmp.types.v1alpha.MealPlan meal_plans = 7;
 
   // Beds
   repeated cmp.types.v1alpha.Bed beds = 8;

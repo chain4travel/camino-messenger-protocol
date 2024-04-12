@@ -34,27 +34,22 @@ message Partner {
   // FIXME: Need review here!
   string domain = 4;
 
-  // On chain payment support
-  bool on_chain_payment_supported = 5;
-
-  // Supported tokens for payment on-chain
-  //
-  // Note: Type of this field will depend on the T-Chain implementation If we go
-  // with X-Chain like (assets) we may need to switch to `Asset` type.
-  repeated ERC20Token supported_tokens = 6;
+  // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
+  // then means that on-chain payment is supported.
+  repeated TokenCurrency on_chain_currencies = 5;
 
   // Off chain payment support
-  bool off_chain_payment_supported = 7;
+  bool off_chain_payment_supported = 6;
 
   // Supported services
-  repeated PartnerService services = 8;
+  repeated PartnerService services = 7;
 
   // Partner addresses of the messenger bots
-  repeated cmp.types.v1alpha.WalletAddress addresses = 9;
+  repeated cmp.types.v1alpha.WalletAddress addresses = 8;
 
   // Partner's consortium member wallet address. This address should be the one who
   // creates the entry in Partner Configuration on the chain.
-  cmp.types.v1alpha.WalletAddress partner_wallet_address = 10;
+  cmp.types.v1alpha.WalletAddress partner_wallet_address = 9;
 }
 
 // Partner Service

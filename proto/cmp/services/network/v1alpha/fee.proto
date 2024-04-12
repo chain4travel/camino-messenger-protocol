@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package cmp.services.network.v1alpha;
 
-import "cmp/types/v1alpha/asset.proto";
-
 // ### Network Fee Message Type
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha/fee.proto.dot.xs.svg)
@@ -11,13 +9,8 @@ import "cmp/types/v1alpha/asset.proto";
 message NetworkFee {
   // Network fee, unit is nCAM
   // 1 CAM == 1 000 000 000 nCAM
+  // TODO: explain in more detail when we have defined the CAM denominator on the T-Chain
   int32 amount = 1;
-
-  // Asset of the fee
-  //
-  // FIXME: Not sure if we need this. For CAM it's a well known asset on the chain
-  // but maybe we'll need other assets also?
-  cmp.types.v1alpha.Asset asset = 2;
 }
 
 message GetNetworkFeeRequest {

@@ -9,7 +9,6 @@ package cmp.types.v1alpha;
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_code.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/product_code.proto.dot.svg)
 message ProductCode {
-
   // In most cases like in accommodation, just the field "code" and "type" will be
   // used. For example in case of a GiataID (for example code=182568), a provider
   // hotel code (for example a hotel code=AESPMI1234), a transfer code, etc.
@@ -18,6 +17,10 @@ message ProductCode {
   // number=2803. It is not recommended to concatenate for example the airline code
   // and the flight number into the code field as "EW 51", as this would cause different
   // implementations for providers of the same product.
+  //
+  // Please note that when utilizing licensed codes or formats such as GiataID and DRV
+  // GlobalTypes, it is the partners' responsibility to confirm and settle any associated
+  // license fees directly with the respective organizations
   string code = 1;
   int32 number = 2;
   ProductCodeType type = 3;
@@ -33,8 +36,7 @@ enum ProductCodeType {
 }
 
 message SupplierProductCode {
-
-  // The supplier product code is unique for a product provided by the supplier and it 
+  // The supplier product code is unique for a product provided by the supplier and it
   // must remain consistent across the different messages like the ProductList, ProductInfo
   // and Search messages. Mapping is done on static data, however making a search request
   // with a GiataID or an ICAO code, could return one or more search results with each
@@ -45,8 +47,8 @@ message SupplierProductCode {
   // an accommodation, the accommodation with a flight and transfer or the accommodation with
   // a flight and a rent a car. As the product descriptions from the supplier will have
   // different services, it is safe to assume the product codes will be differnt, the product
-  // name will be different and the descriptions and amenities as well in the ProductList and 
+  // name will be different and the descriptions and amenities as well in the ProductList and
   // ProductInfo messages.
   string supplier_code = 1;
   int32 supplier_number = 2;
-  }
+}

@@ -5,8 +5,8 @@ package cmp.services.accommodation.v1alpha;
 import "cmp/services/accommodation/v1alpha/property_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/language.proto";
-import "google/protobuf/timestamp.proto";
 import "cmp/types/v1alpha/product_code.proto";
+import "google/protobuf/timestamp.proto";
 
 message AccommodationProductInfoRequest {
   // Message header

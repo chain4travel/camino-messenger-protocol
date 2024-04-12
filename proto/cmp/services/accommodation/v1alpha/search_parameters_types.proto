@@ -18,7 +18,7 @@ message AccommodationSearchParameters {
   // This "one of" field enforces only one of the fields below. They all share
   // memory, setting one will remove the others.
   oneof geo_location {
-    // FIXME: Do we need a list of location code here? Other fields are not lists.
+    // A list of location codes or just one code.
     cmp.types.v1alpha.LocationCodes location_codes = 1;
 
     // Single geographic point represented by two double fields.
@@ -38,7 +38,7 @@ message AccommodationSearchParameters {
   repeated cmp.types.v1alpha.MealPlan meal_plan_codes = 6;
 
   // Rate plans
-  repeated cmp.types.v1alpha.RatePlan rate_plan = 7;
+  repeated cmp.types.v1alpha.RatePlan rate_plans = 7;
 
   // Rate Rules
   // To be used when searching for specific rates like refundable or resellable offers

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.services.activity.v1alpha;
 
-import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/duration.proto";
+import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 
@@ -17,57 +17,41 @@ message ActivitySearchParameters {
   // Specify the language(s) a potential guide should speak for example a tour in
   // the Anne Frank house in Amsterdam in French or the tour at the pyramids in
   // Egypt should be in Russian
-  repeated cmp.types.v1alpha.Language spoken_language = 1;
-
-  // Specify one or more product codes to be included in the search response
-  // These can be of different types
-  // Ex: "TC000000"
-  repeated cmp.types.v1alpha.ProductCode product_codes = 2;
+  repeated cmp.types.v1alpha.Language spoken_languages = 1;
 
   // Specify one or more supplier codes to be included in the search response
   // These must match the supplier codes provided in the ProductList and
   // ProductInfo messages
-  repeated cmp.types.v1alpha.SupplierProductCode supplier_codes = 3;
+  repeated cmp.types.v1alpha.SupplierProductCode supplier_codes = 2;
 
-  // Specify one or more activity IDs to be included in the search response
+  // Specify one or more product codes to be included in the search response
+  // These can be of different types
+  repeated cmp.types.v1alpha.ProductCode product_codes = 3;
+
+  // Specify one or more unit IDs to be included in the search response
   // The purpose of this concept is to allow for different activities for one product
   // like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga".
-  // Code and description match the information provided in the ProductList and 
+  // Code and description match the information provided in the ProductList and
   // ProductInfo message. These are in general also supplier specific.
-  // Ex: "EESPMI46VY"
-  repeated string activity_id = 4;
+  repeated string unit_codes = 4;
 
   // Specify one or more service codes to be included in the search response
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the ProductInfo message
   // These are in general also supplier specific
-  // Ex: "XO"
-  repeated string service_code = 5;
-
-  // Specify one or more category codes to be included in the search response
-  // This concept is covering classification and segmentation aspects like for example
-  // Museum tours, Outdoor activities, Theme parks etc...
-  // Code and description match the information provided in the ProductInfo message
-  // These are in general also supplier specific
-    repeated string category_code = 6;
-
-  // Specify one or more type codes to be included in the search response
-  // A code to identify a specific type of excursion like Leisure, Activity, Learning, etc
-  // Code and description match the information provided in the ProductInfo message
-  // These are in general also supplier specific
-  repeated string type_code = 7;
+  repeated string service_codes = 5;
 
   // Duration
   //
   // Specify the minimal and maximum duration of an activity to be included in the
   // search response
-  cmp.types.v1alpha.Duration min_duration = 8;
-  cmp.types.v1alpha.Duration max_duration = 9;
+  cmp.types.v1alpha.Duration min_duration = 6;
+  cmp.types.v1alpha.Duration max_duration = 7;
 
   // Pricerange
   //
   // Specify the minimum and maximum price of an activity to be included in the
   // search response
-  cmp.types.v1alpha.Price min_price = 10;
-  cmp.types.v1alpha.Price max_price = 11;
+  cmp.types.v1alpha.Price min_price = 8;
+  cmp.types.v1alpha.Price max_price = 9;
 }

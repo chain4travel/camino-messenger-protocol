@@ -20,10 +20,9 @@ import "cmp/types/v1alpha/price.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/service_fact.proto.dot.svg)
 message ServiceFact {
-
   // A code for the specific service, when a service is optional, this code is
-  // referenced in the booking so that the optional service will be added to the
-  // booking.
+  // referenced in the validate request, so that the optional service will be added
+  // to the booking.
   string code = 1;
 
   // A description of the service like "business class", "shuttle transfer", "early
@@ -48,9 +47,14 @@ message ServiceFact {
   ChargeBasisType charge_basis = 5;
 
   // We can use a single ServiceFact to express just one service. But many services
-  // actually are actually a combination of several services, like the typical
+  // are actually a combination of several services, like the typical
   // priority boarding, which also allows for a larger carry-on bag.
   repeated ServiceFact details = 6;
+
+  // the count of the number of services. In case the service requires specification
+  // of the number or frequency of the products that will be included. For example
+  // "bouquet of roses, qty=24" or "baggage qty=2".
+  int32 quantity = 7;
 }
 
 enum ServiceAvailabilityType {

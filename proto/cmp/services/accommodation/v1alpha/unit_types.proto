@@ -10,7 +10,6 @@ import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/rate.proto";
 import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/travel_period.proto";
-import "cmp/types/v1alpha/traveller.proto";
 
 // A Unit can represent a room in a hotel. One search option can have multiple units
 // for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
@@ -45,8 +44,9 @@ message Unit {
   // Travel period
   cmp.types.v1alpha.TravelPeriod travel_period = 5;
 
-  // Travellers
-  repeated cmp.types.v1alpha.Traveller travellers = 6;
+  // Traveller_id is a list of travellers related to this unit. The details can be found in
+  // the search response repeated travellers field
+  repeated int32 traveller_ids = 6;
 
   // Beds
   repeated cmp.types.v1alpha.Bed beds = 7;
@@ -77,7 +77,7 @@ message Unit {
 
   // Property code which can be of different types
   cmp.types.v1alpha.ProductCode property_code = 15;
- 
+
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
   cmp.types.v1alpha.SupplierProductCode supplier_code = 16;
 
