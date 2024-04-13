@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+import "cmp/types/v1alpha/credit_card.proto";
+import "google/protobuf/empty.proto";
+
+// Payment message with one of field of types "on_chain", "off_chain_invoice", and
+// "off_chain_vcc".
+//
+// "on_chain" and "off_chain_invoice" types are just `Empty` messages, setted only
+// to specify the payment type as these do not require any additional info.enum
+//
+// "off_chain_vcc" is a `CreditCard` message type that contains virtual credit card
+// number, expiration date and CVC.
+message Payment {
+  oneof type {
+    google.protobuf.Empty on_chain = 1;
+    google.protobuf.Empty off_chain_invoice = 2;
+    CreditCard off_chain_vcc = 3;
+  }
+}

@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package cmp.services.book.v1alpha;
+
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/price.proto";
+
+message ValidationRequest {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search ID that is returned in the search response message in the `metadata``
+  // (`SearchResponseMetadata`) field.
+  string search_id = 2;
+
+  // Result ID that is that is returned by `result_id` field of the search result
+  // messages like `AccommodationSearchResult`.
+  //
+  // Because search requests may contain multiple queries, for example one room
+  // (unit) for 2 adults and one room for 2 adults and 1 kid and another room for 1
+  // adult, here we are using a list of results IDs that the buyer wants to validate.
+  repeated int32 result_ids = 3;
+}
+
+message ValidationResponse {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  // Unique validation ID. This must be a UUID according to RFC 4122
+  string validation_id = 2;
+
+  // Status
+  ValidationStatus status = 3;
+
+  // Validation objects
+  repeated ValidationObject validation_objects = 4;
+}
+
+// Validation message that represents a single `result_id` from the search results
+// message.
+//
+// TODO: Better name?
+message ValidationObject {
+  int32 result_id = 1;
+
+  cmp.types.v1alpha.PriceDetail price_detail = 2;
+
+  // Validation key of the product. Example for flight key:
+  // "LH1154-BUSINESS-ZEUBUZP0-Z#LH1155-BUSINESS-CEUBUZP0-C"
+  string key = 3;
+
+  // Status
+  ValidationStatus status = 4;
+}
+
+enum ValidationStatus {
+  VALIDATION_STATUS_UNSPECIFIED = 0;
+  VALIDATION_STATUS_AVAILABLE = 1;
+  VALIDATION_STATUS_UNAVAILABLE = 2;
+}
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/validate.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/validate.proto.dot.svg)
+service ValidationService {
+  rpc Validation(ValidationRequest) returns (ValidationResponse);
+}

@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package cmp.services.book.v1alpha;
+
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/currency.proto";
+import "cmp/types/v1alpha/language.proto";
+import "cmp/types/v1alpha/payment.proto";
+import "cmp/types/v1alpha/pubkey.proto";
+import "cmp/types/v1alpha/traveller.proto";
+import "google/protobuf/timestamp.proto";
+
+message MintRequest {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  string validation_id = 2;
+
+  string external_session_id = 3;
+
+  cmp.types.v1alpha.Currency currency = 4;
+
+  cmp.types.v1alpha.Language language = 5;
+
+  string market = 6;
+
+  string booking_reference = 7;
+
+  repeated cmp.types.v1alpha.ExtensiveTraveller travellers = 8;
+
+  string comment = 9;
+
+  // Public keys that will be used to encrypt the private booking data
+  repeated cmp.types.v1alpha.PublicKey public_keys = 10;
+
+  // Payment type, one of "on_chain", "off_chain_invoice", and "off_chain_vcc".
+  cmp.types.v1alpha.Payment payment = 11;
+}
+
+message MintResponse {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  // This must be a UUID according to RFC 4122
+  string mint_id = 2;
+
+  // This must be a UUID according to RFC 4122
+  string validation_id = 3;
+
+  string provider_booking_reference = 4;
+
+  // FIXME: Is it enough to have an address? Normally NFTs have a contract address
+  // and a token id.
+  string digital_asset_address = 5;
+
+  string transaction_id = 6;
+
+  google.protobuf.Timestamp booking_timestamp = 7;
+
+  MintStatus status = 8;
+
+  // Transaction ID of the buy operation. This field is populated by the distributor
+  // (buyer) bot after the buy operation and passed to the distributor middlerware
+  // (partner plugin) in the mint response.
+  string buy_transaction_id = 9;
+}
+
+enum MintStatus {
+  MINT_STATUS_UNSPECIFIED = 0;
+  MINT_STATUS_CONFIRMED = 1;
+  MINT_STATUS_FAILED = 2;
+}
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/mint.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/mint.proto.dot.svg)
+service MintService {
+  rpc Mint(MintRequest) returns (MintResponse);
+}
