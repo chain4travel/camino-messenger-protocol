@@ -7,7 +7,7 @@ import "cmp/types/v1alpha/price.proto";
 
 message ValidationRequest {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.RequestHeader header = 1;
 
   // Search ID that is returned in the search response message in the `metadata``
   // (`SearchResponseMetadata`) field.
@@ -20,7 +20,7 @@ message ValidationRequest {
 
 message ValidationResponse {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Unique validation ID. This must be a UUID according to RFC 4122
   string validation_id = 2;

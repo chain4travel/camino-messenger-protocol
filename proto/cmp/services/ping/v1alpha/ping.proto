@@ -11,7 +11,7 @@ import "google/protobuf/timestamp.proto";
 // stored of each hop.
 message PingRequest {
   // Message Header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.RequestHeader header = 1;
 
   // Ping message
   string ping_message = 2;
@@ -22,7 +22,7 @@ message PingRequest {
 
 message PingResponse {
   // Message Header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Ping message
   string ping_message = 2;
