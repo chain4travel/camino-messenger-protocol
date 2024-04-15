@@ -26,6 +26,9 @@ message MintRequest {
 
   repeated cmp.types.v1alpha.ExtensiveTraveller travellers = 7;
 
+  // The comments field is meant to pass noncommittal remarks entered by the
+  // end-consumer about the service reservation,  like "non-smoking room please",
+  // "top floor room please".
   string comment = 8;
 
   // Public keys that will be used to encrypt the private booking data
