@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+import "cmp/types/v1alpha/credit_card.proto";
+
+// Additional payment info message with currently only a single field of
+// `CreditCard` message type.
+message AdditionalPaymentInfo {
+  CreditCard credit_card = 1;
+}

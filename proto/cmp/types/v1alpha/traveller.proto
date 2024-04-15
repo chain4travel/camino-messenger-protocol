@@ -10,7 +10,6 @@ import "cmp/types/v1alpha/document.proto";
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/traveller.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/traveller.proto.dot.svg)
-
 message BasicTraveller {
   // Guest number, the lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, like baggage.
@@ -64,9 +63,9 @@ message ExtensiveTraveller {
   // into first_name: John, first_name: Roger, surname: Stephens, surname: Legend.
   repeated string first_names = 3;
   repeated string surnames = 4;
-  string phone_number = 6;
-  string email = 7;
-  repeated cmp.types.v1alpha.Document documents = 8;
+  string phone_number = 5;
+  string email = 6;
+  repeated cmp.types.v1alpha.Document documents = 7;
 }
 
 // Gender Type

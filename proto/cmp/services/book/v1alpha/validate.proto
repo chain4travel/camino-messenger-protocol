@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package cmp.services.book.v1alpha;
+
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/price.proto";
+
+message ValidationRequest {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  // Search ID that is returned in the search response message in the `metadata``
+  // (`SearchResponseMetadata`) field.
+  string search_id = 2;
+
+  // Result ID that is that is returned by `result_id` field of the search result
+  // messages, for example: `AccommodationSearchResult`.
+  int32 result_id = 3;
+}
+
+message ValidationResponse {
+  // Message header
+  cmp.types.v1alpha.Header header = 1;
+
+  // Unique validation ID. This must be a UUID according to RFC 4122
+  string validation_id = 2;
+
+  // Validation object
+  ValidationObject validation_object = 3;
+}
+
+// Validation message that represents a single `result_id` from the search results
+// message.
+//
+// TODO: Better name?
+message ValidationObject {
+  int32 result_id = 1;
+  cmp.types.v1alpha.PriceDetail price_detail = 2;
+}
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/validate.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/validate.proto.dot.svg)
+service ValidationService {
+  rpc Validation(ValidationRequest) returns (ValidationResponse);
+}
