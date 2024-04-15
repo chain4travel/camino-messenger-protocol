@@ -73,7 +73,7 @@ import "cmp/types/v1alpha/traveller.proto";
 message AccommodationSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.RequestHeader header = 1;
 
   // Search request metadata
   cmp.types.v1alpha.SearchRequestMetadata metadata = 2;
@@ -100,7 +100,7 @@ message AccommodationSearchRequest {
 message AccommodationSearchResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Search response metadata
   cmp.types.v1alpha.SearchResponseMetadata metadata = 2;

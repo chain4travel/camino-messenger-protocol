@@ -12,7 +12,7 @@ import "google/protobuf/timestamp.proto";
 
 message MintRequest {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.RequestHeader header = 1;
 
   string validation_id = 2;
 
@@ -40,7 +40,7 @@ message MintRequest {
 
 message MintResponse {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.ResponseHeader header = 1;
 
   // This must be a UUID according to RFC 4122
   string mint_id = 2;

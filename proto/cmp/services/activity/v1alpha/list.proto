@@ -8,7 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 message ActivityProductListRequest {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.RequestHeader header = 1;
 
   // Only respond with the products that are modified after this timestamp
   google.protobuf.Timestamp modified_after = 2;
@@ -16,7 +16,7 @@ message ActivityProductListRequest {
 
 message ActivityProductListResponse {
   // Message header
-  cmp.types.v1alpha.Header header = 1;
+  cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Product list: Activities
   repeated Activity activities = 2;

@@ -62,3 +62,35 @@ message Version {
   // versioning)
   int32 patch = 3;
 }
+
+message RequestHeader {
+  Header base_header = 1;
+}
+
+message ResponseHeader {
+  Header base_header = 1;
+
+  // Status of the response, success or failure
+  StatusType status = 2;
+
+  // Alert for more detailed information about the response
+  repeated Alert alerts = 3;
+}
+
+message Alert {
+  string message = 1;
+  AlertType type = 2;
+}
+
+enum AlertType {
+  ALERT_TYPE_UNSPECIFIED = 0;
+  ALERT_TYPE_INFO = 1;
+  ALERT_TYPE_WARNING = 2;
+  ALERT_TYPE_ERROR = 3;
+}
+
+enum StatusType {
+  STATUS_TYPE_UNSPECIFIED = 0;
+  STATUS_TYPE_SUCCESS = 1;
+  STATUS_TYPE_FAILURE = 2;
+}
