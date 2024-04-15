@@ -9,3 +9,13 @@ package cmp.types.v1alpha;
 message TokenCurrency {
   string contract_address = 1;
 }
+
+// Booking token that represents to access to the service
+message BookingToken {
+  // Contract address of the smart contract or the address of natively implemented
+  // asset on-chain.
+  string contract = 1;
+
+  // Token ID
+  int32 token_id = 2;
+}
