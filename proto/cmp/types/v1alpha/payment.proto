@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/credit_card.proto";
-import "google/protobuf/empty.proto";
 
 // Additional payment info message with currently only a single field of
 // `CreditCard` message type.
