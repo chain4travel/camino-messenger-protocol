@@ -5,6 +5,7 @@ package cmp.services.book.v1alpha;
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/payment.proto";
+import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/pubkey.proto";
 import "cmp/types/v1alpha/token.proto";
 import "cmp/types/v1alpha/traveller.proto";
@@ -34,8 +35,12 @@ message MintRequest {
   // Public keys that will be used to encrypt the private booking data
   repeated cmp.types.v1alpha.PublicKey public_keys = 9;
 
+  // Buyer's address. Only this address should be allowed to buy the `BookingToken`
+  // on chain.
+  string buyer_address = 10;
+
   // This field is only relevant for off chain virtual credit card payments.
-  cmp.types.v1alpha.AdditionalPaymentInfo additional_payment_info = 10;
+  cmp.types.v1alpha.AdditionalPaymentInfo additional_payment_info = 11;
 }
 
 message MintResponse {
@@ -50,17 +55,30 @@ message MintResponse {
 
   string provider_booking_reference = 4;
 
+  // Timestamp of the booking in the inventory system of the supplier.
+  google.protobuf.Timestamp provider_booking_timestamp = 5;
+
+  // Price of the `BookingToken`. This field is meant to be populated by the
+  // supplier plugin and used by the supplier bot while minting the `BookingToken`.
+  cmp.types.v1alpha.Price price = 6;
+
   // The token that represents the booking of the service
-  cmp.types.v1alpha.BookingToken booking_token = 5;
+  cmp.types.v1alpha.BookingToken booking_token = 7;
 
-  string mint_transaction_id = 6;
+  // Mint transaction ID that will be populated by the supplier bot after the
+  // `BookingToken` is minted on chain.
+  string mint_transaction_id = 8;
 
-  google.protobuf.Timestamp booking_timestamp = 7;
+  // On chain booking token should be only buyable until this timestamp and should
+  // expire after that.
+  google.protobuf.Timestamp buyable_until = 9;
 
   // Transaction ID of the buy operation. This field is populated by the distributor
   // (buyer) bot after the buy operation and passed to the distributor middleware
   // (partner plugin) in the mint response.
-  string buy_transaction_id = 8;
+  //
+  // This fielld is not meant for the supplier.
+  string buy_transaction_id = 10;
 }
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/mint.proto.dot.xs.svg)
