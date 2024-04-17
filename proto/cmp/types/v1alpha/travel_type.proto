@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+enum TravelType {
+  TRAVEL_TYPE_UNSPECIFIED = 0;
+  TRAVEL_TYPE_TOURISM = 1;
+  TRAVEL_TYPE_BUSINESS = 2;
+}
