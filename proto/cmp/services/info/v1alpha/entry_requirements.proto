@@ -87,17 +87,25 @@ message CountryEntryRequirementItem {
   string key = 1;
 
   // Language specific names and descriptions
-  repeated LocalizedInfo info = 2;
+  repeated LocalizedItemInfo info = 2;
 
   // Status of the item. TODO: Add more explanation, what it means if it's false?
-  bool status = 3;
+  ItemStatus status = 3;
 
   // Significant update date
   google.protobuf.Timestamp last_significant_update = 4;
 }
 
-message LocalizedInfo {
+message LocalizedItemInfo {
   string name = 1;
   string description = 2;
   cmp.types.v1alpha.Language language = 3;
+}
+
+// FIXME: We need to clarify what true, false and undefined means for status and
+// maybe update this enum accordingly
+enum ItemStatus {
+  ITEM_STATUS_UNSPECIFIED = 0;
+  ITEM_STATUS_TRUE = 1;
+  ITEM_STATUS_FALSE = 2;
 }
