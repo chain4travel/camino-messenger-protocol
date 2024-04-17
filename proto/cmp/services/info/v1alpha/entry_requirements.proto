@@ -59,8 +59,8 @@ message CountryEntryRequirementsResponse {
   // This must be a UUID according to RFC 4122
   string response_id = 2;
 
-  // Contents
-  repeated CountryEntryRequirementCategory contents = 3;
+  // Categories
+  repeated CountryEntryRequirementCategory categories = 3;
 
   // Items
   repeated CountryEntryRequirementItem items = 4;
