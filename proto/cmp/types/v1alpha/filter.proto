@@ -40,22 +40,30 @@ message Filter {
 // Filter Type
 enum FilterType {
   FILTER_TYPE_UNSPECIFIED = 0;
+
   // provider specific codes - discouraged to be used as this increases maintenance
   // of APIs
   FILTER_TYPE_PROVIDER_CODE = 1;
+
   // DRV GlobalTypes https://globaltypecenter.com/
   FILTER_TYPE_GLOBAL_TYPE = 2;
+
   // International Air Transport Association https://www.iata.org/
   FILTER_TYPE_IATA = 3;
+
   // International Civil Aviation Organization, an agency of the UN
   // https://www.icao.int/
   FILTER_TYPE_ICAO = 4;
+
   // rail standarization of the UIC https://uic.org/standardisation
   FILTER_TYPE_UIC = 5;
+
   // code standard for car classification codes https://www.acriss.org/
   FILTER_TYPE_ACRISS = 6;
+
   // well known standard https://www.iso.org/
   FILTER_TYPE_ISO = 7;
+
   // settlement services provider https://www.arccorp.com/
   FILTER_TYPE_ARC = 8;
 }
