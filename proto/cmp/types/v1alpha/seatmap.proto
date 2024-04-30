@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+// Basic representation of a seat with optional features.
+message Seat {
+  // Unique identifier, e.g., "12B", "A26"
+  string seat_id = 1;
+
+  SeatType type = 2;
+
+  // Comma-separated features, e.g., "extra_leg_room,window"
+  // This field can be improved with a better enum and/or additional fields.
+  string features = 3;
+}
+
+// A row of seats.
+message Row {
+  // Row identifier, e.g., "A", "12"
+  string row_id = 1;
+
+  // Collection of seats in this row
+  repeated Seat seats = 2;
+}
+
+// Section could be a block of rows or a specific area in a venue.
+message Section {
+  // Section identifier, e.g., "Section 101", "Orchestra"
+  string section_id = 1;
+
+  // Rows in this section
+  repeated Row rows = 2;
+}
+
+// Level for large venues like stadiums or theaters with multiple tiers.
+message Level {
+  // Level identifier, e.g., "Upper", "Balcony"
+  string level_id = 1;
+
+  repeated Section sections = 2;
+}
+
+// High-level representation of a seat map.
+message SeatMap {
+  // Unique identifier for the seat map
+  string map_id = 1;
+
+  // Levels if applicable (mostly for large venues)
+  repeated Level levels = 2;
+
+  // Sections if the venue does not have multiple levels
+  repeated Section sections = 3;
+
+  // Direct rows if it's a simple configuration without sections
+  repeated Row rows = 4;
+}
+
+enum SeatType {
+  SEAT_TYPE_UNSPECIFIED = 0;
+  SEAT_TYPE_STANDARD = 1;
+  SEAT_TYPE_PREMIUM = 2;
+  SEAT_TYPE_ACCESSIBLE = 3;
+  SEAT_TYPE_VIP = 4;
+}
