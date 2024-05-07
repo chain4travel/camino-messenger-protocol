@@ -20,9 +20,9 @@ message Seat {
   repeated SeatAttribute restrictions = 4;
 }
 
+// FIXME: Can we make this a big enum?
 message SeatAttribute {
   // Static attributes to be used for features and restrictions
-  // FIXME: Can we make this a big enum?
   string name = 1;
 
   // Human readable description
@@ -117,7 +117,7 @@ message SeatMap {
 }
 
 // This is the seat availability for a given seat
-message AvailableSeat {
+message SeatAvailability {
   string seat_id = 1;
 
   // Price of the seat with recursive price breakdown
@@ -128,16 +128,20 @@ message AvailableSeat {
 }
 
 // Available seat for given section and all its inner sections
-message AvailableSectionSeats {
+message SectionAvailability {
   string section_id = 1;
-  repeated AvailableSeat available_seats = 2;
-  repeated AvailableSectionSeats sections = 3;
+
+  // Seats in this section
+  repeated SeatAvailability seats = 2;
+
+  // Inner sections in this section
+  repeated SectionAvailability sections = 3;
 }
 
-message SeatAvailability {
+message SeatMapAvailability {
   // Unique identifier for the seat map that this availability refers to.
   string map_id = 1;
 
   // Seat availability including the recursive inner sections
-  repeated AvailableSectionSeats available_seats = 2;
+  repeated SectionAvailability sections = 2;
 }
