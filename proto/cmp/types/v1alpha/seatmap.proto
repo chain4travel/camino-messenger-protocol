@@ -14,11 +14,14 @@ message Seat {
   SeatMapLocation location = 2;
 
   // Static seat features
-  repeated SeatFeature features = 3;
+  repeated SeatAttribute features = 3;
+
+  // Restrictions
+  repeated SeatAttribute restrictions = 4;
 }
 
-message SeatFeature {
-  // Static features of a seat like "extra_leg_room", "window", "min_age", etc.
+message SeatAttribute {
+  // Static attributes to be used for features and restrictions
   // FIXME: Can we make this a big enum?
   string name = 1;
 
