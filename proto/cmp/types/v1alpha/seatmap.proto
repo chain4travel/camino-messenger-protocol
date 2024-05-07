@@ -2,16 +2,64 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+import "cmp/types/v1alpha/description.proto";
+import "cmp/types/v1alpha/price.proto";
+
 // Basic representation of a seat with optional features.
 message Seat {
   // Unique identifier, e.g., "12B", "A26"
   string seat_id = 1;
 
+  // Seat type like STANDARD or PREMIUM etc
   SeatType type = 2;
 
   // Comma-separated features, e.g., "extra_leg_room,window"
-  // This field can be improved with a better enum and/or additional fields.
+  // TODO: This field can be improved with a better enum and/or additional fields.
   string features = 3;
+
+  // Min age for this seat
+  int32 min_age = 4;
+
+  // Max age for this seat. FIXME: Do we need this?
+  int32 max_age = 5;
+
+  // Seat location
+  SeatMapLocation location = 6;
+
+  // Localized description set for this seat. This can be used for example to
+  // describe features and amenities.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 7;
+}
+
+enum SeatType {
+  SEAT_TYPE_UNSPECIFIED = 0;
+  SEAT_TYPE_STANDARD = 1;
+  SEAT_TYPE_PREMIUM = 2;
+  SEAT_TYPE_ACCESSIBLE = 3;
+  SEAT_TYPE_VIP = 4;
+}
+
+// Representation of a seat location in SVG or bitmap.
+message SeatMapLocation {
+  // Vector Seat Location for SVG
+  message VectorSeatLocation {
+    // Label, e.g. "section-TERRACE-26-34-2-label" for SVG
+    string svg_label = 1;
+  }
+
+  // X, Y, width and height
+  message BitmapSeatLocation {
+    int32 x = 1;
+    int32 y = 2;
+    int32 width = 3;
+    int32 height = 4;
+  }
+
+  // Seat location
+  oneof location {
+    VectorSeatLocation vector = 1;
+    BitmapSeatLocation bitmap = 2;
+  }
 }
 
 // A row of seats.
@@ -21,6 +69,10 @@ message Row {
 
   // Collection of seats in this row
   repeated Seat seats = 2;
+
+  // Localized description set for this row. This can be used for example to
+  // describe features and amenities.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 3;
 }
 
 // Section could be a block of rows or a specific area in a venue.
@@ -30,6 +82,19 @@ message Section {
 
   // Rows in this section
   repeated Row rows = 2;
+
+  // Location image URL for the seat map. This can be a SVG or bitmap. If this field
+  // is set, it is assumed that seats in this section is using this image URL for
+  // seat location. Unless the field `is_using_seat_map_image_for_location` is set
+  // to `True`.
+  string image_url = 3;
+
+  // Set to True if the section is using seat map image for location
+  bool is_using_seat_map_image_for_location = 4;
+
+  // Localized description set for this section. This can be used for example to
+  // describe features and amenities.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
 }
 
 // Level for large venues like stadiums or theaters with multiple tiers.
@@ -37,10 +102,27 @@ message Level {
   // Level identifier, e.g., "Upper", "Balcony"
   string level_id = 1;
 
+  // Sections in this level
   repeated Section sections = 2;
+
+  // Location image URL for the seat map. This can be a SVG or bitmap. If this field
+  // is set, it is assumed that seats in this level is using this image URL for
+  // seat location. Unless the field `is_using_seat_map_image_for_location` is set
+  // to `True`.
+  string image_url = 3;
+
+  // Set to True if the level is using seat map image for location
+  bool is_using_seat_map_image_for_location = 4;
+
+  // Localized description set for this level. This can be used for example to
+  // describe features and amenities.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
 }
 
 // High-level representation of a seat map.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/seatmap.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/seatmap.proto.dot.svg)
 message SeatMap {
   // Unique identifier for the seat map
   string map_id = 1;
@@ -53,12 +135,37 @@ message SeatMap {
 
   // Direct rows if it's a simple configuration without sections
   repeated Row rows = 4;
+
+  // Location image URL for the seat map. This can be a SVG or bitmap.
+  string image_url = 5;
+
+  // Localized description set for this map. This can be used for example to
+  // describe features and amenities.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
 }
 
-enum SeatType {
-  SEAT_TYPE_UNSPECIFIED = 0;
-  SEAT_TYPE_STANDARD = 1;
-  SEAT_TYPE_PREMIUM = 2;
-  SEAT_TYPE_ACCESSIBLE = 3;
-  SEAT_TYPE_VIP = 4;
+message AvailableSeat {
+  string seat_id = 1;
+  cmp.types.v1alpha.Price price = 2;
+}
+
+// Available seats as a repeated string of seat ids.
+message AvailableSeats {
+  repeated AvailableSeats available_seats = 1;
+}
+
+message SeatAvailability {
+  // Seat availability. This field can be used for the whole seat map if the seats
+  // have unique ids. If not, other fields like `rows`, `sections` and `levels`
+  // should be used.
+  AvailableSeats available_seats = 1;
+
+  // Seat availability by row. Map of `row_id`` to `AvailableSeats`.
+  map<string, AvailableSeats> available_seats_in_row = 2;
+
+  // Seat availability by section. Map of `section_id`` to `AvailableSeats`.
+  map<string, AvailableSeats> available_seats_in_section = 3;
+
+  // Seat availability by level. Map of `level_id`` to `AvailableSeats`.
+  map<string, AvailableSeats> available_seats_in_level = 4;
 }
