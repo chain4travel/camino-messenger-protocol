@@ -33,7 +33,7 @@ shorten_protobuf() {
     # Process the file
     awk '
     BEGIN { print_flag=1; enum_count=0; }
-    /enum [^ ]+ {/ { print_flag=0; print; next; }
+    /enum [^ ]+ {/ { print_flag=0; enum_count=0; print; next; }
     /}/ { if (print_flag == 0) { print "  X_TRUNCATED_X = 999;"; print; print_flag=1; } else { print; } next; }
     { if (print_flag) { print; } else { if (enum_count < 7) { print; enum_count++; } } }
     ' "$filename" > "${filename}.tmp"
