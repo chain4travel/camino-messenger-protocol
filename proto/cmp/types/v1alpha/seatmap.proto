@@ -10,113 +10,91 @@ message Seat {
   // Unique identifier, e.g., "12B", "A26"
   string seat_id = 1;
 
-  // Seat type like STANDARD or PREMIUM etc
-  SeatType type = 2;
-
-  // Comma-separated features, e.g., "extra_leg_room,window"
-  // TODO: This field can be improved with a better enum and/or additional fields.
-  string features = 3;
-
-  // Min age for this seat
-  int32 min_age = 4;
-
-  // Max age for this seat. FIXME: Do we need this?
-  int32 max_age = 5;
-
   // Seat location
-  SeatMapLocation location = 6;
+  SeatMapLocation location = 2;
 
-  // Localized description set for this seat. This can be used for example to
-  // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 7;
+  // Static seat features
+  repeated SeatFeature features = 3;
+}
+
+message SeatFeature {
+  // Static features of a seat like "extra_leg_room", "window", "min_age", etc.
+  // FIXME: Can we make this a big enum?
+  string name = 1;
+
+  // Human readable description
+  string description = 2;
+
+  // Value to be used for restrictions or conditions like "min_age"
+  int32 value = 3;
 }
 
 enum SeatType {
   SEAT_TYPE_UNSPECIFIED = 0;
   SEAT_TYPE_STANDARD = 1;
   SEAT_TYPE_PREMIUM = 2;
-  SEAT_TYPE_ACCESSIBLE = 3;
-  SEAT_TYPE_VIP = 4;
+  SEAT_TYPE_VIP = 3;
+}
+
+enum AreaType {
+  AREA_TYPE_UNSPECIFIED = 0;
+  AREA_TYPE_RECTANGLE = 1;
+  AREA_TYPE_CIRCLE = 2;
+  AREA_TYPE_POLYGON = 3;
+}
+
+// Image location for seat maps with bitmap images. This info is generallt used with
+// HTML `area` tag.
+message BitmapSeatLocation {
+  AreaType type = 1;
+  repeated int32 coordinates = 2;
+}
+
+// Vector Seat Location for SVG
+message VectorSeatLocation {
+  // Label, e.g. "section-TERRACE-26-34-2-label" for SVG
+  string svg_label = 1;
 }
 
 // Representation of a seat location in SVG or bitmap.
 message SeatMapLocation {
-  // Vector Seat Location for SVG
-  message VectorSeatLocation {
-    // Label, e.g. "section-TERRACE-26-34-2-label" for SVG
-    string svg_label = 1;
-  }
-
-  // X, Y, width and height
-  message BitmapSeatLocation {
-    int32 x = 1;
-    int32 y = 2;
-    int32 width = 3;
-    int32 height = 4;
-  }
-
-  // Seat location
+  // Seat location it should be one of vector (SVG) or bitmap location message
+  // types.
   oneof location {
     VectorSeatLocation vector = 1;
     BitmapSeatLocation bitmap = 2;
   }
 }
 
-// A row of seats.
-message Row {
-  // Row identifier, e.g., "A", "12"
-  string row_id = 1;
-
-  // Collection of seats in this row
-  repeated Seat seats = 2;
-
-  // Localized description set for this row. This can be used for example to
-  // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 3;
-}
-
-// Section could be a block of rows or a specific area in a venue.
+// Section could be a block of rows or a specific area in a venue like a stage, or a
+// section in a plane.
 message Section {
-  // Section identifier, e.g., "Section 101", "Orchestra"
-  string section_id = 1;
+  // Level, section or row identifier, e.g., "Upper", "Balcony" or "Section 101",
+  // "Orchestra" or "A", "12".
+  string id = 1;
 
-  // Rows in this section
-  repeated Row rows = 2;
+  // Human readable name of the section
+  string name = 2;
+
+  // Collection of seats in this section. If it contains inner sections, this field
+  // can be left empty.
+  repeated Seat seats = 3;
 
   // Location image URL for the seat map. This can be a SVG or bitmap. If this field
   // is set, it is assumed that seats in this section is using this image URL for
   // seat location. Unless the field `is_using_seat_map_image_for_location` is set
   // to `True`.
-  string image_url = 3;
+  string image_url = 4;
 
   // Set to True if the section is using seat map image for location
-  bool is_using_seat_map_image_for_location = 4;
+  bool is_using_seat_map_image_for_location = 5;
 
   // Localized description set for this section. This can be used for example to
   // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
-}
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
 
-// Level for large venues like stadiums or theaters with multiple tiers.
-message Level {
-  // Level identifier, e.g., "Upper", "Balcony"
-  string level_id = 1;
-
-  // Sections in this level
-  repeated Section sections = 2;
-
-  // Location image URL for the seat map. This can be a SVG or bitmap. If this field
-  // is set, it is assumed that seats in this level is using this image URL for
-  // seat location. Unless the field `is_using_seat_map_image_for_location` is set
-  // to `True`.
-  string image_url = 3;
-
-  // Set to True if the level is using seat map image for location
-  bool is_using_seat_map_image_for_location = 4;
-
-  // Localized description set for this level. This can be used for example to
-  // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
+  // Recursive presentation of inner sections.
+  repeated Section sections = 7;
 }
 
 // High-level representation of a seat map.
@@ -127,45 +105,37 @@ message SeatMap {
   // Unique identifier for the seat map
   string map_id = 1;
 
-  // Levels if applicable (mostly for large venues)
-  repeated Level levels = 2;
-
-  // Sections if the venue does not have multiple levels
-  repeated Section sections = 3;
-
-  // Direct rows if it's a simple configuration without sections
-  repeated Row rows = 4;
+  // This field represents a recursive `Section` message type that can be used to
+  // describe rows, sections, levels etc.
+  repeated Section sections = 2;
 
   // Location image URL for the seat map. This can be a SVG or bitmap.
-  string image_url = 5;
+  string image_url = 3;
 
   // Localized description set for this map. This can be used for example to
   // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 4;
 }
 
+// This is the seat availability for a given seat
 message AvailableSeat {
   string seat_id = 1;
-  cmp.types.v1alpha.Price price = 2;
+
+  // Price of the seat with recursive price breakdown
+  cmp.types.v1alpha.PriceDetail price = 2;
+
+  // Seat type like STANDARD or PREMIUM etc
+  SeatType type = 3;
 }
 
-// Available seats as a repeated string of seat ids.
-message AvailableSeats {
-  repeated AvailableSeats available_seats = 1;
+// Available seat for given section and all its inner sections
+message AvailableSectionSeats {
+  string section_id = 1;
+  repeated AvailableSeat available_seats = 2;
+  repeated AvailableSectionSeats sections = 3;
 }
 
 message SeatAvailability {
-  // Seat availability. This field can be used for the whole seat map if the seats
-  // have unique ids. If not, other fields like `rows`, `sections` and `levels`
-  // should be used.
-  AvailableSeats available_seats = 1;
-
-  // Seat availability by row. Map of `row_id`` to `AvailableSeats`.
-  map<string, AvailableSeats> available_seats_in_row = 2;
-
-  // Seat availability by section. Map of `section_id`` to `AvailableSeats`.
-  map<string, AvailableSeats> available_seats_in_section = 3;
-
-  // Seat availability by level. Map of `level_id`` to `AvailableSeats`.
-  map<string, AvailableSeats> available_seats_in_level = 4;
+  // Seat availability including the recursive inner sections
+  repeated AvailableSectionSeats available_seats = 1;
 }
