@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.transport.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";
-import "cmp/types/v1alpha/seatmap.proto";
+import "cmp/types/v1alpha/seat_map.proto";
 
 // Request for seat map data
 //
@@ -39,8 +39,8 @@ message SeatMapResponse {
 //
 // Service is used to request the seat map data for a given map ID
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/seatmap.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/seatmap.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/seat_map.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/seat_map.proto.dot.svg)
 service SeatMapService {
   // Get seat map data
   //
