@@ -132,6 +132,9 @@ message AvailableSectionSeats {
 }
 
 message SeatAvailability {
+  // Unique identifier for the seat map that this availability refers to.
+  string map_id = 1;
+
   // Seat availability including the recursive inner sections
-  repeated AvailableSectionSeats available_seats = 1;
+  repeated AvailableSectionSeats available_seats = 2;
 }
