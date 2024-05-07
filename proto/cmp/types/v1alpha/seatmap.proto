@@ -82,19 +82,15 @@ message Section {
 
   // Location image URL for the seat map. This can be a SVG or bitmap. If this field
   // is set, it is assumed that seats in this section is using this image URL for
-  // seat location. Unless the field `is_using_seat_map_image_for_location` is set
-  // to `True`.
+  // seat location. (the `SeatMapLocation` message type in the `Seat` message)
   string image_url = 4;
-
-  // Set to True if the section is using seat map image for location
-  bool is_using_seat_map_image_for_location = 5;
 
   // Localized description set for this section. This can be used for example to
   // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
 
   // Recursive presentation of inner sections.
-  repeated Section sections = 7;
+  repeated Section sections = 6;
 }
 
 // High-level representation of a seat map.
