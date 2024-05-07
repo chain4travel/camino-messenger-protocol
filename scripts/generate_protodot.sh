@@ -12,6 +12,7 @@ declare -a BIG_ENUMS=(
     "country.proto"
     "currency.proto"
     "language.proto"
+    "price_type.proto"
 )
 
 declare -a TRUNCATE=()
@@ -71,6 +72,10 @@ TIMESTAMP_DIR=${PROTO_DIR}/google/protobuf
 TIMESTAMP_FILENAME=${TIMESTAMP_DIR}/timestamp.proto
 mkdir -p ${TIMESTAMP_DIR}
 curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/timestamp.proto > $TIMESTAMP_FILENAME
+
+# Get Empty proto file
+EMPTY_FILENAME=${TIMESTAMP_DIR}/empty.proto
+curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/empty.proto > $EMPTY_FILENAME
 
 # Generate diagrams
 for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
