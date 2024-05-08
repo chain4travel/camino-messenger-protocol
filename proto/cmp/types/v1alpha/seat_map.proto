@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/description.proto";
-import "cmp/types/v1alpha/price.proto";
 
 // Basic representation of a seat with optional features.
 message Seat {
@@ -120,11 +119,8 @@ message SeatMap {
 message SeatAvailability {
   string seat_id = 1;
 
-  // Price of the seat with recursive price breakdown
-  cmp.types.v1alpha.PriceDetail price = 2;
-
   // Seat type like STANDARD or PREMIUM etc
-  SeatType type = 3;
+  SeatType type = 2;
 }
 
 // Available seat for given section and all its inner sections
