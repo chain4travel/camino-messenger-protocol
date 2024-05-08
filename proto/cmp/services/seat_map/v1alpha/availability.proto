@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package cmp.services.seat_map.v1alpha;
+
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/seat_map.proto";
+
+// Request for seat map availability data
+//
+// Requests the seat map availability data for a given map ID
+message SeatMapAvailabilityRequest {
+  // Message header
+  //
+  // Header contains information about the request
+  cmp.types.v1alpha.RequestHeader header = 1;
+
+  // Required. Unique identifier for the seat map.
+  // This is the map ID that is received in the search result.
+  string map_id = 2;
+}
+
+// Response for seat map availability request
+//
+// Contains the seat map availability data for a given map ID
+message SeatMapAvailabilityResponse {
+  // Message header
+  //
+  // Header contains information about the response
+  cmp.types.v1alpha.ResponseHeader header = 1;
+
+  // Required. Seat map availability data.
+  cmp.types.v1alpha.SeatMapAvailability seat_map = 2;
+}
+
+// Service for requesting seat map availability data
+//
+// Service is used to request the seat map availability data for a given map ID
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1alpha/availability.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1alpha/availability.proto.dot.svg)
+service SeatMapAvailabilityService {
+  // Get seat map availability data
+  //
+  // Requests the seat map availability data for a given map ID
+  rpc SeatMapAvailability(SeatMapAvailabilityRequest) returns (SeatMapAvailabilityResponse);
+}
