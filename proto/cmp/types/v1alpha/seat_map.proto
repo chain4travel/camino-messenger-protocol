@@ -132,6 +132,18 @@ message SectionAvailability {
 
   // Inner sections in this section
   repeated SectionAvailability sections = 3;
+
+  // Total number of seats in this section. Ignored if the 'seats` field is set.
+  //
+  // This field is intended to be used with sections that do not have individual
+  // seat information. For example a standing area for a concert or an arena.
+  int32 total_seat_count = 4;
+
+  // Remaining number of seats in this section. Ignored if the 'seats` field is set.
+  //
+  // This field is intended to be used with sections that do not have individual
+  // seat information. For example a standing area for a concert or an arena.
+  int32 remaining_seat_count = 5;
 }
 
 message SeatMapAvailability {
