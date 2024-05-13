@@ -102,3 +102,9 @@ message SearchResponseMetadata {
   // sessions.
   string external_session_id = 6;
 }
+
+// Search identifier
+message SearchIdentifier {
+  UUID search_id = 1;
+  int32 result_id = 2;
+}

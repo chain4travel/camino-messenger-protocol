@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.seat_map.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/seat_map.proto";
 
 // Request for seat map availability data
@@ -14,9 +15,21 @@ message SeatMapAvailabilityRequest {
   // Header contains information about the request
   cmp.types.v1alpha.RequestHeader header = 1;
 
-  // Required. Unique identifier for the seat map.
-  // This is the map ID that is received in the search result.
-  string map_id = 2;
+  // Required. The identifier of the seat map.
+  oneof identifier {
+    // Mint Identifier
+    //
+    // Example: For flights which book before seat selection. In this case, the
+    // buyer already have a `mint_id` because the service is already booked (minted
+    // on-chain).
+    string mint_id = 2;
+
+    // Search result identifier with `search_id` & `result_id`
+    //
+    // Example: For requesting seat availability for search results. In this case,
+    // booking has not happended yet.
+    cmp.types.v1alpha.SearchIdentifier search_identifier = 3;
+  }
 }
 
 // Response for seat map availability request
@@ -29,7 +42,7 @@ message SeatMapAvailabilityResponse {
   cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Required. Seat map availability data.
-  cmp.types.v1alpha.SeatMapAvailability seat_map = 2;
+  cmp.types.v1alpha.SeatMapInventory seat_map = 2;
 }
 
 // Service for requesting seat map availability data

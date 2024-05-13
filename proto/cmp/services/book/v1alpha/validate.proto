@@ -4,6 +4,7 @@ package cmp.services.book.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/seat_map.proto";
 
 message ValidationRequest {
   // Message header
@@ -16,6 +17,13 @@ message ValidationRequest {
   // Result ID that is that is returned by `result_id` field of the search result
   // messages, for example: `AccommodationSearchResult`.
   int32 result_id = 3;
+
+  // Unit identifier that is used to describe selected units from the `result_id`.
+  // For example: seats for a concert.
+  oneof unit_identifier {
+    // Selected seat(s) represented as a seat map inventory message type.
+    cmp.types.v1alpha.SeatMapInventory seat_selection = 4;
+  }
 }
 
 message ValidationResponse {
@@ -33,6 +41,8 @@ message ValidationResponse {
 // message.
 //
 // TODO: Better name?
+// TODO: Do we also need `search_id` here?
+// TODO: Do we also need `unit_identifier` here?
 message ValidationObject {
   int32 result_id = 1;
   cmp.types.v1alpha.PriceDetail price_detail = 2;
