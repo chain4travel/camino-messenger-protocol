@@ -108,9 +108,18 @@ message SeatMap {
   cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 4;
 }
 
-// This is the seat inventory for a given seat
+// Seat inventory list
 message SeatInventory {
-  string seat_id = 1;
+  repeated string seat_ids = 1;
+}
+
+// Total and remaining number of seats in a section.
+message SeatCounts {
+  // Total number of seats
+  int32 total_seat_count = 1;
+
+  // Remaining number of seats available for booking
+  int32 remaining_seat_count = 2;
 }
 
 // Selection of seats for given section and all its inner sections. Used for seat
@@ -118,24 +127,20 @@ message SeatInventory {
 message SectionInventory {
   string section_id = 1;
 
-  // Seats in this section
-  repeated SeatInventory seats = 2;
+  oneof seats {
+    // Seats in this section. Contains a list of individual seat IDs.
+    SeatInventory seat_inventory = 2;
 
-  // Inner sections in this section
-  repeated SectionInventory sections = 3;
+    // Seat counts in this section.
+    //
+    // This field is intended to be used with sections that do not have individual
+    // seat information. For example a standing area for a concert or an arena. It
+    // includes total and remaining seat counts.
+    SeatCounts seat_counts = 3;
+  }
 
-  // Total number of seats in this section. Ignored if the 'seats` field is set.
-  //
-  // This field is intended to be used with sections that do not have individual
-  // seat information. For example a standing area for a concert or an arena.
-  int32 total_seat_count = 4;
-
-  // Remaining number of seats in this section. Ignored if the 'seats` field is set
-  // or it is a seat selection message.
-  //
-  // This field is intended to be used with sections that do not have individual
-  // seat information. For example a standing area for a concert or an arena.
-  int32 remaining_seat_count = 5;
+  // Inner sections in this section.
+  repeated SectionInventory sections = 4;
 }
 
 // Inventory of seats for a given seat map used for seat selection or seat
