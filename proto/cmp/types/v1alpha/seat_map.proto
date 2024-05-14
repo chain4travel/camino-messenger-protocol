@@ -6,8 +6,9 @@ import "cmp/types/v1alpha/description.proto";
 
 // Basic representation of a seat with optional features.
 message Seat {
-  // Unique identifier, e.g., "12B", "A26"
-  string seat_id = 1;
+  // Unique identifier, e.g., "12B", "A26". Must be unique inside the section that
+  // this seat belongs to.
+  string id = 1;
 
   // Seat location
   SeatMapLocation location = 2;
@@ -48,7 +49,7 @@ message BitmapSeatLocation {
 // Vector Seat Location for SVG
 message VectorSeatLocation {
   // Label, e.g. "section-TERRACE-26-34-2-label" for SVG
-  string svg_label = 1;
+  string label = 1;
 }
 
 // Representation of a seat location in SVG or bitmap.
@@ -65,7 +66,7 @@ message SeatMapLocation {
 // section in a plane.
 message Section {
   // Level, section or row identifier, e.g., "Upper", "Balcony" or "Section 101",
-  // "Orchestra" or "A", "12".
+  // "Orchestra" or "A", "12". Must be unique for each section.
   string id = 1;
 
   // Human readable name of the section
@@ -94,7 +95,7 @@ message Section {
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for the seat map
-  string map_id = 1;
+  string id = 1;
 
   // This field represents a recursive `Section` message type that can be used to
   // describe rows, sections, levels etc.
@@ -110,7 +111,8 @@ message SeatMap {
 
 // Seat inventory list
 message SeatInventory {
-  repeated string seat_ids = 1;
+  // List of seat IDs
+  repeated string ids = 1;
 }
 
 // Total and remaining number of seats in a section.
@@ -125,7 +127,8 @@ message SeatCounts {
 // Selection of seats for given section and all its inner sections. Used for seat
 // availability and seat selection messages.
 message SectionInventory {
-  string section_id = 1;
+  // Unique identifier for the section. Must be unique within the seat map.
+  string id = 1;
 
   oneof seats {
     // Seats in this section. Contains a list of individual seat IDs.
@@ -147,7 +150,7 @@ message SectionInventory {
 // availability.
 message SeatMapInventory {
   // Unique identifier for the seat map that this Inventory refers to.
-  string map_id = 1;
+  string id = 1;
 
   // Seat inventory including the recursive inner sections
   repeated SectionInventory sections = 2;
