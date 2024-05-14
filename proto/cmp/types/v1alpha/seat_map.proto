@@ -31,14 +31,6 @@ message SeatAttribute {
   int32 value = 3;
 }
 
-// FIXME: Do we need this?
-enum SeatType {
-  SEAT_TYPE_UNSPECIFIED = 0;
-  SEAT_TYPE_STANDARD = 1;
-  SEAT_TYPE_PREMIUM = 2;
-  SEAT_TYPE_VIP = 3;
-}
-
 enum AreaType {
   AREA_TYPE_UNSPECIFIED = 0;
   AREA_TYPE_RECTANGLE = 1;
@@ -119,11 +111,6 @@ message SeatMap {
 // This is the seat inventory for a given seat
 message SeatInventory {
   string seat_id = 1;
-
-  // Seat type like STANDARD or PREMIUM etc.
-  //
-  // FIXME: Needs refinement. Do we really need this? Or is seat features enough?
-  SeatType type = 2;
 }
 
 // Selection of seats for given section and all its inner sections. Used for seat
