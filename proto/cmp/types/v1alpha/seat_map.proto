@@ -3,67 +3,38 @@ syntax = "proto3";
 package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/description.proto";
+import "cmp/types/v1alpha/file.proto";
+import "google/protobuf/wrappers.proto";
 
-// Basic representation of a seat with optional features.
+// Represents a basic seat with optional features and restrictions. Each seat has a
+// unique identifier, a location within the seat map, and can have various static
+// features and restrictions associated with it.
 message Seat {
-  // Unique identifier, e.g., "12B", "A26". Must be unique inside the section that
-  // this seat belongs to.
+  // Unique identifier for the seat, such as "12B" or "A26". This identifier must be
+  // unique within the section to which this seat belongs.
   string id = 1;
 
-  // Seat location
-  SeatMapLocation location = 2;
+  // The location of the seat within the seat map. This can be defined using either
+  // a vector (SVG) or bitmap format.
+  SeatLocation location = 2;
 
-  // Static seat features
+  // Static features associated with the seat, such as type, amenities, etc.
   repeated SeatAttribute features = 3;
 
-  // Restrictions
+  // Restrictions associated with the seat, such as age limits or accessibility requirements.
   repeated SeatAttribute restrictions = 4;
 }
 
-// FIXME: Can we make this a big enum?
-message SeatAttribute {
-  // Static attributes to be used for features and restrictions
-  string name = 1;
-
-  // Human readable description
-  string description = 2;
-
-  // Value to be used for restrictions or conditions like "min_age"
-  int32 value = 3;
+// List of seats
+message SeatList {
+  repeated Seat seats = 1;
 }
 
-enum AreaType {
-  AREA_TYPE_UNSPECIFIED = 0;
-  AREA_TYPE_RECTANGLE = 1;
-  AREA_TYPE_CIRCLE = 2;
-  AREA_TYPE_POLYGON = 3;
-}
-
-// Image location for seat maps with bitmap images. This info is generallt used with
-// HTML `area` tag.
-message BitmapSeatLocation {
-  AreaType type = 1;
-  repeated int32 coordinates = 2;
-}
-
-// Vector Seat Location for SVG
-message VectorSeatLocation {
-  // Label, e.g. "section-TERRACE-26-34-2-label" for SVG
-  string label = 1;
-}
-
-// Representation of a seat location in SVG or bitmap.
-message SeatMapLocation {
-  // Seat location it should be one of vector (SVG) or bitmap location message
-  // types.
-  oneof location {
-    VectorSeatLocation vector = 1;
-    BitmapSeatLocation bitmap = 2;
-  }
-}
-
-// Section could be a block of rows or a specific area in a venue like a stage, or a
-// section in a plane.
+// A Section represents a distinct area within a venue, which can be defined by
+// various attributes. It can be a block of rows in a theater, a specific area in a
+// concert venue such as the stage or standing area, a section of seating in a
+// stadium, or a section in an airplane. Each Section is uniquely identified and can
+// contain information about its seats, layout, and additional properties.
 message Section {
   // Level, section or row identifier, e.g., "Upper", "Balcony" or "Section 101",
   // "Orchestra" or "A", "12". Must be unique for each section.
@@ -72,24 +43,35 @@ message Section {
   // Human readable name of the section
   string name = 2;
 
-  // Collection of seats in this section. If it contains inner sections, this field
-  // can be left empty.
-  repeated Seat seats = 3;
+  // Seats in this section.
+  oneof seat_info {
+    // List of seats in this section.
+    SeatList seat_list = 3;
 
-  // Location image URL for the seat map. This can be a SVG or bitmap. If this field
-  // is set, it is assumed that seats in this section is using this image URL for
-  // seat location. (the `SeatMapLocation` message type in the `Seat` message)
-  string image_url = 4;
+    // Total number of seats in this section as an integer.
+    google.protobuf.Int32Value total_seats = 4;
+  }
 
-  // Localized description set for this section. This can be used for example to
-  // describe features and amenities.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 5;
+  // Image that provides a visual representation of the section's layout, which can
+  // be either a vector (SVG) or bitmap image.
+  //
+  // If set, it is assumed that this image is used for locating seats within the
+  // section. (the `SeatLocation` message type in the `Seat` message above is
+  // used to represent seat location inside this image).
+  cmp.types.v1alpha.Image image = 5;
 
-  // Recursive presentation of inner sections.
-  repeated Section sections = 6;
+  // A set of localized descriptions for this section, useful for providing
+  // information about features and amenities in multiple languages.
+  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
+
+  // Nested sections within this section, allowing for a hierarchical representation
+  // of the venue's layout.
+  repeated Section sections = 7;
 }
 
-// High-level representation of a seat map.
+// High-level representation of a seat map, which defines the layout and structure
+// of seating within a venue. This message provides a comprehensive overview of the
+// seating arrangement, including sections, images, and localized descriptions.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/seat_map.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/seat_map.proto.dot.svg)
@@ -97,61 +79,125 @@ message SeatMap {
   // Unique identifier for the seat map
   string id = 1;
 
-  // This field represents a recursive `Section` message type that can be used to
-  // describe rows, sections, levels etc.
+  // A list of sections within the seat map. Each section represents a distinct area
+  // within the venue, such as rows, sections, levels, or blocks of seats. This
+  // field is recursive, allowing for hierarchical structuring of the seating
+  // layout.
   repeated Section sections = 2;
 
-  // Location image URL for the seat map. This can be a SVG or bitmap.
-  string image_url = 3;
+  // Image that provides a visual representation of the seat map, illustrating the
+  // location and arrangement of seats. The image can be in vector format (SVG) or
+  // bitmap format.
+  cmp.types.v1alpha.Image image = 3;
 
-  // Localized description set for this map. This can be used for example to
-  // describe features and amenities.
+  // A set of localized descriptions for the seat map. This can be used to describe
+  // features and amenities of the seating arrangement in multiple languages.
   cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 4;
 }
 
-// Seat inventory list
+// List of _only_ seat IDs to be used for seat selection or seat availability.
 message SeatInventory {
   // List of seat IDs
   repeated string ids = 1;
 }
 
-// Total and remaining number of seats in a section.
-message SeatCounts {
-  // Total number of seats
-  int32 total_seat_count = 1;
-
-  // Remaining number of seats available for booking
-  int32 remaining_seat_count = 2;
-}
-
-// Selection of seats for given section and all its inner sections. Used for seat
-// availability and seat selection messages.
+// Represents the inventory of seats for a specific section and all its inner
+// sections. This message is used for both seat availability and seat selection
+// purposes, providing information about either the remaining or selected seats
+// within the section.
 message SectionInventory {
   // Unique identifier for the section. Must be unique within the seat map.
   string id = 1;
 
-  oneof seats {
-    // Seats in this section. Contains a list of individual seat IDs.
-    SeatInventory seat_inventory = 2;
+  oneof seat_info {
+    // List of individual seat IDs within this section.
+    SeatInventory seat_list = 2;
 
-    // Seat counts in this section.
+    // Seat count in this section, representing either the remaining seats for
+    // availability purposes or the selected seats for seat selection messages.
     //
-    // This field is intended to be used with sections that do not have individual
-    // seat information. For example a standing area for a concert or an arena. It
-    // includes total and remaining seat counts.
-    SeatCounts seat_counts = 3;
+    // This field is intended for sections without individual seat details, such as
+    // standing areas at a concert or an arena.
+    google.protobuf.Int32Value seat_count = 3;
   }
 
-  // Inner sections in this section.
+  // Nested inner sections within this section, allowing for a hierarchical
+  // representation of seat inventory. Each inner section can have its own seat
+  // information and further nested sections.
   repeated SectionInventory sections = 4;
 }
 
-// Inventory of seats for a given seat map used for seat selection or seat
-// availability.
+// Represents the inventory of seats for a specific seat map, used for both seat
+// selection and seat availability purposes. This message provides a comprehensive
+// overview of the seating inventory, including detailed information about each
+// section and its inner sections.
 message SeatMapInventory {
   // Unique identifier for the seat map that this Inventory refers to.
   string id = 1;
 
-  // Seat inventory including the recursive inner sections
+  // A list of seat inventories for each section within the seat map. This field
+  // includes detailed seat information and supports nested sections, allowing for a
+  // hierarchical representation of the seating arrangement.
   repeated SectionInventory sections = 2;
+}
+
+/* Helper messages */
+
+// Defines a static attribute for a seat, which can be used for specifying features
+// and restrictions. Attributes include a name, a human-readable description, and a
+// value that can be used for various conditions or restrictions.
+//
+// FIXME: Can we make this a big enum?
+message SeatAttribute {
+  // Name of the attribute, used to identify the feature or restriction.
+  string name = 1;
+
+  // Human-readable description of the attribute, providing more details about its purpose.
+  string description = 2;
+
+  // Integer value associated with the attribute, which can be used for conditions
+  // or restrictions, such as "min_age".
+  int32 value = 3;
+}
+
+// Enumerates the types of areas that can be defined within a seat map. This is used
+// for specifying the shape of regions in bitmap images.
+enum AreaType {
+  AREA_TYPE_UNSPECIFIED = 0;
+  AREA_TYPE_RECTANGLE = 1;
+  AREA_TYPE_CIRCLE = 2;
+  AREA_TYPE_POLYGON = 3;
+}
+
+// Defines the location of a seat within a bitmap image seat map. This information
+// is generally used with the HTML `area` tag to specify clickable regions.
+message BitmapSeatLocation {
+  // The type of area defining the seat location, such as rectangle, circle, or polygon.
+  AreaType type = 1;
+
+  // Coordinates defining the area. The format of the coordinates depends on the
+  // area type (e.g., top-left (x1,y1) and bottom-right (x2,y2) corners for a
+  // rectangle: `<area shape="rect" coords="x1,y1,x2,y2"`).
+  repeated int32 coordinates = 2;
+}
+
+// Defines the location of a seat within an SVG (vector) seat map. This is typically
+// used for labeling elements within the SVG.
+message VectorSeatLocation {
+  // Label for the seat location in the SVG, e.g., "section-TERRACE-26-34-2-label".
+  string label = 1;
+}
+
+// Represents the location of a seat within a seat map, which can be defined using
+// either a vector (SVG) or bitmap format. This message encapsulates both types of
+// seat location definitions.
+message SeatLocation {
+  // One of the possible seat location types: vector (SVG) or bitmap.
+  oneof location {
+    // Vector-based seat location, used for SVG maps.
+    VectorSeatLocation vector = 1;
+
+    // Bitmap-based seat location, used for HTML image maps.
+    BitmapSeatLocation bitmap = 2;
+  }
 }
