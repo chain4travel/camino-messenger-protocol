@@ -67,15 +67,20 @@ for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
     fi
 done
 
+INCLUDE_PROTO_DIR=${PROTO_DIR}/google/protobuf
+
 # Get TIMESTAMP google/protobuf/timestamp.proto
-TIMESTAMP_DIR=${PROTO_DIR}/google/protobuf
-TIMESTAMP_FILENAME=${TIMESTAMP_DIR}/timestamp.proto
-mkdir -p ${TIMESTAMP_DIR}
+TIMESTAMP_FILENAME=${INCLUDE_PROTO_DIR}/timestamp.proto
+mkdir -p ${INCLUDE_PROTO_DIR}
 curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/timestamp.proto > $TIMESTAMP_FILENAME
 
 # Get Empty proto file
-EMPTY_FILENAME=${TIMESTAMP_DIR}/empty.proto
+EMPTY_FILENAME=${INCLUDE_PROTO_DIR}/empty.proto
 curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/empty.proto > $EMPTY_FILENAME
+
+# Get Wrappers proto file
+WRAPPERS_FILENAME=${INCLUDE_PROTO_DIR}/wrappers.proto
+curl https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/wrappers.proto > $WRAPPERS_FILENAME
 
 # Generate diagrams
 for protofile in `find ${PROTO_DIR} -type f -name '*.proto'`; do
@@ -100,5 +105,5 @@ for truncated_file in "${TRUNCATE[@]}"; do
     revert_protobuf ${truncated_file}
 done
 
-# Clean up TIMESTAMP google/protobuf/timestamp.proto
-rm -rfv ${TIMESTAMP_DIR}
+# Clean up INCLUDE_PROTO_DIR
+rm -rfv ${INCLUDE_PROTO_DIR}
