@@ -4,18 +4,15 @@ package cmp.services.book.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/search.proto";
+import "cmp/types/v1alpha/seat_map.proto";
 
 message ValidationRequest {
   // Message header
   cmp.types.v1alpha.RequestHeader header = 1;
 
-  // Search ID that is returned in the search response message in the `metadata``
-  // (`SearchResponseMetadata`) field.
-  string search_id = 2;
-
-  // Result ID that is that is returned by `result_id` field of the search result
-  // messages, for example: `AccommodationSearchResult`.
-  int32 result_id = 3;
+  // Validation object
+  ValidationObject validation_object = 2;
 }
 
 message ValidationResponse {
@@ -27,15 +24,24 @@ message ValidationResponse {
 
   // Validation object
   ValidationObject validation_object = 3;
+
+  // Price details for the validated product
+  cmp.types.v1alpha.PriceDetail price_detail = 4;
 }
 
 // Validation message that represents a single `result_id` from the search results
-// message.
-//
-// TODO: Better name?
+// message and also the optional `unit_identifier` for specific services that
+// requires it. For example a seat for a concert.
 message ValidationObject {
-  int32 result_id = 1;
-  cmp.types.v1alpha.PriceDetail price_detail = 2;
+  // Search result identifier with `search_id` & `result_id`
+  cmp.types.v1alpha.SearchIdentifier search_identifier = 1;
+
+  // Unit identifier that is used to describe selected units from the `result_id`.
+  // For example: seats for a concert.
+  oneof unit_identifier {
+    // Selected seat(s) represented as a seat map inventory message type.
+    cmp.types.v1alpha.SeatMapInventory seat_selection = 2;
+  }
 }
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1alpha/validate.proto.dot.xs.svg)

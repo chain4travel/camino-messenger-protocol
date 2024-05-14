@@ -102,3 +102,14 @@ message SearchResponseMetadata {
   // sessions.
   string external_session_id = 6;
 }
+
+// Search identifier
+message SearchIdentifier {
+  // Search ID that is returned in the search response message in the `metadata``
+  // (`SearchResponseMetadata`) field.
+  UUID search_id = 1;
+
+  // Result ID that is that is returned by `result_id` field of the search result
+  // messages, for example: `AccommodationSearchResult`.
+  int32 result_id = 2;
+}
