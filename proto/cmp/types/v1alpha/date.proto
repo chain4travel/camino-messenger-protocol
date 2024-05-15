@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// Date Message
+// Date message that includes year, month and day as integers.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/date.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/date.proto.dot.svg)

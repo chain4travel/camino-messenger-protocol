@@ -39,18 +39,17 @@ message GeoTree {
 
 // Location Code
 message LocationCode {
-  string location_codes = 1;
-  LocationCodeType location_code_type = 2;
+  string code = 1;
+  LocationCodeType type = 2;
 }
 
-// Location Codes
-//
-// Represents a list of `LocationCode` message type.
+// Represents a list of `LocationCode` message type. We need to encapsulate repeated
+// field here because repeated fields can not be used in `oneof` fields.
 //
 // Protobuf `oneof` field type does not support repeated member fields. To get the
 // same functionality we need to wrap the needed message type with another message.
 message LocationCodes {
-  repeated LocationCode location_codes = 1;
+  repeated LocationCode codes = 1;
 }
 
 // Location Code Type

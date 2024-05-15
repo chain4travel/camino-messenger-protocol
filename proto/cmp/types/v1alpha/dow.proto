@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// ### Day of Week
-//
 // DOW means DayOfWeek and is used to determine specific arrival days of the week a
 // customer would like to go on holidays for example only travelling on a Saturday
 // or Sunday. It is also used to express that a show, tour or excursion is only

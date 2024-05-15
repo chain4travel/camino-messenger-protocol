@@ -2,16 +2,17 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// Email
-//
-// Email type for hotels, holiday homes etc.
+// Email type for general use.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/email.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/email.proto.dot.svg)
 message Email {
-  string email = 1;
-  EmailType email_type = 2;
-  string email_type_other = 3;
+  string address = 1;
+
+  EmailType type = 2;
+
+  // Do we need this?
+  string description = 3;
 }
 
 // Email Types

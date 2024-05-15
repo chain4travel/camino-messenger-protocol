@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+// TODO: Add documentation to explain the purpose of this message
 message PriceTypeCode {
   // Type code of the price
   string type_code = 1;

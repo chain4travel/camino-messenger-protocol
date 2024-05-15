@@ -4,7 +4,7 @@ package cmp.types.v1alpha;
 
 import "google/protobuf/timestamp.proto";
 
-// Date Range Message
+// Date range message that includes start and end datetime as timestamps.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/datetime_range.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/datetime_range.proto.dot.svg)
