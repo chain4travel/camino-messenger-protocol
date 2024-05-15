@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.services.network.v1alpha;
 
-// ### Network Fee Message Type
+// Network Fee Message Type
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha/fee.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/network/v1alpha/fee.proto.dot.svg)

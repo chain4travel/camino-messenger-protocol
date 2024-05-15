@@ -7,7 +7,7 @@ import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/time.proto";
 
-// ### Transport Search Parameters
+// Transport Search Parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_parameters_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1alpha/search_parameters_types.proto.dot.svg)

@@ -19,8 +19,6 @@ import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/travel_period.proto";
 import "cmp/types/v1alpha/traveller.proto";
 
-// ### Activity Search Request
-//
 // Search request for Activities
 message ActivitySearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
@@ -46,8 +44,6 @@ message ActivitySearchRequest {
   // Travellers
   repeated cmp.types.v1alpha.BasicTraveller travellers = 6;
 
-  // ### Source Location
-  //
   // For search, set only one of the fields at once. Source location indicates the
   // customer’s position at the start of the service. Typical value would be the
   // stay hotel or the touristic destination. The source location is needed for
@@ -73,8 +69,6 @@ message ActivitySearchRequest {
     cmp.types.v1alpha.GeoPolygon source_location_geo_polygon = 11;
   }
 
-  // ### Service Location
-  //
   // For search, set only one of the field at once. Service location specifies the
   // areas involved in aticket or excursion service. Service location indicates the
   // area of the requested services. Typical value would be the region or resort.
@@ -117,7 +111,7 @@ message ActivitySearchResponse {
   repeated cmp.types.v1alpha.BasicTraveller travellers = 4;
 }
 
-// ### Activity Search Service
+// Activity Search Service
 //
 // Takes `ActivitySearchRequest` message type and returns `ActivitySearchResponse` message type.
 //
