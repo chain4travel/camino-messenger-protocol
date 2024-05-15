@@ -6,6 +6,7 @@ import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/search.proto";
 import "cmp/types/v1alpha/seat_map.proto";
+import "cmp/types/v1alpha/uuid.proto";
 
 message ValidationRequest {
   // Message header
@@ -20,7 +21,7 @@ message ValidationResponse {
   cmp.types.v1alpha.ResponseHeader header = 1;
 
   // Unique validation ID. This must be a UUID according to RFC 4122
-  string validation_id = 2;
+  cmp.types.v1alpha.UUID validation_id = 2;
 
   // Validation object
   ValidationObject validation_object = 3;
