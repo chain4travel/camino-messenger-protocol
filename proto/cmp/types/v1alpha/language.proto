@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// ### Language options
-//
 // Language options according to ISO 639-1, with the 26 most popular languages
 // first. This is done to use the smaller values more frequently and thus consume
 // less bytes for this field.

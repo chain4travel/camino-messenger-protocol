@@ -9,6 +9,7 @@ import "cmp/types/v1alpha/filter.proto";
 import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/localized.proto";
 import "cmp/types/v1alpha/travel_type.proto";
+import "cmp/types/v1alpha/uuid.proto";
 import "google/protobuf/timestamp.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v1alpha/entry_requirements.proto.dot.xs.svg)
@@ -57,7 +58,7 @@ message CountryEntryRequirementsResponse {
   cmp.types.v1alpha.ResponseHeader header = 1;
 
   // This must be a UUID according to RFC 4122
-  string response_id = 2;
+  cmp.types.v1alpha.UUID response_id = 2;
 
   // Categories
   repeated CountryEntryRequirementCategory categories = 3;

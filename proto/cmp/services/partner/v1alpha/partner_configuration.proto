@@ -4,7 +4,7 @@ package cmp.services.partner.v1alpha;
 
 import "cmp/types/v1alpha/partner.proto";
 
-// ### Partner Configuration message type
+// Partner Configuration message type
 //
 // This message type represents the partner configuration on T-Chain (not
 // implemented yet)
@@ -30,7 +30,7 @@ message GetPartnerConfigurationResponse {
   int32 current_block_height = 2;
 }
 
-// ### Get Partner Configuration Service
+// Get Partner Configuration Service
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha/partner_configuration.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1alpha/partner_configuration.proto.dot.svg)

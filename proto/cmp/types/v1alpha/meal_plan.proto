@@ -10,12 +10,12 @@ message MealPlan {
   // Meal Plan Code
   //
   // Ex: `MealPlan.MEAL_PLAN_AI` for "All Inclusive" meal plan.
-  MealPlanCode meal_plan_code = 1;
+  MealPlanCode code = 1;
 
   // Mealplan description. In case of enrichment additional description of the unit code.
   //
   // Ex: "All Inclusive"
-  string meal_plan_description = 2;
+  string description = 2;
 }
 
 // Meal plan code ENUM type

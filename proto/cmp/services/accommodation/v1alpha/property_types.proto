@@ -17,8 +17,6 @@ import "cmp/types/v1alpha/service_fact.proto";
 import "cmp/types/v1alpha/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
-// ### Property message type
-//
 // Represents property info for an accommodation product
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1alpha/property_types.proto.dot.xs.svg)

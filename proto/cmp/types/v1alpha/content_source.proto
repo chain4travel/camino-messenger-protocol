@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// ### Content Source Type message type
+// Content Source Type message type. TODO: Add documentation to explain the purpose of this message
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/content_source.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/content_source.proto.dot.svg)

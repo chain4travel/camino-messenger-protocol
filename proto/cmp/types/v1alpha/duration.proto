@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// Time Message
+// Time duration in minutes
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/duration.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/duration.proto.dot.svg)

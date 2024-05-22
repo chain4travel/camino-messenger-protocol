@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// ### Language options
-//
 // Country options according to ISO 3166-1, with the 31 most popular countries
 // first, using fewer bytes in the code thus reducing message size.
 //

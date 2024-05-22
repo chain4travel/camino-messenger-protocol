@@ -77,7 +77,6 @@ message Activity {
   cmp.types.v1alpha.Bookability bookable = 6;
 }
 
-// ### Activity Location
 message ActivityLocation {
   // Ex: Ctra. de la Porrassa, s/n, Magaluf, ES 07181 in structured fields
   cmp.types.v1alpha.Address address = 1;
@@ -89,7 +88,6 @@ message ActivityLocation {
   cmp.types.v1alpha.Coordinate coordinate = 3;
 }
 
-// ### PickupDropoffEvent
 message PickupDropoffEvent {
   // Ex: "AESPMI43NU",
   string location_code = 1;

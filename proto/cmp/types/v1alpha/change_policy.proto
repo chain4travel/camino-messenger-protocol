@@ -41,7 +41,7 @@ message ChangePolicy {
 // TODO: Add documentation
 message ChangeType {
   // Change type code
-  string change_type_code = 1;
+  string code = 1;
 
   // When this change type and date is valid. Either use the start and end date of
   // the DateTime range

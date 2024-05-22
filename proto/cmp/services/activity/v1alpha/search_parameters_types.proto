@@ -7,8 +7,6 @@ import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/product_code.proto";
 
-// ### Activity Search Parameters
-//
 // These are Activity specific search parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_parameters_types.proto.dot.xs.svg)

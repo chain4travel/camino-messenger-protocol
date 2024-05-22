@@ -9,13 +9,15 @@ import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/pubkey.proto";
 import "cmp/types/v1alpha/token.proto";
 import "cmp/types/v1alpha/traveller.proto";
+import "cmp/types/v1alpha/uuid.proto";
 import "google/protobuf/timestamp.proto";
 
 message MintRequest {
   // Message header
   cmp.types.v1alpha.RequestHeader header = 1;
 
-  string validation_id = 2;
+  // This must be a UUID according to RFC 4122
+  cmp.types.v1alpha.UUID validation_id = 2;
 
   string external_session_id = 3;
 
@@ -48,10 +50,10 @@ message MintResponse {
   cmp.types.v1alpha.ResponseHeader header = 1;
 
   // This must be a UUID according to RFC 4122
-  string mint_id = 2;
+  cmp.types.v1alpha.UUID mint_id = 2;
 
   // This must be a UUID according to RFC 4122
-  string validation_id = 3;
+  cmp.types.v1alpha.UUID validation_id = 3;
 
   string provider_booking_reference = 4;
 
