@@ -60,9 +60,9 @@ message Section {
   // used to represent seat location inside this image).
   cmp.types.v1alpha.Image image = 5;
 
-  // A set of localized descriptions for this section, useful for providing
+  // A list of localized descriptions for this section, useful for providing
   // information about features and amenities in multiple languages.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 6;
 
   // Nested sections within this section, allowing for a hierarchical representation
   // of the venue's layout.
@@ -90,9 +90,9 @@ message SeatMap {
   // bitmap format.
   cmp.types.v1alpha.Image image = 3;
 
-  // A set of localized descriptions for the seat map. This can be used to describe
+  // A list of localized descriptions for the seat map. This can be used to describe
   // features and amenities of the seating arrangement in multiple languages.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 4;
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 4;
 }
 
 // List of _only_ seat IDs to be used for seat selection or seat availability.
