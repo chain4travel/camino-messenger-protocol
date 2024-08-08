@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package cmp.services.seat_map.v1alpha;
-
+import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/seat_map.proto";
 
@@ -19,6 +19,9 @@ message SeatMapRequest {
   // This is the map ID that is received in the search results and also from the
   // product info responses.
   string map_id = 2;
+
+  // Languages
+  repeated cmp.types.v1alpha.Language languages = 3;
 }
 
 // Response for seat map request
