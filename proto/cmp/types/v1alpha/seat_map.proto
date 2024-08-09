@@ -20,10 +20,10 @@ message Seat {
   SeatLocation location = 2;
 
   // Static features associated with the seat, such as type, amenities, etc.
-  repeated SeatAttribute features = 3;
+  repeated LocalizedSeatAttributeSet features = 3;
 
   // Restrictions associated with the seat, such as age limits or accessibility requirements.
-  repeated SeatAttribute restrictions = 4;
+  repeated LocalizedSeatAttributeSet restrictions = 4;
 }
 
 // List of seats
