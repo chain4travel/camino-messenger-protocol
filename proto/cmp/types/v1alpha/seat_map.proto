@@ -6,6 +6,7 @@ import "cmp/types/v1alpha/description.proto";
 import "cmp/types/v1alpha/file.proto";
 import "google/protobuf/wrappers.proto";
 import "cmp/types/v1alpha/language.proto";
+import "cmp/types/v1alpha/localized.proto";
 // Represents a basic seat with optional features and restrictions. Each seat has a
 // unique identifier, a location within the seat map, and can have various static
 // features and restrictions associated with it.
@@ -40,8 +41,8 @@ message Section {
   // "Orchestra" or "A", "12". Must be unique for each section.
   string id = 1;
 
-  // Human readable name of the section
-  string name = 2;
+  // List of localized names Human readable names of the section
+  repeated cmp.types.v1alpha.LocalizedString names = 2;
 
   // Seats in this section.
   oneof seat_info {
