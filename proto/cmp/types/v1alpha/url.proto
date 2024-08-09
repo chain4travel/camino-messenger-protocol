@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package cmp.types.v1alpha;
+
+message Url {
+  string type = 1;
+  string address = 2;  
+}
+

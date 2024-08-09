@@ -106,6 +106,9 @@ message PickupDropoffEvent {
 
   // Datetime of the pickup dropoff event as Unix timestamp
   google.protobuf.Timestamp date_time = 5;
+
+  // Longitude and Latitude of the location
+  cmp.types.v1alpha.Coordinate coordinates = 6;
 }
 
 enum PricingType {

@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package cmp.services.activity.v1alpha;
+
+import "cmp/types/v1alpha/common.proto";
+import "cmp/types/v1alpha/uuid.proto";
+import "cmp/types/v1alpha/description.proto";
+import "cmp/types/v1alpha/location.proto";
+import "cmp/types/v1alpha/language.proto";
+import "cmp/types/v1alpha/file.proto";
+import "cmp/types/v1alpha/datetime_range.proto";
+import "cmp/types/v1alpha/duration.proto";
+import "cmp/types/v1alpha/address.proto";
+import "cmp/types/v1alpha/phone.proto";
+import "cmp/types/v1alpha/email.proto";
+import "cmp/types/v1alpha/url.proto";
+import "cmp/services/activity/v1alpha/search_result_types.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message ActivityProductInfoResponse {
+
+    cmp.types.v1alpha.ResponseHeader header = 1;
+
+    ActivityProductInfoResponseMetadata activity_product_detail_response = 2;
+
+    repeated ActivityUnitInfo units = 3;
+
+    ActivityServiceInfo service_info = 4;
+
+    repeated ActivityZoneInfo zones = 5;
+
+    repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
+
+    cmp.types.v1alpha.Coordinate position = 7;
+
+    repeated ActivityFeature features = 8;
+
+    repeated ActivityTag tags = 9;
+
+    repeated cmp.types.v1alpha.Language languages = 10;
+
+    ActivityContactInfo contact_info = 11;
+
+    repeated cmp.types.v1alpha.Image images = 12;
+
+    repeated cmp.types.v1alpha.Video videos = 13;
+
+}
+
+message ActivityProductInfoResponseMetadata {
+
+   // activity_id to be used in the Validation Request. This must be a UUID according
+  // to RFC 4122
+  cmp.types.v1alpha.UUID activity_id = 1;
+
+  // Context for Inventory system concepts that need to be included in a search response,
+  // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
+  // serialized combination of these codes.
+  string context = 2;
+
+  // Errors encountered in the generation of the response. Standardized error list
+  // to be created.
+  repeated string errors = 3;
+
+  // Warnings encountered in the generation of the response. This section might include
+  // information about fields not processed due to incompatibilities with the
+  // inventory system
+  repeated string warnings = 4;
+
+  // Supplier code from the Inventory System for this activity response.
+  string supplier_unit_code = 5;
+
+  // An identifier for external sessions, aiding in tracking and continuity across
+  // sessions.
+  string external_session_id = 6;
+
+  string category_code = 7;
+
+  string category_name = 8;
+
+  string type_code = 9;
+
+  string type_name = 10;
+
+  string supplier_code = 11;
+
+  string supplier_code_name = 12;
+
+  cmp.types.v1alpha.DurationRange duration_range = 13;
+
+  google.protobuf.Timestamp max_confirmation_time = 14; // Ask about this, is it timestamp or should be different type ?
+
+  bool allow_free_sale = 15;
+
+  bool instant_confirmation = 16;
+
+  bool instant_delivery = 17;
+
+  bool availability_required = 18;
+  
+  string availability_type = 19;
+
+  repeated string delivery_formats = 20;
+
+  repeated string delivery_methods = 21;
+
+  string redemption_method = 22;
+
+}
+
+
+message ActivityUnitInfo {
+
+  // Schedule
+  cmp.types.v1alpha.DateTimeRange schedule = 1;  // ask if summary is needed here (check json)
+
+  string descriptive_text = 2;
+
+  string unit_code = 3;
+
+  string unit_code_description = 4;
+
+}
+
+
+message ActivityServiceInfo {
+
+  string descriptive_text = 1;
+  
+  string service_code = 2;
+
+  string service_code_description = 3;
+
+  repeated string included = 4;
+
+  repeated string excluded = 5;
+}
+
+message ActivityZoneInfo {
+  ActivitySubZoneInfo sub_zone_info = 1;
+  string unit_code = 2;
+}
+
+message ActivitySubZoneInfo {
+  // Geo tree type, representted by Country, Region, and City_or_Resort.
+  repeated cmp.types.v1alpha.GeoTree ref_points = 1;
+  repeated OperationTime operation_time = 2;
+  string unit_code = 3;
+}
+
+message OperationTime {
+  repeated cmp.services.activity.v1alpha.PickupDropoffEvent pickup_dropoff = 1;
+  string unit_code = 2;
+}
+
+
+message ActivityFeature {
+  string descriptive_text = 1;
+  string unit_code_description = 2; // do we need unit code here ?
+
+}
+
+message ActivityTag {
+  bool active = 1;
+  cmp.types.v1alpha.UUID id = 2;
+  string name = 3;
+  string slug = 4;
+}
+
+message ActivityContactInfo {
+
+  cmp.types.v1alpha.Address address = 1;
+
+  // Phones
+  repeated cmp.types.v1alpha.Phone phones = 2;
+
+  // Emails
+  repeated cmp.types.v1alpha.Email emails = 3;
+
+  repeated cmp.types.v1alpha.Url urls = 4;    
+
+}
