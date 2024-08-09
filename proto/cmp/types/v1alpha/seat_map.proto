@@ -5,7 +5,7 @@ package cmp.types.v1alpha;
 import "cmp/types/v1alpha/description.proto";
 import "cmp/types/v1alpha/file.proto";
 import "google/protobuf/wrappers.proto";
-
+import "cmp/types/v1alpha/language.proto";
 // Represents a basic seat with optional features and restrictions. Each seat has a
 // unique identifier, a location within the seat map, and can have various static
 // features and restrictions associated with it.
@@ -141,6 +141,12 @@ message SeatMapInventory {
   repeated SectionInventory sections = 2;
 }
 
+message LocalizedSeatAttributeSet {
+
+  Language language = 1;
+  repeated SeatAttribute seat_attributes = 2;
+
+}
 /* Helper messages */
 
 // Defines a static attribute for a seat, which can be used for specifying features
