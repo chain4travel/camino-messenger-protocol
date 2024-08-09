@@ -20,7 +20,7 @@ message SeatMapRequest {
   // product info responses.
   string map_id = 2;
 
-  // Languages
+  // Requested Languages
   repeated cmp.types.v1alpha.Language languages = 3;
 }
 

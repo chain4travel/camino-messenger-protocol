@@ -93,6 +93,7 @@ message SeatMap {
 
   // A list of localized descriptions for the seat map. This can be used to describe
   // features and amenities of the seating arrangement in multiple languages.
+  // The languages should match those requested in SeatMapRequest
   repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 4;
 }
 
