@@ -77,7 +77,7 @@ message CountryEntryRequirementCategory {
   repeated cmp.types.v1alpha.LocalizedString names = 2;
 
   // Items
-  CountryEntryRequirementItem items = 3;
+  repeated CountryEntryRequirementItem items = 3;
 
   // Sub categories
   repeated CountryEntryRequirementCategory sub_categories = 4;

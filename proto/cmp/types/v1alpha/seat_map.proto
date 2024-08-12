@@ -5,7 +5,8 @@ package cmp.types.v1alpha;
 import "cmp/types/v1alpha/description.proto";
 import "cmp/types/v1alpha/file.proto";
 import "google/protobuf/wrappers.proto";
-
+import "cmp/types/v1alpha/language.proto";
+import "cmp/types/v1alpha/localized.proto";
 // Represents a basic seat with optional features and restrictions. Each seat has a
 // unique identifier, a location within the seat map, and can have various static
 // features and restrictions associated with it.
@@ -19,10 +20,10 @@ message Seat {
   SeatLocation location = 2;
 
   // Static features associated with the seat, such as type, amenities, etc.
-  repeated SeatAttribute features = 3;
+  repeated LocalizedSeatAttributeSet features = 3;
 
   // Restrictions associated with the seat, such as age limits or accessibility requirements.
-  repeated SeatAttribute restrictions = 4;
+  repeated LocalizedSeatAttributeSet restrictions = 4;
 }
 
 // List of seats
@@ -40,8 +41,8 @@ message Section {
   // "Orchestra" or "A", "12". Must be unique for each section.
   string id = 1;
 
-  // Human readable name of the section
-  string name = 2;
+  // List of localized names Human readable names of the section
+  repeated cmp.types.v1alpha.LocalizedString names = 2;
 
   // Seats in this section.
   oneof seat_info {
@@ -60,9 +61,9 @@ message Section {
   // used to represent seat location inside this image).
   cmp.types.v1alpha.Image image = 5;
 
-  // A set of localized descriptions for this section, useful for providing
+  // A list of localized descriptions for this section, useful for providing
   // information about features and amenities in multiple languages.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 6;
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 6;
 
   // Nested sections within this section, allowing for a hierarchical representation
   // of the venue's layout.
@@ -90,9 +91,10 @@ message SeatMap {
   // bitmap format.
   cmp.types.v1alpha.Image image = 3;
 
-  // A set of localized descriptions for the seat map. This can be used to describe
+  // A list of localized descriptions for the seat map. This can be used to describe
   // features and amenities of the seating arrangement in multiple languages.
-  cmp.types.v1alpha.LocalizedDescriptionSet localized_description_set = 4;
+  // The languages should match those requested in SeatMapRequest
+  repeated cmp.types.v1alpha.LocalizedDescriptionSet localized_descriptions = 4;
 }
 
 // List of _only_ seat IDs to be used for seat selection or seat availability.
@@ -141,6 +143,12 @@ message SeatMapInventory {
   repeated SectionInventory sections = 2;
 }
 
+message LocalizedSeatAttributeSet {
+
+  Language language = 1;
+  repeated SeatAttribute seat_attributes = 2;
+
+}
 /* Helper messages */
 
 // Defines a static attribute for a seat, which can be used for specifying features
