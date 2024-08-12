@@ -6,7 +6,6 @@ syntax = "proto3";
 
 package cmp.services.activity.v1alpha;
 
-import "cmp/types/v1alpha/common.proto";
 import "cmp/types/v1alpha/description.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/language.proto";
@@ -16,69 +15,50 @@ import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/address.proto";
 import "cmp/types/v1alpha/phone.proto";
 import "cmp/types/v1alpha/email.proto";
-import "cmp/types/v1alpha/url.proto";
+import "cmp/types/v1alpha/link.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/services/activity/v1alpha/search_result_types.proto";
-import "google/protobuf/timestamp.proto";
 
-
-message ActivityProductInfoRequest {
-    // Message header
-    cmp.types.v1alpha.RequestHeader header = 1;
-
-    // Only respond with the products that are modified after this timestamp
-    google.protobuf.Timestamp modified_after = 2;
-  
-    // Languages
-    repeated cmp.types.v1alpha.Language languages = 3;
-  
-    // Activity codes
-    repeated cmp.types.v1alpha.SupplierProductCode supplier_codes = 4;
-}
-
-message ActivityProductInfoResponse {
-    // Response Header
-    cmp.types.v1alpha.ResponseHeader header = 1;
-
+message ActivityExtendedInfo {
     // Activity Product Details
-    ActivityProductInfoResponseMetadata activity_product_detail_response = 2;
+    ActivityProductInfoDetails activity_product_detail_response = 1;
 
     // Units
-    repeated ActivityUnitInfo units = 3;
+    repeated ActivityUnitInfo units = 2;
 
     // Service Info
-    ActivityServiceInfo service_info = 4;
+    ActivityServiceInfo service_info = 3;
 
     // Zones
-    repeated ActivityZoneInfo zones = 5;
+    repeated ActivityZoneInfo zones = 4;
 
     // Descriptions with different languages
-    repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
+    repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
 
     // Coordinates
-    cmp.types.v1alpha.Coordinate position = 7;
+    cmp.types.v1alpha.Coordinate position =6;
 
     // Activity Features
-    repeated ActivityFeature features = 8;
+    repeated ActivityFeature features = 7;
 
     // Tags
-    repeated ActivityTag tags = 9;
+    repeated ActivityTag tags = 8;
 
     // Languages
-    repeated cmp.types.v1alpha.Language languages = 10;
+    repeated cmp.types.v1alpha.Language languages = 9;
 
     // Contact Info; Address, Email, Phone, Urls
-    ActivityContactInfo contact_info = 11;
+    ActivityContactInfo contact_info = 10;
 
     // Images
-    repeated cmp.types.v1alpha.Image images = 12;
+    repeated cmp.types.v1alpha.Image images = 11;
 
     // Videos
-    repeated cmp.types.v1alpha.Video videos = 13;
+    repeated cmp.types.v1alpha.Video videos = 12;
 
 }
 
-message ActivityProductInfoResponseMetadata {
+message ActivityProductInfoDetails {
   // Context for Inventory system concepts that need to be included in an info response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
   // serialized combination of these codes.
@@ -119,35 +99,38 @@ message ActivityProductInfoResponseMetadata {
   // Supplier Name
   string supplier_code_name = 11;
 
+  // product_code
+  cmp.types.v1alpha.ProductCode product_code = 12;
+
   // Duration range (min, max) of the activity in minutes
-  cmp.types.v1alpha.DurationRange duration_range = 12;
+  cmp.types.v1alpha.DurationRange duration_range = 13;
 
   // Time given for confirmation before the offer expires
-  cmp.types.v1alpha.Duration max_confirmation_duration = 13; 
+  cmp.types.v1alpha.Duration max_confirmation_duration = 14; 
 
   // Allow Free Sale
-  bool allow_free_sale = 14;
+  bool allow_free_sale = 15;
 
   // The ability to confirm instantly
-  bool instant_confirmation = 15;
+  bool instant_confirmation = 16;
 
   // Can be delivered instantly
-  bool instant_delivery = 16;
+  bool instant_delivery = 17;
 
   // Check availability
-  bool availability_required = 17;
+  bool availability_required = 18;
   
   // Availability Type
-  string availability_type = 18;
+  string availability_type = 19;
 
   // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
-  repeated string delivery_formats = 19;
+  repeated string delivery_formats = 20;
 
   // Delivery Methods; such as Email, SMS, Post, ... etc
-  repeated string delivery_methods = 20;
+  repeated string delivery_methods = 21;
 
   // Redemption method
-  string redemption_method = 21;
+  string redemption_method = 22;
 
 }
 
@@ -247,6 +230,6 @@ message ActivityContactInfo {
   repeated cmp.types.v1alpha.Email emails = 3;
 
   // Websites
-  repeated cmp.types.v1alpha.Url urls = 4;    
+  repeated cmp.types.v1alpha.Link links = 4;    
 
 }
