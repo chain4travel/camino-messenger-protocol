@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+// ### Activity Services
+//
+// The Activity services are used for both tickets and excursions
+
 package cmp.services.activity.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";
@@ -18,158 +22,222 @@ import "cmp/services/activity/v1alpha/search_result_types.proto";
 import "google/protobuf/timestamp.proto";
 
 
-message ActivityProductInfoResponse {
+message ActivityProductInfoRequest {
+    // Message header
+    cmp.types.v1alpha.RequestHeader header = 1;
 
+    // Only respond with the products that are modified after this timestamp
+    google.protobuf.Timestamp modified_after = 2;
+  
+    // Languages
+    repeated cmp.types.v1alpha.Language languages = 3;
+  
+    // Activity codes
+    repeated cmp.types.v1alpha.SupplierProductCode supplier_codes = 4;
+}
+
+message ActivityProductInfoResponse {
+    // Response Header
     cmp.types.v1alpha.ResponseHeader header = 1;
 
+    // Activity Product Details
     ActivityProductInfoResponseMetadata activity_product_detail_response = 2;
 
+    // Units
     repeated ActivityUnitInfo units = 3;
 
+    // Service Info
     ActivityServiceInfo service_info = 4;
 
+    // Zones
     repeated ActivityZoneInfo zones = 5;
 
+    // Descriptions with different languages
     repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 6;
 
+    // Coordinates
     cmp.types.v1alpha.Coordinate position = 7;
 
+    // Activity Features
     repeated ActivityFeature features = 8;
 
+    // Tags
     repeated ActivityTag tags = 9;
 
+    // Languages
     repeated cmp.types.v1alpha.Language languages = 10;
 
+    // Contact Info; Address, Email, Phone, Urls
     ActivityContactInfo contact_info = 11;
 
+    // Images
     repeated cmp.types.v1alpha.Image images = 12;
 
+    // Videos
     repeated cmp.types.v1alpha.Video videos = 13;
 
 }
 
 message ActivityProductInfoResponseMetadata {
-
-   // activity_id to be used in the Validation Request. This must be a UUID according
-  // to RFC 4122
-  cmp.types.v1alpha.UUID activity_id = 1;
-
-  // Context for Inventory system concepts that need to be included in a search response,
+  // Context for Inventory system concepts that need to be included in an info response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
   // serialized combination of these codes.
-  string context = 2;
+  string context = 1;
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
-  repeated string errors = 3;
+  repeated string errors = 2;
 
   // Warnings encountered in the generation of the response. This section might include
   // information about fields not processed due to incompatibilities with the
   // inventory system
-  repeated string warnings = 4;
+  repeated string warnings = 3;
 
   // Supplier code from the Inventory System for this activity response.
-  string supplier_unit_code = 5;
+  string supplier_unit_code = 4;
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 6;
+  string external_session_id = 5;
 
-  string category_code = 7;
+  // Activity Category Code
+  string category_code = 6;
 
-  string category_name = 8;
+  // Category name which describes the category_code
+  string category_name = 7;
 
-  string type_code = 9;
+  // Type Code
+  string type_code = 8;
 
-  string type_name = 10;
+  // Type name which describes type_code
+  string type_name = 9;
 
-  string supplier_code = 11;
+  // Supplier specific code, matching the supplier code in ProductList and ProductInfo
+  // messages
+  cmp.types.v1alpha.SupplierProductCode supplier_code = 10;
 
-  string supplier_code_name = 12;
+  // Supplier Name
+  string supplier_code_name = 11;
 
-  cmp.types.v1alpha.DurationRange duration_range = 13;
+  // Duration range (min, max) of the activity in minutes
+  cmp.types.v1alpha.DurationRange duration_range = 12;
 
-  google.protobuf.Timestamp max_confirmation_time = 14; // Ask about this, is it timestamp or should be different type ?
+  // Time given for confirmation before the offer expires
+  cmp.types.v1alpha.Duration max_confirmation_duration = 13; 
 
-  bool allow_free_sale = 15;
+  // Allow Free Sale
+  bool allow_free_sale = 14;
 
-  bool instant_confirmation = 16;
+  // The ability to confirm instantly
+  bool instant_confirmation = 15;
 
-  bool instant_delivery = 17;
+  // Can be delivered instantly
+  bool instant_delivery = 16;
 
-  bool availability_required = 18;
+  // Check availability
+  bool availability_required = 17;
   
-  string availability_type = 19;
+  // Availability Type
+  string availability_type = 18;
 
-  repeated string delivery_formats = 20;
+  // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
+  repeated string delivery_formats = 19;
 
-  repeated string delivery_methods = 21;
+  // Delivery Methods; such as Email, SMS, Post, ... etc
+  repeated string delivery_methods = 20;
 
-  string redemption_method = 22;
+  // Redemption method
+  string redemption_method = 21;
 
 }
 
 
 message ActivityUnitInfo {
-
   // Schedule
-  cmp.types.v1alpha.DateTimeRange schedule = 1;  // ask if summary is needed here (check json)
+  cmp.types.v1alpha.DateTimeRange schedule = 1; 
 
+  // Description of the activity unit
   string descriptive_text = 2;
 
+  // Unit Code
   string unit_code = 3;
 
+  // Unit Code Description
   string unit_code_description = 4;
 
 }
 
 
 message ActivityServiceInfo {
-
+  // Description of the Service Info
   string descriptive_text = 1;
   
+  // Service Code
   string service_code = 2;
 
+  // Service Code Description
   string service_code_description = 3;
 
+  // Included items in the activity service
   repeated string included = 4;
 
+  // Encluded items in the activity service
   repeated string excluded = 5;
 }
 
 message ActivityZoneInfo {
+  // Sub Zone Info
   ActivitySubZoneInfo sub_zone_info = 1;
+
+  // Unit Code
   string unit_code = 2;
 }
 
 message ActivitySubZoneInfo {
   // Geo tree type, representted by Country, Region, and City_or_Resort.
   repeated cmp.types.v1alpha.GeoTree ref_points = 1;
+
+  // operation time shows the pick-up and drop-off information
   repeated OperationTime operation_time = 2;
+
+  // Unit Code
   string unit_code = 3;
 }
 
 message OperationTime {
+  // pick-up and drop-off information about location and time
   repeated cmp.services.activity.v1alpha.PickupDropoffEvent pickup_dropoff = 1;
+
+  // Unit Code
   string unit_code = 2;
 }
 
 
 message ActivityFeature {
+  // Feature description
   string descriptive_text = 1;
-  string unit_code_description = 2; // do we need unit code here ?
 
+  // Feature Code
+  string feature_code = 2; 
 }
 
 message ActivityTag {
+  // active status
   bool active = 1;
-  cmp.types.v1alpha.UUID id = 2;
+
+  // Unique ID
+  int32 id = 2;
+
+  // Name
   string name = 3;
+
+  // Slug; giving an informal name to the tag
   string slug = 4;
 }
 
 message ActivityContactInfo {
 
+  // Address
   cmp.types.v1alpha.Address address = 1;
 
   // Phones
@@ -178,6 +246,7 @@ message ActivityContactInfo {
   // Emails
   repeated cmp.types.v1alpha.Email emails = 3;
 
+  // Websites
   repeated cmp.types.v1alpha.Url urls = 4;    
 
 }
