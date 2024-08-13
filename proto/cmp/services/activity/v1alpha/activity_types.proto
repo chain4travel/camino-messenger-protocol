@@ -139,11 +139,11 @@ message ActivityUnit {
   // Unit Code
   string code = 2;
 
-  // Unit Code Description
-  string code_description = 3;
+  // Unit Name
+  string name = 3;
 
-  // Service Additional Info
-  string additional_info = 4;
+  // Unit Description
+  string description = 4;
 }
 
 
@@ -151,17 +151,17 @@ message ActivityService {
   // Service Code
   string code = 1;
 
-  // Service Code Description
-  string code_description = 2;
+  // Service Name
+  string name = 2;
+
+  // Service Description
+  string description = 2;
 
   // Included items in the activity service
   repeated string included = 3;
 
   // Encluded items in the activity service
   repeated string excluded = 4;
-
-  // Service Additional Info
-  string additional_info = 5;
 }
 
 message ActivityZone {
