@@ -136,62 +136,44 @@ message ActivityUnit {
   // Schedule
   cmp.types.v1alpha.DateTimeRange schedule = 1; 
 
-  // Description of the activity unit
-  string description = 2;
-
   // Unit Code
-  string code = 3;
+  string code = 2;
 
   // Unit Code Description
-  string code_description = 4;
+  string code_description = 3;
 
+  // Service Additional Info
+  string additional_info = 4;
 }
 
 
 message ActivityService {
-  // Description of the Service Info
-  string description = 1;
-  
   // Service Code
-  string code = 2;
+  string code = 1;
 
   // Service Code Description
-  string code_description = 3;
+  string code_description = 2;
 
   // Included items in the activity service
-  repeated string included = 4;
+  repeated string included = 3;
 
   // Encluded items in the activity service
-  repeated string excluded = 5;
+  repeated string excluded = 4;
+
+  // Service Additional Info
+  string additional_info = 5;
 }
 
 message ActivityZone {
-  // Sub Zone Info
-  ActivitySubZone sub_zone = 1;
-
   // Unit Code
-  string code = 2;
-}
+  string code = 1;
 
-message ActivitySubZone {
   // Geo tree type, representted by Country, Region, and City_or_Resort.
-  repeated cmp.types.v1alpha.GeoTree ref_points = 1;
+  cmp.types.v1alpha.GeoTree geo_tree = 2;
 
-  // operation time shows the pick-up and drop-off information
-  repeated OperationTime operation_time = 2;
-
-  // Unit Code
-  string unit_code = 3;
-}
-
-message OperationTime {
   // pick-up and drop-off information about location and time
-  repeated cmp.services.activity.v1alpha.PickupDropoffEvent pickup_dropoff = 1;
-
-  // Unit Code
-  string unit_code = 2;
+  repeated cmp.services.activity.v1alpha.PickupDropoffEvent pickup_dropoff = 3;  
 }
-
 
 message ActivityFeature {
   // Feature description
