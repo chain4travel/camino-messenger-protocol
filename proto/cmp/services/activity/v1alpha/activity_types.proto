@@ -12,25 +12,22 @@ import "cmp/types/v1alpha/language.proto";
 import "cmp/types/v1alpha/file.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/duration.proto";
-import "cmp/types/v1alpha/address.proto";
-import "cmp/types/v1alpha/phone.proto";
-import "cmp/types/v1alpha/email.proto";
-import "cmp/types/v1alpha/link.proto";
+import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/services/activity/v1alpha/search_result_types.proto";
 
 message ActivityExtendedInfo {
     // Activity Product Details
-    ActivityProductInfoDetails activity_product_detail_response = 1;
+    ActivityDetails activity_product_detail_response = 1;
 
     // Units
-    repeated ActivityUnitInfo units = 2;
+    repeated ActivityUnit units = 2;
 
     // Service Info
-    ActivityServiceInfo service_info = 3;
+    ActivityService service = 3;
 
     // Zones
-    repeated ActivityZoneInfo zones = 4;
+    repeated ActivityZone zones = 4;
 
     // Descriptions with different languages
     repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
@@ -48,7 +45,7 @@ message ActivityExtendedInfo {
     repeated cmp.types.v1alpha.Language languages = 9;
 
     // Contact Info; Address, Email, Phone, Urls
-    ActivityContactInfo contact_info = 10;
+    cmp.types.v1alpha.ContactInfo contact_info = 10;
 
     // Images
     repeated cmp.types.v1alpha.Image images = 11;
@@ -58,7 +55,7 @@ message ActivityExtendedInfo {
 
 }
 
-message ActivityProductInfoDetails {
+message ActivityDetails {
   // Context for Inventory system concepts that need to be included in an info response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
   // serialized combination of these codes.
@@ -135,31 +132,31 @@ message ActivityProductInfoDetails {
 }
 
 
-message ActivityUnitInfo {
+message ActivityUnit {
   // Schedule
   cmp.types.v1alpha.DateTimeRange schedule = 1; 
 
   // Description of the activity unit
-  string descriptive_text = 2;
+  string description = 2;
 
   // Unit Code
-  string unit_code = 3;
+  string code = 3;
 
   // Unit Code Description
-  string unit_code_description = 4;
+  string code_description = 4;
 
 }
 
 
-message ActivityServiceInfo {
+message ActivityService {
   // Description of the Service Info
-  string descriptive_text = 1;
+  string description = 1;
   
   // Service Code
-  string service_code = 2;
+  string code = 2;
 
   // Service Code Description
-  string service_code_description = 3;
+  string code_description = 3;
 
   // Included items in the activity service
   repeated string included = 4;
@@ -168,15 +165,15 @@ message ActivityServiceInfo {
   repeated string excluded = 5;
 }
 
-message ActivityZoneInfo {
+message ActivityZone {
   // Sub Zone Info
-  ActivitySubZoneInfo sub_zone_info = 1;
+  ActivitySubZone sub_zone = 1;
 
   // Unit Code
-  string unit_code = 2;
+  string code = 2;
 }
 
-message ActivitySubZoneInfo {
+message ActivitySubZone {
   // Geo tree type, representted by Country, Region, and City_or_Resort.
   repeated cmp.types.v1alpha.GeoTree ref_points = 1;
 
@@ -198,10 +195,10 @@ message OperationTime {
 
 message ActivityFeature {
   // Feature description
-  string descriptive_text = 1;
+  string description = 1;
 
   // Feature Code
-  string feature_code = 2; 
+  string code = 2; 
 }
 
 message ActivityTag {
@@ -218,18 +215,3 @@ message ActivityTag {
   string slug = 4;
 }
 
-message ActivityContactInfo {
-
-  // Address
-  cmp.types.v1alpha.Address address = 1;
-
-  // Phones
-  repeated cmp.types.v1alpha.Phone phones = 2;
-
-  // Emails
-  repeated cmp.types.v1alpha.Email emails = 3;
-
-  // Websites
-  repeated cmp.types.v1alpha.Link links = 4;    
-
-}
