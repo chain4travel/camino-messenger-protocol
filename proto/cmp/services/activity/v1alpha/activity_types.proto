@@ -155,13 +155,13 @@ message ActivityService {
   string name = 2;
 
   // Service Description
-  string description = 2;
+  string description = 3;
 
   // Included items in the activity service
-  repeated string included = 3;
+  repeated string included = 4;
 
   // Encluded items in the activity service
-  repeated string excluded = 4;
+  repeated string excluded = 5;
 }
 
 message ActivityZone {
