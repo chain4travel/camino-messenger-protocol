@@ -14,6 +14,8 @@ import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/duration.proto";
 import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/product_code.proto";
+import "cmp/types/v1alpha/delivery.proto";
+import "cmp/types/v1alpha/redemption.proto";
 import "cmp/services/activity/v1alpha/search_result_types.proto";
 
 message ActivityExtendedInfo {
@@ -121,14 +123,13 @@ message ActivityDetails {
   string availability_type = 19;
 
   // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
-  repeated string delivery_formats = 20;
+  repeated cmp.types.v1alpha.DeliveryFormat delivery_formats = 20;
 
   // Delivery Methods; such as Email, SMS, Post, ... etc
-  repeated string delivery_methods = 21;
+  repeated cmp.types.v1alpha.DeliveryMethod delivery_methods = 21;
 
   // Redemption method
-  string redemption_method = 22;
-
+  repeated cmp.types.v1alpha.RedemptionMethod redemption_method = 22;
 }
 
 
