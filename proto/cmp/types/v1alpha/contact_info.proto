@@ -11,10 +11,7 @@ import "cmp/types/v1alpha/link.proto";
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/contact_info.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/contact_info.proto.dot.svg)
-
-
 message ContactInfo {
-
     // Address
     repeated cmp.types.v1alpha.Address address = 1;
   
@@ -26,5 +23,4 @@ message ContactInfo {
   
     // Websites
     repeated cmp.types.v1alpha.Link links = 4;    
-  
   }
