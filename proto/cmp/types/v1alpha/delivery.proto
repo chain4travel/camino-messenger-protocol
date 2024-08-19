@@ -6,7 +6,6 @@ package cmp.types.v1alpha;
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/delivery.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/delivery.proto.dot.svg)
-
 enum DeliveryFormat {
     DELIVERY_FORMAT_UNSPECIFIED = 0;
     DELIVERY_FORMAT_OTHER = 1;

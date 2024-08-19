@@ -6,22 +6,21 @@ package cmp.types.v1alpha;
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/link.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/link.proto.dot.svg)
-
 message Link {
     // Link type
   //
   // Ex: "LG" or "TC"
-  LinkType link_type = 1;
+  LinkType type = 1;
 
   // Link description
   //
   // Ex: "Baggage conditions"
-  string link_description = 2;
+  string description = 2;
 
   // Link reference
   //
   // Ex: "https://api.lyko.tech/v2.1/transfers/ebaa9aed-dbc4-4d51-a41a-336a3c3e9bfc/pdf-terms-and-conditions"
-  string link_ref = 3;
+  string ref = 3;
 }
 
 enum LinkType {
@@ -32,7 +31,7 @@ enum LinkType {
   LINK_TYPE_BOOKING = 4;
   LINK_TYPE_SUPPORT = 5;
   LINK_TYPE_FEEDBACK = 6;
-  LINK_TYPE_COMPLAIN = 7;
+  LINK_TYPE_COMPLAINT = 7;
   LINK_TYPE_FACEBOOK = 8;
   LINK_TYPE_INSTAGRAM = 9;
   LINK_TYPE_X = 10;

@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-// ### Activity Services
-//
-// The Activity services are used for both tickets and excursions
-
 package cmp.services.activity.v1alpha;
 
 import "cmp/types/v1alpha/common.proto";

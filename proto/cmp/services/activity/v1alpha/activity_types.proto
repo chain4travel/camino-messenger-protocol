@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-// ### Activity Services
-//
-// The Activity services are used for both tickets and excursions
-
 package cmp.services.activity.v1alpha;
 
 import "cmp/types/v1alpha/description.proto";
@@ -19,8 +15,8 @@ import "cmp/types/v1alpha/redemption.proto";
 import "cmp/services/activity/v1alpha/search_result_types.proto";
 
 message ActivityExtendedInfo {
-    // Activity Product Details
-    ActivityDetails activity_product_detail_response = 1;
+    // Activity Details
+    ActivityDetails activity_details = 1;
 
     // Units
     repeated ActivityUnit units = 2;
@@ -129,7 +125,7 @@ message ActivityDetails {
   repeated cmp.types.v1alpha.DeliveryMethod delivery_methods = 21;
 
   // Redemption method
-  repeated cmp.types.v1alpha.RedemptionMethod redemption_method = 22;
+  repeated cmp.types.v1alpha.RedemptionMethod redemption_methods = 22;
 }
 
 
@@ -169,7 +165,7 @@ message ActivityZone {
   // Unit Code
   string code = 1;
 
-  // Geo tree type, representted by Country, Region, and City_or_Resort.
+  // Geo tree type, represented by Country, Region, and City_or_Resort.
   cmp.types.v1alpha.GeoTree geo_tree = 2;
 
   // pick-up and drop-off information about location and time
