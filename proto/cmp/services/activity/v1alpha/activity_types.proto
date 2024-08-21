@@ -64,7 +64,7 @@ message ActivityLocation {
   cmp.types.v1alpha.GeoTree geo_tree = 2;
 
   // Coordinate
-  cmp.types.v1alpha.Coordinate coordinate = 3;
+  cmp.types.v1alpha.Coordinates coordinates = 3;
 }
 
 message PickupDropoffEvent {
@@ -87,7 +87,7 @@ message PickupDropoffEvent {
   google.protobuf.Timestamp date_time = 5;
 
   // Longitude and Latitude of the location
-  cmp.types.v1alpha.Coordinate coordinates = 6;
+  cmp.types.v1alpha.Coordinates coordinates = 6;
 }
 
 enum PricingType {
@@ -113,7 +113,7 @@ message ActivityExtendedInfo {
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
 
   // Coordinates
-  cmp.types.v1alpha.Coordinate position = 6;
+  cmp.types.v1alpha.Coordinates coordinates = 6;
 
   // Activity Features
   repeated ActivityFeature features = 7;

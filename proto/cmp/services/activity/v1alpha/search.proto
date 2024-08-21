@@ -57,7 +57,7 @@ message ActivitySearchRequest {
     cmp.types.v1alpha.LocationCodes source_location_codes = 7;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha.Coordinate source_location_coordinate = 8;
+    cmp.types.v1alpha.Coordinates source_location_coordinates = 8;
 
     // Geo tree type, represented by Country, Region, and City_or_Resort.
     cmp.types.v1alpha.GeoTree source_location_geo_tree = 9;
@@ -81,7 +81,7 @@ message ActivitySearchRequest {
     cmp.types.v1alpha.LocationCodes service_location_codes = 12;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha.Coordinate service_location_coordinate = 13;
+    cmp.types.v1alpha.Coordinates service_location_coordinates = 13;
 
     // Geo tree type, represented by Country, Region, and City_or_Resort.
     cmp.types.v1alpha.GeoTree service_location_geo_tree = 14;

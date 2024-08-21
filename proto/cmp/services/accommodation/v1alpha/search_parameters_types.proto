@@ -22,7 +22,7 @@ message AccommodationSearchParameters {
     cmp.types.v1alpha.LocationCodes location_codes = 1;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1alpha.Coordinate location_coordinate = 2;
+    cmp.types.v1alpha.Coordinates location_coordinates = 2;
 
     // Geo tree type, represented by Country, Region, and City_or_Resort.
     cmp.types.v1alpha.GeoTree location_geo_tree = 3;

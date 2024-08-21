@@ -54,7 +54,7 @@ message Property {
   repeated cmp.types.v1alpha.Phone phones = 10;
 
   // Location coordinate
-  cmp.types.v1alpha.Coordinate coordinate = 11;
+  cmp.types.v1alpha.Coordinates coordinates = 11;
 
   // Ex: "www.hotel.com"
   string website = 12;
