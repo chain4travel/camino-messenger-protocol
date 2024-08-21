@@ -68,6 +68,9 @@ message ActivityLocation {
 }
 
 message PickupDropoffEvent {
+  // Supplier specific pick-up code. Avoid using this and use a more generic concept
+  // where possible, so that the integration is suitable for more than one partner.
+  //
   // Ex: "AESPMI43NU",
   string location_code = 1;
   // Ex: "Sunny Beach Hotel",
@@ -75,12 +78,14 @@ message PickupDropoffEvent {
 
   // True if this pickup location is selected for the activity
   //
-  // Ex: "true"
-  //
-  // FIXME: How is this relevant for the search result message?
+  // If the boolean is set to false, this is a specific indication that
+  // pick-up/drop-off at this location is not possible. An activity search response
+  // can have one result without a transfer service and without a PickupDropoffEvent
+  // to indicate that there is no transfer included. Or a PickupDropoffEvent with
+  // pick_up indicator set to false can be included to make it explicit.
   bool pickup_indicator = 3;
 
-  // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
+  // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
   string other_info = 4;
 
   // Datetime of the pickup dropoff event as Unix timestamp
@@ -97,16 +102,16 @@ enum PricingType {
 }
 
 message ActivityExtendedInfo {
-  // Activity dynamic info
+  // Activity static info
   Activity activity = 1;
 
-  // Units
+  // available Units
   repeated ActivityUnit units = 2;
 
-  // Service Info
-  ActivityService service = 3;
+  // available Services
+  repeated ActivityService services = 3;
 
-  // Zones
+  // Zone(s) in which the activity takes place
   repeated ActivityZone zones = 4;
 
   // Descriptions with different languages

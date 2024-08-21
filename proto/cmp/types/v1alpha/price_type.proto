@@ -7,7 +7,7 @@ message PriceTypeCode {
   // Type code of the price
   string type_code = 1;
 
-  // A price type can be a type of service or produc delivered or form part of the fee or tax breakdown
+  // A price type can be a type of service or product delivered or form part of the fee or tax breakdown
   oneof type {
     PriceType price_type = 2;
     TaxCode tax_code = 3;
@@ -155,7 +155,7 @@ message PriceTypeCode {
     FEE_CODE_LATE_PM_FEE = 86;
     FEE_CODE_LICENSE_RECOUPMENT_FEE = 87;
     FEE_CODE_LOCAL_AMENITY_USAGE_FEE = 88;
-    FEE_CODE_MAINTAINENCE_FEE = 89;
+    FEE_CODE_MAINTENANCE_FEE = 89;
     FEE_CODE_LOCAL_FEE = 90;
     FEE_CODE_LOCAL_GOVERNMENT_FEE = 91;
     FEE_CODE_LOCAL_ORDINANCE_SURCHARGE = 92;
