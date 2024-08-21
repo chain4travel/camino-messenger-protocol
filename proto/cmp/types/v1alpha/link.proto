@@ -7,7 +7,7 @@ package cmp.types.v1alpha;
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/link.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/link.proto.dot.svg)
 message Link {
-    // Link type
+  // Link type
   //
   // Ex: "LG" or "TC"
   LinkType type = 1;
@@ -40,7 +40,5 @@ enum LinkType {
   LINK_TYPE_MEDIUM = 13;
   LINK_TYPE_TIKTOK = 14;
   LINK_TYPE_WHATSAPP = 15;
-  LINK_TYPE_TELEGRAM = 16;  
+  LINK_TYPE_TELEGRAM = 16;
 }
-
-

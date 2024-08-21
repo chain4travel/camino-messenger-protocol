@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.accommodation.v1alpha;
 
 import "cmp/services/accommodation/v1alpha/unit_types.proto";
-import "cmp/types/v1alpha/bookable.proto";
+import "cmp/types/v1alpha/bookability.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/rate.proto";
@@ -37,5 +37,5 @@ message AccommodationSearchResult {
   string remarks = 7;
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v1alpha.Bookability bookable = 8;
+  cmp.types.v1alpha.Bookability bookability = 8;
 }

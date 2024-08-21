@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.transport.v1alpha;
 
 import "cmp/services/transport/v1alpha/trip_types.proto";
-import "cmp/types/v1alpha/bookable.proto";
+import "cmp/types/v1alpha/bookability.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
 import "cmp/types/v1alpha/change_policy.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
@@ -50,7 +50,7 @@ message TransportSearchResult {
   repeated cmp.types.v1alpha.Fulfillment fulfillments = 8;
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v1alpha.Bookability bookable = 9;
+  cmp.types.v1alpha.Bookability bookability = 9;
 
   // Validity of the search option.
   //
