@@ -4,10 +4,10 @@ package cmp.types.v1alpha;
 
 import "cmp/types/v1alpha/time.proto";
 
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookable.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookable.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookability.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/bookability.proto.dot.svg)
 message Bookability {
-  Bookable bookable = 1;
+  BookabilityType type = 1;
 
   // In case of a bookable=on_request status, a confirmation time should be given by
   // the supplier. The supplier is to confirm the on-request booking with that
@@ -16,8 +16,8 @@ message Bookability {
   cmp.types.v1alpha.Time confirmation_time = 2;
 }
 
-enum Bookable {
-  BOOKABLE_UNSPECIFIED = 0;
-  BOOKABLE_AVAILABLE = 1;
-  BOOKABLE_ON_REQUEST = 2;
+enum BookabilityType {
+  BOOKABILITY_TYPE_UNSPECIFIED = 0;
+  BOOKABILITY_TYPE_AVAILABLE = 1;
+  BOOKABILITY_TYPE_ON_REQUEST = 2;
 }

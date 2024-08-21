@@ -11,7 +11,7 @@ import "cmp/types/v1alpha/measurement.proto";
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/location.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/location.proto.dot.svg)
-message Coordinate {
+message Coordinates {
   // The latitude in degrees. It must be in the range [-90.0, +90.0].
   double latitude = 1;
   // The longitude in degrees. It must be in the range [-180.0, +180.0].
@@ -20,14 +20,14 @@ message Coordinate {
 
 // Geo Circle
 message GeoCircle {
-  cmp.types.v1alpha.Coordinate center = 1;
+  cmp.types.v1alpha.Coordinates center = 1;
   cmp.types.v1alpha.Length radius = 2;
 }
 
 // Geo Polygon
 message GeoPolygon {
   // GPS points of the polygon
-  repeated cmp.types.v1alpha.Coordinate points = 1;
+  repeated cmp.types.v1alpha.Coordinates points = 1;
 }
 
 // Geo Tree

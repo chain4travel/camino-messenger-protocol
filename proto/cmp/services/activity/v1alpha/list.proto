@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.services.activity.v1alpha;
 
-import "cmp/services/activity/v1alpha/search_result_types.proto";
+import "cmp/services/activity/v1alpha/activity_types.proto";
 import "cmp/types/v1alpha/common.proto";
 import "google/protobuf/timestamp.proto";
 

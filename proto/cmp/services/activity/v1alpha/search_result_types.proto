@@ -2,19 +2,15 @@ syntax = "proto3";
 
 package cmp.services.activity.v1alpha;
 
-import "cmp/types/v1alpha/address.proto";
-import "cmp/types/v1alpha/bookable.proto";
+import "cmp/services/activity/v1alpha/activity_types.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
-import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/price.proto";
-import "cmp/types/v1alpha/product_code.proto";
-import "google/protobuf/timestamp.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_option_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_option_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1alpha/search_result_types.proto.dot.svg)
 message ActivitySearchResult {
   // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
@@ -44,72 +40,4 @@ message ActivitySearchResult {
   // Pricing type
   // Ex: "PerPerson", "PerGroup"
   PricingType pricing_type = 9;
-}
-
-// Represents an Activity product.
-//
-// See extensive explanations in search_parameters_types
-message Activity {
-  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was last updated
-  google.protobuf.Timestamp last_modified = 1;
-  // Supplier Product codes for the result
-  // These must match the supplier codes provided in the ProductList and
-  // ProductInfo messages
-  cmp.types.v1alpha.SupplierProductCode supplier_code = 2;
-
-  // External Product codes for the result. These can be of different types
-  cmp.types.v1alpha.ProductCode product_code = 3;
-
-  // Unit IDfor the result
-  // The purpose of this concept is to allow for different activities for one product
-  // like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga".
-  // Code and description match the information provided in the ProductList and
-  // ProductInfo message. These are in general also supplier specific.
-  string unit_code = 4;
-
-  // Service codes for the result
-  // Several different packages could be included like "Windsurfing" with or without
-  // "Wetsuit". Code and description match the information provided in the ProductInfo message
-  // These are in general also supplier specific
-  string service_code = 5;
-
-  // Status of the result, whether it is immediately bookable or not
-  cmp.types.v1alpha.Bookability bookable = 6;
-}
-
-message ActivityLocation {
-  // Ex: Ctra. de la Porrassa, s/n, Magaluf, ES 07181 in structured fields
-  cmp.types.v1alpha.Address address = 1;
-
-  // Geo Tree. Country, region, city_or_resort
-  cmp.types.v1alpha.GeoTree geo_tree = 2;
-
-  // Coordinate
-  cmp.types.v1alpha.Coordinate coordinate = 3;
-}
-
-message PickupDropoffEvent {
-  // Ex: "AESPMI43NU",
-  string location_code = 1;
-  // Ex: "Sunny Beach Hotel",
-  string location_name = 2;
-
-  // True if this pickup location is selected for the activity
-  //
-  // Ex: "true"
-  //
-  // FIXME: How is this relevant for the search result message?
-  bool pickup_indicator = 3;
-
-  // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
-  string other_info = 4;
-
-  // Datetime of the pickup dropoff event as Unix timestamp
-  google.protobuf.Timestamp date_time = 5;
-}
-
-enum PricingType {
-  PRICING_TYPE_UNSPECIFIED = 0;
-  PRICING_TYPE_PERPERSON = 1;
-  PRICING_TYPE_PERGROUP = 2;
 }
