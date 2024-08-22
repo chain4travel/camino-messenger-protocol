@@ -61,7 +61,7 @@ message ActivitySearchRequest {
   cmp.types.v1alpha.SearchParameters search_parameters_generic = 3;
 
   // Activity specific search parameters
-  // 
+  //
   // Here we set for example a list of activity product codes that we want to search
   // for, set min or mar duration or price.
   ActivitySearchParameters search_parameters_activity = 4;

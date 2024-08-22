@@ -95,12 +95,6 @@ message PickupDropoffEvent {
   cmp.types.v1alpha.Coordinates coordinates = 6;
 }
 
-enum PricingType {
-  PRICING_TYPE_UNSPECIFIED = 0;
-  PRICING_TYPE_PERPERSON = 1;
-  PRICING_TYPE_PERGROUP = 2;
-}
-
 message ActivityExtendedInfo {
   // Activity static info
   Activity activity = 1;
@@ -118,7 +112,7 @@ message ActivityExtendedInfo {
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
 
   // Coordinates
-  cmp.types.v1alpha.Coordinates coordinates = 6;
+  ActivityLocation location = 6;
 
   // Activity Features
   repeated ActivityFeature features = 7;
