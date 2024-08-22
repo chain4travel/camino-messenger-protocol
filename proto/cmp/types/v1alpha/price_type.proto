@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+// the ChargeType defines whether a price is per person, per group or per unit. Enum might be amended upon request.
 enum ChargeType {
   CHARGE_TYPE_UNSPECIFIED = 0;
   CHARGE_TYPE_PER_PERSON = 1;
@@ -9,16 +10,20 @@ enum ChargeType {
   CHARGE_TYPE_PER_UNIT = 3;
 }
 
-// TODO: Add documentation to explain the purpose of this message
+// The PriceType message is mean to be used in price breakdown definitions, whe we
+// want to specify the different elements of how a total price was computed.
 message PriceTypeCode {
-  // Type code of the price
+  // Type code of the price for traceability towards data in the inventory system or
+  // contract
   string code = 1;
 
-  // A price type can be a type of service or product delivered or form part of the fee or tax breakdown
+  // A price type can be a type of service or product delivered or form part of the
+  // fee or tax breakdown
   oneof type {
+    // detailing whether the price component is the base (room, flight seat,
+    // ticket), a unit or a service surcharge or even a negative application of an
+    // offer or a discount.
     PriceType price_type = 2;
-    TaxCode tax_code = 3;
-    FeeCode fee_code = 4;
   }
 
   enum PriceType {
@@ -34,6 +39,8 @@ message PriceTypeCode {
     PRICE_TYPE_OFFER = 9;
     PRICE_TYPE_DISCOUNT = 10;
     PRICE_TYPE_EXTRA = 11;
+    PRICE_TYPE_TAX = 12;
+    PRICE_TYPE_FEE = 13;
   }
 
   enum TaxCode {
