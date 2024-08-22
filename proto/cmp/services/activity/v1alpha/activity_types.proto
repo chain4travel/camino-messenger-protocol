@@ -105,13 +105,14 @@ message ActivityExtendedInfo {
   // available Services
   repeated ActivityService services = 3;
 
-  // Zone(s) in which the activity takes place
-  repeated ActivityZone zones = 4;
+  // Transfer Zone(s) in which participants of the activity can be used for pick-up
+  // and drop-off
+  repeated TransferZone zones = 4;
 
   // Descriptions with different languages
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
 
-  // Coordinates
+  // Coordinates of where the activity takes place
   ActivityLocation location = 6;
 
   // Activity Features
@@ -187,7 +188,11 @@ message ActivityExtendedInfo {
 }
 
 message ActivityUnit {
-  // Schedule
+  // The unit  gives us a choice of the different options that are available in an
+  // activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
+  // jeep safari. A ticket to a specific section of a stadium.
+  //
+  //Schedule
   cmp.types.v1alpha.DateTimeRange schedule = 1;
 
   // Unit Code
@@ -201,6 +206,10 @@ message ActivityUnit {
 }
 
 message ActivityService {
+  // Services can be selected like do we go to the activity by ourselves or is a
+  // transfer from our hotel included. Do we book the VIP ticket with or without
+  // alcoholic drinks included?
+  //
   // Service Code
   string code = 1;
 
@@ -217,8 +226,8 @@ message ActivityService {
   repeated string excluded = 5;
 }
 
-message ActivityZone {
-  // Unit Code
+message TransferZone {
+  // Zone Code used in transfer operations
   string code = 1;
 
   // Geo tree type, represented by Country, Region, and City_or_Resort.
