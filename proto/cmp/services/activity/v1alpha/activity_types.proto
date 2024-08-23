@@ -49,7 +49,7 @@ message Activity {
   //
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the
-  // ProductInfo message These are in general also supplier specific
+  // ProductInfo message These are in general also supplier specific.
   string service_code = 6;
 
   // Status of the result, whether it is immediately bookable or not
@@ -99,10 +99,10 @@ message ActivityExtendedInfo {
   // Activity static info
   Activity activity = 1;
 
-  // available Units
+  // Available Units
   repeated ActivityUnit units = 2;
 
-  // available Services
+  // Available Services
   repeated ActivityService services = 3;
 
   // Transfer Zone(s) in which participants of the activity can be used for pick-up
@@ -187,11 +187,10 @@ message ActivityExtendedInfo {
   repeated cmp.types.v1alpha.RedemptionMethod redemption_methods = 29;
 }
 
+// The unit  gives us a choice of the different options that are available in an
+// activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
+// jeep safari. A ticket to a specific section of a stadium.
 message ActivityUnit {
-  // The unit  gives us a choice of the different options that are available in an
-  // activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
-  // jeep safari. A ticket to a specific section of a stadium.
-  //
   //Schedule
   cmp.types.v1alpha.DateTimeRange schedule = 1;
 
@@ -205,11 +204,10 @@ message ActivityUnit {
   string description = 4;
 }
 
+// Services can be selected like do we go to the activity by ourselves or is a
+// transfer from our hotel included. Do we book the VIP ticket with or without
+// alcoholic drinks included?
 message ActivityService {
-  // Services can be selected like do we go to the activity by ourselves or is a
-  // transfer from our hotel included. Do we book the VIP ticket with or without
-  // alcoholic drinks included?
-  //
   // Service Code
   string code = 1;
 
@@ -222,7 +220,7 @@ message ActivityService {
   // Included items in the activity service
   repeated string included = 4;
 
-  // Encluded items in the activity service
+  // Excluded items in the activity service
   repeated string excluded = 5;
 }
 

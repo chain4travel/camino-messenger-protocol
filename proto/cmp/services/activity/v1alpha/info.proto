@@ -13,7 +13,7 @@ message ActivityProductInfoRequest {
   cmp.types.v1alpha.RequestHeader header = 1;
 
   // Only respond with the products that are new, modified or deactivated after this
-  // timestamp
+  // timestamp.
   google.protobuf.Timestamp modified_after = 2;
 
   // Languages to be included in the response for descriptions. Null means all

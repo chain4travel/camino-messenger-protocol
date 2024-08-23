@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // ### Activity Services
 //
-// The Activity services are used for both tickets and excursions
+// The Activity services are used for both tickets and excursions.
 //
 // Any search message response in the Camino Messenger Protocol only includes
 // dynamic data in the search, validate and mint process. Static data can be cached
@@ -48,7 +48,7 @@ import "cmp/types/v1alpha/traveller.proto";
 // Search request for Activities
 message ActivitySearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
-  // address
+  // address.
   cmp.types.v1alpha.RequestHeader header = 1;
 
   // Search request metadata
@@ -107,8 +107,9 @@ message ActivitySearchRequest {
   // This one of field enforces only one of the fields below. They all share memory,
   // setting one will remove the others.
   oneof service_location {
-    // The code and code type of a stay location the distributor will be able to process
-    // Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or any other agreed code type.
+    // The code and code type of a stay location the distributor will be able to
+    // process. Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or
+    // any other agreed code type.
     cmp.types.v1alpha.LocationCodes service_location_codes = 12;
 
     // Single geographic point represented by two double fields.

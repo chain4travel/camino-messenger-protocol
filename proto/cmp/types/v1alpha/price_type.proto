@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// the ChargeType defines whether a price is per person, per group or per unit. Enum might be amended upon request.
+// The ChargeType defines whether a price is per person, per group or per unit. Enum
+// might be amended upon request.
 enum ChargeType {
   CHARGE_TYPE_UNSPECIFIED = 0;
   CHARGE_TYPE_PER_PERSON = 1;
@@ -14,13 +15,13 @@ enum ChargeType {
 // want to specify the different elements of how a total price was computed.
 message PriceTypeCode {
   // Type code of the price for traceability towards data in the inventory system or
-  // contract
+  // contract.
   string code = 1;
 
   // A price type can be a type of service or product delivered or form part of the
-  // fee or tax breakdown
+  // fee or tax breakdown.
   oneof type {
-    // detailing whether the price component is the base (room, flight seat,
+    // Detailing whether the price component is the base (room, flight seat,
     // ticket), a unit or a service surcharge or even a negative application of an
     // offer or a discount.
     PriceType price_type = 2;
