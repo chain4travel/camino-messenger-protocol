@@ -11,9 +11,10 @@ enum ChargeType {
   CHARGE_TYPE_PER_UNIT = 3;
 }
 
-// The PriceType message is mean to be used in price breakdown definitions, whe we
-// want to specify the different elements of how a total price was computed.
-message PriceTypeCode {
+// The PriceBreakdownType message is meant to be used in price breakdown
+// definitions, when we want to specify the different elements of how a total price
+// was computed.
+message PriceBreakdownType {
   // Type code of the price for traceability towards data in the inventory system or
   // contract.
   string code = 1;
@@ -25,6 +26,12 @@ message PriceTypeCode {
     // ticket), a unit or a service surcharge or even a negative application of an
     // offer or a discount.
     PriceType price_type = 2;
+
+    // The tax code of the price.
+    TaxCode tax_code = 3;
+
+    // The fee code of the price.
+    FeeCode fee_code = 4;
   }
 
   enum PriceType {
@@ -40,8 +47,6 @@ message PriceTypeCode {
     PRICE_TYPE_OFFER = 9;
     PRICE_TYPE_DISCOUNT = 10;
     PRICE_TYPE_EXTRA = 11;
-    PRICE_TYPE_TAX = 12;
-    PRICE_TYPE_FEE = 13;
   }
 
   enum TaxCode {
