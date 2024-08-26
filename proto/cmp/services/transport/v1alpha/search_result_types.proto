@@ -7,7 +7,7 @@ import "cmp/types/v1alpha/bookability.proto";
 import "cmp/types/v1alpha/cancel_policy.proto";
 import "cmp/types/v1alpha/change_policy.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
-import "cmp/types/v1alpha/fulfillment.proto";
+import "cmp/types/v1alpha/link.proto";
 import "cmp/types/v1alpha/price.proto";
 import "cmp/types/v1alpha/rate.proto";
 
@@ -46,8 +46,8 @@ message TransportSearchResult {
   // Rate Rules
   repeated cmp.types.v1alpha.RateRule rate_rules = 7;
 
-  // Fulfillment
-  repeated cmp.types.v1alpha.Fulfillment fulfillments = 8;
+  // Links
+  repeated cmp.types.v1alpha.Link links = 8;
 
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v1alpha.Bookability bookability = 9;
