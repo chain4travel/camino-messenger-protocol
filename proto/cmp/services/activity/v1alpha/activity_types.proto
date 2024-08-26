@@ -95,7 +95,7 @@ message PickupDropoffEvent {
   cmp.types.v1alpha.Coordinates coordinates = 6;
 }
 
- // Activity static info
+// Activity static info
 message ActivityExtendedInfo {
   // Activity dynamic info references
   Activity activity = 1;
