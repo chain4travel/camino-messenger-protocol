@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/country.proto";
 import "cmp/types/v1alpha/date.proto";
 import "cmp/types/v1alpha/document.proto";
-import "cmp/types/v1alpha/contact_info.proto";
 
 // Traveller
 //

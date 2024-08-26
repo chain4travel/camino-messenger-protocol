@@ -4,11 +4,11 @@ package cmp.services.accommodation.v1alpha;
 
 import "cmp/types/v1alpha/amenity.proto";
 import "cmp/types/v1alpha/bed.proto";
+import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/description.proto";
 import "cmp/types/v1alpha/file.proto";
 import "cmp/types/v1alpha/location.proto";
 import "cmp/types/v1alpha/meal_plan.proto";
-import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/product_code.proto";
 import "cmp/types/v1alpha/product_status.proto";
 import "cmp/types/v1alpha/service_fact.proto";
@@ -47,9 +47,6 @@ message Property {
 
   // Location coordinate
   cmp.types.v1alpha.Coordinates coordinates = 9;
-
-  // Ex: "www.hotel.com"
-  string website = 12;
 
   // Status of the property
   cmp.types.v1alpha.ProductStatus status = 10;
