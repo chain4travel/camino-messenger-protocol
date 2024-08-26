@@ -5,6 +5,7 @@ package cmp.services.activity.v1alpha;
 import "cmp/services/activity/v1alpha/activity_types.proto";
 import "cmp/types/v1alpha/datetime_range.proto";
 import "cmp/types/v1alpha/price.proto";
+import "cmp/types/v1alpha/price_type.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
@@ -39,5 +40,5 @@ message ActivitySearchResult {
 
   // Pricing type
   // Ex: "PerPerson", "PerGroup"
-  PricingType pricing_type = 9;
+  cmp.types.v1alpha.ChargeType charge_type = 9;
 }

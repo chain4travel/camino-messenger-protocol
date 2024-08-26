@@ -10,7 +10,7 @@ import "cmp/types/v1alpha/price_type.proto";
 // This message consists of the value as a Price object and additional fields as
 // binding, concept, and breakdown.
 //
-// Breakdown is a recursively inhereted object of PriceDetail. This way complex
+// Breakdown is a recursively inherited object of PriceDetail. This way complex
 // pricing structures can be represented.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1alpha/price.proto.dot.xs.svg)
@@ -32,8 +32,10 @@ message PriceDetail {
   // a hotel. Intended to be used in the breakdown.
   bool locally_payable = 4;
 
-  // Type of price and price code
-  PriceTypeCode price_type_code = 5;
+  // Type of price breakdown. This is meant to be used in price breakdown
+  // definitions, when we want to specify the different elements of how a total
+  // price was computed.
+  PriceBreakdownType type = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
   repeated PriceDetail breakdowns = 6;

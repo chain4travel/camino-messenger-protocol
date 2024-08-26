@@ -46,7 +46,7 @@ message ActivitySearchParameters {
   cmp.types.v1alpha.Duration min_duration = 6;
   cmp.types.v1alpha.Duration max_duration = 7;
 
-  // Pricerange
+  // Price range
   //
   // Specify the minimum and maximum price of an activity to be included in the
   // search response

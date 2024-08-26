@@ -2,15 +2,35 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
-// TODO: Add documentation to explain the purpose of this message
-message PriceTypeCode {
-  // Type code of the price
-  string type_code = 1;
+// The ChargeType defines whether a price is per person, per group or per unit. Enum
+// might be amended upon request.
+enum ChargeType {
+  CHARGE_TYPE_UNSPECIFIED = 0;
+  CHARGE_TYPE_PER_PERSON = 1;
+  CHARGE_TYPE_PER_GROUP = 2;
+  CHARGE_TYPE_PER_UNIT = 3;
+}
 
-  // A price type can be a type of service or produc delivered or form part of the fee or tax breakdown
+// The PriceBreakdownType message is meant to be used in price breakdown
+// definitions, when we want to specify the different elements of how a total price
+// was computed.
+message PriceBreakdownType {
+  // Type code of the price for traceability towards data in the inventory system or
+  // contract.
+  string code = 1;
+
+  // A price type can be a type of service or product delivered or form part of the
+  // fee or tax breakdown.
   oneof type {
+    // Detailing whether the price component is the base (room, flight seat,
+    // ticket), a unit or a service surcharge or even a negative application of an
+    // offer or a discount.
     PriceType price_type = 2;
+
+    // The tax code of the price.
     TaxCode tax_code = 3;
+
+    // The fee code of the price.
     FeeCode fee_code = 4;
   }
 
@@ -155,13 +175,13 @@ message PriceTypeCode {
     FEE_CODE_LATE_PM_FEE = 86;
     FEE_CODE_LICENSE_RECOUPMENT_FEE = 87;
     FEE_CODE_LOCAL_AMENITY_USAGE_FEE = 88;
-    FEE_CODE_MAINTAINENCE_FEE = 89;
+    FEE_CODE_MAINTENANCE_FEE = 89;
     FEE_CODE_LOCAL_FEE = 90;
     FEE_CODE_LOCAL_GOVERNMENT_FEE = 91;
     FEE_CODE_LOCAL_ORDINANCE_SURCHARGE = 92;
     FEE_CODE_LOCATION_CUSTOMER_FEE = 93;
     FEE_CODE_MAINTENANCE_FACILITY_FEE = 94;
-    FEE_CODE_MAINTENANCE_FEE = 95;
+    // FEE_CODE_MAINTENANCE_FEE = 95; duplicate from 89
     FEE_CODE_MANDATORY_CHARGES_TOTAL = 96;
     FEE_CODE_MISCELLANEOUS_FEE = 97;
     FEE_CODE_MITIGATION_FEE = 98;

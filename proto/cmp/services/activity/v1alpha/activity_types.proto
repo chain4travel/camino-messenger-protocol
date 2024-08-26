@@ -49,7 +49,7 @@ message Activity {
   //
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the
-  // ProductInfo message These are in general also supplier specific
+  // ProductInfo message These are in general also supplier specific.
   string service_code = 6;
 
   // Status of the result, whether it is immediately bookable or not
@@ -68,6 +68,9 @@ message ActivityLocation {
 }
 
 message PickupDropoffEvent {
+  // Supplier specific pick-up code. Avoid using this and use a more generic concept
+  // where possible, so that the integration is suitable for more than one partner.
+  //
   // Ex: "AESPMI43NU",
   string location_code = 1;
   // Ex: "Sunny Beach Hotel",
@@ -75,12 +78,14 @@ message PickupDropoffEvent {
 
   // True if this pickup location is selected for the activity
   //
-  // Ex: "true"
-  //
-  // FIXME: How is this relevant for the search result message?
+  // If the boolean is set to false, this is a specific indication that
+  // pick-up/drop-off at this location is not possible. An activity search response
+  // can have one result without a transfer service and without a PickupDropoffEvent
+  // to indicate that there is no transfer included. Or a PickupDropoffEvent with
+  // pick_up indicator set to false can be included to make it explicit.
   bool pickup_indicator = 3;
 
-  // Ex: "OTHERS / Parking Varadero(bus stop css nº50)",
+  // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
   string other_info = 4;
 
   // Datetime of the pickup dropoff event as Unix timestamp
@@ -90,30 +95,26 @@ message PickupDropoffEvent {
   cmp.types.v1alpha.Coordinates coordinates = 6;
 }
 
-enum PricingType {
-  PRICING_TYPE_UNSPECIFIED = 0;
-  PRICING_TYPE_PERPERSON = 1;
-  PRICING_TYPE_PERGROUP = 2;
-}
-
+// Activity static info
 message ActivityExtendedInfo {
-  // Activity dynamic info
+  // Activity dynamic info references
   Activity activity = 1;
 
-  // Units
+  // Available Units
   repeated ActivityUnit units = 2;
 
-  // Service Info
-  ActivityService service = 3;
+  // Available Services
+  repeated ActivityService services = 3;
 
-  // Zones
-  repeated ActivityZone zones = 4;
+  // Transfer Zone(s) in which participants of the activity can be used for pick-up
+  // and drop-off
+  repeated TransferZone zones = 4;
 
   // Descriptions with different languages
   repeated cmp.types.v1alpha.LocalizedDescriptionSet descriptions = 5;
 
-  // Coordinates
-  cmp.types.v1alpha.Coordinates coordinates = 6;
+  // Coordinates of where the activity takes place
+  ActivityLocation location = 6;
 
   // Activity Features
   repeated ActivityFeature features = 7;
@@ -187,8 +188,11 @@ message ActivityExtendedInfo {
   repeated cmp.types.v1alpha.RedemptionMethod redemption_methods = 29;
 }
 
+// The unit  gives us a choice of the different options that are available in an
+// activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
+// jeep safari. A ticket to a specific section of a stadium.
 message ActivityUnit {
-  // Schedule
+  //Schedule
   cmp.types.v1alpha.DateTimeRange schedule = 1;
 
   // Unit Code
@@ -201,6 +205,9 @@ message ActivityUnit {
   string description = 4;
 }
 
+// Services can be selected like do we go to the activity by ourselves or is a
+// transfer from our hotel included. Do we book the VIP ticket with or without
+// alcoholic drinks included?
 message ActivityService {
   // Service Code
   string code = 1;
@@ -214,12 +221,12 @@ message ActivityService {
   // Included items in the activity service
   repeated string included = 4;
 
-  // Encluded items in the activity service
+  // Excluded items in the activity service
   repeated string excluded = 5;
 }
 
-message ActivityZone {
-  // Unit Code
+message TransferZone {
+  // Zone Code used in transfer operations
   string code = 1;
 
   // Geo tree type, represented by Country, Region, and City_or_Resort.

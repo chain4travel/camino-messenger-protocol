@@ -31,6 +31,10 @@ message GeoPolygon {
 }
 
 // Geo Tree
+//
+// Contrary to Geo coordinates, circle and polygon, a geotree is supplier specific
+// and would require mapping for every connection. If possible use generic concepts,
+// so that implementations can easily be reused among suppliers.
 message GeoTree {
   Country country = 1;
   string region = 2;
@@ -38,6 +42,10 @@ message GeoTree {
 }
 
 // Location Code
+//
+// Location codes can be generic across multiple suppliers that support standardized
+// code types. However, using provider specific codes makes an implementation more
+// unique.
 message LocationCode {
   string code = 1;
   LocationCodeType type = 2;
