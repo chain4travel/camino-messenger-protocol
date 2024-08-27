@@ -2,11 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v1alpha;
 
+import "cmp/types/v1alpha/contact_info.proto";
 import "cmp/types/v1alpha/country.proto";
 import "cmp/types/v1alpha/date.proto";
 import "cmp/types/v1alpha/document.proto";
-import "cmp/types/v1alpha/email.proto";
-import "cmp/types/v1alpha/phone.proto";
 
 // Traveller
 //
@@ -65,9 +64,8 @@ message ExtensiveTraveller {
   // into first_name: John, first_name: Roger, surname: Stephens, surname: Legend.
   repeated string first_names = 3;
   repeated string surnames = 4;
-  cmp.types.v1alpha.Phone phone = 5;
-  cmp.types.v1alpha.Email email = 6;
-  repeated cmp.types.v1alpha.Document documents = 7;
+  cmp.types.v1alpha.ContactInfo contact_info = 5;
+  repeated cmp.types.v1alpha.Document documents = 6;
 }
 
 // Gender Type
