@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1;
+
+import "cmp/services/accommodation/v1/search_parameters_types.proto";
+import "cmp/services/accommodation/v1/unit_types.proto";
+import "cmp/types/v1/travel_period.proto";
+import "cmp/types/v1/traveller.proto";
+
+message AccommodationSearchQuery {
+  // Integer query ID, unique per search request
+  int32 query_id = 1;
+
+  // Accommodation specific search parameters Ex: Specific search parameters like
+  // geo location, meal plan, rate plan and rate rules.
+  AccommodationSearchParameters search_parameters_accommodation = 2;
+
+  // Travel period
+  cmp.types.v1.TravelPeriod travel_period = 3;
+
+  // Travellers
+  repeated cmp.types.v1.BasicTraveller travellers = 4;
+
+  // Total number of rooms / holiday homes
+  int32 unit_count = 5;
+
+  // Type of the unit, like room or holiday home
+  UnitType unit_type = 6;
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/time.proto";
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.svg)
+message Bookability {
+  BookabilityType type = 1;
+
+  // In case of a bookable=on_request status, a confirmation time should be given by
+  // the supplier. The supplier is to confirm the on-request booking with that
+  // specified time. If confirmation id not provided, the booking is to be
+  // considered "rejected".
+  cmp.types.v1.Time confirmation_time = 2;
+}
+
+enum BookabilityType {
+  BOOKABILITY_TYPE_UNSPECIFIED = 0;
+  BOOKABILITY_TYPE_AVAILABLE = 1;
+  BOOKABILITY_TYPE_ON_REQUEST = 2;
+}

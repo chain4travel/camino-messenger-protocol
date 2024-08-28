@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/date.proto";
+
+message CreditCard {
+  // FIXME: Can we use an int64 to represent a credit card number?
+  string number = 1;
+  Date expiration_date = 2;
+  int32 cvc = 3;
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+// ## Transport Service
+//
+// The Transport Service is used for flights, trains, and buses.
+//
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data. Static data can be cached and kept up to data with the Product List
+// and Product Details messages.
+//
+// This package is a WIP.
+package cmp.services.transport.v1;
+
+import "cmp/services/transport/v1/search_query_types.proto";
+import "cmp/services/transport/v1/search_result_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/content_source.proto";
+import "cmp/types/v1/search.proto";
+import "cmp/types/v1/traveller.proto";
+
+// Transport Search Request
+message TransportSearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Search request metadata
+  cmp.types.v1.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters
+  //
+  // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all
+  // options.
+  cmp.types.v1.SearchParameters search_parameters = 3;
+
+  // Multiple search queries for this search request
+  repeated TransportSearchQuery queries = 4;
+
+  // Remarks
+  string remarks = 5;
+}
+
+message TransportSearchResponse {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Search response metadata
+  cmp.types.v1.SearchResponseMetadata metadata = 2;
+
+  // Conten source types for this search request.
+  //
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
+  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
+  repeated cmp.types.v1.ContentSourceType conten_source_types = 3;
+
+  // Transit search results
+  repeated TransportSearchResult results = 4;
+
+  // Global definition of the travellers for all results to be used via the traveller_id
+  repeated cmp.types.v1.BasicTraveller travellers = 5;
+}
+
+// Transport Search Service definition.
+//
+// Takes `TransportSearchRequest` message type and returns `TransportSearchResponse`
+// message type.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/search.proto.dot.svg)
+service TransportSearchService {
+  rpc TransportSearch(TransportSearchRequest) returns (TransportSearchResponse);
+}

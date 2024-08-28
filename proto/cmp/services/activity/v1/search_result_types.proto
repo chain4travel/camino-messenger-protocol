@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package cmp.services.activity.v1;
+
+import "cmp/services/activity/v1/activity_types.proto";
+import "cmp/types/v1/datetime_range.proto";
+import "cmp/types/v1/price.proto";
+import "cmp/types/v1/price_type.proto";
+
+// This type represents a search result and is used in the `ActivitySearchResponse`
+// message.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_result_types.proto.dot.svg)
+message ActivitySearchResult {
+  // Option ID for the search option. This is an increasing number starting at 0 and
+  // increasing by 1 for every search result.
+  int32 result_id = 1;
+
+  // Activity basic info
+  Activity info = 2;
+
+  // Schedule
+  cmp.types.v1.DateTimeRange schedule = 3;
+
+  // Activity location
+  ActivityLocation location = 4;
+
+  // Pickup Dropoff
+  repeated PickupDropoffEvent pickup_dropoff_events = 5;
+
+  // Min participants
+  int32 min_participants = 6;
+
+  // Max participants
+  int32 max_participants = 7;
+
+  // Price with value and currency code
+  cmp.types.v1.Price price = 8;
+
+  // Pricing type
+  // Ex: "PerPerson", "PerGroup"
+  cmp.types.v1.ChargeType charge_type = 9;
+}

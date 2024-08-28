@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v1;
+
+import "cmp/types/v1/bed.proto";
+import "cmp/types/v1/cancel_policy.proto";
+import "cmp/types/v1/meal_plan.proto";
+import "cmp/types/v1/price.proto";
+import "cmp/types/v1/product_code.proto";
+import "cmp/types/v1/rate.proto";
+import "cmp/types/v1/service_fact.proto";
+import "cmp/types/v1/travel_period.proto";
+
+// A Unit can represent a room in a hotel. One search option can have multiple units
+// for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
+//
+// A unit can also be a different property in a multi-property request for holiday
+// homes. Ex: 1 house for 4 persons and another house for 6 persons.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/unit_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/unit_types.proto.dot.svg)
+message Unit {
+  // Unit Type. Used to distinguish between hotel rooms and holiday homes.
+  // Ex: `UnitType.UNIT_TYPE_ROOM`
+  UnitType type = 1;
+
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
+  // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
+  // the static data like room amenities, descriptions, images etc. can be married to the
+  // dynamic price and availability data for display to the end user.
+  string supplier_room_code = 2;
+
+  // Room name. In case of enrichment additional name of the unit code.
+  // In theory, this field should never be included as it is already available in
+  // the static data. However, some providers prefer to be specific to avoid room
+  // mapping issues. Ex: "Double Standard Room"
+  string supplier_room_name = 3;
+
+  // Original room name as assigned by the hotel. In case of spefifically designated room
+  // names by chains and both the chain and the customer wants to adhere to them.
+  // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  string original_room_name = 4;
+
+  // Travel period
+  cmp.types.v1.TravelPeriod travel_period = 5;
+
+  // Traveller_id is a list of travellers related to this unit. The details can be found in
+  // the search response repeated travellers field
+  repeated int32 traveller_ids = 6;
+
+  // Beds
+  repeated cmp.types.v1.Bed beds = 7;
+
+  // Price in detail with breakdowns
+  cmp.types.v1.PriceDetail price_detail = 8;
+
+  // Included, compulsory and optional services available
+  repeated cmp.types.v1.ServiceFact services = 9;
+
+  // Mealplan code
+  cmp.types.v1.MealPlan meal_plan_code = 10;
+
+  // Rate plan
+  cmp.types.v1.RatePlan rate_plan = 11;
+
+  // Rate Rule
+  cmp.types.v1.RateRule rate_rule = 12;
+
+  // This is a list so that various policies can be expressed.
+  //
+  // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
+  // arrival z€
+  repeated cmp.types.v1.CancelPolicy cancel_policies = 13;
+
+  // Number of remaining units at the time of calculation
+  int32 remaining_units = 14;
+
+  // Property code which can be of different types
+  cmp.types.v1.ProductCode property_code = 15;
+
+  // Supplier Property code, consistent in ProductList, ProductInfo and Search
+  cmp.types.v1.SupplierProductCode supplier_code = 16;
+
+  // Remarks
+  // Non structural aspects related to the unit a supplier wants to include in the search
+  // response
+  string remarks = 17;
+}
+
+enum UnitType {
+  UNIT_TYPE_UNSPECIFIED = 0;
+  UNIT_TYPE_ROOM = 1;
+  UNIT_TYPE_HOLIDAY_HOME = 2;
+}

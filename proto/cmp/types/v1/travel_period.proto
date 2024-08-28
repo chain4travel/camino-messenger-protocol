@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/date.proto";
+import "cmp/types/v1/dow.proto";
+
+// Travel Period
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.svg)
+message TravelPeriod {
+  // Start date of a trip for messages where no Date/Time is required
+  // (datetime_range.proto) when the travelling starts. Most trips will be for an
+  // exact start and end date. In that case just these two fields are used. We
+  // discourage the use of only a start date and Length of Stay.
+  cmp.types.v1.Date start_date = 1;
+
+  // End date of a trip for messages where no Date/Time is required
+  // (datetime_range.proto) when the travelling ends. The end date is different when
+  // the trip is a one-way from point A to B compared to when the trip is a
+  // fortnight holiday and the customers return home on the end date.
+  cmp.types.v1.Date end_date = 2;
+
+  // Start and end date can be set wider than the desired length of a trip, so that
+  // various alternatives can be considered.
+  //
+  // Ex: start date = 1 April, End date is 30 June, stay would be for 7 nights.
+  //
+  // Setting the boolean to true means that the period between start and end date
+  // should be more than the Length of Stay.
+  bool flexible = 3;
+
+  // Setting the length of the trip in case of a flexible search.
+  //
+  // Ex: start date = 1 April, End date is 30 June, stay would be for 7 to 7 nights.
+  //
+  // Ex: start date = 1 April, End date is 30 June, stay would be for 7 to 10 nights.
+  //
+  // The arrival and departure must fall between start and end-date.
+  int32 los_from_nights = 4;
+
+  int32 los_to_nights = 5;
+
+  // By adding a DayOfWeek restriction, the number of results can be reduced to the
+  // specific arrival days in the interest of the end-customer who for example only
+  // can travel during weekends or at the contrary desires to avoid the crowds by
+  // travelling during weekdays.
+  //
+  // A bitmask is being used to express the DOW or DOWs.
+  cmp.types.v1.DayOfWeek dow = 6;
+}

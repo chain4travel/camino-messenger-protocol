@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+// Length
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/measurement.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/measurement.proto.dot.svg)
+message Length {
+  int32 value = 1;
+  LengthUnit unit = 2;
+}
+
+// Represents a dimension type, for example, to be used in baggage message type
+message Dimension {
+  int32 length = 1;
+  int32 width = 2;
+  int32 height = 3;
+  LengthUnit unit = 4;
+}
+
+// Length Unit
+enum LengthUnit {
+  LENGTH_UNIT_UNSPECIFIED = 0;
+  LENGTH_UNIT_MILLIMETER = 1;
+  LENGTH_UNIT_CENTIMETER = 2;
+  LENGTH_UNIT_METER = 3;
+  LENGTH_UNIT_KILOMETER = 4;
+  LENGTH_UNIT_INCH = 5;
+  LENGTH_UNIT_FEET = 6;
+  LENGTH_UNIT_YARD = 7;
+  LENGTH_UNIT_MILE = 8;
+}
+
+// Weight type
+//
+// Ex: Used for weight in baggage message type
+message Weight {
+  int32 value = 1;
+  WeightUnit unit = 2;
+}
+
+// Weight Unit
+enum WeightUnit {
+  WEIGHT_UNIT_UNSPECIFIED = 0;
+  WEIGHT_UNIT_GRAM = 1;
+  WEIGHT_UNIT_KILOGRAM = 2;
+  WEIGHT_UNIT_POUND = 3;
+}
