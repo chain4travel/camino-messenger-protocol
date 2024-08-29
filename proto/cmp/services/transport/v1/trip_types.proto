@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package cmp.services.transport.v1;
+
+import "cmp/types/v1/baggage.proto";
+import "cmp/types/v1/duration.proto";
+import "cmp/types/v1/location.proto";
+import "cmp/types/v1/measurement.proto";
+import "cmp/types/v1/price.proto";
+import "cmp/types/v1/product_code.proto";
+import "cmp/types/v1/service_fact.proto";
+import "google/protobuf/timestamp.proto";
+
+// This message type represents a one way trip, either travelling or returning.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/trip_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/trip_types.proto.dot.svg)
+message Trip {
+  // Departure and Arrival dates and times can be derrived from the first and last segments
+  // Trip segments are the legs offered
+  repeated TripSegment segments = 1;
+}
+
+// Represents a departure or arrival event
+message TransitEvent {
+  // Date time of the event
+  google.protobuf.Timestamp date_time = 1;
+
+  // Event location
+  cmp.types.v1.LocationCode location_code = 2;
+}
+
+// A segment of a trip
+message TripSegment {
+  // Segment ID
+  // Ex: "SEG1234"
+  string segment_id = 1;
+
+  // Provider Code Ex: "EW" for Eurowings in case of a flight. DB for Deutsche Bahn
+  // in case of train. HT for Holiday Taxi or MTS for MTS in case of a transfer.
+  string provider_code = 2;
+
+  // Retailer Code, replacing Marketing carrier The example would be where Iberia is
+  // selling an Iberia Express flight. So in this example the retailer_code for
+  // Iberia would be "IB" and the provider_code for Iberia Express would be "I2".
+  // Similar "interline" or "code share" operation may exist in rail and transfer.
+  string retailer_code = 3;
+
+  // Sub supplier code, replacing Operating carrier or identifying sub contracted
+  // services provided by other suppliers.
+  //
+  // DB could be selling an intenational train trip operated by the Dutch Nederlands
+  // Spoorwegen (NS) or the French SNCF. Holiday Taxis could be selling a transfer
+  // that is operated by Transunion.
+  string sub_supplier_code = 4;
+
+  // Product Code and Number
+  //
+  // For flights we use the IATA or ICAO airline code in the code field and the
+  // flight number in the number field.
+  //
+  // For train some operators use a combination of a code and a number like
+  // Eurostar, but others just use a code or a number (SNCF).
+  //
+  // Transfers are often identified by just a product code servicing an area.
+  cmp.types.v1.ProductCode product_code = 5;
+
+  // Supplier specific code, matching the supplier code in ProductList and ProductInfo
+  // messages
+  cmp.types.v1.SupplierProductCode supplier_code = 6;
+
+  // Departure
+  TransitEvent departure = 7;
+
+  // Arrival
+  TransitEvent arrival = 8;
+
+  // Flights, trains and transfers often offer different service types
+  // for a product. Think about economy or business for flights, first and second
+  // class on trains and a shared shuttle or a private transfer.
+  //
+  // Service type code examples:
+  // flight: "Y", "J", "F".
+  // train: "1st", "2nd" or "S", "C", "P"
+  // transfer: "S", "P", "VIP", "SS"
+  string service_type_code = 9;
+
+  // Service type description examples:
+  // flight: "Economy Class", "Business Class", "First Class"
+  // train: "First Class", "Second Class" or "standard", "comfort", and "premium",..
+  // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
+  string service_type_description = 10;
+
+  // Included, optional or compulsary services for this segment or leg. Just a code and
+  // description can be included if it is a package (seat, priority, large carry-on).
+  // or a price detail can be included for optionally pre-ordered meals for example.
+  repeated cmp.types.v1.ServiceFact services = 11;
+
+  // Segment duration in minutes
+  cmp.types.v1.Duration segment_duration = 12;
+
+  // Segment Distance
+  //
+  // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
+  cmp.types.v1.Length segment_distance = 13;
+
+  // Min PAX
+  //
+  // Ex: `1`
+  int32 min_pax = 14;
+
+  // Max PAX
+  //
+  // Ex: `3`
+  int32 max_pax = 15;
+
+  // Luggage
+  //
+  // Ex: `3`
+  cmp.types.v1.Baggage baggage = 16;
+
+  // Price
+  //
+  // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
+  cmp.types.v1.Price price = 17;
+}

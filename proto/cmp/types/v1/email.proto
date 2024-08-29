@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+// Email type for general use.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/email.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/email.proto.dot.svg)
+message Email {
+  string address = 1;
+
+  EmailType type = 2;
+
+  string description = 3;
+}
+
+// Email Types
+//
+// FIXME: Check email types
+enum EmailType {
+  EMAIL_TYPE_UNSPECIFIED = 0;
+  EMAIL_TYPE_OTHER = 1; // For emails that don't fit into other categories.
+  EMAIL_TYPE_RECEPTION = 2; // For accommodation properties like hotels.
+  EMAIL_TYPE_BOOKING = 3; // For booking confirmations.
+  EMAIL_TYPE_SUPPORT = 4; // General customer support.
+  EMAIL_TYPE_INQUIRY_RESPONSE = 5; // Responses to customer inquiries.
+  EMAIL_TYPE_TRANSPORT_INFO = 6; // Information regarding transport services.
+  EMAIL_TYPE_RENTAL_CONFIRMATION = 7; // Confirmation for car rentals.
+  EMAIL_TYPE_ACTIVITY_DETAILS = 8; // Details about booked activities or events.
+  EMAIL_TYPE_FEEDBACK_REQUEST = 9; // Requests for customer feedback.
+  EMAIL_TYPE_BILLING = 10; // Billing and payment related emails.
+  EMAIL_TYPE_CANCELLATION = 11; // Cancellation notices.
+  EMAIL_TYPE_REMINDER = 12; // Reminders for reservations or activities.
+  EMAIL_TYPE_PROMOTIONAL = 13; // Promotional emails, offers, discounts.
+  EMAIL_TYPE_UPDATES = 14; // Updates about services or policy changes.
+  EMAIL_TYPE_ALERTS = 15; // Alerts or important notices.
+  EMAIL_TYPE_NEWSLETTER = 16; // Regular newsletters.
+}

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/measurement.proto";
+
+// Baggage message type
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/baggage.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/baggage.proto.dot.svg)
+message Baggage {
+  // Baggage type
+  //
+  // Enum of allowed baggage types.
+  BaggageType type = 1;
+
+  // Maximum number of the specified baggage count allowed for this type
+  int32 max_count = 2;
+
+  // Maximum weight of each of the specified baggage type allowed
+  Weight max_weight = 3;
+
+  // Maximum length, width and height of the specified bagage type allowed
+  Dimension max_dimension = 4;
+
+  // traveller ID to specify the various types of baggage for each of participants
+  // of a trip. If there is just a total of different types of baggage, then it is
+  // the total for the booking and not specific to each participant.
+  int32 traveller_id = 5;
+}
+
+// Baggage type ENUM type
+enum BaggageType {
+  BAGGAGE_TYPE_UNSPECIFIED = 0; // No Baggage type specified
+  BAGGAGE_TYPE_CARRY_ON = 1; // Carry-on
+  BAGGAGE_TYPE_CARRY_ON_OVERHEAD = 2; // Carry-on overhead
+  BAGGAGE_TYPE_CARRY_ON_PERSONAL = 3; // Carry-on personal item
+  BAGGAGE_TYPE_CHECKED = 4; // Checked
+  BAGGAGE_TYPE_ODD_SIZE = 5; // Odd size checked baggage
+  BAGGAGE_TYPE_SKI = 6; // Skis
+  BAGGAGE_TYPE_GOLF = 7; // Golf bags
+  BAGGAGE_TYPE_SURF = 8; // (wind)Surf or Kite boards
+}

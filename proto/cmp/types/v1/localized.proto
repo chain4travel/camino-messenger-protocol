@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/language.proto";
+
+message LocalizedString {
+  string text = 1;
+  Language language = 2;
+}

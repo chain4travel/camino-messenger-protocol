@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+// Link is used to represent websites, social media contact, online check-in url, ... etc
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/link.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/link.proto.dot.svg)
+message Link {
+  // Link type
+  //
+  // Ex: "LG" or "TC"
+  LinkType type = 1;
+
+  // Link description
+  //
+  // Ex: "Baggage conditions"
+  string description = 2;
+
+  // Link reference
+  //
+  // Ex: "https://api.lyko.tech/v2.1/transfers/ebaa9aed-dbc4-4d51-a41a-336a3c3e9bfc/pdf-terms-and-conditions"
+  string ref = 3;
+}
+
+enum LinkType {
+  LINK_TYPE_UNSPECIFIED = 0;
+  LINK_TYPE_OTHER = 1;
+  LINK_TYPE_WEBSITE = 2;
+  LINK_TYPE_CHECKIN = 3;
+  LINK_TYPE_BOOKING = 4;
+  LINK_TYPE_SUPPORT = 5;
+  LINK_TYPE_FEEDBACK = 6;
+  LINK_TYPE_COMPLAINT = 7;
+  LINK_TYPE_FACEBOOK = 8;
+  LINK_TYPE_INSTAGRAM = 9;
+  LINK_TYPE_X = 10;
+  LINK_TYPE_LINKEDIN = 11;
+  LINK_TYPE_DISCORD = 12;
+  LINK_TYPE_MEDIUM = 13;
+  LINK_TYPE_TIKTOK = 14;
+  LINK_TYPE_WHATSAPP = 15;
+  LINK_TYPE_TELEGRAM = 16;
+}
