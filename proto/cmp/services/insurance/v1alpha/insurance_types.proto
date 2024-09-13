@@ -3,10 +3,9 @@ syntax = "proto3";
 package cmp.services.insurance.v1alpha;
 
 import "cmp/types/v1/contact_info.proto";
-import "cmp/types/v1/link.proto";
 import "cmp/types/v1/currency.proto";
+import "cmp/types/v1/link.proto";
 import "google/protobuf/timestamp.proto";
-
 
 // This represents Insurance types which is needed for different insurance services (search, info, ... etc)
 //
@@ -38,7 +37,6 @@ message InsurancePolicy {
   google.protobuf.Timestamp last_modified = 3;
 }
 
-
 message PolicyExtendedInfo {
   // Policy with minimum info
   InsurancePolicy policy = 1;
@@ -56,10 +54,10 @@ message PolicyExtendedInfo {
   PolicyType policy_type = 5;
 
   // Support contact
-  cmp.types.v1.ContactInfo support_contact = 6;  // I removed emergency number as it can be included in the contact
+  cmp.types.v1.ContactInfo support_contact = 6; // I removed emergency number as it can be included in the contact
 
   // Criteria
-  repeated PolicyCriteria criteria = 7 ;
+  repeated PolicyCriteria criteria = 7;
 
   // Units
   repeated PolicyUnit units = 8;

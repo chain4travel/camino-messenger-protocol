@@ -9,12 +9,12 @@ import "cmp/types/v2alpha/link.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/loyalty_program.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/loyalty_program.proto.dot.svg)
 message LoyaltyProgram {
-    // Smart contract address of a loyalty program if on-chain. In case of an off-chain loyalty program an ID in a loyalty system
-    string id = 1;
+  // Smart contract address of a loyalty program if on-chain. In case of an off-chain loyalty program an ID in a loyalty system
+  string id = 1;
 
-    // Official name of the loyalty program that might be required to map
-    string name = 2;
+  // Official name of the loyalty program that might be required to map
+  string name = 2;
 
-    // Url to the details of the loyalty program
-    cmp.types.v2alpha.Link link = 3;
+  // Url to the details of the loyalty program
+  cmp.types.v2alpha.Link link = 3;
 }

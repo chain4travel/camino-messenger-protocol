@@ -8,7 +8,6 @@ import "cmp/types/v1/language.proto";
 import "cmp/types/v2alpha/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
-
 message InsuranceProductInfoRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;

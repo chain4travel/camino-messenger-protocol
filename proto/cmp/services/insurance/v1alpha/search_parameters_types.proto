@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1alpha;
 
-import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/country.proto";
-import "cmp/types/v1/traveller.proto";
+import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/travel_period.proto";
-import "cmp/types/v2alpha/product_code.proto";
+import "cmp/types/v1/traveller.proto";
 import "cmp/types/v2alpha/loyalty_program.proto";
 import "cmp/types/v2alpha/network.proto";
+import "cmp/types/v2alpha/product_code.proto";
 
 // This type is used in search requests for parameters like insured booking, network, ... etc
 //
@@ -17,7 +17,7 @@ import "cmp/types/v2alpha/network.proto";
 message InsuranceSearchParameters {
   // Product code list
   // Here a list of property codes would be used that could be of different types
-  repeated cmp.types.v2alpha.ProductCode product_codes = 1;  // No supplier codes ?!!
+  repeated cmp.types.v2alpha.ProductCode product_codes = 1; // No supplier codes ?!!
 
   // value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
   double amount_purchase = 2;

@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v2alpha;
 
 // Network
-// 
+//
 // List of Blockchains
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/network.proto.dot.xs.svg)
@@ -16,7 +16,7 @@ enum Network {
   NETWORK_COLUMBUS = 4;
   NETWORK_AVALANCHE = 5;
   NETWORK_ETHEREUM = 6;
-  NETWORK_POLYGON = 7;  
+  NETWORK_POLYGON = 7;
   NETWORK_SOLANA = 8;
   NETWORK_TON = 9;
   NETWORK_BSC = 10;
