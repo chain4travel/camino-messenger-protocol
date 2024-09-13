@@ -260,4 +260,6 @@ enum Country {
   COUNTRY_ZA = 247; // South Africa
   COUNTRY_ZM = 248; // Zambia
   COUNTRY_ZW = 249; // Zimbabwe
+
+  COUNTRY_GLOBAL = 250; // Global
 }

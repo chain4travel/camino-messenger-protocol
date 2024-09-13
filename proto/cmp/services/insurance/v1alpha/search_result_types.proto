@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1alpha;
 
-import "cmp/services/insurance/v1alpha/insurance_types.proto";
 import "cmp/types/v1/bookability.proto";
 import "cmp/types/v1/price.proto";
 
@@ -19,8 +18,8 @@ message InsuranceSearchResult {
   // This field represents the query ID associated with the search result.
   int32 query_id = 2;
 
-  // Units for this search result
-  repeated PolicyUnit policies = 3; // TODO: which message we should use here ?
+  // Policies for this search result
+  repeated PolicyCodes policies = 3;
 
   // ## Total price in detail, with breakdowns
   cmp.types.v1.PriceDetail total_price_detail = 4;
@@ -30,4 +29,15 @@ message InsuranceSearchResult {
 
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v1.Bookability bookability = 6;
+}
+
+message PolicyCodes {
+  // Product Code
+  string product_code = 1;
+
+  // Unit Code
+  string unit_code = 2;
+
+  // Service Code
+  string service_code = 3;
 }

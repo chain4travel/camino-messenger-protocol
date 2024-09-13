@@ -34,7 +34,7 @@ message InsuranceSearchRequest {
   // In the search parameters multiple filters can be applied for upfront filtering
   // of the search results to for example to only include hotels that are less than
   // one kilometer from the beach, have a kids club and offer an a la carte restaurant
-  cmp.types.v1.SearchParameters search_parameters_generic = 3; // TODO:  what do you mean by this ? enhance enum FilterType with value -Type-"
+  cmp.types.v1.SearchParameters search_parameters_generic = 3;
 
   // This field represents a list of search queries that can be used to create
   // multiroom multi location searches.

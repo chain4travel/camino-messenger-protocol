@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package cmp.types.v2alpha;
-
-message PublicKey {
-  string key = 1;
-}

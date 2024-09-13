@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v2alpha;
 
-import "cmp/types/v2alpha/link.proto";
+import "cmp/types/v1/link.proto";
 
 // Loyalty Program
 //
@@ -16,5 +16,5 @@ message LoyaltyProgram {
   string name = 2;
 
   // Url to the details of the loyalty program
-  cmp.types.v2alpha.Link link = 3;
+  cmp.types.v1.Link link = 3;
 }

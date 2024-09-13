@@ -26,6 +26,7 @@ message ProductCode {
   ProductCodeType type = 3;
 }
 
+// TODO: here we added an enum, should we create a new version of it ?
 // Product Code type
 enum ProductCodeType {
   PRODUCT_CODE_TYPE_UNSPECIFIED = 0;

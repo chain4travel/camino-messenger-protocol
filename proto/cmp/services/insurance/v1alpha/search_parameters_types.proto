@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1alpha;
 
-import "cmp/types/v1/country.proto";
 import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2alpha/country.proto";
 import "cmp/types/v2alpha/loyalty_program.proto";
 import "cmp/types/v2alpha/network.proto";
 import "cmp/types/v2alpha/product_code.proto";
@@ -32,10 +32,10 @@ message InsuranceSearchParameters {
   cmp.types.v2alpha.Network insured_booking_location = 5;
 
   // he country code of the end-consumer. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
-  cmp.types.v1.Country nationality = 6;
+  cmp.types.v2alpha.Country nationality = 6;
 
   // The country code of the end-consumer
-  cmp.types.v1.Country country_residence = 7;
+  cmp.types.v2alpha.Country country_residence = 7;
 
   // Travel period
   cmp.types.v1.TravelPeriod travel_period = 8;
