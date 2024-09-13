@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.insurance.v1alpha;
 
 import "cmp/services/insurance/v1alpha/search_parameters_types.proto";
+
 // TODO: why do we have it in a separate file and not in types ?!
 message InsuranceSearchQuery {
   // Integer query ID, unique per search request
