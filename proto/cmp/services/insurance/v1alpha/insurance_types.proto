@@ -27,7 +27,7 @@ message Insurance {
 
 message InsurancePolicy {
   // Product Code
-  string product_code = 1; // shall we use ProductCode here ?!!
+  string product_code = 1; // TODO: shall we use ProductCode here ?!!
 
   // Description
   string description = 2;
@@ -48,13 +48,13 @@ message PolicyExtendedInfo {
   string carrier_name = 3;
 
   // url to logo
-  cmp.types.v1.Link logo = 4; // shall we use image here instead of link ?
+  cmp.types.v1.Link logo = 4; // TODO: shall we use image here instead of link ?
 
   // enum of possible types, to be used for filtering
   PolicyType policy_type = 5;
 
   // Support contact
-  cmp.types.v1.ContactInfo support_contact = 6; // I removed emergency number as it can be included in the contact
+  cmp.types.v1.ContactInfo support_contact = 6; // TODO: I removed emergency number as it can be included in the contact
 
   // Criteria
   repeated PolicyCriteria criteria = 7;
@@ -115,7 +115,7 @@ message PolicyService {
 
   // Codes of units
   repeated string units_codes = 3;
-  double max_coverage_amount = 4; // repeated from Units
+  double max_coverage_amount = 4; // TODO: repeated from Units
   cmp.types.v1.Currency max_coverage_currency = 5; // repeated from Units
   cmp.types.v1.Link coverage_link = 6; // repeated from Units
   cmp.types.v1.Link exclusions_link = 7; // repeated from Units
@@ -125,7 +125,7 @@ message PolicyService {
   cmp.types.v1.Link faq = 11; // repeated from Units
 }
 
-// what are the types here ?!
+// TODO: what are the types here ?!
 enum PolicyType {
   POLICY_TYPE_UNSPECIFIED = 0;
   POLICY_TYPE_OTHER = 1;

@@ -12,12 +12,12 @@ import "cmp/types/v2alpha/product_code.proto";
 
 // This type is used in search requests for parameters like insured booking, network, ... etc
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search_parameters_types.proto.dot.svg)
 message InsuranceSearchParameters {
   // Product code list
   // Here a list of property codes would be used that could be of different types
-  repeated cmp.types.v2alpha.ProductCode product_codes = 1; // No supplier codes ?!!
+  repeated cmp.types.v2alpha.ProductCode product_codes = 1; // TODO: No supplier codes ?!!
 
   // value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
   double amount_purchase = 2;
