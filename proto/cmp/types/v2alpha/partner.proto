@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package cmp.types.v2alpha;
+
+import "cmp/types/v2alpha/token.proto";
+import "cmp/types/v2alpha/wallet.proto";
+
+// ### Partner message type
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/partner.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/partner.proto.dot.svg)
+message Partner {
+  // Short name of the partner. Ex: Chain4Travel
+  string short_name = 1;
+
+  // Legal name of the partner. Ex: Chain4Travel AG
+  string legal_name = 2;
+
+  // Business description
+  string business_description = 3;
+
+  // Domain for the partner
+  //
+  // Ex: chain4travel.com
+  //
+  // Provider should create two DNS records for their address to verify they own
+  // the `partner_wallet_address` below. Two records should be for public key and
+  // the corresponding address.
+  //
+  // Example DNS TXT Records:
+  // `@   IN  TXT  "camino-t-addr=T-camino1tdkgjhfjq8z4glnvu8davxvdm66jx55tfr6qnz"  TTL 3600`
+  // `@   IN  TXT  "camino-pubkey=043134d4b70236e59f99ae9e6ed9d1d512bacfa83506c9371ff4e372b7837844d82b1c56d81d04a23e25b18ff3f7eb531a5ef17df3bf5730b29e13f854a65b4651"  TTL 3600`
+  //
+  // FIXME: Need review here!
+  string domain = 4;
+
+  // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
+  // then means that on-chain payment is supported.
+  repeated TokenCurrency on_chain_currencies = 5;
+
+  // Off chain payment support
+  bool off_chain_payment_supported = 6;
+
+  // Supported services
+  repeated PartnerService services = 7;
+
+  // Partner addresses of the messenger bots
+  repeated cmp.types.v2alpha.WalletAddress addresses = 8;
+
+  // Partner's consortium member wallet address. This address should be the one who
+  // creates the entry in Partner Configuration on the chain.
+  cmp.types.v2alpha.WalletAddress partner_wallet_address = 9;
+}
+
+// Partner Service
+//
+// Message representing a service sold by a partner.
+message PartnerService {
+  // Name of the service.
+  //
+  // FIXME: Should we include package name also here? If not, how should the bot
+  // suppossed to find the message? If yes, package name also includes the version
+  // which means partner will need to update supported services with every new
+  // version.
+  //
+  // Ex: "cmp.services.accommodation.v1.AccommodationSearchService"
+  string service_name = 1;
+
+  // Response of the service.
+  //
+  // Ex: "cmp.services.accommodation.v1.AccommodationSearchResponse"
+  //
+  // FIXME: Do we need this? One can check the service definition and see the
+  // response message type.
+  string response_name = 2;
+
+  // Result field
+  //
+  // Ex: "options" representing the field at
+  // "cmp.services.accommodation.v1.AccommodationSearchResponse.options" which
+  // is a SearchOption type
+  string result_field = 3;
+
+  // Result Type.
+  //
+  // Ex: ResultType.RESULT_TYPE_DISCRETE
+  ResultType result_type = 4;
+
+  // Default bundled price for the service
+  BundledPrice bundled_price = 5;
+
+  // Exclusive bundled prices for specific addresses.
+  //
+  // This field should be a serialized proto message of `CustomBundledPrice` type.
+  // The field's scalar type is `bytes` on purpose, so it can be encrypted if it's
+  // desired.
+  repeated bytes custom_bundled_prices = 6;
+}
+
+// Custom Bundle Price
+//
+// This message encapsulates `BundledPrice` message to be used for a custom price
+// per buyer. If it's required, this message can be encrypted before adding it to
+// the `PartnerService` message type.
+message CustomBundledPrice {
+  // Address of the wallet that the bundled price below is valid for.
+  string address = 1;
+
+  // Bundled price that is exclusive to the wallet address above.
+  BundledPrice bundled_price = 2;
+}
+
+// Bundled Price
+//
+// Message representing a bundled price of a service.
+message BundledPrice {
+  // Bundle size.
+  //
+  // Example for a chat bot: 1
+  //
+  // Example for SearchOptions: 100
+  int32 results_per_bundle = 1;
+
+  // Bundle Unit, represents the bundle's unit. For example for search results it
+  // should be `BundleUnit.BUNDLE_UNIT_COUNT` or for AI Chat bot results it can be
+  // `BundleUnit.BUNDLE_UNIT_BYTES` or `BundleUnit.BUNDLE_UNIT_KILOBYTES`
+  BundleUnit results_per_bundle_unit = 2;
+
+  // Price per bundle, in nCAMs
+  //
+  // Ex: 100
+  int64 price_per_bundle = 3;
+}
+
+// Bundle unit message type
+enum BundleUnit {
+  BUNDLE_UNIT_UNSPECIFIED = 0;
+  BUNDLE_UNIT_COUNT = 1;
+  BUNDLE_UNIT_BYTES = 2;
+  BUNDLE_UNIT_KILOBYTES = 3;
+  BUNDLE_UNIT_MEGABYTES = 4;
+  // BUNDLE_UNIT_CHARACTERS = 5; // Characters, words??
+}
+
+enum ResultType {
+  RESULT_TYPE_UNSPECIFIED = 0;
+
+  // Objects countable with integers, like the SearchOption of an
+  // `AccommodationSearchResponse`
+  RESULT_TYPE_DISCRETE = 1;
+
+  // Continous data types like strings.
+  //
+  // Ex: A response from a chat bot can be 100 chars long or 20000 chars long. Or in
+  // bytes or kilobytes for some binary data.
+  RESULT_TYPE_NON_DISCRETE = 2;
+}

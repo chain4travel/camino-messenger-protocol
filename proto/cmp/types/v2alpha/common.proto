@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+// ## Camino Messenger Protocol (CMP) Types Package
+//
+// Commonly used message types across all CMP messages
+//
+// While parsing protobuf one can only distinguish between "a message is present"
+// and "a message is absent". All fields (which are not messages) inside a present
+// message are automatically filled with the default values like empty string or in
+// case of an enum/integer value: 0.
+// With that in mind all enums are defined as **0=Unspecified** as this is a default
+// value similar to "field was not given at all". So ultimately one can not distinguish
+// between "someone has deliberately filled the field with the default value 0" or
+// "the field was not given at all".
+// Conclusively the field value 0 of enums is basically "invalid" depending on the context.
+//
+// In the context of validation this would mean that if an enum is optional the field
+// value of 0 is "allowed" (meaning that the field was just not given and conclusively
+// everything bound/related to that is also invalid).
+// If an enum is required the field value of 0 is forbidden.
+//
+// The exact same applies for other field types beside enum, but the validation logic might
+// be a bit more complex than simply "valid enum != 0".
+//
+// Protobuf keeps the **order of the values inside a repeated field**. Conclusively if
+// you specify for example in a transport message trips travelling 1 June DUS-NYC,
+// travelling 15 June LAS->LAX, travelling 15 June LAX->LAS, returning NYC->DUS, by specifying
+// the trips in this order it is defined that the trip in the middle is a same day return
+// LAS to LAX and not LAX to LAS as then it should have been specified as travelling 15 June
+// LAX->LAS, travelling 15 June LAS->LAX.
+package cmp.types.v2alpha;
+
+// ### CM Message Header
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/common.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/common.proto.dot.svg)
+message Header {
+  // Protocol Version
+  // The request and response should always hold the true version implemented.
+  // This will help transparency and troubleshooting when issues arise. For example
+  // in case a new filter is introduced with version 1.3.0 and a response by a supply
+  // partner is still in version 1.1.0 that does not have the new filter. Obviously the
+  // supply partner has not processed the new field and the response is not filtered as
+  // specified in the request.
+  Version version = 1;
+
+  // End-user wallet ID for personalization purposes
+  string end_user_wallet_address = 2;
+}
+
+// Version
+message Version {
+  // API Version, major version which can have breaking changes (semantic
+  // versioning)
+  int32 major = 1;
+
+  // API Version, minor version has backwards compatible new features (semantic
+  // versioning)
+  int32 minor = 2;
+
+  // API Version, patch version small improvements and bugfixes (semantic
+  // versioning)
+  int32 patch = 3;
+}
+
+message RequestHeader {
+  Header base_header = 1;
+}
+
+message ResponseHeader {
+  Header base_header = 1;
+
+  // Status of the response, success or failure
+  StatusType status = 2;
+
+  // Alert for more detailed information about the response
+  repeated Alert alerts = 3;
+}
+
+message Alert {
+  string message = 1;
+  AlertType type = 2;
+}
+
+enum AlertType {
+  ALERT_TYPE_UNSPECIFIED = 0;
+  ALERT_TYPE_INFO = 1;
+  ALERT_TYPE_WARNING = 2;
+  ALERT_TYPE_ERROR = 3;
+}
+
+enum StatusType {
+  STATUS_TYPE_UNSPECIFIED = 0;
+  STATUS_TYPE_SUCCESS = 1;
+  STATUS_TYPE_FAILURE = 2;
+}

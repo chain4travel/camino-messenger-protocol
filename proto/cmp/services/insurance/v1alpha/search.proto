@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+// ## Insurance Services
+//
+// The Insurance services are used for both hotels and holiday homes, often
+// called short term rentals.
+//
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data. Static data can be cached and kept up to data with the Product List
+// and Product Details messages.
+//
+// This package is a **WIP**.
+package cmp.services.insurance.v1alpha;
+
+import "cmp/services/insurance/v1alpha/search_query_types.proto";
+import "cmp/services/insurance/v1alpha/search_result_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/search.proto";
+import "cmp/types/v1/traveller.proto";
+
+// The `Insurance Search Request` message type facilitates the request for
+// insurances like hotel and holiday home searches within the platform. In the
+// request the market, language and currency are specified at the top-level.
+//
+// In "queries" we specify the details of the trip like dates, properties or
+// locations or filters. The purpose of such a structure is to allow for multi-room
+// and multi-property search requests.
+//
+// For the response this means that there is no grouping of different
+// room, mealplan or rateplan options in single room or single property searches.
+// Each InsuranceSearchResult is one bookable option as a "result_id".
+//
+// Simple example:
+// a search for 1 room for 2 adults would be just 1 query, with one travel period and
+// one set of search parameters. The response has one query_id with many result_ids
+// for various rooms, mealplans and rateplans in one hotel and depending on the search
+// parameters, again for other hotels. Each property+room+rateplan+mealplan is one
+// result_id with just one unit.
+//
+// The simple example is also applicable for holiday homes where one or multiple
+// result_ids will be returned for various homes matching the query. The results will
+// probably not include a mealplan and in general no room information as all rooms in
+// the home are included. Flexible and non-refundable as well as packaging rateplans
+// are already surfacing in some distribution channels.
+//
+// Multi room example:
+// a search for 1 room for 2 adults in one query and another room for two adults and a
+// child of 8 in another room in the same hotel or destination for the same dates in
+// another query in the search request. This will lead to a search response with just
+// one unit for every possible option available for each query_id, with many result_ids.
+//
+// The same concept is valid for multiple homes for more than one family travelling
+// together to one park or destination.
+//
+// Road-trip or circuit example:
+// a search for one or multiple rooms or homes in queries that have sequential dates
+// and destinations. For example a trip to Las Vegas, a flight to New York and decending
+// the atlantic coastline to New Orleans or Orlando by car with stops in various places.
+//
+// The hostel, convention or groups example:
+// Often just 5 rooms for 10 people are requested or specific bed combinations like 5
+// single-use rooms (for 5 travellers) and 5 double rooms (10 travellers) are requested.
+// In this case the number of rooms is specified and the total amount of travellers,
+// but no distribution of travellers per room is detailed in the request. The response
+// then hold multiple units for one search_id and result_id, so that if 5 rooms are
+// requested, but only 2 standard rooms are available, the requested amount can be
+// completed with a different room type (superior, seaview,..)
+//
+// In general, the number of available rooms should be considered to ensure that for
+// requests with multiple rooms or homes, the same room or home is not offered twice
+// to different travellers.
+//
+message InsuranceSearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Search request metadata
+  cmp.types.v1.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
+  // only the cheapest or all options.
+  // In the search parameters multiple filters can be applied for upfront filtering
+  // of the search results to for example to only include hotels that are less than
+  // one kilometer from the beach, have a kids club and offer an a la carte restaurant
+  cmp.types.v1.SearchParameters search_parameters_generic = 3;  // what do you mean by this ? enhance enum FilterType with value -Type-"
+
+  // This field represents a list of search queries that can be used to create
+  // multiroom multi location searches.
+  repeated InsuranceSearchQuery queries = 4;
+}
+
+// The `Insurance Search Response` message type facilitates the response for
+// insurances like hotel and holiday home searches within the platform.
+//
+// In the response a search_id must be included and a search_option_id for every
+// bookable option responded. Included, compulsary and optional services can be
+// included. A simple "free cancellation upto" can be set or full cancellation
+// pilicies can be included.
+message InsuranceSearchResponse {
+  // Message header. Contains API version, message info string and end user wallet
+  // address.
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Search response metadata
+  cmp.types.v1.SearchResponseMetadata metadata = 2;
+
+  // Unique combinations of bookable search results, like property,
+  repeated InsuranceSearchResult results = 3;
+
+  // Global definition of the travellers for all results to be used via the traveller_id each unit.
+  repeated cmp.types.v1.BasicTraveller travellers = 4;
+}
+
+// Service definition for Insurance search
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search.proto.dot.svg)
+service InsuranceSearchService {
+  // Insurance Search method
+  rpc InsuranceSearch(InsuranceSearchRequest) returns (InsuranceSearchResponse);
+}

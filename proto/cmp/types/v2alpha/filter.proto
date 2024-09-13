@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package cmp.types.v2alpha;
+
+// Upfront filtering of possible search options in the search response
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/filter.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/filter.proto.dot.svg)
+message Filter {
+  // Filters can be based on a type of a specific code standard or codes agreed
+  // between provider and distributor in which case the type can be set to
+  // "provider"
+  //
+  //
+  // filters have a code, a type and a value. filters for business class, first
+  // class or economy flights can be set using filters and IATA codelist filters for
+  // private, shuttle, speedyshuttle can be based on GlobalTypes or OTA codelist
+  // filters for 1st or 2nd class train can be based UIC codes or OTA codelist
+  // filters can also be set for provider specific codes. However, that makes the
+  // implementation provider specific which undermines the "connect once, connect to
+  // many" replication idea
+  //
+  // Conclusively we recommend to filter using standards. It is much better to filter
+  // for seaview or seaside rooms using for example DRV global types supported by many
+  // providers of the Camino Nnetwork, than to implement specific logics per provider,
+  // using their unique codes
+  string code = 1;
+
+  // Description of the filter code.
+  string description = 2;
+
+  // A filter type can be set to for example "DRV GlobalTypes", "IATA codes", "UIC
+  // codes", "ACRISS codes".
+  FilterType type = 3;
+
+  // Adding a filter value like for example "star_rating=5" or "row_number=1".
+  string value = 4;
+}
+
+// Filter Type
+enum FilterType {
+  FILTER_TYPE_UNSPECIFIED = 0;
+
+  // provider specific codes - discouraged to be used as this increases maintenance
+  // of APIs
+  FILTER_TYPE_PROVIDER_CODE = 1;
+
+  // DRV GlobalTypes https://globaltypecenter.com/
+  FILTER_TYPE_GLOBAL_TYPE = 2;
+
+  // International Air Transport Association https://www.iata.org/
+  FILTER_TYPE_IATA = 3;
+
+  // International Civil Aviation Organization, an agency of the UN
+  // https://www.icao.int/
+  FILTER_TYPE_ICAO = 4;
+
+  // rail standarization of the UIC https://uic.org/standardisation
+  FILTER_TYPE_UIC = 5;
+
+  // code standard for car classification codes https://www.acriss.org/
+  FILTER_TYPE_ACRISS = 6;
+
+  // well known standard https://www.iso.org/
+  FILTER_TYPE_ISO = 7;
+
+  // settlement services provider https://www.arccorp.com/
+  FILTER_TYPE_ARC = 8;
+}

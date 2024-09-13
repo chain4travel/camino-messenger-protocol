@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package cmp.types.v2alpha;
+
+// Phone type to be used in various types as hotels, holiday homes etc.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/phone.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/phone.proto.dot.svg)
+message Phone {
+  string number = 1;
+
+  PhoneType type = 2;
+
+  string description = 3;
+}
+
+enum PhoneType {
+  PHONE_TYPE_UNSPECIFIED = 0;
+  PHONE_TYPE_OTHER = 1; // For phone numbers that don't fit into other categories.
+  PHONE_TYPE_RECEPTION = 2; // For accommodation properties like hotels.
+  PHONE_TYPE_BOOKING = 3; // Booking-related inquiries.
+  PHONE_TYPE_SUPPORT = 4; // Customer support and service.
+  PHONE_TYPE_INQUIRIES = 5; // General inquiries.
+  PHONE_TYPE_TRANSPORT_SERVICE = 6; // Transport services, like taxi or shuttle services.
+  PHONE_TYPE_RENTAL_SERVICE = 7; // Car rental service numbers.
+  PHONE_TYPE_ACTIVITY_COORDINATOR = 8; // Coordinators for activities or events.
+  PHONE_TYPE_BILLING = 9; // Billing and payment inquiries.
+  PHONE_TYPE_EMERGENCY = 10; // Emergency contact numbers.
+  PHONE_TYPE_FAX = 11; // Fax numbers.
+  PHONE_TYPE_MOBILE = 12; // Mobile phone numbers.
+  PHONE_TYPE_HOME = 13; // Home phone numbers.
+  PHONE_TYPE_BUSINESS = 14; // Business or office phone numbers.
+  PHONE_TYPE_TOLL_FREE = 15; // Toll-free numbers.
+  PHONE_TYPE_HOTLINE = 16; // Hotlines, for specialized support or services.
+  PHONE_TYPE_WORK = 17; // Work phone numbers.
+}
