@@ -43,7 +43,7 @@ message PolicyExtendedInfo {
   // Insurance Policy dynamic info
   InsurancePolicy policy = 1;
 
-  // Carrier code, not this provider is the holder of the policy and not a supplier to the Camino Network
+  // Carrier code, this provider is the holder of the policy and not a supplier to the Camino Network
   string carrier_code = 2;
 
   // Carrier name
