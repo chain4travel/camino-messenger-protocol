@@ -17,7 +17,7 @@ import "cmp/types/v2alpha/product_code.proto";
 message InsuranceSearchParameters {
   // Product code list
   // Here a list of property codes would be used that could be of different types
-  repeated cmp.types.v2alpha.ProductCode product_codes = 1; // TODO: No supplier codes ?!!
+  repeated cmp.types.v2alpha.ProductCode product_codes = 1;
 
   // value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
   double amount_purchase = 2;

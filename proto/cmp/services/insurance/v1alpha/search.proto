@@ -1,15 +1,22 @@
 syntax = "proto3";
 
-// ## Insurance Services
+// ## InsuranceServices
 //
-// The Insurance services are used for both hotels and holiday homes, often
-// called short term rentals.
+// Insurance Services has two main processes:
 //
-// Any search message response in the Camino Messenger Protocol only includes
-// dynamic data. Static data can be cached and kept up to data with the Product List
-// and Product Details messages.
+// - selling insurances: this process follows the same flow as selling any travel
+// product on the Camino Network: Static data download using the InsuranceProductList
+// message to obtain the (changed) portfolio of product a supplier offers, followed by
+// the InsuranceProductInfo message to get the exact detail of each product. The real-time data
+// does not contain any static information and consists of the InsuranceSearch message, followed
+// by the generic Validate and Mint messages.
 //
-// This package is a **WIP**.
+// - making an insurance claim: this is a special workflow, only used in the Insurance Services.
+// A claim form is requested based on the insurance policy purchased. This "template" is then
+// filled with the required information, the necessary documents are attached, and the claim is
+// submitted to the supplier. The supplier pushes a status upon change to the distributor.
+// It might be possible that further information is required or that an off-line conversation is taking place.
+// This finally leads to an acceptance and pay-out or a denial.
 package cmp.services.insurance.v1alpha;
 
 import "cmp/services/insurance/v1alpha/search_query_types.proto";
@@ -18,9 +25,19 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v1/search.proto";
 import "cmp/types/v1/traveller.proto";
 
-// The `Insurance Search Request` message type facilitates the request for
-// insurances. TODO: more description here ?!
+// InsuranceSearchRequest
 //
+// The Insurance Search Request message type facilitates the request for insurances
+// like health or cancellation insurances within the platform. In the request the market,
+// language and currency are specified at the top-level.
+//
+// In "queries" we specify the details of the insurances we would like to be offered.
+// In the Response, each InsuranceSearchResult is one bookable option as a "result_id".
+// Each consists of a "product" which indicates a type of insurance and if more options of
+// one type are available, then different units are offered. In case of an additional service,
+// like a sports package in combination with a health insurance, you would find one search result
+// with just the health insurance and another search result with both the health insurance and
+// the sports package.
 message InsuranceSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address

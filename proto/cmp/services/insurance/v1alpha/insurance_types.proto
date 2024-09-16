@@ -40,7 +40,7 @@ message InsurancePolicy {
 }
 
 message PolicyExtendedInfo {
-  // Policy with minimum info
+  // Insurance Policy dynamic info
   InsurancePolicy policy = 1;
 
   // Carrier code, not this provider is the holder of the policy and not a supplier to the Camino Network
@@ -49,7 +49,7 @@ message PolicyExtendedInfo {
   // Carrier name
   string carrier_name = 3;
 
-  // url to logo
+  // URL to logo
   cmp.types.v1.Image logo = 4;
 
   // enum of possible types, to be used for filtering
@@ -119,21 +119,21 @@ message PolicyCoverage {
   // Maximum coverage amount
   cmp.types.v1.Price max_coverage_amount = 3;
 
-  // url to Detailed list of risks covered
+  // URL to Detailed list of risks covered
   cmp.types.v1.Link coverage_link = 4;
 
-  // url to Specific events or conditions that are not covered by the policy
+  // URL to Specific events or conditions that are not covered by the policy
   cmp.types.v1.Link exclusions_link = 5;
 
   // pre-existing conditions coverage
   bool preconditions_coverage = 6;
 
-  // url to Details on whether pre-existing medical conditions are covered, and if so, under what terms.
+  // URL to Details on whether pre-existing medical conditions are covered, and if so, under what terms.
   cmp.types.v1.Link preconditions_coverage_link = 7;
 
-  // url to Full legal terms of the policy, privacy policy. compliance,..
+  // URL to Full legal terms of the policy, privacy policy. compliance,..
   cmp.types.v1.Link terms = 8;
 
-  // url to Frequently asked questions about the policy page
+  // URL to Frequently asked questions about the policy page
   cmp.types.v1.Link faq = 9;
 }
