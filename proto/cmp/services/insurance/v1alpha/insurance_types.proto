@@ -95,7 +95,7 @@ message PolicyService {
   string name = 2;
 
   // Codes of units
-  repeated string units_codes = 3;
+  repeated string unit_codes = 3;
 
   // Coverage details
   PolicyCoverage policy_coverage = 4;
