@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package cmp.types.v2alpha;
+
+// Token Reference
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/token.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/token.proto.dot.svg)
+message TokenCurrency {
+  string contract_address = 1;
+}
+
+// Booking token that represents to access to the service
+message Token {
+  // Contract address of the smart contract or the address of natively implemented
+  // asset on-chain.
+  string contract = 1;
+
+  // Token ID
+  int32 token_id = 2;
+}
