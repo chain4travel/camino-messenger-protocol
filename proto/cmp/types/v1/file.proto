@@ -71,9 +71,9 @@ enum ImageType {
   IMAGE_TYPE_EPS = 7; 
   IMAGE_TYPE_PDF = 8; 
   IMAGE_TYPE_PSD = 9; 
-  IMAGE_TYPE_AI = 6; // Adobe Illustrator’s native format
-  IMAGE_TYPE_WEBP = 7;
-  IMAGE_TYPE_HEIF = 8; // .heif or .heic
+  IMAGE_TYPE_AI = 10; // Adobe Illustrator’s native format
+  IMAGE_TYPE_WEBP = 11;
+  IMAGE_TYPE_HEIF = 12; // .heif or .heic
 }
 
 // Video formats
