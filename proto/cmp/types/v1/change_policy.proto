@@ -37,10 +37,14 @@ message ChangePolicy {
   repeated cmp.types.v1.ChangeType change_types = 3;
 }
 
-// ChangeTypes
-// TODO: Add documentation
+// ChangeTypes Different change types can be defined depending of what part of a
+// travel booking requires to be changed (like for example the common "name change",
+// "date change" or the change of a service booked to another service). Ech of these
+// changes can be possible or not in relation to the time until the service is
+// delivered or the cost of the change may vary closer to the delivery of the
+// service.
 message ChangeType {
-  // Change type code
+  // Change type code in case the change type has a specific code
   string code = 1;
 
   // When this change type and date is valid. Either use the start and end date of
