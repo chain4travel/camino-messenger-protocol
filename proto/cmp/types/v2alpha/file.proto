@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v2alpha;
 
 import "google/protobuf/timestamp.proto";
 
