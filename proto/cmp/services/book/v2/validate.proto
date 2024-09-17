@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package cmp.services.book.v2;
+
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/price.proto";
+import "cmp/types/v1/search.proto";
+import "cmp/types/v1/seat_map.proto";
+import "cmp/types/v1/uuid.proto";
+
+message ValidationRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Validation object
+  ValidationObject validation_object = 2;
+}
+
+message ValidationResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Unique validation ID. This must be a UUID according to RFC 4122
+  cmp.types.v1.UUID validation_id = 2;
+
+  // Validation object
+  ValidationObject validation_object = 3;
+
+  // Price details for the validated product
+  cmp.types.v1.PriceDetail price_detail = 4;
+}
+
+// Validation message that represents a single `result_id` from the search results
+// message and also the optional `unit_identifier` for specific services that
+// requires it. For example a seat for a concert.
+message ValidationObject {
+  // Search result identifier with `search_id` & `result_id`
+  cmp.types.v1.SearchIdentifier search_identifier = 1;
+
+  // Unit identifier that is used to describe selected units from the `result_id`.
+  // For example: seats for a concert.
+  oneof unit_identifier {
+    // Selected seat(s) represented as a seat map inventory message type.
+    cmp.types.v1.SeatMapInventory seat_selection = 2;
+  }
+}
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1/validate.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1/validate.proto.dot.svg)
+service ValidationService {
+  rpc Validation(ValidationRequest) returns (ValidationResponse);
+}
