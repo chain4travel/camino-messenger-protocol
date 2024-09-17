@@ -4,8 +4,8 @@
 
 ---
 
-> 🚧 **ALPHA CODE NOTICE** 🚧:
-> ⚠️ This protocol definition is in the alpha phase of development. It is important to note that during this stage, breaking changes may occur without advance notice. Users should proceed with caution.
+> 🚧 **EARLY DAYS NOTICE** 🚧:
+> ⚠️ Although we released our first productive Message Types version, it is still early days and partners make substantial and frequent contributions to the Camino Message Types. Please be aware that the Camino Messenger Protocol is still undergoing active development. The code, guidelines, and instructions may be subject to change.
 
 ---
 
