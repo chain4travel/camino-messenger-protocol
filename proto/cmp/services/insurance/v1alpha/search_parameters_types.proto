@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1alpha;
 
+import "cmp/services/insurance/v1alpha/insurance_types.proto";
 import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v1/traveller.proto";
 import "cmp/types/v2alpha/country.proto";
 import "cmp/types/v2alpha/loyalty_program.proto";
-import "cmp/types/v2alpha/network.proto";
 import "cmp/types/v2alpha/product_code.proto";
 
 // This type is used in search requests for parameters like insured booking, network, ... etc
@@ -26,10 +26,10 @@ message InsuranceSearchParameters {
   cmp.types.v1.Currency currency = 3;
 
   // The smart contract address of the NFT, booking token or url of off-chain booking details, in case the booking is not registered on any blockchain
-  string insured_booking = 4;
+  string booking_to_insure = 4;
 
   // enum of chains: Camino, Polygon, Ethereum, off-chain, ... etc
-  cmp.types.v2alpha.Network insured_booking_location = 5;
+  InsuredBooking insured_booking_location = 5;
 
   // he country code of the end-consumer. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
   cmp.types.v2alpha.Country nationality = 6;

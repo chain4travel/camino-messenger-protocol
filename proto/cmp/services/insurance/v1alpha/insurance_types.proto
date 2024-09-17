@@ -137,3 +137,29 @@ message PolicyCoverage {
   // URL to Frequently asked questions about the policy page
   cmp.types.v1.Link faq = 9;
 }
+
+message InsuredBooking {
+  // location of insured booking: on-chain or off-chain
+  oneof on_off_chain_booking {
+    // On-Chain booking
+    OnChainBooking on_chain_booking = 1;
+    // Off-Chain booking
+    OffChainBooking off_chain_booking = 2;
+  }
+}
+
+message OnChainBooking {
+  // Token ID
+  string token_id = 1;
+  // Smart Contract Address
+  string smart_contract_id = 2;
+  // Chain ID in evm, for Camino it's 501
+  int32 chain_id = 3;
+}
+
+message OffChainBooking {
+  // Location of booking in some other off-chain system like booking.com
+  string location = 1;
+  // Booking reference
+  string reference = 2;
+}
