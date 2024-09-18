@@ -39,7 +39,7 @@ message ChangePolicy {
 
 // ChangeTypes Different change types can be defined depending of what part of a
 // travel booking requires to be changed (like for example the common "name change",
-// "date change" or the change of a service booked to another service). Ech of these
+// "date change" or the change of a service booked to another service). Each of these
 // changes can be possible or not in relation to the time until the service is
 // delivered or the cost of the change may vary closer to the delivery of the
 // service.
