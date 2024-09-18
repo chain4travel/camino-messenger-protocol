@@ -18,7 +18,7 @@ message Email {
 enum EmailType {
   EMAIL_TYPE_UNSPECIFIED = 0;
   EMAIL_TYPE_OTHER = 1; // For emails that don't fit into other categories.
-  EMAIL_TYPE_RECEPTION = 2; // For services that require a reception like hotels, hostals, car rental.
+  EMAIL_TYPE_RECEPTION = 2; // For services that require a reception like hotels, hostels, car rental.
   EMAIL_TYPE_BOOKING = 3; // For booking confirmations.
   EMAIL_TYPE_SUPPORT = 4; // General customer support.
   EMAIL_TYPE_INQUIRY_RESPONSE = 5; // Responses to customer inquiries.
