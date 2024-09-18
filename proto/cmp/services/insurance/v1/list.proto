@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package cmp.services.insurance.v1alpha;
+package cmp.services.insurance.v1;
 
-import "cmp/services/insurance/v1alpha/insurance_types.proto";
+import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -24,8 +24,8 @@ message InsuranceProductListResponse {
 
 // This service is used to get a product list for insurances.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/list.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/list.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/list.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/list.proto.dot.svg)
 service InsuranceProductListService {
   // Gets an optional `modified_after` date and returns a product list.
   rpc InsuranceProductList(InsuranceProductListRequest) returns (InsuranceProductListResponse);

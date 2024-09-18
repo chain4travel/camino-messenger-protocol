@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package cmp.types.v2alpha;
+package cmp.types.v2;
 
 // Product code and type
 //
 // This is being used in requests to specify the a list of products to be included in the reponse
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/product_code.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/product_code.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/product_code.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/product_code.proto.dot.svg)
 message ProductCode {
   // In most cases like in accommodation, just the field "code" and "type" will be
   // used. For example in case of a GiataID (for example code=182568), a provider

@@ -17,10 +17,10 @@ syntax = "proto3";
 // submitted to the supplier. The supplier pushes a status upon change to the distributor.
 // It might be possible that further information is required or that an off-line conversation is taking place.
 // This finally leads to an acceptance and pay-out or a denial.
-package cmp.services.insurance.v1alpha;
+package cmp.services.insurance.v1;
 
-import "cmp/services/insurance/v1alpha/search_query_types.proto";
-import "cmp/services/insurance/v1alpha/search_result_types.proto";
+import "cmp/services/insurance/v1/search_query_types.proto";
+import "cmp/services/insurance/v1/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/search.proto";
 import "cmp/types/v1/traveller.proto";
@@ -82,8 +82,8 @@ message InsuranceSearchResponse {
 
 // Service definition for Insurance search
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/search.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.svg)
 service InsuranceSearchService {
   // Insurance Search method
   rpc InsuranceSearch(InsuranceSearchRequest) returns (InsuranceSearchResponse);

@@ -1,18 +1,18 @@
 syntax = "proto3";
 
-package cmp.services.insurance.v1alpha;
+package cmp.services.insurance.v1;
 
 import "cmp/types/v1/contact_info.proto";
 import "cmp/types/v1/file.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v1/price.proto";
-import "cmp/types/v2alpha/product_code.proto";
+import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 // This represents Insurance types which is needed for different insurance services (search, info, ... etc)
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/insurance_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1alpha/insurance_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.svg)
 message Insurance {
   // Context for Inventory system concepts that need to be included in an info
   // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
@@ -29,7 +29,7 @@ message Insurance {
 
 message InsurancePolicy {
   // Product Code
-  cmp.types.v2alpha.ProductCode product_code = 1;
+  cmp.types.v2.ProductCode product_code = 1;
 
   // Description
   string description = 2;

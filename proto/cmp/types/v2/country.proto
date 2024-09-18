@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package cmp.types.v2alpha;
+package cmp.types.v2;
 
 // Country options according to ISO 3166-1, with the 31 most popular countries
 // first, using fewer bytes in the code thus reducing message size.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/country.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2alpha/country.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/country.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/country.proto.dot.svg)
 enum Country {
   COUNTRY_UNSPECIFIED = 0;
 
