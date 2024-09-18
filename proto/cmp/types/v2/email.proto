@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v2alpha;
+package cmp.types.v2;
 
 // Email type for general use.
 //
