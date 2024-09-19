@@ -79,7 +79,7 @@ def find_latest_proto_files(directory):
 						version_number = int(version[1:])  # Strip 'v' and convert to int
 					except:
 						print(f"[FATAL] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
-
+						sys.exit(3)
 
 					# Create a key for the file using prefix and filename
 					key = (prefix, filename)
