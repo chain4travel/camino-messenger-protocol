@@ -73,7 +73,7 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v4
       - name: Run proto dependency check
-        run: scripts/dependency_checker.py
+        run: scripts/dependency_checker.py --print-graph
 
   # Push the draft branch to buf.build
   bsr-push-draft:
