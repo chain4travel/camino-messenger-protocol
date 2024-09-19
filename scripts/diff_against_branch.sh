@@ -64,7 +64,7 @@ function check_modified_file {
 	# Check here if the file has any structure modifications, if yes return
 	# some value != 0 for an automated script to fail if we detect any modifications
 	# against the c4t branch	
-	diff - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g" -e "/^ *$/d" -e 's/[ \t]*$//') < <(cat $FILE | sed -e "s#//.*##g" -e "/^ *$/d" -e 's/[ \t]*$//') > /dev/null
+	diff -w -B - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g") < <(cat $FILE | sed -e "s#//.*##g") > /dev/null
 	if [[ "$?" != "0" ]] ; then
 		echo "## ERROR: Structural change detected in already existing file. See diff above."
 		exit 1
