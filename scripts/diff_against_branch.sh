@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-## This file will do a diff against the dev branch for added files
+## This file will do a diff against the provided branch (defaults to c4t) for added files
 ## As the definition of the versioning is to always create a new version if a file has been changed
 ## we make sure that every structure change is a breaking change. 
 ##
@@ -11,6 +11,10 @@
 ## * Extract the version 
 ## * Check if a file with version-1 exists in the origin branch
 ## * Do a diff against the other file
+##
+## * Get the *modified* files 
+## * Check if there are any structural changes
+## * Throw an error in case a structural change is detected
 
 ORIGIN=${1:-c4t}
 
@@ -38,7 +42,7 @@ function check_added_file {
 
 	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
-		echo "No change detected! (weird?)"
+		echo "## No change detected! (weird?)"
 	fi
 }
 
@@ -54,12 +58,19 @@ function check_modified_file {
 
 	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
-		echo "No change detected! (weird?)"
+		echo "## No change detected! (weird?)"
 	fi
 
-	# TODO: Check here if the file has any structure modifications, if yes return
+	# Check here if the file has any structure modifications, if yes return
 	# some value != 0 for an automated script to fail if we detect any modifications
 	# against the c4t branch	
+	diff - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g" -e "/^ *$/d" -e 's/[ \t]*$//') < <(cat $FILE | sed -e "s#//.*##g" -e "/^ *$/d" -e 's/[ \t]*$//') > /dev/null
+	if [[ "$?" != "0" ]] ; then
+		echo "## ERROR: Structural change detected in already existing file. See diff above."
+		exit 1
+	else
+		echo "## INFO: No structural change detected. The changes should only be in the comments."
+	fi 
 }
 
 while read FILE ; do
