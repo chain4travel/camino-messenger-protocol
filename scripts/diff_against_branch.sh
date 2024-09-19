@@ -12,12 +12,11 @@
 ## * Check if a file with version-1 exists in the origin branch
 ## * Do a diff against the other file
 
-CUR_BRANCH=$(git branch --show-current)
-ORIGIN=${1:-dev}
+ORIGIN=${1:-c4t}
 
 git fetch origin $ORIGIN
 
-function check_file {
+function check_added_file {
 	FILE=$1
 
 	FILE_VERSION=$(echo $FILE | grep -oP "/v[0-9]+/" | cut -d"v" -f2 | cut -d"/" -f1)
@@ -37,12 +36,37 @@ function check_file {
 	echo "#############################################################################"
 	echo
 
-	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $CUR_BRANCH:$FILE
+	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
 		echo "No change detected! (weird?)"
 	fi
 }
 
+function check_modified_file {
+	FILE=$1
+	OTHER_FILE=$FILE
+
+	echo "#############################################################################"
+	echo "## Detected modified file: $FILE" 
+	echo "## Comparing against $ORIGIN/$OTHER_FILE"
+	echo "#############################################################################"
+	echo
+
+	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
+	if [[ "$?" == "0" ]] ; then
+		echo "No change detected! (weird?)"
+	fi
+
+	# TODO: Check here if the file has any structure modifications, if yes return
+	# some value != 0 for an automated script to fail if we detect any modifications
+	# against the c4t branch	
+}
+
 while read FILE ; do
-	check_file $FILE
+	check_added_file $FILE
 done < <(git diff --name-status origin/$ORIGIN | grep -P "^A.*" | grep -oP "proto/.*")
+
+
+while read FILE ; do
+	check_modified_file $FILE
+done < <(git diff --name-status origin/$ORIGIN | grep -P "^M.*" | grep -oP "proto/.*")
