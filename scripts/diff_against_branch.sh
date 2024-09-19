@@ -30,10 +30,10 @@ function check_added_file {
 		# Skip it as it's newly introduced
 		return
 	fi
-
 	
 	OTHER_FILE=$(echo $FILE | sed -e "s#/v$FILE_VERSION/#/v$(( FILE_VERSION - 1))/#")
 
+	echo
 	echo "#############################################################################"
 	echo "## Detected newly added file: $FILE" 
 	echo "## Version: $FILE_VERSION" 
@@ -51,6 +51,7 @@ function check_modified_file {
 	FILE=$1
 	OTHER_FILE=$FILE
 
+	echo
 	echo "#############################################################################"
 	echo "## Detected modified file: $FILE" 
 	echo "## Comparing against $ORIGIN/$OTHER_FILE"
@@ -67,10 +68,12 @@ function check_modified_file {
 	# against the c4t branch	
 	diff -w -B - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g") < <(cat $FILE | sed -e "s#//.*##g") > /dev/null
 	if [[ "$?" != "0" ]] ; then
-		echo "## ERROR: Structural change detected in already existing file: $FILE"
+		echo
+		echo "## ❌ [FAIL] ERROR: Structural change detected in already existing file: $FILE"
 		ERROR_FILES+=("$FILE")
 	else
-		echo "## INFO: No structural change detected. The changes should only be in the comments."
+		echo
+		echo "## ✅ [PASS] INFO: No structural change detected. The changes should only be in the comments."
 	fi 
 }
 
@@ -86,7 +89,7 @@ done < <(git diff --name-status origin/$ORIGIN | grep -P "^M.*" | grep -oP "prot
 if [ ${#ERROR_FILES[@]} -gt 0 ] ; then
 	echo
 	echo "#############################################################################"
-	echo "## Found ${#ERROR_FILES[@]} errors while doing the diff"
+	echo "## ❌ Found ${#ERROR_FILES[@]} errors while doing the diff"
 	echo "## Please check the following files: "
 	for file in ${ERROR_FILES[@]} ; do
 		echo "## -> $file"
@@ -94,3 +97,8 @@ if [ ${#ERROR_FILES[@]} -gt 0 ] ; then
 	echo "#############################################################################"
 	exit 1
 fi
+
+echo
+echo "##########################"
+echo "## ✅ No issues found!  ##"
+echo "##########################"
