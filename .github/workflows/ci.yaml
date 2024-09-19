@@ -66,6 +66,15 @@ jobs:
       - name: Run diff against branch
         run: scripts/diff_against_branch.sh
 
+  # dependency check to catch if proto files were not updated correctly
+  depdency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Run proto dependency check
+        run: scripts/dependency_checker.py
+
   # Push the draft branch to buf.build
   bsr-push-draft:
     runs-on: ubuntu-latest
