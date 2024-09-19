@@ -164,6 +164,8 @@ class Colors:
 	RESET = '\033[0m'
 	BOLD = '\033[1m'
 	BLACK = '\033[30m'
+	BLUE = '\033[34m'
+	PURPLE = '\033[35m'
 	GREEN = '\033[32m'
 
 def print_dependency_graph(dep_dict):
@@ -177,7 +179,7 @@ def print_dependency_graph(dep_dict):
 		if deps:
 			for dep in deps:
 				# Print dependencies with indentation, different color and emoji
-				print(f"   ➡️{Colors.BLACK} {dep}{Colors.RESET}")
+				print(f"   ➡️{Colors.PURPLE} {dep}{Colors.RESET}")
 		else:
 			print(f"	{Colors.RESET}No dependencies")
 		print()  # Add an empty line for better readability
