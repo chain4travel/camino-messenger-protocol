@@ -57,6 +57,15 @@ jobs:
           # Run buf format
           buf format proto --diff --exit-code
 
+  # diff check against c4t branch to catch breaking changes
+  diff-c4t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Run diff against branch
+        run: scripts/diff_against_branch.sh
+
   # Push the draft branch to buf.build
   bsr-push-draft:
     runs-on: ubuntu-latest
