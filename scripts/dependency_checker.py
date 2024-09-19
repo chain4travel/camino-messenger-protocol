@@ -163,8 +163,6 @@ global_error, latest_proto_files, fix_needed, include_graph = default_run()
 class Colors:
 	RESET = '\033[0m'
 	BOLD = '\033[1m'
-	BLACK = '\033[30m'
-	BLUE = '\033[34m'
 	PURPLE = '\033[35m'
 	GREEN = '\033[32m'
 
@@ -241,8 +239,12 @@ if fix:
 		if global_error:
 			print("⌛ Dependency fix needs another iteration to fix new broken dependencies ... ")
 		else:
-			print("✅ Dependency fix might have succeeded. Please check the results!")
+			print("✅ Dependency fix might have succeeded. Please check the results (and don't forget to add the new directories/files)!")
 			break
 
+
 if global_error == True:
+	print("❌ [FAIL] Something went wrong while doing the dependency check (or fix) please see above!")
 	sys.exit(1)
+else:
+	print("✅ [PASS] Dependency check/fix successful!")
