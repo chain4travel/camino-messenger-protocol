@@ -16,6 +16,7 @@
 ## * Check if there are any structural changes
 ## * Throw an error in case a structural change is detected
 
+declare -a ERROR_FILES
 ORIGIN=${1:-c4t}
 
 git fetch origin $ORIGIN
@@ -66,8 +67,8 @@ function check_modified_file {
 	# against the c4t branch	
 	diff -w -B - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g") < <(cat $FILE | sed -e "s#//.*##g") > /dev/null
 	if [[ "$?" != "0" ]] ; then
-		echo "## ERROR: Structural change detected in already existing file. See diff above."
-		exit 1
+		echo "## ERROR: Structural change detected in already existing file: $FILE"
+		ERROR_FILES+=("$FILE")
 	else
 		echo "## INFO: No structural change detected. The changes should only be in the comments."
 	fi 
@@ -81,3 +82,15 @@ done < <(git diff --name-status origin/$ORIGIN | grep -P "^A.*" | grep -oP "prot
 while read FILE ; do
 	check_modified_file $FILE
 done < <(git diff --name-status origin/$ORIGIN | grep -P "^M.*" | grep -oP "proto/.*")
+
+if [ ${#ERROR_FILES[@]} -gt 0 ] ; then
+	echo
+	echo "#############################################################################"
+	echo "## Found ${#ERROR_FILES[@]} errors while doing the diff"
+	echo "## Please check the following files: "
+	for file in ${ERROR_FILES[@]} ; do
+		echo "## -> $file"
+	done
+	echo "#############################################################################"
+	exit 1
+fi
