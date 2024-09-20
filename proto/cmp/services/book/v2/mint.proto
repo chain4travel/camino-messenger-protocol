@@ -64,7 +64,7 @@ message MintResponse {
   cmp.types.v1.Price price = 6;
 
   // ID of the token that represents the booking of the service
-  int32 booking_token_id = 7;
+  uint64 booking_token_id = 7;
 
   // URI of the token that represents the booking of the service
   string booking_token_uri = 8;
