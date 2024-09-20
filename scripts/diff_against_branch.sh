@@ -48,6 +48,15 @@ function check_added_file {
 	echo -e "🔢 Version: ${PURPLE}$FILE_VERSION${NC}" 
 	echo -e "🔃 Comparing against ${PURPLE}$ORIGIN/$OTHER_FILE${NC}"
 
+	# Check if the file actually exists in the origin branch
+	# Otherwise we can't do a diff and it's an error in the versioning
+	git show origin/$ORIGIN:$OTHER_FILE > /dev/null 2>&1
+	if [[ "$?" != "0" ]] ; then
+		echo -e "❌ ${RED}[FAIL] ERROR${NC}: File with version $(( FILE_VERSION - 1 )) not found in the origin branch: ${PURPLE}$ORIGIN/$OTHER_FILE${NC}"
+		ERROR_FILES+=("$FILE")
+		return
+	fi
+
 	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
 		echo "❓ No change detected! (weird?)"
@@ -87,17 +96,17 @@ git fetch origin $ORIGIN > /dev/null 2>&1
 echo -e "🔍 Checking for illegal filesystem changes like removing/moving existing files"
 while read FILE ; do
 	check_filesystem_changes $FILE
-done < <(git diff --diff-filter=am --name-status origin/$ORIGIN | grep -oP "proto/.*")
+done < <(git diff --diff-filter=am --name-status origin/$ORIGIN | grep -oP "proto/.*\.proto")
 
 echo -e "🔍 Checking for added files to print out the diff of the new version against the previous version"
 while read FILE ; do
 	check_added_file $FILE
-done < <(git diff --diff-filter=A --name-status origin/$ORIGIN | grep -oP "proto/.*")
+done < <(git diff --diff-filter=A --name-status origin/$ORIGIN | grep -oP "proto/.*\.proto")
 
 echo -e "🔍 Checking for modifications in existing files to catch unwanted structural changes"
 while read FILE ; do
 	check_modified_file $FILE
-done < <(git diff --diff-filter=M --name-status origin/$ORIGIN | grep -oP "proto/.*")
+done < <(git diff --diff-filter=M --name-status origin/$ORIGIN | grep -oP "proto/.*\.proto")
 
 if [ ${#ERROR_FILES[@]} -gt 0 ] ; then
 	echo
