@@ -1,0 +1,11 @@
+version: v2
+modules:
+  - path: proto
+    name: buf.build/chain4travel/camino-messenger-protocol
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE
+  ignore_unstable_packages: true
