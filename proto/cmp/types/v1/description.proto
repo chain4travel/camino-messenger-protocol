@@ -9,17 +9,17 @@ import "cmp/types/v1/language.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/description.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/description.proto.dot.svg)
 message LocalizedDescriptionSet {
-  // Language
-  Language language = 1;
+  // cmp.types.v1.Language
+  cmp.types.v1.Language language = 1;
 
   // Desctription set
-  repeated Description descriptions = 2;
+  repeated cmp.types.v1.Description descriptions = 2;
 }
 
 message Description {
   // Category of the description like "General", "Amenities".
   string category = 1;
 
-  // Description text
+  // cmp.types.v1.Description text
   string text = 2;
 }

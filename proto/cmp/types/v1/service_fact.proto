@@ -30,26 +30,26 @@ message ServiceFact {
   string description = 2;
 
   // the price and price breakdown of the service
-  PriceDetail price_detail = 3;
+  cmp.types.v1.PriceDetail price_detail = 3;
 
   // whether the service is included, optional or compulsory. When a price is
   // mentioned and the service is included, then the price of the service is already
   // included in the total price of this option and it is better to omit the
   // price_detail field. In case of an optional or compulsory service, the service
   // must be specifically be booked and the price is added to the total price.
-  ServiceAvailabilityType availability_type = 4;
+  cmp.types.v1.ServiceAvailabilityType availability_type = 4;
 
-  // The ChargeBasisType specifies whether this service is only charged once for the
+  // The cmp.types.v1.ChargeBasisType specifies whether this service is only charged once for the
   // whole booking, for each participant, for each room or flight etc, for each day
   // or for a combination of these concepts like for example "foreign distilleries
   // per participant per day" or just once in case of a massage, but you would be
   // able to order 3 of them in the booking.
-  ChargeBasisType charge_basis = 5;
+  cmp.types.v1.ChargeBasisType charge_basis = 5;
 
-  // We can use a single ServiceFact to express just one service. But many services
+  // We can use a single cmp.types.v1.ServiceFact to express just one service. But many services
   // are actually a combination of several services, like the typical
   // priority boarding, which also allows for a larger carry-on bag.
-  repeated ServiceFact details = 6;
+  repeated cmp.types.v1.ServiceFact details = 6;
 
   // the count of the number of services. In case the service requires specification
   // of the number or frequency of the products that will be included. For example

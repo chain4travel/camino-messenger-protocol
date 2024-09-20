@@ -19,7 +19,7 @@ message GetNetworkFeeRequest {
 }
 
 message GetNetworkFeeResponse {
-  NetworkFee network_fee = 1;
+  cmp.services.network.v1.NetworkFee network_fee = 1;
   int32 current_block_height = 2;
 }
 

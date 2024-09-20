@@ -35,7 +35,7 @@ message CancelPolicy {
   // before consumption, they must be computed to one uniform format of date ranges
   // and penalties, related to the start DateTime of the service or product
   // delivery.
-  repeated CancelPenalty cancel_penalties = 3;
+  repeated cmp.types.v1.CancelPenalty cancel_penalties = 3;
 }
 
 // Cancellation Penalty

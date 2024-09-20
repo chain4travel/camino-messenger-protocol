@@ -64,7 +64,7 @@ message ActivitySearchRequest {
   //
   // Here we set for example a list of activity product codes that we want to search
   // for, set min or mar duration or price.
-  ActivitySearchParameters search_parameters_activity = 4;
+  cmp.services.activity.v1.ActivitySearchParameters search_parameters_activity = 4;
 
   // Travel period
   cmp.types.v1.TravelPeriod travel_period = 5;
@@ -139,7 +139,7 @@ message ActivitySearchResponse {
 
   // Unique combinations of bookable search results, each identified by a result_id
   // that needs to be carried through to the validate request.
-  repeated ActivitySearchResult results = 3;
+  repeated cmp.services.activity.v1.ActivitySearchResult results = 3;
 
   // The traveller_id is specified in each result and the ids are detailed with
   // basic traveller data only once in the top-level search response to avoid

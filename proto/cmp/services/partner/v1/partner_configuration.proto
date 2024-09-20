@@ -24,7 +24,7 @@ message GetPartnerConfigurationRequest {
 
 message GetPartnerConfigurationResponse {
   // Partner configuration
-  PartnerConfiguration partner_configuration = 1;
+  cmp.services.partner.v1.PartnerConfiguration partner_configuration = 1;
 
   // Current block height. Distributors can keep this info for later reference.
   int32 current_block_height = 2;
@@ -39,7 +39,7 @@ service GetPartnerConfigurationService {
   //
   // Takes `GetPartnerConfigurationRequest` which contains optional block height and
   // partner wallet addresses and returns `GetPartnerConfigurationResponse` which
-  // contains the current block height and the`PartnerConfiguration` for the given
+  // contains the current block height and the`cmp.services.partner.v1.PartnerConfiguration` for the given
   // addresses (if any, returns all if none is provided) and only if the data is
   // changed after the provided block height.
   rpc GetPartnerConfiguration(GetPartnerConfigurationRequest) returns (GetPartnerConfigurationResponse);

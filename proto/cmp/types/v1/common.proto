@@ -30,56 +30,56 @@ syntax = "proto3";
 // LAX->LAS, travelling 15 June LAS->LAX.
 package cmp.types.v1;
 
-// ### CM Message Header
+// ### CM Message cmp.types.v1.Header
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.svg)
 message Header {
-  // Protocol Version
+  // Protocol cmp.types.v1.Version
   // The request and response should always hold the true version implemented.
   // This will help transparency and troubleshooting when issues arise. For example
   // in case a new filter is introduced with version 1.3.0 and a response by a supply
   // partner is still in version 1.1.0 that does not have the new filter. Obviously the
   // supply partner has not processed the new field and the response is not filtered as
   // specified in the request.
-  Version version = 1;
+  cmp.types.v1.Version version = 1;
 
   // End-user wallet ID for personalization purposes
   string end_user_wallet_address = 2;
 }
 
-// Version
+// cmp.types.v1.Version
 message Version {
-  // API Version, major version which can have breaking changes (semantic
+  // API cmp.types.v1.Version, major version which can have breaking changes (semantic
   // versioning)
   int32 major = 1;
 
-  // API Version, minor version has backwards compatible new features (semantic
+  // API cmp.types.v1.Version, minor version has backwards compatible new features (semantic
   // versioning)
   int32 minor = 2;
 
-  // API Version, patch version small improvements and bugfixes (semantic
+  // API cmp.types.v1.Version, patch version small improvements and bugfixes (semantic
   // versioning)
   int32 patch = 3;
 }
 
 message RequestHeader {
-  Header base_header = 1;
+  cmp.types.v1.Header base_header = 1;
 }
 
 message ResponseHeader {
-  Header base_header = 1;
+  cmp.types.v1.Header base_header = 1;
 
   // Status of the response, success or failure
-  StatusType status = 2;
+  cmp.types.v1.StatusType status = 2;
 
-  // Alert for more detailed information about the response
-  repeated Alert alerts = 3;
+  // cmp.types.v1.Alert for more detailed information about the response
+  repeated cmp.types.v1.Alert alerts = 3;
 }
 
 message Alert {
   string message = 1;
-  AlertType type = 2;
+  cmp.types.v1.AlertType type = 2;
 }
 
 enum AlertType {

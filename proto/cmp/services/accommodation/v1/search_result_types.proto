@@ -22,7 +22,7 @@ message AccommodationSearchResult {
   int32 query_id = 2;
 
   // Units for this search result
-  repeated Unit units = 3;
+  repeated cmp.services.accommodation.v1.Unit units = 3;
 
   // ## Total price in detail, with breakdowns
   cmp.types.v1.PriceDetail total_price_detail = 4;

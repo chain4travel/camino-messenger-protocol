@@ -61,10 +61,10 @@ message CountryEntryRequirementsResponse {
   cmp.types.v1.UUID response_id = 2;
 
   // Categories
-  repeated CountryEntryRequirementCategory categories = 3;
+  repeated cmp.services.info.v1.CountryEntryRequirementCategory categories = 3;
 
   // Items
-  repeated CountryEntryRequirementItem items = 4;
+  repeated cmp.services.info.v1.CountryEntryRequirementItem items = 4;
 }
 
 // Types
@@ -77,10 +77,10 @@ message CountryEntryRequirementCategory {
   repeated cmp.types.v1.LocalizedString names = 2;
 
   // Items
-  repeated CountryEntryRequirementItem items = 3;
+  repeated cmp.services.info.v1.CountryEntryRequirementItem items = 3;
 
   // Sub categories
-  repeated CountryEntryRequirementCategory sub_categories = 4;
+  repeated cmp.services.info.v1.CountryEntryRequirementCategory sub_categories = 4;
 }
 
 message CountryEntryRequirementItem {
@@ -88,10 +88,10 @@ message CountryEntryRequirementItem {
   string key = 1;
 
   // Language specific names and descriptions
-  repeated LocalizedItemInfo info = 2;
+  repeated cmp.services.info.v1.LocalizedItemInfo info = 2;
 
   // Status of the item. TODO: Add more explanation, what it means if it's false?
-  ItemStatus status = 3;
+  cmp.services.info.v1.ItemStatus status = 3;
 
   // Significant update date
   google.protobuf.Timestamp last_significant_update = 4;

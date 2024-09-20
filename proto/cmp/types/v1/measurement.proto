@@ -8,7 +8,7 @@ package cmp.types.v1;
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/measurement.proto.dot.svg)
 message Length {
   int32 value = 1;
-  LengthUnit unit = 2;
+  cmp.types.v1.LengthUnit unit = 2;
 }
 
 // Represents a dimension type, for example, to be used in baggage message type
@@ -16,7 +16,7 @@ message Dimension {
   int32 length = 1;
   int32 width = 2;
   int32 height = 3;
-  LengthUnit unit = 4;
+  cmp.types.v1.LengthUnit unit = 4;
 }
 
 // Length Unit
@@ -37,7 +37,7 @@ enum LengthUnit {
 // Ex: Used for weight in baggage message type
 message Weight {
   int32 value = 1;
-  WeightUnit unit = 2;
+  cmp.types.v1.WeightUnit unit = 2;
 }
 
 // Weight Unit

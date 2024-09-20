@@ -12,16 +12,16 @@ message Baggage {
   // Baggage type
   //
   // Enum of allowed baggage types.
-  BaggageType type = 1;
+  cmp.types.v1.BaggageType type = 1;
 
   // Maximum number of the specified baggage count allowed for this type
   int32 max_count = 2;
 
   // Maximum weight of each of the specified baggage type allowed
-  Weight max_weight = 3;
+  cmp.types.v1.Weight max_weight = 3;
 
   // Maximum length, width and height of the specified bagage type allowed
-  Dimension max_dimension = 4;
+  cmp.types.v1.Dimension max_dimension = 4;
 
   // traveller ID to specify the various types of baggage for each of participants
   // of a trip. If there is just a total of different types of baggage, then it is

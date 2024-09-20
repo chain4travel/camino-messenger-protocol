@@ -36,11 +36,11 @@ message Property {
   // Ex: "Hilton"
   string chain = 5;
 
-  // Ex: CategoryRating.CATEGORY_RATING_4_5
-  CategoryRating category_rating = 6;
+  // Ex: cmp.services.accommodation.v1.CategoryRating.CATEGORY_RATING_4_5
+  cmp.services.accommodation.v1.CategoryRating category_rating = 6;
 
-  // Ex: CategoryUnit.CATEGORY_UNIT_PALMS
-  CategoryUnit category_unit = 7;
+  // Ex: cmp.services.accommodation.v1.CategoryUnit.CATEGORY_UNIT_PALMS
+  cmp.services.accommodation.v1.CategoryUnit category_unit = 7;
 
   // Contact Info: phone, address, email, links
   cmp.types.v1.ContactInfo contact_info = 8;
@@ -88,8 +88,8 @@ enum CategoryUnit {
 
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
-  // Property
-  Property property = 1;
+  // cmp.services.accommodation.v1.Property
+  cmp.services.accommodation.v1.Property property = 1;
 
   // Images
   repeated cmp.types.v1.Image images = 2;
@@ -100,28 +100,28 @@ message PropertyExtendedInfo {
   // Segmentation classification
   repeated string classifications = 4;
 
-  // Property descriptions
+  // cmp.services.accommodation.v1.Property descriptions
   repeated cmp.types.v1.LocalizedDescriptionSet localized_descriptions = 5;
 
-  // Room descriptions
+  // cmp.services.accommodation.v1.Room descriptions
   repeated cmp.types.v1.LocalizedDescriptionSet localized_room_descriptions = 6;
 
   // Payment type. Ex: "MERCHANT"
   string payment_type = 7;
 
   // Rooms
-  repeated Room rooms = 8;
+  repeated cmp.services.accommodation.v1.Room rooms = 8;
 }
 
 message Room {
-  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
+  // cmp.services.accommodation.v1.Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
   // often no room codes are used. This code must explicitly match the supplier_room_code
   // in the ProductList and the ProductInfo messages, so that the static data like room
   // amenities, descriptions, images etc. can be married to the dynamic price and
   // availability data for display to the end user.
   string supplier_code = 1;
 
-  // Room name. In case of hotel a standardized room name is often derrived from
+  // cmp.services.accommodation.v1.Room name. In case of hotel a standardized room name is often derrived from
   // room code structures. Exmple: "superior seaview room".
   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
   // "Bathroom" when specific descriptions for each room are available.
@@ -136,7 +136,7 @@ message Room {
   repeated cmp.types.v1.Image images = 4;
   repeated cmp.types.v1.Video videos = 5;
 
-  // Room descriptions
+  // cmp.services.accommodation.v1.Room descriptions
   repeated cmp.types.v1.LocalizedDescriptionSet descriptions = 6;
 
   // Meal plan (Board code)
@@ -145,8 +145,8 @@ message Room {
   // Beds
   repeated cmp.types.v1.Bed beds = 8;
 
-  // Occupancy
-  Occupancy total_occupancy = 9;
+  // cmp.services.accommodation.v1.Occupancy
+  cmp.services.accommodation.v1.Occupancy total_occupancy = 9;
 
   // Services
   repeated cmp.types.v1.ServiceFact services = 10;
@@ -171,8 +171,8 @@ message Occupancy {
   // If infants are counted in total guests or not
   bool infant_counted_in_total_guests = 5;
 
-  // Occupancy options
-  repeated OccupancyOption occupancy_options = 6;
+  // cmp.services.accommodation.v1.Occupancy options
+  repeated cmp.services.accommodation.v1.OccupancyOption occupancy_options = 6;
 }
 
 message OccupancyOption {

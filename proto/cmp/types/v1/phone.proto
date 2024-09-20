@@ -9,7 +9,7 @@ package cmp.types.v1;
 message Phone {
   string number = 1;
 
-  PhoneType type = 2;
+  cmp.types.v1.PhoneType type = 2;
 
   string description = 3;
 }

@@ -29,7 +29,7 @@ message ActivityProductInfoResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Activities
-  repeated ActivityExtendedInfo activities = 2;
+  repeated cmp.services.activity.v1.ActivityExtendedInfo activities = 2;
 }
 
 // Activity product info service definition

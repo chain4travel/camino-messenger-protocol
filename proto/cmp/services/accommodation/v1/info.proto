@@ -27,7 +27,7 @@ message AccommodationProductInfoResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Properties
-  repeated PropertyExtendedInfo properties = 2;
+  repeated cmp.services.accommodation.v1.PropertyExtendedInfo properties = 2;
 }
 
 // Accommodation product info service definition

@@ -28,7 +28,7 @@ import "cmp/types/v1/traveller.proto";
 //
 // For the response this means that there is no grouping of different
 // room, mealplan or rateplan options in single room or single property searches.
-// Each AccommodationSearchResult is one bookable option as a "result_id".
+// Each cmp.services.accommodation.v1.AccommodationSearchResult is one bookable option as a "result_id".
 //
 // Simple example:
 // a search for 1 room for 2 adults would be just 1 query, with one travel period and
@@ -87,7 +87,7 @@ message AccommodationSearchRequest {
 
   // This field represents a list of search queries that can be used to create
   // multiroom multi location searches.
-  repeated AccommodationSearchQuery queries = 4;
+  repeated cmp.services.accommodation.v1.AccommodationSearchQuery queries = 4;
 }
 
 // The `Accommodation Search Response` message type facilitates the response for
@@ -106,7 +106,7 @@ message AccommodationSearchResponse {
   cmp.types.v1.SearchResponseMetadata metadata = 2;
 
   // Unique combinations of bookable search results, like property,
-  repeated AccommodationSearchResult results = 3;
+  repeated cmp.services.accommodation.v1.AccommodationSearchResult results = 3;
 
   // Global definition of the travellers for all results to be used via the traveller_id each unit.
   repeated cmp.types.v1.BasicTraveller travellers = 4;
