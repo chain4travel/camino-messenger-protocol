@@ -78,7 +78,7 @@ def find_latest_proto_files(directory):
 					try:
 						version_number = int(version[1:])  # Strip 'v' and convert to int
 					except:
-						print(f"[FATAL] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
+						print(f"⛔ [FATAL] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
 						sys.exit(3)
 
 					# Create a key for the file using prefix and filename
@@ -188,23 +188,23 @@ if print_graph:
 ## Fix the dependencies if --fix is passed:
 if fix:
 	print()
-	print("Trying to fix the dependencies...")
+	print("🔧 Trying to fix the dependencies...")
 
 	max_iterations=20
 
 	for iteration in range(max_iterations): # if it's not fixable in 20 iterations we're cooked anyways so break then
 		print
-		print(f"##### ↻ ITERATION #{iteration+1}/{max_iterations} ########")
+		print(f"🔄 ITERATION #{iteration+1}/{max_iterations}")
 
 		for file, wrong_includes in fix_needed.items():
 			include_fixes = []
 
 			print()
-			print(f"The file '{file}' needs a fix because the following includes are wrong:")
+			print(f"🔨 The file '{file}' needs a fix because the following includes are wrong:")
 			for wrong_include in wrong_includes:
 				correct_include = find_latest_version(wrong_include, latest_proto_files)
 				if correct_include == False:
-					print(f"[FATAL] Unable to find the latest version of {wrong_include}. Exiting")
+					print(f"⛔ [FATAL] Unable to find the latest version of {wrong_include}. Exiting")
 					sys.exit(2)
 					
 				print(f" -- {wrong_include} -> {correct_include}")
@@ -213,7 +213,7 @@ if fix:
 			# First we need to create a new file with version+1 where we can make the changes
 			# But first let's check if the file has already been created in a previous iteration and just reuse it
 			if file in fixed_new_version_files:
-				print(f"The file {file} was created in a previous iteration, therefore apply the changes directly")
+				print(f"♻️  The file {file} was created in a previous iteration, therefore apply the changes directly")
 				search_replace_in_file(directory_path + file, include_fixes)
 			else:
 				# This is a new file popping up so we need to create a new version and apply the include changes there
@@ -225,15 +225,18 @@ if fix:
 					new_path = f"{prefix}/v{version_number}"
 					new_filename = f"{new_path}/{proto_filename}"
 	
-					print(f"Creating a new file: {new_filename}")
+					print(f"✳️  Creating a new file: {new_filename}")
 					ensure_directory_exists(directory_path + new_path)
 					shutil.copyfile(directory_path + file, directory_path + new_filename)
 	
-					print(f"Applying include fixes to the file")
+					print(f"📝 Applying include fixes to the file")
 					# now that we have a new version (1:1 copy) of the wrong file let's fix the includes:
 					search_replace_in_file(directory_path + new_filename, include_fixes)
 					fixed_new_version_files.append(new_filename)
 
+
+		print()
+		print("🔍 Re-Running checks...")
 		global_error, latest_proto_files, fix_needed, include_graph = default_run()
 
 		if global_error:
