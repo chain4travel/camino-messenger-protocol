@@ -244,7 +244,13 @@ if fix:
 		if global_error:
 			print("⌛ Dependency fix needs another iteration to fix new broken dependencies ... ")
 		else:
-			print("✅ Dependency fix might have succeeded. Please check the results (and don't forget to add the new directories/files)!")
+			print("✅ Dependency fix might have succeeded. Please check the results!")
+			print()
+			print("📋 List of files which have been added by --fix.") 
+			for added_file in fixed_new_version_files:
+				print(f"  🆕 {added_file}")
+			print("⚠️  Don't forget to add the new directories/files!")
+			print()
 			break
 
 
