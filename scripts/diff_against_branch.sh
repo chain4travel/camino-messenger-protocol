@@ -97,7 +97,7 @@ done < <(git diff --diff-filter=A --name-status origin/$ORIGIN | grep -oP "proto
 echo -e "🔍 Checking for modifications in existing files to catch unwanted structural changes"
 while read FILE ; do
 	check_modified_file $FILE
-done < <(git diff --diff-filter=M --name-status origin/$ORIGIN | grep -P "^M.*" | grep -oP "proto/.*")
+done < <(git diff --diff-filter=M --name-status origin/$ORIGIN | grep -oP "proto/.*")
 
 if [ ${#ERROR_FILES[@]} -gt 0 ] ; then
 	echo
