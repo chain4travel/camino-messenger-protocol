@@ -230,7 +230,10 @@ def print_dependency_graph(dep_dict):
 		print()  # Add an empty line for better readability
 
 if print_graph:
-	print_dependency_graph(include_graph)
+	if global_error == True:
+		print("❌ [FAIL] Won't print the graph as there were errors found while doing the dependency check!")
+	else:
+		print_dependency_graph(include_graph)
 
 ## Fix the dependencies if --fix is passed:
 if fix:
