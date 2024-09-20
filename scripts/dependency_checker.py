@@ -156,7 +156,9 @@ def default_run():
 		print("✅ [PASS] Dependency check successful!")
 
 	return (global_error, latest_proto_files, fix_needed, included_by)
-	
+
+
+print("🔍 Checking dependencies")
 global_error, latest_proto_files, fix_needed, include_graph = default_run()
 
 ## Print of dependency graph if --print-graph is passed:
@@ -207,7 +209,7 @@ if fix:
 					print(f"⛔ [FATAL] Unable to find the latest version of {wrong_include}. Exiting")
 					sys.exit(2)
 					
-				print(f" -- {wrong_include} -> {correct_include}")
+				print(f"    ➡  {wrong_include} ▶️ {correct_include}")
 				include_fixes.append( (wrong_include, correct_include) )
 
 			# First we need to create a new file with version+1 where we can make the changes
@@ -225,7 +227,7 @@ if fix:
 					new_path = f"{prefix}/v{version_number}"
 					new_filename = f"{new_path}/{proto_filename}"
 	
-					print(f"✳️  Creating a new file: {new_filename}")
+					print(f"✳️ Creating a new file: {new_filename}")
 					ensure_directory_exists(directory_path + new_path)
 					shutil.copyfile(directory_path + file, directory_path + new_filename)
 	
