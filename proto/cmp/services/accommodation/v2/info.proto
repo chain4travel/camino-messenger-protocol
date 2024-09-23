@@ -5,7 +5,7 @@ package cmp.services.accommodation.v2;
 import "cmp/services/accommodation/v2/property_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v1/product_code.proto";
+import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 message AccommodationProductInfoRequest {
@@ -19,7 +19,7 @@ message AccommodationProductInfoRequest {
   repeated cmp.types.v1.Language languages = 3;
 
   // Property codes
-  repeated cmp.types.v1.SupplierProductCode supplier_codes = 4;
+  repeated cmp.types.v2.SupplierProductCode supplier_codes = 4;
 }
 
 message AccommodationProductInfoResponse {

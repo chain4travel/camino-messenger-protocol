@@ -15,8 +15,8 @@ package cmp.services.accommodation.v2;
 import "cmp/services/accommodation/v2/search_query_types.proto";
 import "cmp/services/accommodation/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/traveller.proto";
 import "cmp/types/v2/search.proto";
+import "cmp/types/v2/traveller.proto";
 
 // The `Accommodation Search Request` message type facilitates the request for
 // accommodations like hotel and holiday home searches within the platform. In the
@@ -109,7 +109,7 @@ message AccommodationSearchResponse {
   repeated cmp.services.accommodation.v2.AccommodationSearchResult results = 3;
 
   // Global definition of the travellers for all results to be used via the traveller_id each unit.
-  repeated cmp.types.v1.BasicTraveller travellers = 4;
+  repeated cmp.types.v2.BasicTraveller travellers = 4;
 }
 
 // Service definition for Accommodation search

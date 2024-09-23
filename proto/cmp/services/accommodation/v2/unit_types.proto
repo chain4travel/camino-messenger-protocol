@@ -4,11 +4,11 @@ package cmp.services.accommodation.v2;
 
 import "cmp/types/v1/bed.proto";
 import "cmp/types/v1/meal_plan.proto";
-import "cmp/types/v1/product_code.proto";
 import "cmp/types/v1/rate.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/cancel_policy.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v2/product_code.proto";
 import "cmp/types/v2/service_fact.proto";
 
 // A Unit can represent a room in a hotel. One search option can have multiple units
@@ -76,10 +76,10 @@ message Unit {
   int32 remaining_units = 14;
 
   // Property code which can be of different types
-  cmp.types.v1.ProductCode property_code = 15;
+  cmp.types.v2.ProductCode property_code = 15;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
-  cmp.types.v1.SupplierProductCode supplier_code = 16;
+  cmp.types.v2.SupplierProductCode supplier_code = 16;
 
   // Remarks
   // Non structural aspects related to the unit a supplier wants to include in the search

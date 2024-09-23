@@ -15,8 +15,8 @@ import "cmp/services/transport/v2/search_query_types.proto";
 import "cmp/services/transport/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/content_source.proto";
-import "cmp/types/v1/traveller.proto";
 import "cmp/types/v2/search.proto";
+import "cmp/types/v2/traveller.proto";
 
 // Transport Search Request
 message TransportSearchRequest {
@@ -59,7 +59,7 @@ message TransportSearchResponse {
   repeated cmp.services.transport.v2.TransportSearchResult results = 4;
 
   // Global definition of the travellers for all results to be used via the traveller_id
-  repeated cmp.types.v1.BasicTraveller travellers = 5;
+  repeated cmp.types.v2.BasicTraveller travellers = 5;
 }
 
 // Transport Search Service definition.

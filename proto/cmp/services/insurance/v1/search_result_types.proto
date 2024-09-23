@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.insurance.v1;
 
 import "cmp/types/v1/bookability.proto";
-import "cmp/types/v1/price.proto";
+import "cmp/types/v2/price.proto";
 
 // This type represents a search result and is used in the
 // `InsuranceSearchResponse` message.
@@ -22,7 +22,7 @@ message InsuranceSearchResult {
   repeated PolicyCodes policies = 3;
 
   // ## Total price in detail, with breakdowns
-  cmp.types.v1.PriceDetail total_price_detail = 4;
+  cmp.types.v2.PriceDetail total_price_detail = 4;
 
   // Freetext remarks without any functionality
   string remarks = 5;

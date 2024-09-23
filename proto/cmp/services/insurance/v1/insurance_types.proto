@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1;
 
-import "cmp/types/v1/contact_info.proto";
 import "cmp/types/v1/file.proto";
 import "cmp/types/v1/link.proto";
-import "cmp/types/v1/price.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -56,7 +56,7 @@ message PolicyExtendedInfo {
   PolicyType policy_type = 5;
 
   // Support contact
-  cmp.types.v1.ContactInfo support_contact = 6;
+  cmp.types.v2.ContactInfo support_contact = 6;
 
   // Criteria
   repeated PolicyCriteria criteria = 7;
@@ -117,7 +117,7 @@ enum PolicyType {
 
 message PolicyCoverage {
   // Maximum coverage amount
-  cmp.types.v1.Price max_coverage_amount = 3;
+  cmp.types.v2.Price max_coverage_amount = 3;
 
   // URL to Detailed list of risks covered
   cmp.types.v1.Link coverage_link = 4;

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package cmp.services.info.v2;
+
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/datetime_range.proto";
+import "cmp/types/v1/filter.proto";
+import "cmp/types/v1/language.proto";
+import "cmp/types/v1/localized.proto";
+import "cmp/types/v1/travel_type.proto";
+import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/country.proto";
+import "google/protobuf/timestamp.proto";
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v1/entry_requirements.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v1/entry_requirements.proto.dot.svg)
+service CountryEntryRequirementsService {
+  rpc CountryEntryRequirements(CountryEntryRequirementsRequest) returns (CountryEntryRequirementsResponse);
+}
+
+message CountryEntryRequirementsRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Departure country
+  cmp.types.v2.Country departure = 2;
+
+  // Destination country
+  cmp.types.v2.Country destination = 3;
+
+  // Citizenship
+  cmp.types.v2.Country citizenship = 4;
+
+  // Residence
+  cmp.types.v2.Country residence = 5;
+
+  // Transit country
+  cmp.types.v2.Country transit = 6;
+
+  // Travel type, ex: business or tourism
+  cmp.types.v1.TravelType travel_type = 7;
+
+  // Date time range, start and end dates of visit, as timestamp.
+  cmp.types.v1.DateTimeRange datetime_range = 8;
+
+  // Languages requested
+  repeated cmp.types.v1.Language languages = 9;
+
+  bool exclude_categories = 10;
+
+  bool include_items = 11;
+
+  repeated cmp.types.v1.Filter filters = 12;
+}
+
+message CountryEntryRequirementsResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // This must be a UUID according to RFC 4122
+  cmp.types.v1.UUID response_id = 2;
+
+  // Categories
+  repeated cmp.services.info.v2.CountryEntryRequirementCategory categories = 3;
+
+  // Items
+  repeated cmp.services.info.v2.CountryEntryRequirementItem items = 4;
+}
+
+// Types
+
+message CountryEntryRequirementCategory {
+  // Category key. FIXME: Can this field be an enum?
+  string key = 1;
+
+  // List of localized names
+  repeated cmp.types.v1.LocalizedString names = 2;
+
+  // Items
+  repeated cmp.services.info.v2.CountryEntryRequirementItem items = 3;
+
+  // Sub categories
+  repeated cmp.services.info.v2.CountryEntryRequirementCategory sub_categories = 4;
+}
+
+message CountryEntryRequirementItem {
+  // Item type key.  FIXME: Can this field be an enum?
+  string key = 1;
+
+  // Language specific names and descriptions
+  repeated cmp.services.info.v2.LocalizedItemInfo info = 2;
+
+  // Status of the item. TODO: Add more explanation, what it means if it's false?
+  cmp.services.info.v2.ItemStatus status = 3;
+
+  // Significant update date
+  google.protobuf.Timestamp last_significant_update = 4;
+}
+
+message LocalizedItemInfo {
+  string name = 1;
+  string description = 2;
+  cmp.types.v1.Language language = 3;
+}
+
+// FIXME: We need to clarify what true, false and undefined means for status and
+// maybe update this enum accordingly
+enum ItemStatus {
+  ITEM_STATUS_UNSPECIFIED = 0;
+  ITEM_STATUS_TRUE = 1;
+  ITEM_STATUS_FALSE = 2;
+}

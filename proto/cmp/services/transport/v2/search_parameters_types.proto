@@ -3,9 +3,9 @@ syntax = "proto3";
 package cmp.services.transport.v2;
 
 import "cmp/types/v1/duration.proto";
-import "cmp/types/v1/product_code.proto";
 import "cmp/types/v1/time.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v2/product_code.proto";
 
 // Transport Search Parameters
 //
@@ -14,12 +14,12 @@ import "cmp/types/v2/price.proto";
 message TransportSearchParameters {
   // Specify one or more type codes to be included in the search response
   // Ex: code "EW" number "1234" of the type "IATA"
-  repeated cmp.types.v1.ProductCode product_codes = 1;
+  repeated cmp.types.v2.ProductCode product_codes = 1;
 
   // Specify one or more supplier codes to be included in the search response
   // These must match the supplier codes provided in the ProductList and
   // ProductInfo messages
-  repeated cmp.types.v1.SupplierProductCode supplier_code_codes = 2;
+  repeated cmp.types.v2.SupplierProductCode supplier_code_codes = 2;
 
   // The minimum duration of a transport to be included in the search response
   cmp.types.v1.Duration min_duration = 3;

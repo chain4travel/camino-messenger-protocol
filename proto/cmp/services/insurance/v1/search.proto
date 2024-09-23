@@ -22,8 +22,8 @@ package cmp.services.insurance.v1;
 import "cmp/services/insurance/v1/search_query_types.proto";
 import "cmp/services/insurance/v1/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/search.proto";
-import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/search.proto";
+import "cmp/types/v2/traveller.proto";
 
 // InsuranceSearchRequest
 //
@@ -44,14 +44,14 @@ message InsuranceSearchRequest {
   cmp.types.v1.RequestHeader header = 1;
 
   // Search request metadata
-  cmp.types.v1.SearchRequestMetadata metadata = 2;
+  cmp.types.v2.SearchRequestMetadata metadata = 2;
 
   // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
   // only the cheapest or all options.
   // In the search parameters multiple filters can be applied for upfront filtering
   // of the search results to for example to only include hotels that are less than
   // one kilometer from the beach, have a kids club and offer an a la carte restaurant
-  cmp.types.v1.SearchParameters search_parameters_generic = 3;
+  cmp.types.v2.SearchParameters search_parameters_generic = 3;
 
   // This field represents a list of search queries that can be used to create
   // multiroom multi location searches.
@@ -71,13 +71,13 @@ message InsuranceSearchResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Search response metadata
-  cmp.types.v1.SearchResponseMetadata metadata = 2;
+  cmp.types.v2.SearchResponseMetadata metadata = 2;
 
   // Unique combinations of bookable search results, like property,
   repeated InsuranceSearchResult results = 3;
 
   // Global definition of the travellers for all results to be used via the traveller_id each unit.
-  repeated cmp.types.v1.BasicTraveller travellers = 4;
+  repeated cmp.types.v2.BasicTraveller travellers = 4;
 }
 
 // Service definition for Insurance search
