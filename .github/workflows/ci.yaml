@@ -74,8 +74,8 @@ jobs:
           fi
       - name: Buf Breaking Check
         run: |
-          # Run buf breaking against c4t
-          buf breaking --against '.git#branch=c4t'
+          # Run buf breaking against main label on buf.build
+          buf breaking --against buf.build/chain4travel/camino-messenger-protocol
 
   # diff check against c4t branch to catch breaking changes
   diff-c4t:
