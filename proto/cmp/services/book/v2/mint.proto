@@ -67,7 +67,9 @@ message MintResponse {
   // populated by the supplier bot after the `BookingToken` is minted on chain.
   uint64 booking_token_id = 7;
 
-  // URI of the token that represents the booking of the service
+  // URI of the token that represents the booking of the service. This should be
+  // populated by the Supplier partner plugin. It is up to the supplier to decide
+  // what kind of storage (IPFS, HTTP, ...) to use here.
   string booking_token_uri = 8;
 
   // Mint transaction ID that will be populated by the supplier bot after the
