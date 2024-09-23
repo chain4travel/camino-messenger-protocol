@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v2;
+
+import "cmp/services/accommodation/v2/unit_types.proto";
+import "cmp/types/v1/bookability.proto";
+import "cmp/types/v1/rate.proto";
+import "cmp/types/v2/cancel_policy.proto";
+import "cmp/types/v2/price.proto";
+
+// This type represents a search result and is used in the
+// `AccommodationSearchResponse` message.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_result_types.proto.dot.svg)
+message AccommodationSearchResult {
+  // ID for the search result. This is an increasing number starting at 0 and
+  // increasing by 1 for every search result.
+  int32 result_id = 1;
+
+  // This field represents the query ID associated with the search result.
+  int32 query_id = 2;
+
+  // Units for this search result
+  repeated cmp.services.accommodation.v2.Unit units = 3;
+
+  // ## Total price in detail, with breakdowns
+  cmp.types.v2.PriceDetail total_price_detail = 4;
+
+  // The RateRule specifies whether a search result is non-refundable or not
+  repeated cmp.types.v1.RateRule rate_rules = 5;
+
+  // The cancellation conditions related to an option
+  cmp.types.v2.CancelPolicy cancel_policy = 6;
+
+  // Freetext remarks without any functionality
+  string remarks = 7;
+
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v1.Bookability bookability = 8;
+}

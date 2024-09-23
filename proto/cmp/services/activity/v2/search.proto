@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+// ### Activity Services
+//
+// The Activity services are used for both tickets and excursions.
+//
+// Any search message response in the Camino Messenger Protocol only includes
+// dynamic data in the search, validate and mint process. Static data can be cached
+// and kept up to date with the Product List and Product Details messages.
+//
+// Partners keep the list of activity products up-to-date on a daily basis, by
+// getting changes since yesterday with the ActivityProductList service. The details
+// of the updated activities are bing pulled using the ActivityProductInfo service.
+//
+// Once we have a traveller interested in an activity, the ActivitySearch service is
+// used to obtain the pricing of relevant activities that are available. In this
+// process there is no repeated exchange of static data to reduce the message size,
+// reduce cost and increase processing speed.
+//
+// Similar to all other message types, the Activity service is constructed using the
+// "Product", "Unit" and "Service" layers. For example the product is a Taylor Swift
+// concert or a Disney World ticket. The unit then gives us a choice of the
+// different options that are available, like for example a normal ticket or a VIP
+// ticket. Finally we would have the services, which can be selected like do we go
+// there by ourselves or is a transfer from our hotel included. This then would
+// result to product=Disneyland, unit=VIP, service=TRFIncluded.
+//
+// It is of course impossible to offer a transfer from every hotel in Florida to
+// Disney World. A supplier might have defined just the ticket, without transfer. And
+// additionally a ticket with transfer from the 25 most popular hotels in the area.
+// If the PickUp is not provided in the search request, the response should include
+// an option without transfer and further options that include a transfer from
+// several hotels that are close together and would cost the same for the ticket and
+// transfer.
+//
+// The Activity search messages will be adapted to work with the SeatMap services,
+// just like the Transport service. This package is **WIP**.
+package cmp.services.activity.v2;
+
+import "cmp/services/activity/v2/search_parameters_types.proto";
+import "cmp/services/activity/v2/search_result_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/location.proto";
+import "cmp/types/v1/travel_period.proto";
+import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/search.proto";
+
+// Search request for Activities
+message ActivitySearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address.
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Search request metadata
+  cmp.types.v2.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters
+  //
+  // Ex: Inclusion of OnRequest options, inclusion of only the cheapest or all
+  // options, setting the market, language, currency, sorting and filters etc.
+  cmp.types.v2.SearchParameters search_parameters_generic = 3;
+
+  // Activity specific search parameters
+  //
+  // Here we set for example a list of activity product codes that we want to search
+  // for, set min or mar duration or price.
+  cmp.services.activity.v2.ActivitySearchParameters search_parameters_activity = 4;
+
+  // Travel period
+  cmp.types.v1.TravelPeriod travel_period = 5;
+
+  // Travellers
+  repeated cmp.types.v1.BasicTraveller travellers = 6;
+
+  // For search, set only one of the fields at once. Source location indicates the
+  // customer’s position at the start of the service. Typical value would be the
+  // stay hotel or the touristic destination. The source location is needed for
+  // service and transfer availability, pickup location and pickup time calculation.
+  // Setting the source_location will reduce the list of options to the activities
+  // that can be serviced. In the example of Disney World and Orlando it will reduce
+  // the list substantially as the non-relevant pick-up points will not be included.
+  //
+  // This one of field enforces only one of the fields below. They all share memory,
+  // setting one will remove the others.
+  oneof source_location {
+    // The code and code type of a stay location the provider will be able to process
+    // Ex. GiataID
+    cmp.types.v1.LocationCodes source_location_codes = 7;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v1.Coordinates source_location_coordinates = 8;
+
+    // Geo tree type, represented by Country, Region, and City_or_Resort.
+    cmp.types.v1.GeoTree source_location_geo_tree = 9;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v1.GeoCircle source_location_geo_circle = 10;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v1.GeoPolygon source_location_geo_polygon = 11;
+  }
+
+  // For search, set only one of the field at once. Service location specifies the
+  // areas involved in a ticket or excursion service. Service location indicates the
+  // area of the requested services. Typical value would be the region or resort.
+  //
+  // This one of field enforces only one of the fields below. They all share memory,
+  // setting one will remove the others.
+  oneof service_location {
+    // The code and code type of a stay location the distributor will be able to
+    // process. Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or
+    // any other agreed code type.
+    cmp.types.v1.LocationCodes service_location_codes = 12;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v1.Coordinates service_location_coordinates = 13;
+
+    // Geo tree type, represented by Country, Region, and City_or_Resort.
+    cmp.types.v1.GeoTree service_location_geo_tree = 14;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v1.GeoCircle service_location_geo_circle = 15;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v1.GeoPolygon service_location_geo_polygon = 16;
+  }
+}
+
+message ActivitySearchResponse {
+  // Message header. Contains API version, message info string and end user wallet
+  // address.
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Search response metadata
+  //
+  // The most important field is the search_id, which is a UUID that needs to be
+  // carried through to the validate request.
+  cmp.types.v2.SearchResponseMetadata metadata = 2;
+
+  // Unique combinations of bookable search results, each identified by a result_id
+  // that needs to be carried through to the validate request.
+  repeated cmp.services.activity.v2.ActivitySearchResult results = 3;
+
+  // The traveller_id is specified in each result and the ids are detailed with
+  // basic traveller data only once in the top-level search response to avoid
+  // repetition.
+  repeated cmp.types.v1.BasicTraveller travellers = 4;
+}
+
+// Activity Search Service
+//
+// Takes `ActivitySearchRequest` message type and returns `ActivitySearchResponse` message type.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search.proto.dot.svg)
+service ActivitySearchService {
+  rpc ActivitySearch(ActivitySearchRequest) returns (ActivitySearchResponse);
+}

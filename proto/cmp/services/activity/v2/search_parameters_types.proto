@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package cmp.services.activity.v2;
+
+import "cmp/types/v1/duration.proto";
+import "cmp/types/v1/language.proto";
+import "cmp/types/v1/product_code.proto";
+import "cmp/types/v2/price.proto";
+
+// These are Activity specific search parameters
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.svg)
+message ActivitySearchParameters {
+  // Specify the language(s) a potential guide should speak for example a tour in
+  // the Anne Frank house in Amsterdam in French or the tour at the pyramids in
+  // Egypt should be in Russian
+  repeated cmp.types.v1.Language spoken_languages = 1;
+
+  // Specify one or more supplier codes to be included in the search response
+  // These must match the supplier codes provided in the ProductList and
+  // ProductInfo messages
+  repeated cmp.types.v1.SupplierProductCode supplier_codes = 2;
+
+  // Specify one or more product codes to be included in the search response
+  // These can be of different types
+  repeated cmp.types.v1.ProductCode product_codes = 3;
+
+  // Specify one or more unit IDs to be included in the search response
+  // The purpose of this concept is to allow for different activities for one product
+  // like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga".
+  // Code and description match the information provided in the ProductList and
+  // ProductInfo message. These are in general also supplier specific.
+  repeated string unit_codes = 4;
+
+  // Specify one or more service codes to be included in the search response
+  // Several different packages could be included like "Windsurfing" with or without
+  // "Wetsuit". Code and description match the information provided in the ProductInfo message
+  // These are in general also supplier specific
+  repeated string service_codes = 5;
+
+  // Duration
+  //
+  // Specify the minimal and maximum duration of an activity to be included in the
+  // search response
+  cmp.types.v1.Duration min_duration = 6;
+  cmp.types.v1.Duration max_duration = 7;
+
+  // Price range
+  //
+  // Specify the minimum and maximum price of an activity to be included in the
+  // search response
+  cmp.types.v2.Price min_price = 8;
+  cmp.types.v2.Price max_price = 9;
+}
