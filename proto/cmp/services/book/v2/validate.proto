@@ -3,10 +3,10 @@ syntax = "proto3";
 package cmp.services.book.v2;
 
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/price.proto";
-import "cmp/types/v2/search.proto";
 import "cmp/types/v1/seat_map.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/price.proto";
+import "cmp/types/v2/search.proto";
 
 message ValidationRequest {
   // Message header

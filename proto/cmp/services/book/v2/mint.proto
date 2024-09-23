@@ -5,10 +5,10 @@ package cmp.services.book.v2;
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/payment.proto";
-import "cmp/types/v2/price.proto";
 import "cmp/types/v1/pubkey.proto";
 import "cmp/types/v1/traveller.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/price.proto";
 import "google/protobuf/timestamp.proto";
 
 message MintRequest {

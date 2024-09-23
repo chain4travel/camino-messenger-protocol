@@ -11,8 +11,8 @@ import "cmp/types/v1/location.proto";
 import "cmp/types/v1/meal_plan.proto";
 import "cmp/types/v1/product_code.proto";
 import "cmp/types/v1/product_status.proto";
-import "cmp/types/v2/service_fact.proto";
 import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 
 // Represents property info for an accommodation product

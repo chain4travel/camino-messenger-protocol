@@ -6,8 +6,8 @@ import "cmp/types/v1/baggage.proto";
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/location.proto";
 import "cmp/types/v1/measurement.proto";
-import "cmp/types/v2/price.proto";
 import "cmp/types/v1/product_code.proto";
+import "cmp/types/v2/price.proto";
 import "cmp/types/v2/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 

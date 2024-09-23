@@ -4,9 +4,9 @@ package cmp.services.accommodation.v2;
 
 import "cmp/services/accommodation/v2/unit_types.proto";
 import "cmp/types/v1/bookability.proto";
+import "cmp/types/v1/rate.proto";
 import "cmp/types/v2/cancel_policy.proto";
 import "cmp/types/v2/price.proto";
-import "cmp/types/v1/rate.proto";
 
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.

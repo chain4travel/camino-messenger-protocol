@@ -15,8 +15,8 @@ package cmp.services.accommodation.v2;
 import "cmp/services/accommodation/v2/search_query_types.proto";
 import "cmp/services/accommodation/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/search.proto";
 import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/search.proto";
 
 // The `Accommodation Search Request` message type facilitates the request for
 // accommodations like hotel and holiday home searches within the platform. In the

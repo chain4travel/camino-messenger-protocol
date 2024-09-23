@@ -41,9 +41,9 @@ import "cmp/services/activity/v2/search_parameters_types.proto";
 import "cmp/services/activity/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/location.proto";
-import "cmp/types/v2/search.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/search.proto";
 
 // Search request for Activities
 message ActivitySearchRequest {

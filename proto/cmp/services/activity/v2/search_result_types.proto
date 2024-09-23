@@ -4,8 +4,8 @@ package cmp.services.activity.v2;
 
 import "cmp/services/activity/v1/activity_types.proto";
 import "cmp/types/v1/datetime_range.proto";
-import "cmp/types/v2/price.proto";
 import "cmp/types/v1/price_type.proto";
+import "cmp/types/v2/price.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.

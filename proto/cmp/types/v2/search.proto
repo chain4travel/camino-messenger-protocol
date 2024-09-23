@@ -4,11 +4,11 @@ package cmp.types.v2;
 
 import "cmp/types/v1/content_source.proto";
 import "cmp/types/v1/country.proto";
-import "cmp/types/v2/currency.proto";
 import "cmp/types/v1/filter.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/sorting.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/currency.proto";
 
 // Search parameters for the search requests
 //

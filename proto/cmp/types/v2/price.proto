@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
-import "cmp/types/v2/currency.proto";
 import "cmp/types/v1/price_type.proto";
+import "cmp/types/v2/currency.proto";
 
 // ### PriceDetail
 //

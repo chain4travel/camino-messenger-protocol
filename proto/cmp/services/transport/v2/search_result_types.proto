@@ -4,12 +4,12 @@ package cmp.services.transport.v2;
 
 import "cmp/services/transport/v2/trip_types.proto";
 import "cmp/types/v1/bookability.proto";
-import "cmp/types/v2/cancel_policy.proto";
-import "cmp/types/v2/change_policy.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/link.proto";
-import "cmp/types/v2/price.proto";
 import "cmp/types/v1/rate.proto";
+import "cmp/types/v2/cancel_policy.proto";
+import "cmp/types/v2/change_policy.proto";
+import "cmp/types/v2/price.proto";
 
 // Transport search result
 //

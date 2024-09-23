@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
-import "cmp/types/v2/token.proto";
 import "cmp/types/v1/wallet.proto";
+import "cmp/types/v2/token.proto";
 
 // ### Partner message type
 //
