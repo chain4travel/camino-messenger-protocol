@@ -5,7 +5,7 @@ package cmp.services.book.v2;
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/payment.proto";
-import "cmp/types/v1/price.proto";
+import "cmp/types/v2/price.proto";
 import "cmp/types/v1/pubkey.proto";
 import "cmp/types/v1/traveller.proto";
 import "cmp/types/v1/uuid.proto";
@@ -61,7 +61,7 @@ message MintResponse {
 
   // Price of the `BookingToken`. This field is meant to be populated by the
   // supplier plugin and used by the supplier bot while minting the `BookingToken`.
-  cmp.types.v1.Price price = 6;
+  cmp.types.v2.Price price = 6;
 
   // ID of the token that represents the booking of the service
   uint64 booking_token_id = 7;
