@@ -63,7 +63,8 @@ message MintResponse {
   // supplier plugin and used by the supplier bot while minting the `BookingToken`.
   cmp.types.v2.Price price = 6;
 
-  // ID of the token that represents the booking of the service
+  // ID of the token that represents the booking of the service. This will be
+  // populated by the supplier bot after the `BookingToken` is minted on chain.
   uint64 booking_token_id = 7;
 
   // URI of the token that represents the booking of the service
