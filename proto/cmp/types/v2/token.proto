@@ -17,5 +17,5 @@ message Token {
   string contract = 1;
 
   // Token ID
-  int32 token_id = 2;
+  uint64 token_id = 2;
 }
