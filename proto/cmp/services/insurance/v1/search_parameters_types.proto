@@ -6,7 +6,7 @@ import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/country.proto";
 import "cmp/types/v2/currency.proto";
-import "cmp/types/v2/loyalty_program.proto";
+import "cmp/types/v1/loyalty_program.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v2/traveller.proto";
 
@@ -44,5 +44,5 @@ message InsuranceSearchParameters {
   repeated cmp.types.v2.BasicTraveller travellers = 9;
 
   // Loyalty Program
-  cmp.types.v2.LoyaltyProgram loyalty_program = 10;
+  cmp.types.v1.LoyaltyProgram loyalty_program = 10;
 }
