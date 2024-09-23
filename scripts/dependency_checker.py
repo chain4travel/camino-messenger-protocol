@@ -274,8 +274,8 @@ if fix:
 				include_file = directory_path + correct_include
 				messages = extract_proto_definitions(include_file)
 				for message in messages:
-					message_search = f"{prefix_dots}.{old_include_version}.{message}"
-					message_replace = f"{prefix_dots}.{new_include_version}.{message}"
+					message_search = f"{prefix_dots}.{old_include_version}.{message} "
+					message_replace = f"{prefix_dots}.{new_include_version}.{message} "
 					search_replace_fixes.append( (message_search, message_replace) )
 
 			# First we need to create a new file with version+1 where we can make the changes
@@ -309,6 +309,14 @@ if fix:
 					package_search = f"package {prefix_dots}.{version}"
 					package_replace = f"package {prefix_dots}.v{version_number}"
 					search_replace_fixes.append( (package_search, package_replace) )
+
+					# Update the references inside of the file to the new version
+					messages = extract_proto_definitions(directory_path + new_filename)
+					for message in messages:
+						message_search = f"{prefix_dots}.{old_include_version}.{message} "
+						message_replace = f"{prefix_dots}.{new_include_version}.{message} "
+						search_replace_fixes.append( (message_search, message_replace) )
+
 
 					search_replace_in_file(directory_path + new_filename, search_replace_fixes)
 					fixed_new_version_files.append(new_filename)
