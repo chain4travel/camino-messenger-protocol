@@ -57,6 +57,26 @@ jobs:
           # Run buf format
           buf format proto --diff --exit-code
 
+  buf-breaking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Install buf
+        run: |
+          # Installing buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version }}
+          fi
+      - name: Buf Breaking Check
+        run: |
+          # Run buf breaking against main label on buf.build
+          buf breaking --against buf.build/chain4travel/camino-messenger-protocol
+
   # diff check against c4t branch to catch breaking changes
   diff-c4t:
     runs-on: ubuntu-latest
@@ -67,7 +87,7 @@ jobs:
         run: scripts/diff_against_branch.sh
 
   # dependency check to catch if proto files were not updated correctly
-  depdency-check:
+  dependency-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -78,7 +98,7 @@ jobs:
   # Push the draft branch to buf.build
   bsr-push-draft:
     runs-on: ubuntu-latest
-    needs: buf-lint
+    needs: [buf-lint, buf-breaking]
     if: ${{ (github.ref == 'refs/heads/draft') || (github.ref == 'refs/heads/dev') }}
     environment: draft
     steps:
@@ -108,7 +128,7 @@ jobs:
   # Generate and upload protodot diagrams
   diagrams:
     runs-on: ubuntu-latest
-    needs: buf-lint
+    needs: [buf-lint, buf-breaking]
     if: ${{ (github.ref == 'refs/heads/draft') || (github.ref == 'refs/heads/dev') || (github.ref == 'refs/heads/c4t') }}
     steps:
       # Setup environment
