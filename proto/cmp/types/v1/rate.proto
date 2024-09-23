@@ -10,7 +10,7 @@ message RateRule {
   // RateRule
   //
   // The eneumeration for RateRuleType is meant for uniformed and standardized display.
-  RateRuleType rate_type = 1;
+  cmp.types.v1.RateRuleType rate_type = 1;
 
   // Rate description and reference. In case of enrichment additional description of the rate type.
   // Please omit if covered with the RateRuleType.
@@ -37,7 +37,7 @@ message RatePlan {
   string rate_plan_code = 1;
 
   // Rateplan type standardization
-  RatePlanType rate_plan_type = 2;
+  cmp.types.v1.RatePlanType rate_plan_type = 2;
 
   // Rateplan description. In case of enrichment additional description of the rate plan.
   //

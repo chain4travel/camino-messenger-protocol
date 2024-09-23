@@ -23,7 +23,7 @@ message BasicTraveller {
   int32 traveller_id = 1;
 
   // Traveller type from enum below
-  TravellerType type = 2;
+  cmp.types.v1.TravellerType type = 2;
 
   // Birthdate
   cmp.types.v1.Date birthdate = 3;
@@ -47,7 +47,7 @@ message ExtensiveTraveller {
   int32 traveller_id = 1;
 
   // Gender from the enum below
-  GenderType gender = 2;
+  cmp.types.v1.GenderType gender = 2;
 
   // Many systems might just have one field for all first names and just one field
   // for all surnames of a traveller. However, we see many countries with many

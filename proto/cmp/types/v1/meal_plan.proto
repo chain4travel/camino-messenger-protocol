@@ -10,7 +10,7 @@ message MealPlan {
   // Meal Plan Code
   //
   // Ex: `MealPlan.MEAL_PLAN_AI` for "All Inclusive" meal plan.
-  MealPlanCode code = 1;
+  cmp.types.v1.MealPlanCode code = 1;
 
   // Mealplan description. In case of enrichment additional description of the unit code.
   //

@@ -12,6 +12,6 @@ message Duration {
 
 // Duration range message that includes minimum and maximum duration.
 message DurationRange {
-  Duration min_duration = 1;
-  Duration max_duration = 2;
+  cmp.types.v1.Duration min_duration = 1;
+  cmp.types.v1.Duration max_duration = 2;
 }

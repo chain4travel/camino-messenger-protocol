@@ -18,18 +18,18 @@ message Seat {
 
   // The location of the seat within the seat map. This can be defined using either
   // a vector (SVG) or bitmap format.
-  SeatLocation location = 2;
+  cmp.types.v1.SeatLocation location = 2;
 
   // Static features associated with the seat, such as type, amenities, etc.
-  repeated LocalizedSeatAttributeSet features = 3;
+  repeated cmp.types.v1.LocalizedSeatAttributeSet features = 3;
 
   // Restrictions associated with the seat, such as age limits or accessibility requirements.
-  repeated LocalizedSeatAttributeSet restrictions = 4;
+  repeated cmp.types.v1.LocalizedSeatAttributeSet restrictions = 4;
 }
 
 // List of seats
 message SeatList {
-  repeated Seat seats = 1;
+  repeated cmp.types.v1.Seat seats = 1;
 }
 
 // A Section represents a distinct area within a venue, which can be defined by
@@ -48,7 +48,7 @@ message Section {
   // Seats in this section.
   oneof seat_info {
     // List of seats in this section.
-    SeatList seat_list = 3;
+    cmp.types.v1.SeatList seat_list = 3;
 
     // Total number of seats in this section as an integer.
     google.protobuf.Int32Value total_seats = 4;
@@ -68,7 +68,7 @@ message Section {
 
   // Nested sections within this section, allowing for a hierarchical representation
   // of the venue's layout.
-  repeated Section sections = 7;
+  repeated cmp.types.v1.Section sections = 7;
 }
 
 // High-level representation of a seat map, which defines the layout and structure
@@ -85,7 +85,7 @@ message SeatMap {
   // within the venue, such as rows, sections, levels, or blocks of seats. This
   // field is recursive, allowing for hierarchical structuring of the seating
   // layout.
-  repeated Section sections = 2;
+  repeated cmp.types.v1.Section sections = 2;
 
   // Image that provides a visual representation of the seat map, illustrating the
   // location and arrangement of seats. The image can be in vector format (SVG) or
@@ -114,7 +114,7 @@ message SectionInventory {
 
   oneof seat_info {
     // List of individual seat IDs within this section.
-    SeatInventory seat_list = 2;
+    cmp.types.v1.SeatInventory seat_list = 2;
 
     // Seat count in this section, representing either the remaining seats for
     // availability purposes or the selected seats for seat selection messages.
@@ -127,7 +127,7 @@ message SectionInventory {
   // Nested inner sections within this section, allowing for a hierarchical
   // representation of seat inventory. Each inner section can have its own seat
   // information and further nested sections.
-  repeated SectionInventory sections = 4;
+  repeated cmp.types.v1.SectionInventory sections = 4;
 }
 
 // Represents the inventory of seats for a specific seat map, used for both seat
@@ -141,12 +141,12 @@ message SeatMapInventory {
   // A list of seat inventories for each section within the seat map. This field
   // includes detailed seat information and supports nested sections, allowing for a
   // hierarchical representation of the seating arrangement.
-  repeated SectionInventory sections = 2;
+  repeated cmp.types.v1.SectionInventory sections = 2;
 }
 
 message LocalizedSeatAttributeSet {
-  Language language = 1;
-  repeated SeatAttribute seat_attributes = 2;
+  cmp.types.v1.Language language = 1;
+  repeated cmp.types.v1.SeatAttribute seat_attributes = 2;
 }
 /* Helper messages */
 
@@ -180,7 +180,7 @@ enum AreaType {
 // is generally used with the HTML `area` tag to specify clickable regions.
 message BitmapSeatLocation {
   // The type of area defining the seat location, such as rectangle, circle, or polygon.
-  AreaType type = 1;
+  cmp.types.v1.AreaType type = 1;
 
   // Coordinates defining the area. The format of the coordinates depends on the
   // area type (e.g., top-left (x1,y1) and bottom-right (x2,y2) corners for a
@@ -202,9 +202,9 @@ message SeatLocation {
   // One of the possible seat location types: vector (SVG) or bitmap.
   oneof location {
     // Vector-based seat location, used for SVG maps.
-    VectorSeatLocation vector = 1;
+    cmp.types.v1.VectorSeatLocation vector = 1;
 
     // Bitmap-based seat location, used for HTML image maps.
-    BitmapSeatLocation bitmap = 2;
+    cmp.types.v1.BitmapSeatLocation bitmap = 2;
   }
 }

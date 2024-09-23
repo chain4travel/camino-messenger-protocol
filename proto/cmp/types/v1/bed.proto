@@ -5,7 +5,7 @@ package cmp.types.v1;
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bed.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bed.proto.dot.svg)
 message Bed {
-  BedType type = 1;
+  cmp.types.v1.BedType type = 1;
   int32 count = 2;
 }
 

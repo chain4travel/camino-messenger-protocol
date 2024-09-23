@@ -17,7 +17,7 @@ import "cmp/types/v1/price_type.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
-  Price price = 1;
+  cmp.types.v1.Price price = 1;
 
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
@@ -35,10 +35,10 @@ message PriceDetail {
   // Type of price breakdown. This is meant to be used in price breakdown
   // definitions, when we want to specify the different elements of how a total
   // price was computed.
-  PriceBreakdownType type = 5;
+  cmp.types.v1.PriceBreakdownType type = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated PriceDetail breakdowns = 6;
+  repeated cmp.types.v1.PriceDetail breakdowns = 6;
 }
 
 // ### Simple Price type message Price
@@ -79,5 +79,5 @@ message PriceDetail {
 message Price {
   string value = 1;
   int32 decimals = 2;
-  Currency currency = 3;
+  cmp.types.v1.Currency currency = 3;
 }

@@ -36,13 +36,13 @@ message Partner {
 
   // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
   // then means that on-chain payment is supported.
-  repeated TokenCurrency on_chain_currencies = 5;
+  repeated cmp.types.v1.TokenCurrency on_chain_currencies = 5;
 
   // Off chain payment support
   bool off_chain_payment_supported = 6;
 
   // Supported services
-  repeated PartnerService services = 7;
+  repeated cmp.types.v1.PartnerService services = 7;
 
   // Partner addresses of the messenger bots
   repeated cmp.types.v1.WalletAddress addresses = 8;
@@ -59,7 +59,7 @@ message PartnerService {
   // Name of the service.
   //
   // FIXME: Should we include package name also here? If not, how should the bot
-  // suppossed to find the message? If yes, package name also includes the version
+  // supposed to find the message? If yes, package name also includes the version
   // which means partner will need to update supported services with every new
   // version.
   //
@@ -84,10 +84,10 @@ message PartnerService {
   // Result Type.
   //
   // Ex: ResultType.RESULT_TYPE_DISCRETE
-  ResultType result_type = 4;
+  cmp.types.v1.ResultType result_type = 4;
 
   // Default bundled price for the service
-  BundledPrice bundled_price = 5;
+  cmp.types.v1.BundledPrice bundled_price = 5;
 
   // Exclusive bundled prices for specific addresses.
   //
@@ -107,7 +107,7 @@ message CustomBundledPrice {
   string address = 1;
 
   // Bundled price that is exclusive to the wallet address above.
-  BundledPrice bundled_price = 2;
+  cmp.types.v1.BundledPrice bundled_price = 2;
 }
 
 // Bundled Price
@@ -124,7 +124,7 @@ message BundledPrice {
   // Bundle Unit, represents the bundle's unit. For example for search results it
   // should be `BundleUnit.BUNDLE_UNIT_COUNT` or for AI Chat bot results it can be
   // `BundleUnit.BUNDLE_UNIT_BYTES` or `BundleUnit.BUNDLE_UNIT_KILOBYTES`
-  BundleUnit results_per_bundle_unit = 2;
+  cmp.types.v1.BundleUnit results_per_bundle_unit = 2;
 
   // Price per bundle, in nCAMs
   //

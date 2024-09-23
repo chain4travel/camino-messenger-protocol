@@ -7,5 +7,5 @@ import "cmp/types/v1/credit_card.proto";
 // Additional payment info message with currently only a single field of
 // `CreditCard` message type.
 message AdditionalPaymentInfo {
-  CreditCard credit_card = 1;
+  cmp.types.v1.CreditCard credit_card = 1;
 }

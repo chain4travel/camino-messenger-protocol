@@ -24,7 +24,7 @@ message GetPartnerConfigurationRequest {
 
 message GetPartnerConfigurationResponse {
   // Partner configuration
-  PartnerConfiguration partner_configuration = 1;
+  cmp.services.partner.v1.PartnerConfiguration partner_configuration = 1;
 
   // Current block height. Distributors can keep this info for later reference.
   int32 current_block_height = 2;

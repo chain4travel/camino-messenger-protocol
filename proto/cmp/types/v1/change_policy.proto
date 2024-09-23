@@ -34,7 +34,7 @@ message ChangePolicy {
   // before consumption, they must be computed to one uniform format of date ranges
   // and fees, related to the start DateTime of the service or product
   // delivery.
-  repeated ChangeType change_types = 3;
+  repeated cmp.types.v1.ChangeType change_types = 3;
 }
 
 // ChangeTypes

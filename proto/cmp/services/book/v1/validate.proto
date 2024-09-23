@@ -13,7 +13,7 @@ message ValidationRequest {
   cmp.types.v1.RequestHeader header = 1;
 
   // Validation object
-  ValidationObject validation_object = 2;
+  cmp.services.book.v1.ValidationObject validation_object = 2;
 }
 
 message ValidationResponse {
@@ -24,7 +24,7 @@ message ValidationResponse {
   cmp.types.v1.UUID validation_id = 2;
 
   // Validation object
-  ValidationObject validation_object = 3;
+  cmp.services.book.v1.ValidationObject validation_object = 3;
 
   // Price details for the validated product
   cmp.types.v1.PriceDetail price_detail = 4;

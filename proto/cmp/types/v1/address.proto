@@ -13,5 +13,5 @@ message Address {
   string line_2 = 2;
   string district = 3;
   string zip_code = 5;
-  GeoTree geo_tree = 6;
+  cmp.types.v1.GeoTree geo_tree = 6;
 }

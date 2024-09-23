@@ -22,7 +22,7 @@ import "cmp/types/v1/travel_period.proto";
 message Unit {
   // Unit Type. Used to distinguish between hotel rooms and holiday homes.
   // Ex: `UnitType.UNIT_TYPE_ROOM`
-  UnitType type = 1;
+  cmp.services.accommodation.v1.UnitType type = 1;
 
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
   // match the supplier_room_code in the ProductList and the ProductInfo messages, so that

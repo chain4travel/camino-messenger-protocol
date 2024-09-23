@@ -10,7 +10,7 @@ message Link {
   // Link type
   //
   // Ex: "LG" or "TC"
-  LinkType type = 1;
+  cmp.types.v1.LinkType type = 1;
 
   // Link description
   //

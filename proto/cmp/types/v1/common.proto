@@ -42,7 +42,7 @@ message Header {
   // partner is still in version 1.1.0 that does not have the new filter. Obviously the
   // supply partner has not processed the new field and the response is not filtered as
   // specified in the request.
-  Version version = 1;
+  cmp.types.v1.Version version = 1;
 
   // End-user wallet ID for personalization purposes
   string end_user_wallet_address = 2;
@@ -64,22 +64,22 @@ message Version {
 }
 
 message RequestHeader {
-  Header base_header = 1;
+  cmp.types.v1.Header base_header = 1;
 }
 
 message ResponseHeader {
-  Header base_header = 1;
+  cmp.types.v1.Header base_header = 1;
 
   // Status of the response, success or failure
-  StatusType status = 2;
+  cmp.types.v1.StatusType status = 2;
 
   // Alert for more detailed information about the response
-  repeated Alert alerts = 3;
+  repeated cmp.types.v1.Alert alerts = 3;
 }
 
 message Alert {
   string message = 1;
-  AlertType type = 2;
+  cmp.types.v1.AlertType type = 2;
 }
 
 enum AlertType {

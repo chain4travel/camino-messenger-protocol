@@ -9,8 +9,8 @@ package cmp.types.v1;
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/sorting.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/sorting.proto.dot.svg)
 message Sorting {
-  SortingType sorting_type = 1;
-  SortingOrder sorting_order = 2;
+  cmp.types.v1.SortingType sorting_type = 1;
+  cmp.types.v1.SortingOrder sorting_order = 2;
 }
 
 // Sorting type

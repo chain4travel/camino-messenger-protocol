@@ -19,7 +19,7 @@ message File {
 
 message Image {
   // file
-  File file = 1;
+  cmp.types.v1.File file = 1;
 
   // Width
   int32 width = 2;
@@ -35,7 +35,7 @@ message Image {
 
 message Video {
   // File
-  File file = 1;
+  cmp.types.v1.File file = 1;
 
   // Codec of video
   string codec = 2;

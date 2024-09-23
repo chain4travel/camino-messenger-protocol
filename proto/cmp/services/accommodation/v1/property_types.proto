@@ -36,11 +36,11 @@ message Property {
   // Ex: "Hilton"
   string chain = 5;
 
-  // Ex: CategoryRating.CATEGORY_RATING_4_5
-  CategoryRating category_rating = 6;
+  // Ex: CATEGORY_RATING_4_5
+  cmp.services.accommodation.v1.CategoryRating category_rating = 6;
 
-  // Ex: CategoryUnit.CATEGORY_UNIT_PALMS
-  CategoryUnit category_unit = 7;
+  // Ex: CATEGORY_UNIT_PALMS
+  cmp.services.accommodation.v1.CategoryUnit category_unit = 7;
 
   // Contact Info: phone, address, email, links
   cmp.types.v1.ContactInfo contact_info = 8;
@@ -89,7 +89,7 @@ enum CategoryUnit {
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
   // Property
-  Property property = 1;
+  cmp.services.accommodation.v1.Property property = 1;
 
   // Images
   repeated cmp.types.v1.Image images = 2;
@@ -110,7 +110,7 @@ message PropertyExtendedInfo {
   string payment_type = 7;
 
   // Rooms
-  repeated Room rooms = 8;
+  repeated cmp.services.accommodation.v1.Room rooms = 8;
 }
 
 message Room {
@@ -146,7 +146,7 @@ message Room {
   repeated cmp.types.v1.Bed beds = 8;
 
   // Occupancy
-  Occupancy total_occupancy = 9;
+  cmp.services.accommodation.v1.Occupancy total_occupancy = 9;
 
   // Services
   repeated cmp.types.v1.ServiceFact services = 10;
@@ -172,7 +172,7 @@ message Occupancy {
   bool infant_counted_in_total_guests = 5;
 
   // Occupancy options
-  repeated OccupancyOption occupancy_options = 6;
+  repeated cmp.services.accommodation.v1.OccupancyOption occupancy_options = 6;
 }
 
 message OccupancyOption {

@@ -98,29 +98,29 @@ message PickupDropoffEvent {
 // Activity static info
 message ActivityExtendedInfo {
   // Activity dynamic info references
-  Activity activity = 1;
+  cmp.services.activity.v1.Activity activity = 1;
 
   // Available Units
-  repeated ActivityUnit units = 2;
+  repeated cmp.services.activity.v1.ActivityUnit units = 2;
 
   // Available Services
-  repeated ActivityService services = 3;
+  repeated cmp.services.activity.v1.ActivityService services = 3;
 
   // Transfer Zone(s) in which participants of the activity can be used for pick-up
   // and drop-off
-  repeated TransferZone zones = 4;
+  repeated cmp.services.activity.v1.TransferZone zones = 4;
 
   // Descriptions with different languages
   repeated cmp.types.v1.LocalizedDescriptionSet descriptions = 5;
 
   // Coordinates of where the activity takes place
-  ActivityLocation location = 6;
+  cmp.services.activity.v1.ActivityLocation location = 6;
 
   // Activity Features
-  repeated ActivityFeature features = 7;
+  repeated cmp.services.activity.v1.ActivityFeature features = 7;
 
   // Tags
-  repeated ActivityTag tags = 8;
+  repeated cmp.services.activity.v1.ActivityTag tags = 8;
 
   // Languages
   repeated cmp.types.v1.Language languages = 9;
@@ -233,7 +233,7 @@ message TransferZone {
   cmp.types.v1.GeoTree geo_tree = 2;
 
   // pick-up and drop-off information about location and time
-  repeated PickupDropoffEvent pickup_dropoff_events = 3;
+  repeated cmp.services.activity.v1.PickupDropoffEvent pickup_dropoff_events = 3;
 }
 
 message ActivityFeature {

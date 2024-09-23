@@ -6,5 +6,5 @@ import "cmp/types/v1/language.proto";
 
 message LocalizedString {
   string text = 1;
-  Language language = 2;
+  cmp.types.v1.Language language = 2;
 }

@@ -19,7 +19,7 @@ message ActivityProductListResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Activities
-  repeated Activity activities = 2;
+  repeated cmp.services.activity.v1.Activity activities = 2;
 }
 
 // This service is used to get a product list for activities.

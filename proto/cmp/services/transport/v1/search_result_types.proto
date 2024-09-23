@@ -38,7 +38,7 @@ message TransportSearchResult {
   // we rent a car and do a road trip to San Fransisco and we take a flight from SFO
   // to SYD, where afer a couple of days we move on to Indonesia, Thailand, Japan,
   // Türkiye and back to Amsterdam again.
-  repeated Trip travelling_trips = 5;
+  repeated cmp.services.transport.v1.Trip travelling_trips = 5;
 
   // Total Price
   cmp.types.v1.PriceDetail total_price = 6;
