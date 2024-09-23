@@ -17,13 +17,13 @@ message ActivitySearchResult {
   // increasing by 1 for every search result.
   int32 result_id = 1;
 
-  // cmp.services.activity.v1.Activity basic info
+  // Activity basic info
   cmp.services.activity.v1.Activity info = 2;
 
   // Schedule
   cmp.types.v1.DateTimeRange schedule = 3;
 
-  // cmp.services.activity.v1.Activity location
+  // Activity location
   cmp.services.activity.v1.ActivityLocation location = 4;
 
   // Pickup Dropoff

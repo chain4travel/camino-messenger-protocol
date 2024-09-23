@@ -34,7 +34,7 @@ message Partner {
   // FIXME: Need review here!
   string domain = 4;
 
-  // Supported tokens for payment (on-chain). If a cmp.types.v1.TokenCurrency is specified, this
+  // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
   // then means that on-chain payment is supported.
   repeated cmp.types.v1.TokenCurrency on_chain_currencies = 5;
 
@@ -59,7 +59,7 @@ message PartnerService {
   // Name of the service.
   //
   // FIXME: Should we include package name also here? If not, how should the bot
-  // suppossed to find the message? If yes, package name also includes the version
+  // supposed to find the message? If yes, package name also includes the version
   // which means partner will need to update supported services with every new
   // version.
   //
@@ -83,7 +83,7 @@ message PartnerService {
 
   // Result Type.
   //
-  // Ex: cmp.types.v1.ResultType.RESULT_TYPE_DISCRETE
+  // Ex: ResultType.RESULT_TYPE_DISCRETE
   cmp.types.v1.ResultType result_type = 4;
 
   // Default bundled price for the service
@@ -99,9 +99,9 @@ message PartnerService {
 
 // Custom Bundle Price
 //
-// This message encapsulates `cmp.types.v1.BundledPrice` message to be used for a custom price
+// This message encapsulates `BundledPrice` message to be used for a custom price
 // per buyer. If it's required, this message can be encrypted before adding it to
-// the `cmp.types.v1.PartnerService` message type.
+// the `PartnerService` message type.
 message CustomBundledPrice {
   // Address of the wallet that the bundled price below is valid for.
   string address = 1;
@@ -122,8 +122,8 @@ message BundledPrice {
   int32 results_per_bundle = 1;
 
   // Bundle Unit, represents the bundle's unit. For example for search results it
-  // should be `cmp.types.v1.BundleUnit.BUNDLE_UNIT_COUNT` or for AI Chat bot results it can be
-  // `cmp.types.v1.BundleUnit.BUNDLE_UNIT_BYTES` or `cmp.types.v1.BundleUnit.BUNDLE_UNIT_KILOBYTES`
+  // should be `BundleUnit.BUNDLE_UNIT_COUNT` or for AI Chat bot results it can be
+  // `BundleUnit.BUNDLE_UNIT_BYTES` or `BundleUnit.BUNDLE_UNIT_KILOBYTES`
   cmp.types.v1.BundleUnit results_per_bundle_unit = 2;
 
   // Price per bundle, in nCAMs

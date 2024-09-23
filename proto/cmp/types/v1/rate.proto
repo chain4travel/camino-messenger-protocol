@@ -9,11 +9,11 @@ package cmp.types.v1;
 message RateRule {
   // RateRule
   //
-  // The eneumeration for cmp.types.v1.RateRuleType is meant for uniformed and standardized display.
+  // The eneumeration for RateRuleType is meant for uniformed and standardized display.
   cmp.types.v1.RateRuleType rate_type = 1;
 
   // Rate description and reference. In case of enrichment additional description of the rate type.
-  // Please omit if covered with the cmp.types.v1.RateRuleType.
+  // Please omit if covered with the RateRuleType.
   string rate_description = 2;
   string rate_reference = 3;
 }
@@ -28,7 +28,7 @@ enum RateRuleType {
 }
 
 // Rate plan message type. Contains `rate_plan` and `rate_plan_description` fields
-// as strings. The enumeration for cmp.types.v1.RatePlanType is meant for uniformed and
+// as strings. The enumeration for RatePlanType is meant for uniformed and
 // standardized display.
 message RatePlan {
   // Rate plan
@@ -41,7 +41,7 @@ message RatePlan {
 
   // Rateplan description. In case of enrichment additional description of the rate plan.
   //
-  // Ex: "Package Rate". Please omit if covered with the cmp.types.v1.RatePlanType.
+  // Ex: "Package Rate". Please omit if covered with the RatePlanType.
   string rate_plan_description = 3;
 }
 

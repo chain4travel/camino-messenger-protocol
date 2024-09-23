@@ -32,13 +32,13 @@ message SeatList {
   repeated cmp.types.v1.Seat seats = 1;
 }
 
-// A cmp.types.v1.Section represents a distinct area within a venue, which can be defined by
+// A Section represents a distinct area within a venue, which can be defined by
 // various attributes. It can be a block of rows in a theater, a specific area in a
 // concert venue such as the stage or standing area, a section of seating in a
-// stadium, or a section in an airplane. Each cmp.types.v1.Section is uniquely identified and can
+// stadium, or a section in an airplane. Each Section is uniquely identified and can
 // contain information about its seats, layout, and additional properties.
 message Section {
-  // Level, section or row identifier, e.g., "Upper", "Balcony" or "cmp.types.v1.Section 101",
+  // Level, section or row identifier, e.g., "Upper", "Balcony" or "Section 101",
   // "Orchestra" or "A", "12". Must be unique for each section.
   string id = 1;
 
@@ -58,7 +58,7 @@ message Section {
   // be either a vector (SVG) or bitmap image.
   //
   // If set, it is assumed that this image is used for locating seats within the
-  // section. (the `cmp.types.v1.SeatLocation` message type in the `cmp.types.v1.Seat` message above is
+  // section. (the `SeatLocation` message type in the `Seat` message above is
   // used to represent seat location inside this image).
   cmp.types.v1.Image image = 5;
 
@@ -116,7 +116,7 @@ message SectionInventory {
     // List of individual seat IDs within this section.
     cmp.types.v1.SeatInventory seat_list = 2;
 
-    // cmp.types.v1.Seat count in this section, representing either the remaining seats for
+    // Seat count in this section, representing either the remaining seats for
     // availability purposes or the selected seats for seat selection messages.
     //
     // This field is intended for sections without individual seat details, such as

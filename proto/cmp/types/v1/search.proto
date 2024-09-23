@@ -16,14 +16,14 @@ import "cmp/types/v1/uuid.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/search.proto.dot.svg)
 message SearchParameters {
   // Requested currency in which prices have to be supplied in the response
-  // according to ISO 4217 cmp.types.v1.Currency codes
+  // according to ISO 4217 Currency codes
   cmp.types.v1.Currency currency = 1;
 
   // Requested language setting for descriptions in the response according to ISO
-  // 639-1 cmp.types.v1.Language codes
+  // 639-1 Language codes
   cmp.types.v1.Language language = 2;
 
-  // Request generated for a specific market according to ISO 3166-1 cmp.types.v1.Country codes
+  // Request generated for a specific market according to ISO 3166-1 Country codes
   cmp.types.v1.Country market = 3;
 
   // Request generated for a specific brand or point-of-sale by one distributor
@@ -59,9 +59,9 @@ message SearchParameters {
   // Content source types for this search request to specify which sources to
   // include.
   //
-  // Ex: cmp.types.v1.ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
-  // cmp.types.v1.ContentSourceType.CONTENT_SOURCE_TYPE_NDC
-  // cmp.types.v1.ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
+  // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
+  // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
+  // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated cmp.types.v1.ContentSourceType content_source_types = 11;
 }
 
@@ -77,7 +77,7 @@ message SearchRequestMetadata {
 
 // This message type is used in every search response to contain the response metadata
 message SearchResponseMetadata {
-  // Search_id to be used in the Validation Request. This must be a cmp.types.v1.UUID according
+  // Search_id to be used in the Validation Request. This must be a UUID according
   // to RFC 4122
   cmp.types.v1.UUID search_id = 1;
 

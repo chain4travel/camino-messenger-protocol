@@ -28,7 +28,7 @@ import "cmp/types/v1/traveller.proto";
 //
 // For the response this means that there is no grouping of different
 // room, mealplan or rateplan options in single room or single property searches.
-// Each cmp.services.accommodation.v1.AccommodationSearchResult is one bookable option as a "result_id".
+// Each AccommodationSearchResult is one bookable option as a "result_id".
 //
 // Simple example:
 // a search for 1 room for 2 adults would be just 1 query, with one travel period and

@@ -30,12 +30,12 @@ syntax = "proto3";
 // LAX->LAS, travelling 15 June LAS->LAX.
 package cmp.types.v1;
 
-// ### CM Message cmp.types.v1.Header
+// ### CM Message Header
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.svg)
 message Header {
-  // Protocol cmp.types.v1.Version
+  // Protocol Version
   // The request and response should always hold the true version implemented.
   // This will help transparency and troubleshooting when issues arise. For example
   // in case a new filter is introduced with version 1.3.0 and a response by a supply
@@ -48,17 +48,17 @@ message Header {
   string end_user_wallet_address = 2;
 }
 
-// cmp.types.v1.Version
+// Version
 message Version {
-  // API cmp.types.v1.Version, major version which can have breaking changes (semantic
+  // API Version, major version which can have breaking changes (semantic
   // versioning)
   int32 major = 1;
 
-  // API cmp.types.v1.Version, minor version has backwards compatible new features (semantic
+  // API Version, minor version has backwards compatible new features (semantic
   // versioning)
   int32 minor = 2;
 
-  // API cmp.types.v1.Version, patch version small improvements and bugfixes (semantic
+  // API Version, patch version small improvements and bugfixes (semantic
   // versioning)
   int32 patch = 3;
 }
@@ -73,7 +73,7 @@ message ResponseHeader {
   // Status of the response, success or failure
   cmp.types.v1.StatusType status = 2;
 
-  // cmp.types.v1.Alert for more detailed information about the response
+  // Alert for more detailed information about the response
   repeated cmp.types.v1.Alert alerts = 3;
 }
 

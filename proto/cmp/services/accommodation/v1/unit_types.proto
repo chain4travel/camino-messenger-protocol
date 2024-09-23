@@ -21,7 +21,7 @@ import "cmp/types/v1/travel_period.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/unit_types.proto.dot.svg)
 message Unit {
   // Unit Type. Used to distinguish between hotel rooms and holiday homes.
-  // Ex: `cmp.services.accommodation.v1.UnitType.UNIT_TYPE_ROOM`
+  // Ex: `UnitType.UNIT_TYPE_ROOM`
   cmp.services.accommodation.v1.UnitType type = 1;
 
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly

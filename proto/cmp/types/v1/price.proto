@@ -5,12 +5,12 @@ package cmp.types.v1;
 import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/price_type.proto";
 
-// ### cmp.types.v1.PriceDetail
+// ### PriceDetail
 //
-// This message consists of the value as a cmp.types.v1.Price object and additional fields as
+// This message consists of the value as a Price object and additional fields as
 // binding, concept, and breakdown.
 //
-// Breakdown is a recursively inherited object of cmp.types.v1.PriceDetail. This way complex
+// Breakdown is a recursively inherited object of PriceDetail. This way complex
 // pricing structures can be represented.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/price.proto.dot.xs.svg)
@@ -27,7 +27,7 @@ message PriceDetail {
   string description = 3;
 
   // If not specified, the default of the boolean is false which means it is
-  // included in the price. If set to True, it means that this cmp.types.v1.PriceDetail is only
+  // included in the price. If set to True, it means that this PriceDetail is only
   // payable locally. For example local tourism tax that you pay at the reception of
   // a hotel. Intended to be used in the breakdown.
   bool locally_payable = 4;
@@ -37,11 +37,11 @@ message PriceDetail {
   // price was computed.
   cmp.types.v1.PriceBreakdownType type = 5;
 
-  // We can use a single cmp.types.v1.PriceDetail to represent a price breakdown.
+  // We can use a single PriceDetail to represent a price breakdown.
   repeated cmp.types.v1.PriceDetail breakdowns = 6;
 }
 
-// ### Simple cmp.types.v1.Price type message cmp.types.v1.Price
+// ### Simple Price type message Price
 //
 // Value of the price, this should be an integer converted to string.
 //

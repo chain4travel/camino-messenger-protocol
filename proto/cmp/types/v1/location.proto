@@ -51,7 +51,7 @@ message LocationCode {
   cmp.types.v1.LocationCodeType type = 2;
 }
 
-// Represents a list of `cmp.types.v1.LocationCode` message type. We need to encapsulate repeated
+// Represents a list of `LocationCode` message type. We need to encapsulate repeated
 // field here because repeated fields can not be used in `oneof` fields.
 //
 // Protobuf `oneof` field type does not support repeated member fields. To get the

@@ -16,7 +16,7 @@ import "cmp/types/v1/product_code.proto";
 import "cmp/types/v1/redemption.proto";
 import "google/protobuf/timestamp.proto";
 
-// This represents cmp.services.activity.v1.Activity types which is needed for different activity services (search, info, ... etc)
+// This represents Activity types which is needed for different activity services (search, info, ... etc)
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/activity_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/activity_types.proto.dot.svg)
@@ -80,8 +80,8 @@ message PickupDropoffEvent {
   //
   // If the boolean is set to false, this is a specific indication that
   // pick-up/drop-off at this location is not possible. An activity search response
-  // can have one result without a transfer service and without a cmp.services.activity.v1.PickupDropoffEvent
-  // to indicate that there is no transfer included. Or a cmp.services.activity.v1.PickupDropoffEvent with
+  // can have one result without a transfer service and without a PickupDropoffEvent
+  // to indicate that there is no transfer included. Or a PickupDropoffEvent with
   // pick_up indicator set to false can be included to make it explicit.
   bool pickup_indicator = 3;
 
@@ -95,9 +95,9 @@ message PickupDropoffEvent {
   cmp.types.v1.Coordinates coordinates = 6;
 }
 
-// cmp.services.activity.v1.Activity static info
+// Activity static info
 message ActivityExtendedInfo {
-  // cmp.services.activity.v1.Activity dynamic info references
+  // Activity dynamic info references
   cmp.services.activity.v1.Activity activity = 1;
 
   // Available Units
@@ -116,7 +116,7 @@ message ActivityExtendedInfo {
   // Coordinates of where the activity takes place
   cmp.services.activity.v1.ActivityLocation location = 6;
 
-  // cmp.services.activity.v1.Activity Features
+  // Activity Features
   repeated cmp.services.activity.v1.ActivityFeature features = 7;
 
   // Tags
@@ -137,7 +137,7 @@ message ActivityExtendedInfo {
   // Supplier code from the Inventory System for this activity response.
   string supplier_unit_code = 13;
 
-  // cmp.services.activity.v1.Activity Category Code
+  // Activity Category Code
   string category_code = 14;
 
   // Category name which describes the category_code

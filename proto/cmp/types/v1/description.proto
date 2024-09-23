@@ -9,10 +9,10 @@ import "cmp/types/v1/language.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/description.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/description.proto.dot.svg)
 message LocalizedDescriptionSet {
-  // cmp.types.v1.Language
+  // Language
   cmp.types.v1.Language language = 1;
 
-  // Desctription set
+  // Description set
   repeated cmp.types.v1.Description descriptions = 2;
 }
 
@@ -20,6 +20,6 @@ message Description {
   // Category of the description like "General", "Amenities".
   string category = 1;
 
-  // cmp.types.v1.Description text
+  // Description text
   string text = 2;
 }

@@ -34,7 +34,7 @@ message Image {
 }
 
 message Video {
-  // cmp.types.v1.File
+  // File
   cmp.types.v1.File file = 1;
 
   // Codec of video

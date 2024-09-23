@@ -39,14 +39,14 @@ message ServiceFact {
   // must be specifically be booked and the price is added to the total price.
   cmp.types.v1.ServiceAvailabilityType availability_type = 4;
 
-  // The cmp.types.v1.ChargeBasisType specifies whether this service is only charged once for the
+  // The ChargeBasisType specifies whether this service is only charged once for the
   // whole booking, for each participant, for each room or flight etc, for each day
   // or for a combination of these concepts like for example "foreign distilleries
   // per participant per day" or just once in case of a massage, but you would be
   // able to order 3 of them in the booking.
   cmp.types.v1.ChargeBasisType charge_basis = 5;
 
-  // We can use a single cmp.types.v1.ServiceFact to express just one service. But many services
+  // We can use a single ServiceFact to express just one service. But many services
   // are actually a combination of several services, like the typical
   // priority boarding, which also allows for a larger carry-on bag.
   repeated cmp.types.v1.ServiceFact details = 6;

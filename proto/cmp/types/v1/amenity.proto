@@ -10,7 +10,7 @@ package cmp.types.v1;
 //
 // ```python
 // Amenity(
-//     type = cmp.types.v1.AmenityType.AMENITY_TYPE_THEMES,
+//     type = AmenityType.AMENITY_TYPE_THEMES,
 //     attributes = {
 //         "theme": "Second-line beach hotel"
 //     }
@@ -21,7 +21,7 @@ package cmp.types.v1;
 //
 // ```python
 // Amenity(
-//     type = cmp.types.v1.AmenityType.AMENITY_TYPE_INTERNET,
+//     type = AmenityType.AMENITY_TYPE_INTERNET,
 //     attributes = {
 //         "lobby": "WiFi",
 //         "charge": "extra fee",
