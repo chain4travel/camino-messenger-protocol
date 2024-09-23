@@ -79,7 +79,7 @@ message MintResponse {
   // (buyer) bot after the buy operation and passed to the distributor middleware
   // (partner plugin) in the mint response.
   //
-  // This fielld is not meant for the supplier.
+  // This field is not meant for the supplier.
   string buy_transaction_id = 10;
 }
 

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package cmp.services.notification.v1;
+
+import "cmp/types/v1/uuid.proto";
+import "google/protobuf/empty.proto";
+
+message TokenBought {
+  uint64 token_id = 1;
+  string tx_id = 2;
+  cmp.types.v1.UUID mint_id = 3;
+}
+
+message TokenExpired {
+  uint64 token_id = 1;
+  cmp.types.v1.UUID mint_id = 2;
+}
+
+service NotificationService {
+  rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
+  rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
+}
