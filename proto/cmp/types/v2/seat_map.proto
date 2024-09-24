@@ -3,9 +3,9 @@ syntax = "proto3";
 package cmp.types.v2;
 
 import "cmp/types/v1/description.proto";
-import "cmp/types/v2/file.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/localized.proto";
+import "cmp/types/v2/file.proto";
 import "google/protobuf/wrappers.proto";
 
 // Represents a basic seat with optional features and restrictions. Each seat has a

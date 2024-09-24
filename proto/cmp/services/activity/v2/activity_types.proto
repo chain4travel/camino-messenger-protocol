@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.activity.v2;
 
-import "cmp/types/v1/address.proto";
 import "cmp/types/v1/bookability.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/delivery.proto";
