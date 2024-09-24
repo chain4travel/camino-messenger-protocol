@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.insurance.v1;
 
 import "cmp/types/v1/file.proto";
+import "cmp/types/v1/inclusivity.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v2/contact_info.proto";
 import "cmp/types/v2/price.proto";
@@ -126,7 +127,7 @@ message PolicyCoverage {
   cmp.types.v1.Link exclusions_link = 5;
 
   // pre-existing conditions coverage
-  bool preconditions_coverage = 6;
+  cmp.types.v1.Inclusivity preconditions_coverage = 6;
 
   // URL to Details on whether pre-existing medical conditions are covered, and if so, under what terms.
   cmp.types.v1.Link preconditions_coverage_link = 7;
