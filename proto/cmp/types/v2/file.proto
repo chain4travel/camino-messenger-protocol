@@ -31,7 +31,7 @@ message Image {
   string category = 6;
 
   // Image type
-  cmp.types.v2.ImageType type = 7;
+  cmp.types.v2.ImageFormat format = 7;
 }
 
 message Video {
@@ -60,20 +60,20 @@ message Video {
 }
 
 // Image formats
-enum ImageType {
-  IMAGE_TYPE_UNSPECIFIED = 0;
-  IMAGE_TYPE_JPEG = 1; // JPEG or JPG
-  IMAGE_TYPE_PNG = 2;
-  IMAGE_TYPE_GIF = 3;
-  IMAGE_TYPE_BMP = 4;
-  IMAGE_TYPE_TIFF = 5;
-  IMAGE_TYPE_SVG = 6;
-  IMAGE_TYPE_EPS = 7;
-  IMAGE_TYPE_PDF = 8;
-  IMAGE_TYPE_PSD = 9;
-  IMAGE_TYPE_AI = 10; // Adobe Illustrator’s native format
-  IMAGE_TYPE_WEBP = 11;
-  IMAGE_TYPE_HEIF = 12; // heif or heic
+enum ImageFormat {
+  IMAGE_FORMAT_UNSPECIFIED = 0;
+  IMAGE_FORMAT_JPEG = 1; // JPEG or JPG
+  IMAGE_FORMAT_PNG = 2;
+  IMAGE_FORMAT_GIF = 3;
+  IMAGE_FORMAT_BMP = 4;
+  IMAGE_FORMAT_TIFF = 5;
+  IMAGE_FORMAT_SVG = 6;
+  IMAGE_FORMAT_EPS = 7;
+  IMAGE_FORMAT_PDF = 8;
+  IMAGE_FORMAT_PSD = 9;
+  IMAGE_FORMAT_AI = 10; // Adobe Illustrator’s native format
+  IMAGE_FORMAT_WEBP = 11;
+  IMAGE_FORMAT_HEIF = 12; // heif or heic
 }
 
 // Video formats
