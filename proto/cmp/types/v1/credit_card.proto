@@ -5,7 +5,9 @@ package cmp.types.v1;
 import "cmp/types/v1/date.proto";
 
 message CreditCard {
-  // FIXME: Can we use an int64 to represent a credit card number?
+  // A creditcard should be stored as a string to facilitate cards that have leading
+  // zeros, but also to allow for spaces or dashes for readability, like for example
+  // 1234-5678-9876-5432
   string number = 1;
   cmp.types.v1.Date expiration_date = 2;
   int32 cvc = 3;

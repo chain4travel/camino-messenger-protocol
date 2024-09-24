@@ -4,8 +4,8 @@
 
 ---
 
-> 🚧 **ALPHA CODE NOTICE** 🚧:
-> ⚠️ This protocol definition is in the alpha phase of development. It is important to note that during this stage, breaking changes may occur without advance notice. Users should proceed with caution.
+> 🚧 **EARLY DAYS NOTICE** 🚧:
+> ⚠️ Although we released our first productive Message Types version, it is still early days and partners make substantial and frequent contributions to the Camino Message Types. Please be aware that the Camino Messenger Protocol is still undergoing active development. The code, guidelines, and instructions may be subject to change.
 
 ---
 
@@ -13,4 +13,4 @@ The Camino Messenger protocol is created together with Partners from each vertic
 
 Please do not hesitate to communicate your observations on this documentation like uncertainties, mistakes or missing explanations, so that we can continuously improve this documentation. Every Camino Network Partner (Validator) can also participate in official Message Type reviews to help improve the message format. Reach us through the [Discord](https://discord.com/channels/949247897688494150/1182680860797960253).
 
-For more information about the concept please visit: https://docs.camino.network/camino-messenger
+For more information about the concept please visit [the Camino Messenger documentation](https://docs.camino.network/camino-messenger).

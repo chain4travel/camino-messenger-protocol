@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
-import "cmp/types/v1/email.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v1/phone.proto";
 import "cmp/types/v2/address.proto";
+import "cmp/types/v2/email.proto";
 
 // Contact Info for general use.
 //
@@ -19,7 +19,7 @@ message ContactInfo {
   repeated cmp.types.v1.Phone phones = 2;
 
   // Emails
-  repeated cmp.types.v1.Email emails = 3;
+  repeated cmp.types.v2.Email emails = 3;
 
   // Websites
   repeated cmp.types.v1.Link links = 4;

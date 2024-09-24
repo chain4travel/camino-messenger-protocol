@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1;
 
-import "cmp/types/v1/file.proto";
 import "cmp/types/v1/inclusivity.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/file.proto";
 import "cmp/types/v2/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
@@ -51,7 +51,7 @@ message PolicyExtendedInfo {
   string carrier_name = 3;
 
   // URL to logo
-  cmp.types.v1.Image logo = 4;
+  cmp.types.v2.Image logo = 4;
 
   // Enum of possible types, to be used for filtering
   cmp.services.insurance.v1.PolicyType policy_type = 5;

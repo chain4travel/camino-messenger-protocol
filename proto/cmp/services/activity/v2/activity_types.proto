@@ -7,11 +7,11 @@ import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/delivery.proto";
 import "cmp/types/v1/description.proto";
 import "cmp/types/v1/duration.proto";
-import "cmp/types/v1/file.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/redemption.proto";
 import "cmp/types/v2/address.proto";
 import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/file.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
@@ -129,10 +129,10 @@ message ActivityExtendedInfo {
   cmp.types.v2.ContactInfo contact_info = 10;
 
   // Images
-  repeated cmp.types.v1.Image images = 11;
+  repeated cmp.types.v2.Image images = 11;
 
   // Videos
-  repeated cmp.types.v1.Video videos = 12;
+  repeated cmp.types.v2.Video videos = 12;
 
   // Supplier code from the Inventory System for this activity response.
   string supplier_unit_code = 13;

@@ -50,6 +50,9 @@ message CountryEntryRequirementsRequest {
 
   bool include_items = 11;
 
+  // There is not yet any categorization standard and conclusively filters are
+  // supplier specific and the filter type should be "FILTER_TYPE_PROVIDER_CODE"
+  // Examples:
   repeated cmp.types.v1.Filter filters = 12;
 }
 
@@ -70,7 +73,7 @@ message CountryEntryRequirementsResponse {
 // Types
 
 message CountryEntryRequirementCategory {
-  // Category key. FIXME: Can this field be an enum?
+  // Category key.
   string key = 1;
 
   // List of localized names
@@ -84,13 +87,20 @@ message CountryEntryRequirementCategory {
 }
 
 message CountryEntryRequirementItem {
-  // Item type key.  FIXME: Can this field be an enum?
+  // Item type key.
   string key = 1;
 
   // Language specific names and descriptions
   repeated cmp.services.info.v1.LocalizedItemInfo info = 2;
 
-  // Status of the item. TODO: Add more explanation, what it means if it's false?
+  // Status of the item. An item specifies an action or requirement which should be
+  // done/provided or rather not. This is expressed with "true" and "false".
+  // Examples:
+  // Entry generally permitted, status=true
+  // EU Digital COVID Certificate accepted, status=true
+  // Visa required for stay, status=false
+  // Entry forms required, status=false
+  // Additional information, status=undefined
   cmp.services.info.v1.ItemStatus status = 3;
 
   // Significant update date
@@ -103,8 +113,12 @@ message LocalizedItemInfo {
   cmp.types.v1.Language language = 3;
 }
 
-// FIXME: We need to clarify what true, false and undefined means for status and
-// maybe update this enum accordingly
+// Status identifies whether an item should be done/provided or rather not. In case
+// of an incident, there might be restrictions.
+//
+// UNKNOWN is different from UNSPECIFIED. For UNKNOWN information about this topic
+// was sought, but it was not possible to find enough information to classify that
+// topic
 enum ItemStatus {
   ITEM_STATUS_UNSPECIFIED = 0;
   ITEM_STATUS_TRUE = 1;

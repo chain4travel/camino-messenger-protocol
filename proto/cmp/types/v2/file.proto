@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package cmp.types.v2;
+
+import "google/protobuf/timestamp.proto";
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/file.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/file.proto.dot.svg)
+message File {
+  // file name
+  string name = 1;
+
+  // URL
+  string url = 2;
+
+  // Last modification time
+  google.protobuf.Timestamp last_modified = 3;
+}
+
+message Image {
+  // file
+  cmp.types.v2.File file = 1;
+
+  // Width
+  int32 width = 2;
+
+  // Height
+  int32 height = 3;
+
+  // Category
+  string category = 6;
+
+  // Image type
+  cmp.types.v2.ImageFormat format = 7;
+}
+
+message Video {
+  // File
+  cmp.types.v2.File file = 1;
+
+  // Codec of video
+  cmp.types.v2.Codec codec = 2;
+
+  // Bitrate in kbps
+  int32 bitrate = 3;
+
+  // Framerate
+  int32 framerate = 4;
+
+  // Width and height are specified in pixels. Aspect ratio can be derived from that
+  // Ex: "16:9"
+  int32 width = 5;
+  int32 height = 6;
+
+  // Container format. Ex: "MP4"
+  cmp.types.v2.VideoFormat format = 7;
+
+  // Category
+  string category = 8;
+}
+
+// Image formats
+enum ImageFormat {
+  IMAGE_FORMAT_UNSPECIFIED = 0;
+  IMAGE_FORMAT_JPEG = 1; // JPEG or JPG
+  IMAGE_FORMAT_PNG = 2;
+  IMAGE_FORMAT_GIF = 3;
+  IMAGE_FORMAT_BMP = 4;
+  IMAGE_FORMAT_TIFF = 5;
+  IMAGE_FORMAT_SVG = 6;
+  IMAGE_FORMAT_EPS = 7;
+  IMAGE_FORMAT_PDF = 8;
+  IMAGE_FORMAT_PSD = 9;
+  IMAGE_FORMAT_AI = 10; // Adobe Illustrator’s native format
+  IMAGE_FORMAT_WEBP = 11;
+  IMAGE_FORMAT_HEIF = 12; // heif or heic
+}
+
+// Video formats
+enum VideoFormat {
+  VIDEO_FORMAT_UNSPECIFIED = 0;
+  VIDEO_FORMAT_MP4 = 1; // MPEG-4
+  VIDEO_FORMAT_MKV = 2; // Matroska
+  VIDEO_FORMAT_MOV = 3; // QuickTime
+  VIDEO_FORMAT_AVI = 4; // Audio Video Interleave
+  VIDEO_FORMAT_FLV = 5; // Flash Video
+  VIDEO_FORMAT_WEBM = 6; // WebM
+  VIDEO_FORMAT_WMV = 7; // Windows Media Video
+  VIDEO_FORMAT_M4V = 8; // iTunes Video
+  VIDEO_FORMAT_MPEG = 9; // MPEG Video (sometimes also expressed as mpg)
+}
+
+// Codec formats
+enum Codec {
+  CODEC_UNSPECIFIED = 0;
+  CODEC_H264 = 1; // H.264 (Advanced Video Coding)
+  CODEC_HEVC = 2; // HEVC (H.265, High-Efficiency Video Coding)
+  CODEC_VP9 = 3; // VP9
+  CODEC_AV1 = 4; // AV1
+  CODEC_MPEG2 = 5; // MPEG-2 (codec used for video on DVDs)
+}

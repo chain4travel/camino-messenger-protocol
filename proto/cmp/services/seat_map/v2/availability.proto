@@ -3,8 +3,8 @@ syntax = "proto3";
 package cmp.services.seat_map.v2;
 
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/seat_map.proto";
 import "cmp/types/v2/search.proto";
+import "cmp/types/v2/seat_map.proto";
 
 // Request for seat map availability data
 //
@@ -42,7 +42,7 @@ message SeatMapAvailabilityResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Required. Seat map availability data.
-  cmp.types.v1.SeatMapInventory seat_map = 2;
+  cmp.types.v2.SeatMapInventory seat_map = 2;
 }
 
 // Service for requesting seat map availability data
