@@ -95,6 +95,15 @@ jobs:
       - name: Run proto dependency check
         run: scripts/dependency_checker.py --print-graph
 
+  # Check if we use FQPN (full qualified package names) everywhere
+  fqpn-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Run proto dependency check
+        run: scripts/fqpn_check.sh
+
   # Push the draft branch to buf.build
   bsr-push-draft:
     runs-on: ubuntu-latest
