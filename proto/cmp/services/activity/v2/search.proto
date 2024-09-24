@@ -40,10 +40,10 @@ package cmp.services.activity.v2;
 import "cmp/services/activity/v2/search_parameters_types.proto";
 import "cmp/services/activity/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/location.proto";
 import "cmp/types/v1/travel_period.proto";
-import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/location.proto";
 import "cmp/types/v2/search.proto";
+import "cmp/types/v2/traveller.proto";
 
 // Search request for Activities
 message ActivitySearchRequest {
@@ -70,7 +70,7 @@ message ActivitySearchRequest {
   cmp.types.v1.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v1.BasicTraveller travellers = 6;
+  repeated cmp.types.v2.BasicTraveller travellers = 6;
 
   // For search, set only one of the fields at once. Source location indicates the
   // customer’s position at the start of the service. Typical value would be the
@@ -85,19 +85,19 @@ message ActivitySearchRequest {
   oneof source_location {
     // The code and code type of a stay location the provider will be able to process
     // Ex. GiataID
-    cmp.types.v1.LocationCodes source_location_codes = 7;
+    cmp.types.v2.LocationCodes source_location_codes = 7;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1.Coordinates source_location_coordinates = 8;
+    cmp.types.v2.Coordinates source_location_coordinates = 8;
 
     // Geo tree type, represented by Country, Region, and City_or_Resort.
-    cmp.types.v1.GeoTree source_location_geo_tree = 9;
+    cmp.types.v2.GeoTree source_location_geo_tree = 9;
 
     // Geo circle. Represented by a coordinate and a distance for radius
-    cmp.types.v1.GeoCircle source_location_geo_circle = 10;
+    cmp.types.v2.GeoCircle source_location_geo_circle = 10;
 
     // Geo polygon. Represented by a list of coordinate points.
-    cmp.types.v1.GeoPolygon source_location_geo_polygon = 11;
+    cmp.types.v2.GeoPolygon source_location_geo_polygon = 11;
   }
 
   // For search, set only one of the field at once. Service location specifies the
@@ -110,19 +110,19 @@ message ActivitySearchRequest {
     // The code and code type of a stay location the distributor will be able to
     // process. Ex. Google Place ID, Foursquare fsq_id, OpenStreetMap Ref, Here ID or
     // any other agreed code type.
-    cmp.types.v1.LocationCodes service_location_codes = 12;
+    cmp.types.v2.LocationCodes service_location_codes = 12;
 
     // Single geographic point represented by two double fields.
-    cmp.types.v1.Coordinates service_location_coordinates = 13;
+    cmp.types.v2.Coordinates service_location_coordinates = 13;
 
     // Geo tree type, represented by Country, Region, and City_or_Resort.
-    cmp.types.v1.GeoTree service_location_geo_tree = 14;
+    cmp.types.v2.GeoTree service_location_geo_tree = 14;
 
     // Geo circle. Represented by a coordinate and a distance for radius
-    cmp.types.v1.GeoCircle service_location_geo_circle = 15;
+    cmp.types.v2.GeoCircle service_location_geo_circle = 15;
 
     // Geo polygon. Represented by a list of coordinate points.
-    cmp.types.v1.GeoPolygon service_location_geo_polygon = 16;
+    cmp.types.v2.GeoPolygon service_location_geo_polygon = 16;
   }
 }
 
@@ -144,7 +144,7 @@ message ActivitySearchResponse {
   // The traveller_id is specified in each result and the ids are detailed with
   // basic traveller data only once in the top-level search response to avoid
   // repetition.
-  repeated cmp.types.v1.BasicTraveller travellers = 4;
+  repeated cmp.types.v2.BasicTraveller travellers = 4;
 }
 
 // Activity Search Service

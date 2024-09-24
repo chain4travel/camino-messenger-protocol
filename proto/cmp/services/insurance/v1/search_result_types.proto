@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v1;
+
+import "cmp/types/v1/bookability.proto";
+import "cmp/types/v2/price.proto";
+
+// This type represents a search result and is used in the
+// `InsuranceSearchResponse` message.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_result_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_result_types.proto.dot.svg)
+message InsuranceSearchResult {
+  // ID for the search result. This is an increasing number starting at 0 and
+  // increasing by 1 for every search result.
+  int32 result_id = 1;
+
+  // This field represents the query ID associated with the search result.
+  int32 query_id = 2;
+
+  // Policies for this search result
+  repeated cmp.services.insurance.v1.PolicyCodes policies = 3;
+
+  // ## Total price in detail, with breakdowns
+  cmp.types.v2.PriceDetail total_price_detail = 4;
+
+  // Freetext remarks without any functionality
+  string remarks = 5;
+
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v1.Bookability bookability = 6;
+}
+
+message PolicyCodes {
+  // Product Code
+  string product_code = 1;
+
+  // Unit Code
+  string unit_code = 2;
+
+  // Service Code
+  string service_code = 3;
+}

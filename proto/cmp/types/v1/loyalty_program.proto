@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "cmp/types/v1/link.proto";
+
+// Loyalty Program
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/loyalty_program.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/loyalty_program.proto.dot.svg)
+message LoyaltyProgram {
+  // In case of an off-chain loyalty program, this is the id of the loyalty program in loyalty system
+  oneof loyalty_id {
+    // Smart Contract address of a loyalty program
+    string contract_address = 1;
+    // Off-chain loyalty program
+    cmp.types.v1.OffChainLoyaltyProgram off_chain_loyalty = 2;
+  }
+
+  // Official name of the loyalty program that might be required to map
+  string name = 3;
+
+  // Url to the details of the loyalty program
+  cmp.types.v1.Link link = 4;
+}
+
+message OffChainLoyaltyProgram {
+  // Identification number/code for the loyalty program
+  string id = 1;
+  // Membership ID
+  string membership_id = 2;
+}

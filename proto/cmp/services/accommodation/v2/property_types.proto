@@ -4,15 +4,15 @@ package cmp.services.accommodation.v2;
 
 import "cmp/types/v1/amenity.proto";
 import "cmp/types/v1/bed.proto";
-import "cmp/types/v1/contact_info.proto";
 import "cmp/types/v1/description.proto";
 import "cmp/types/v1/file.proto";
-import "cmp/types/v1/location.proto";
 import "cmp/types/v1/meal_plan.proto";
-import "cmp/types/v1/product_code.proto";
 import "cmp/types/v1/product_status.proto";
-import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/location.proto";
+import "cmp/types/v2/product_code.proto";
 import "cmp/types/v2/service_fact.proto";
+import "cmp/types/v2/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 // Represents property info for an accommodation product
@@ -25,10 +25,10 @@ message Property {
   google.protobuf.Timestamp last_modified = 1;
 
   // Supplier product Code
-  cmp.types.v1.SupplierProductCode supplier_code = 2;
+  cmp.types.v2.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
-  repeated cmp.types.v1.ProductCode product_codes = 3;
+  repeated cmp.types.v2.ProductCode product_codes = 3;
 
   // Ex: "Beach Hotel Alanya"
   string name = 4;
@@ -43,10 +43,10 @@ message Property {
   cmp.services.accommodation.v2.CategoryUnit category_unit = 7;
 
   // Contact Info: phone, address, email, links
-  cmp.types.v1.ContactInfo contact_info = 8;
+  cmp.types.v2.ContactInfo contact_info = 8;
 
   // Location coordinate
-  cmp.types.v1.Coordinates coordinates = 9;
+  cmp.types.v2.Coordinates coordinates = 9;
 
   // Status of the property
   cmp.types.v1.ProductStatus status = 10;
@@ -177,7 +177,7 @@ message Occupancy {
 
 message OccupancyOption {
   // Guest type like adult, child, infant.
-  cmp.types.v1.TravellerType guest_type = 1;
+  cmp.types.v2.TravellerType guest_type = 1;
 
   // Min guests
   int32 min = 2;

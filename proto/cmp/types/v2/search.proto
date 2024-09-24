@@ -3,11 +3,11 @@ syntax = "proto3";
 package cmp.types.v2;
 
 import "cmp/types/v1/content_source.proto";
-import "cmp/types/v1/country.proto";
 import "cmp/types/v1/filter.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/sorting.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/country.proto";
 import "cmp/types/v2/currency.proto";
 
 // Search parameters for the search requests
@@ -24,7 +24,7 @@ message SearchParameters {
   cmp.types.v1.Language language = 2;
 
   // Request generated for a specific market according to ISO 3166-1 Country codes
-  cmp.types.v1.Country market = 3;
+  cmp.types.v2.Country market = 3;
 
   // Request generated for a specific brand or point-of-sale by one distributor
   // Specify one or more brand codes or distribution channels for which assigned

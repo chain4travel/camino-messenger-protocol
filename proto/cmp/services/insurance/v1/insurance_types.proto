@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v1;
+
+import "cmp/types/v1/file.proto";
+import "cmp/types/v1/inclusivity.proto";
+import "cmp/types/v1/link.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/price.proto";
+import "cmp/types/v2/product_code.proto";
+import "google/protobuf/timestamp.proto";
+
+// Insurance
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.svg)
+message Insurance {
+  // Context for Inventory system concepts that need to be included in an info
+  // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
+  // etc. or a serialized combination of these codes.
+  string context = 1;
+
+  // An identifier for external sessions, aiding in tracking and continuity across
+  // sessions.
+  string external_session_id = 2;
+
+  // List of insurance policies
+  repeated cmp.services.insurance.v1.Policy policies = 3;
+}
+
+message Policy {
+  // Product Code
+  cmp.types.v2.ProductCode product_code = 1;
+
+  // Description
+  string description = 2;
+
+  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
+  // last updated
+  google.protobuf.Timestamp last_modified = 3;
+}
+
+message PolicyExtendedInfo {
+  // Insurance Policy dynamic info
+  cmp.services.insurance.v1.Policy policy = 1;
+
+  // Carrier code, this provider is the holder of the policy and not a supplier to the Camino Network
+  string carrier_code = 2;
+
+  // Carrier name
+  string carrier_name = 3;
+
+  // URL to logo
+  cmp.types.v1.Image logo = 4;
+
+  // Enum of possible types, to be used for filtering
+  cmp.services.insurance.v1.PolicyType policy_type = 5;
+
+  // Support contact
+  cmp.types.v2.ContactInfo support_contact = 6;
+
+  // Criteria
+  repeated cmp.services.insurance.v1.PolicyCriteria criteria = 7;
+
+  // Units
+  repeated cmp.services.insurance.v1.PolicyUnit units = 8;
+
+  // Services
+  repeated cmp.services.insurance.v1.PolicyService services = 9;
+}
+
+message PolicyCriteria {
+  // Criteria Code
+  string code = 1;
+
+  // Criteria Name
+  string name = 2;
+}
+
+message PolicyUnit {
+  // Unit code
+  string code = 1;
+
+  // Unit name
+  string name = 2;
+
+  // Coverage details
+  cmp.services.insurance.v1.PolicyCoverage policy_coverage = 4;
+}
+
+message PolicyService {
+  // Service Code
+  string code = 1;
+
+  // Service name
+  string name = 2;
+
+  // Codes of units
+  repeated string unit_codes = 3;
+
+  // Coverage details
+  cmp.services.insurance.v1.PolicyCoverage policy_coverage = 4;
+}
+
+enum PolicyType {
+  POLICY_TYPE_UNSPECIFIED = 0;
+  POLICY_TYPE_OTHER = 1;
+  POLICY_TYPE_CANCEL = 2;
+  POLICY_TYPE_TRAVEL = 3;
+  POLICY_TYPE_TRAVEL_MEDICAL = 4;
+  POLICY_TYPE_MEDICAL = 5;
+  POLICY_TYPE_EMERGENCY = 6;
+  POLICY_TYPE_RENTAL_CAR = 7;
+  POLICY_TYPE_PERSONAL_BELONGINGS = 8;
+  POLICY_TYPE_FLIGHT = 9;
+  POLICY_TYPE_DEATH = 10;
+}
+
+message PolicyCoverage {
+  // Maximum coverage amount
+  cmp.types.v2.Price max_coverage_amount = 3;
+
+  // URL to Detailed list of risks covered
+  cmp.types.v1.Link coverage_link = 4;
+
+  // URL to Specific events or conditions that are not covered by the policy
+  cmp.types.v1.Link exclusions_link = 5;
+
+  // pre-existing conditions coverage
+  cmp.types.v1.Inclusivity preconditions_coverage = 6;
+
+  // URL to Details on whether pre-existing medical conditions are covered, and if so, under what terms.
+  cmp.types.v1.Link preconditions_coverage_link = 7;
+
+  // URL to Full legal terms of the policy, privacy policy, compliance, ... etc
+  cmp.types.v1.Link terms = 8;
+
+  // URL to Frequently asked questions about the policy page
+  cmp.types.v1.Link faq = 9;
+}
+
+message InsuredBooking {
+  // Location of insured booking: on-chain or off-chain
+  oneof location {
+    // On-Chain booking
+    cmp.services.insurance.v1.OnChainBooking on_chain = 1;
+    // Off-Chain booking
+    cmp.services.insurance.v1.OffChainBooking off_chain = 2;
+  }
+}
+
+message OnChainBooking {
+  // Token ID
+  string token_id = 1;
+  // Smart Contract Address
+  string smart_contract_id = 2;
+  // Chain ID of the evm compatible chain that contract is deployed. For Camino (mainnet) it is 500. And for Columbus (testnet) it is 501.
+  int32 chain_id = 3;
+}
+
+message OffChainBooking {
+  // Location of booking in some other off-chain system like booking.com
+  string location = 1;
+  // Booking reference
+  string reference = 2;
+}

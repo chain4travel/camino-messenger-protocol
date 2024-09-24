@@ -4,8 +4,8 @@ package cmp.services.transport.v2;
 
 import "cmp/services/transport/v2/search_parameters_types.proto";
 import "cmp/types/v1/date.proto";
-import "cmp/types/v1/location.proto";
-import "cmp/types/v1/traveller.proto";
+import "cmp/types/v2/location.proto";
+import "cmp/types/v2/traveller.proto";
 
 // Transport search query. Multiple trips can be send, each representing multi-leg
 // journey.
@@ -23,7 +23,7 @@ message TransportSearchQuery {
   int32 query_id = 1;
 
   // Global definition of the travellers for all requests to be used via the traveller_id
-  repeated cmp.types.v1.BasicTraveller travellers = 2;
+  repeated cmp.types.v2.BasicTraveller travellers = 2;
 
   // Trips
   repeated cmp.services.transport.v2.QueryTrip trips = 3;
@@ -50,5 +50,5 @@ message QueryTransitEvent {
   cmp.types.v1.Date date = 1;
 
   // Event location
-  cmp.types.v1.LocationCode location_code = 2;
+  cmp.types.v2.LocationCode location_code = 2;
 }

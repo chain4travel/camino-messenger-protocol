@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v2;
+
+import "cmp/types/v1/meal_plan.proto";
+import "cmp/types/v1/rate.proto";
+import "cmp/types/v2/location.proto";
+import "cmp/types/v2/product_code.proto";
+
+// This type is used in search requests for parameters like location, meal plan
+// codes etc.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.svg)
+message AccommodationSearchParameters {
+  // Geo Location for search, set only one of the fields at once.
+  //
+  // This "one of" field enforces only one of the fields below. They all share
+  // memory, setting one will remove the others.
+  oneof geo_location {
+    // A list of location codes or just one code.
+    cmp.types.v2.LocationCodes location_codes = 1;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v2.Coordinates location_coordinates = 2;
+
+    // Geo tree type, represented by Country, Region, and City_or_Resort.
+    cmp.types.v2.GeoTree location_geo_tree = 3;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v2.GeoCircle location_geo_circle = 4;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v2.GeoPolygon location_geo_polygon = 5;
+  }
+
+  // Mealplan codes
+  repeated cmp.types.v1.MealPlan meal_plan_codes = 6;
+
+  // Rate plans
+  repeated cmp.types.v1.RatePlan rate_plans = 7;
+
+  // Rate Rules
+  // To be used when searching for specific rates like refundable or resellable offers
+  repeated cmp.types.v1.RateRule rate_rules = 8;
+
+  // Product code list
+  // Here a list of property codes would be used that could be of different types
+  repeated cmp.types.v2.ProductCode product_codes = 9;
+
+  // Or a list of provider codes would be used
+  repeated cmp.types.v2.SupplierProductCode supplier_codes = 10;
+}

@@ -4,8 +4,8 @@ package cmp.services.activity.v2;
 
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v1/product_code.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v2/product_code.proto";
 
 // These are Activity specific search parameters
 //
@@ -20,11 +20,11 @@ message ActivitySearchParameters {
   // Specify one or more supplier codes to be included in the search response
   // These must match the supplier codes provided in the ProductList and
   // ProductInfo messages
-  repeated cmp.types.v1.SupplierProductCode supplier_codes = 2;
+  repeated cmp.types.v2.SupplierProductCode supplier_codes = 2;
 
   // Specify one or more product codes to be included in the search response
   // These can be of different types
-  repeated cmp.types.v1.ProductCode product_codes = 3;
+  repeated cmp.types.v2.ProductCode product_codes = 3;
 
   // Specify one or more unit IDs to be included in the search response
   // The purpose of this concept is to allow for different activities for one product

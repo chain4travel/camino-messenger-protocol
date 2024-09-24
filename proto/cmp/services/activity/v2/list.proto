@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package cmp.services.activity.v2;
+
+import "cmp/services/activity/v2/activity_types.proto";
+import "cmp/types/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+message ActivityProductListRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are modified after this timestamp
+  google.protobuf.Timestamp modified_after = 2;
+}
+
+message ActivityProductListResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Product list: Activities
+  repeated cmp.services.activity.v2.Activity activities = 2;
+}
+
+// This service is used to get a product list for activities.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/list.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/list.proto.dot.svg)
+service ActivityProductListService {
+  // Gets an optional `modified_after` date and returns a product list.
+  rpc ActivityProductList(ActivityProductListRequest) returns (ActivityProductListResponse);
+}

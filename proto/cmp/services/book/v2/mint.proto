@@ -6,9 +6,9 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/payment.proto";
 import "cmp/types/v1/pubkey.proto";
-import "cmp/types/v1/traveller.proto";
 import "cmp/types/v1/uuid.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v2/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 message MintRequest {
@@ -26,7 +26,7 @@ message MintRequest {
 
   string booking_reference = 6;
 
-  repeated cmp.types.v1.ExtensiveTraveller travellers = 7;
+  repeated cmp.types.v2.ExtensiveTraveller travellers = 7;
 
   // The comments field is meant to pass noncommittal remarks entered by the
   // end-consumer about the service reservation,  like "non-smoking room please",

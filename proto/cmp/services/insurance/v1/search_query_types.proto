@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v1;
+
+import "cmp/services/insurance/v1/search_parameters_types.proto";
+
+message InsuranceSearchQuery {
+  // Integer query ID, unique per search request
+  int32 query_id = 1;
+
+  // Insurance specific search parameters Ex: Specific search parameters like
+  // insured booking, nationality, blockchain, ... etc
+  cmp.services.insurance.v1.InsuranceSearchParameters search_parameters_insurance = 2;
+}

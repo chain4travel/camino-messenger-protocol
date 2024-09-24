@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.services.activity.v2;
 
-import "cmp/services/activity/v1/activity_types.proto";
+import "cmp/services/activity/v2/activity_types.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/price_type.proto";
 import "cmp/types/v2/price.proto";
@@ -18,16 +18,16 @@ message ActivitySearchResult {
   int32 result_id = 1;
 
   // Activity basic info
-  cmp.services.activity.v1.Activity info = 2;
+  cmp.services.activity.v2.Activity info = 2;
 
   // Schedule
   cmp.types.v1.DateTimeRange schedule = 3;
 
   // Activity location
-  cmp.services.activity.v1.ActivityLocation location = 4;
+  cmp.services.activity.v2.ActivityLocation location = 4;
 
   // Pickup Dropoff
-  repeated cmp.services.activity.v1.PickupDropoffEvent pickup_dropoff_events = 5;
+  repeated cmp.services.activity.v2.PickupDropoffEvent pickup_dropoff_events = 5;
 
   // Min participants
   int32 min_participants = 6;
