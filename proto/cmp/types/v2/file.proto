@@ -19,7 +19,7 @@ message File {
 
 message Image {
   // file
-  File file = 1;
+  cmp.types.v2.File file = 1;
 
   // Width
   int32 width = 2;
@@ -31,15 +31,15 @@ message Image {
   string category = 6;
 
   // Image type
-  ImageType type = 7;
+  cmp.types.v2.ImageType type = 7;
 }
 
 message Video {
   // File
-  File file = 1;
+  cmp.types.v2.File file = 1;
 
   // Codec of video
-  Codec codec = 2;
+  cmp.types.v2.Codec codec = 2;
 
   // Bitrate in kbps
   int32 bitrate = 3;
@@ -53,7 +53,7 @@ message Video {
   int32 height = 6;
 
   // Container format. Ex: "MP4"
-  VideoFormat format = 7;
+  cmp.types.v2.VideoFormat format = 7;
 
   // Category
   string category = 8;
