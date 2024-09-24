@@ -23,7 +23,7 @@ message ProductCode {
   // license fees directly with the respective organizations
   string code = 1;
   int32 number = 2;
-  ProductCodeType type = 3;
+  cmp.types.v2.ProductCodeType type = 3;
 }
 
 // TODO: here we added an enum, should we create a new version of it ?
