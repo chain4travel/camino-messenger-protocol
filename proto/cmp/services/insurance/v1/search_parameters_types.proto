@@ -19,7 +19,7 @@ message InsuranceSearchParameters {
   // Here a list of property codes would be used that could be of different types
   repeated cmp.types.v2.ProductCode product_codes = 1;
 
-  // value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
+  // Value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
   double amount_purchase = 2;
 
   // Currency
@@ -28,10 +28,10 @@ message InsuranceSearchParameters {
   // The smart contract address of the NFT, booking token or url of off-chain booking details, in case the booking is not registered on any blockchain
   string booking_to_insure = 4;
 
-  // enum of chains: Camino, Polygon, Ethereum, off-chain, ... etc
-  InsuredBooking insured_booking_location = 5;
+  // Enum of chains: Camino, Polygon, Ethereum, off-chain, ... etc
+  cmp.services.insurance.v1.InsuredBooking insured_booking_location = 5;
 
-  // he country code of the end-consumer. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
+  // The country code of the end-consumer. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
   cmp.types.v2.Country nationality = 6;
 
   // The country code of the end-consumer

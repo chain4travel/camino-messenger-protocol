@@ -19,7 +19,7 @@ message InsuranceSearchResult {
   int32 query_id = 2;
 
   // Policies for this search result
-  repeated PolicyCodes policies = 3;
+  repeated cmp.services.insurance.v1.PolicyCodes policies = 3;
 
   // ## Total price in detail, with breakdowns
   cmp.types.v2.PriceDetail total_price_detail = 4;

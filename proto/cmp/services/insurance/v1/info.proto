@@ -29,7 +29,7 @@ message InsuranceProductInfoResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Insurances
-  repeated PolicyExtendedInfo insurance_list = 2;
+  repeated cmp.services.insurance.v1.PolicyExtendedInfo insurances = 2;
 }
 
 // Insurance product info service definition

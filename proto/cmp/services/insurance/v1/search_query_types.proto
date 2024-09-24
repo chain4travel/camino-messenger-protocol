@@ -10,5 +10,5 @@ message InsuranceSearchQuery {
 
   // Insurance specific search parameters Ex: Specific search parameters like
   // insured booking, nationality, blockchain, ... etc
-  InsuranceSearchParameters search_parameters_insurance = 2;
+  cmp.services.insurance.v1.InsuranceSearchParameters search_parameters_insurance = 2;
 }

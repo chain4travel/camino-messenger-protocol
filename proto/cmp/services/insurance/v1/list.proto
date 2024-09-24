@@ -19,7 +19,7 @@ message InsuranceProductListResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Insurance
-  repeated Insurance insurance_list = 2;
+  repeated cmp.services.insurance.v1.Insurance insurances = 2;
 }
 
 // This service is used to get a product list for insurances.
