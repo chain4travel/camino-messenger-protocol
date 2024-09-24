@@ -5,10 +5,11 @@ package cmp.services.accommodation.v2;
 import "cmp/types/v1/amenity.proto";
 import "cmp/types/v1/bed.proto";
 import "cmp/types/v1/description.proto";
-import "cmp/types/v1/file.proto";
+import "cmp/types/v1/location.proto";
 import "cmp/types/v1/meal_plan.proto";
 import "cmp/types/v1/product_status.proto";
 import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/file.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v2/service_fact.proto";
@@ -92,10 +93,10 @@ message PropertyExtendedInfo {
   cmp.services.accommodation.v2.Property property = 1;
 
   // Images
-  repeated cmp.types.v1.Image images = 2;
+  repeated cmp.types.v2.Image images = 2;
 
   // Videos
-  repeated cmp.types.v1.Video videos = 3;
+  repeated cmp.types.v2.Video videos = 3;
 
   // Segmentation classification
   repeated string classifications = 4;
@@ -133,8 +134,8 @@ message Room {
   // For holiday homes specific room names if availbale can be given.
   string original_name = 3;
 
-  repeated cmp.types.v1.Image images = 4;
-  repeated cmp.types.v1.Video videos = 5;
+  repeated cmp.types.v2.Image images = 4;
+  repeated cmp.types.v2.Video videos = 5;
 
   // Room descriptions
   repeated cmp.types.v1.LocalizedDescriptionSet descriptions = 6;
