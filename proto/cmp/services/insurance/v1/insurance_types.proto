@@ -139,12 +139,12 @@ message PolicyCoverage {
 }
 
 message InsuredBooking {
-  // location of insured booking: on-chain or off-chain
-  oneof on_off_chain_booking {
+  // Location of insured booking: on-chain or off-chain
+  oneof location {
     // On-Chain booking
-    OnChainBooking on_chain_booking = 1;
+    OnChainBooking on_chain = 1;
     // Off-Chain booking
-    OffChainBooking off_chain_booking = 2;
+    OffChainBooking off_chain = 2;
   }
 }
 
