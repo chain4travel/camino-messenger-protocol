@@ -114,8 +114,8 @@ message AccommodationSearchResponse {
 
 // Service definition for Accommodation search
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search.proto.dot.svg)
 service AccommodationSearchService {
   // Accommodation Search method
   rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);

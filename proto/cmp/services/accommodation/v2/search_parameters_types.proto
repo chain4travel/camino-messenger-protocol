@@ -10,8 +10,8 @@ import "cmp/types/v2/product_code.proto";
 // This type is used in search requests for parameters like location, meal plan
 // codes etc.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_parameters_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
 message AccommodationSearchParameters {
   // Geo Location for search, set only one of the fields at once.
   //

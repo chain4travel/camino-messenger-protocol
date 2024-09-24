@@ -15,9 +15,9 @@ import "cmp/types/v2/traveller.proto";
 // - 2 trips in trips: Roundtrip journey from PMI to BCN and then BCN to PMI.
 // - 3 trips in trips: PMI->BCN + BCN->BER + BER->PMI (1 two legged flight (connection) and 1 direct (return) flight)
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/search_query_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search_query_types.proto.dot.xs.svg)
 // [Open Message
-// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/search_query_types.proto.dot.svg)
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search_query_types.proto.dot.svg)
 message TransportSearchQuery {
   // ID
   int32 query_id = 1;

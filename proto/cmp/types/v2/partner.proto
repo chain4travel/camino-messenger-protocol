@@ -7,8 +7,8 @@ import "cmp/types/v2/token.proto";
 
 // ### Partner message type
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/partner.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/partner.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/partner.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/partner.proto.dot.svg)
 message Partner {
   // Short name of the partner. Ex: Chain4Travel
   string short_name = 1;

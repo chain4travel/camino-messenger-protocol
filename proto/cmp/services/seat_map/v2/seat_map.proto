@@ -42,8 +42,8 @@ message SeatMapResponse {
 
 // Service for requesting seat map data for a given map ID
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1/seat_map.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1/seat_map.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v2/seat_map.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v2/seat_map.proto.dot.svg)
 service SeatMapService {
   // Get seat map data
   //

@@ -32,8 +32,8 @@ message AccommodationProductInfoResponse {
 
 // Accommodation product info service definition
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/info.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/info.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/info.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/info.proto.dot.svg)
 service AccommodationProductInfoService {
   // Returns product list for accommodation (properties)
   rpc AccommodationProductInfo(AccommodationProductInfoRequest) returns (AccommodationProductInfoResponse);

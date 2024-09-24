@@ -17,8 +17,8 @@ import "cmp/types/v2/price.proto";
 // which ski pass and what level of ski class that be properly selected.
 //
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/service_fact.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/service_fact.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/service_fact.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/service_fact.proto.dot.svg)
 message ServiceFact {
   // A code for the specific service, when a service is optional, this code is
   // referenced in the validate request, so that the optional service will be added

@@ -9,8 +9,8 @@ import "cmp/types/v2/product_code.proto";
 
 // These are Activity specific search parameters
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/search_parameters_types.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/search_parameters_types.proto.dot.svg)
 message ActivitySearchParameters {
   // Specify the language(s) a potential guide should speak for example a tour in
   // the Anne Frank house in Amsterdam in French or the tour at the pyramids in

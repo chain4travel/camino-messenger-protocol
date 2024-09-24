@@ -12,8 +12,8 @@ import "google/protobuf/timestamp.proto";
 // - A "free cancellation upto" DateTime
 // - Complete cancellation policies with from/to DateTime stamps
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/cancel_policy.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/cancel_policy.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/cancel_policy.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/cancel_policy.proto.dot.svg)
 message CancelPolicy {
   // the search result is refundable or not (at least one cancellation penalty exists
   // that provides a (partial) refund)

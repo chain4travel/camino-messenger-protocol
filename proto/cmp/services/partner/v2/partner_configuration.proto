@@ -32,8 +32,8 @@ message GetPartnerConfigurationResponse {
 
 // Get Partner Configuration Service
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1/partner_configuration.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1/partner_configuration.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v2/partner_configuration.proto.dot.xs.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v2/partner_configuration.proto.dot.svg)
 service GetPartnerConfigurationService {
   // #### GetPartnerConfiguration
   //
