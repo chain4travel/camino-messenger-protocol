@@ -5,6 +5,7 @@ package cmp.types.v1;
 // Document type to be used in various messages
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/document.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/document.proto.dot.svg)
 message Document {
   string document_number = 1;

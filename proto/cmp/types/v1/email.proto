@@ -5,6 +5,7 @@ package cmp.types.v1;
 // Email type for general use.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/email.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/email.proto.dot.svg)
 message Email {
   string address = 1;

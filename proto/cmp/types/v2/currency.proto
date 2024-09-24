@@ -22,6 +22,7 @@ message Currency {
 // optimize the size of the protobuf message size.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/currency.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/currency.proto.dot.svg)
 enum IsoCurrency {
   ISO_CURRENCY_UNSPECIFIED = 0; // Placeholder or unspecified currency

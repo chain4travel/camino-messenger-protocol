@@ -5,6 +5,7 @@ package cmp.types.v1;
 // Upfront filtering of possible search options in the search response
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/filter.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/filter.proto.dot.svg)
 message Filter {
   // Filters can be based on a type of a specific code standard or codes agreed

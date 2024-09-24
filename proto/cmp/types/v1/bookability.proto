@@ -5,6 +5,7 @@ package cmp.types.v1;
 import "cmp/types/v1/time.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.svg)
 message Bookability {
   cmp.types.v1.BookabilityType type = 1;

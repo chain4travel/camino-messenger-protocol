@@ -12,6 +12,7 @@ import "cmp/types/v2/price.proto";
 // `AccommodationSearchResponse` message.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_result_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_result_types.proto.dot.svg)
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and

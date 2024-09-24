@@ -13,6 +13,7 @@ import "cmp/types/v1/uuid.proto";
 import "google/protobuf/timestamp.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v1/entry_requirements.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v1/entry_requirements.proto.dot.svg)
 service CountryEntryRequirementsService {
   rpc CountryEntryRequirements(CountryEntryRequirementsRequest) returns (CountryEntryRequirementsResponse);

@@ -7,6 +7,7 @@ package cmp.types.v1;
 // This must be a UUID according to RFC 4122 standard.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/uuid.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/uuid.proto.dot.svg)
 message UUID {
   string value = 1;

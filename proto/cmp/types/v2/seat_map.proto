@@ -76,6 +76,7 @@ message Section {
 // seating arrangement, including sections, images, and localized descriptions.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/seat_map.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for the seat map

@@ -6,6 +6,7 @@ package cmp.types.v1;
 // first, using fewer bytes in the code thus reducing message size.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/country.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/country.proto.dot.svg)
 enum Country {
   COUNTRY_UNSPECIFIED = 0;

@@ -68,6 +68,7 @@ message TransportSearchResponse {
 // message type.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search.proto.dot.svg)
 service TransportSearchService {
   rpc TransportSearch(TransportSearchRequest) returns (TransportSearchResponse);

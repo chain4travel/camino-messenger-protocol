@@ -32,6 +32,7 @@ package cmp.types.v1;
 // ```
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/amenity.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/amenity.proto.dot.svg)
 message Amenity {
   // Amenity type like INTERNET, POOL, FOOD_BEVERAGE

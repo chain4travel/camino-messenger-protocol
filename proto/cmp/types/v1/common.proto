@@ -33,6 +33,7 @@ package cmp.types.v1;
 // ### CM Message Header
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.svg)
 message Header {
   // Bot Version The request and response should always hold the bot version used

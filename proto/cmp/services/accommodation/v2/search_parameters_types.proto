@@ -11,6 +11,7 @@ import "cmp/types/v2/product_code.proto";
 // codes etc.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
 message AccommodationSearchParameters {
   // Geo Location for search, set only one of the fields at once.

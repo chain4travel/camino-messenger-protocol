@@ -46,6 +46,7 @@ message ValidationObject {
 }
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v2/validate.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v2/validate.proto.dot.svg)
 service ValidationService {
   rpc Validation(ValidationRequest) returns (ValidationResponse);

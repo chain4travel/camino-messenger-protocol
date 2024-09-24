@@ -5,6 +5,7 @@ package cmp.types.v1;
 // Delivery Formats and Methods
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.svg)
 enum DeliveryFormat {
   DELIVERY_FORMAT_UNSPECIFIED = 0;

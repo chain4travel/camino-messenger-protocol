@@ -8,6 +8,7 @@ import "cmp/types/v1/dow.proto";
 // Travel Period
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.svg)
 message TravelPeriod {
   // Start date of a trip for messages where no Date/Time is required

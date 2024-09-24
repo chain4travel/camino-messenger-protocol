@@ -14,6 +14,7 @@ import "google/protobuf/timestamp.proto";
 // This message type represents a one way trip, either travelling or returning.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/trip_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/trip_types.proto.dot.svg)
 message Trip {
   // Departure and Arrival dates and times can be derrived from the first and last segments

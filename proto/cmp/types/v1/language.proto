@@ -7,6 +7,7 @@ package cmp.types.v1;
 // less bytes for this field.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/language.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/language.proto.dot.svg)
 enum Language {
   LANGUAGE_UNSPECIFIED = 0;

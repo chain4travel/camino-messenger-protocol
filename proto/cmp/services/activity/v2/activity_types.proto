@@ -19,6 +19,7 @@ import "google/protobuf/timestamp.proto";
 // Activity
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/activity_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/activity_types.proto.dot.svg)
 message Activity {
   // Context for Inventory system concepts that need to be included in an info

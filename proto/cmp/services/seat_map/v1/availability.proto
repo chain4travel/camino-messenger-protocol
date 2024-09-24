@@ -50,6 +50,7 @@ message SeatMapAvailabilityResponse {
 // Service is used to request the seat map availability data for a given map ID
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1/availability.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v1/availability.proto.dot.svg)
 service SeatMapAvailabilityService {
   // Get seat map availability data

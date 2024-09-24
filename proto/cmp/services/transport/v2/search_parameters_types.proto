@@ -10,6 +10,7 @@ import "cmp/types/v2/product_code.proto";
 // Transport Search Parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search_parameters_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search_parameters_types.proto.dot.svg)
 message TransportSearchParameters {
   // Specify one or more type codes to be included in the search response

@@ -34,6 +34,7 @@ message PingResponse {
 // The Ping Service definition
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1/ping.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1/ping.proto.dot.svg)
 service PingService {
   // Ping Method

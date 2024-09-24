@@ -7,6 +7,7 @@ import "cmp/types/v2/location.proto";
 // This type represents an address for places like a home or hotel etc.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/address.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/address.proto.dot.svg)
 message Address {
   string line_1 = 1;
