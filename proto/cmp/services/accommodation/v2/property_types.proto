@@ -5,7 +5,6 @@ package cmp.services.accommodation.v2;
 import "cmp/types/v1/amenity.proto";
 import "cmp/types/v1/bed.proto";
 import "cmp/types/v1/description.proto";
-import "cmp/types/v1/location.proto";
 import "cmp/types/v1/meal_plan.proto";
 import "cmp/types/v1/product_status.proto";
 import "cmp/types/v2/contact_info.proto";
