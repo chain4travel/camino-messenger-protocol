@@ -13,4 +13,4 @@ The Camino Messenger protocol is created together with Partners from each vertic
 
 Please do not hesitate to communicate your observations on this documentation like uncertainties, mistakes or missing explanations, so that we can continuously improve this documentation. Every Camino Network Partner (Validator) can also participate in official Message Type reviews to help improve the message format. Reach us through the [Discord](https://discord.com/channels/949247897688494150/1182680860797960253).
 
-For more information about the concept please visit: https://docs.camino.network/camino-messenger
+For more information about the concept please visit [the camino messenger documentation](https://docs.camino.network/).
