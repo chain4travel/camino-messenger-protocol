@@ -10,6 +10,7 @@ import "cmp/types/v1/phone.proto";
 // Contact Info for general use.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/contact_info.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/contact_info.proto.dot.svg)
 message ContactInfo {
   // Address

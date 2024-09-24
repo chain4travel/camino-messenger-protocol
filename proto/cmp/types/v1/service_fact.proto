@@ -18,6 +18,7 @@ import "cmp/types/v1/price.proto";
 //
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/service_fact.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/service_fact.proto.dot.svg)
 message ServiceFact {
   // A code for the specific service, when a service is optional, this code is

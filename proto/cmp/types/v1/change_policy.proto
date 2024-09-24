@@ -13,6 +13,7 @@ import "google/protobuf/timestamp.proto";
 // - Multiple change types with start/end DateTime stamps for a search result
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/change_policy.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/change_policy.proto.dot.svg)
 message ChangePolicy {
   // the search result is changeable or not (at least one change type exists)

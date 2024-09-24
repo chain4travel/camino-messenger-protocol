@@ -21,8 +21,9 @@ message Currency {
 // First 20 currencies are the most traded currencies in the world. This is done to
 // optimize the size of the protobuf message size.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/currency.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/currency.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/currency.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/currency.proto.dot.svg)
 enum IsoCurrency {
   ISO_CURRENCY_UNSPECIFIED = 0; // Placeholder or unspecified currency
 

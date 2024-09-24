@@ -7,6 +7,7 @@ import "cmp/types/v1/link.proto";
 // Loyalty Program
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/loyalty_program.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/loyalty_program.proto.dot.svg)
 message LoyaltyProgram {
   // In case of an off-chain loyalty program, this is the id of the loyalty program in loyalty system

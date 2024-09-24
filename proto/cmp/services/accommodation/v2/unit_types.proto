@@ -17,8 +17,9 @@ import "cmp/types/v2/service_fact.proto";
 // A unit can also be a different property in a multi-property request for holiday
 // homes. Ex: 1 house for 4 persons and another house for 6 persons.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/unit_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/unit_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/unit_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/unit_types.proto.dot.svg)
 message Unit {
   // Unit Type. Used to distinguish between hotel rooms and holiday homes.
   // Ex: `UnitType.UNIT_TYPE_ROOM`

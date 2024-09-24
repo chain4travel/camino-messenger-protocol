@@ -83,6 +83,7 @@ message InsuranceSearchResponse {
 // Service definition for Insurance search
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.svg)
 service InsuranceSearchService {
   // Insurance Search method

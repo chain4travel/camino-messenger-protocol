@@ -25,6 +25,7 @@ message InsuranceProductListResponse {
 // This service is used to get a product list for insurances.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/list.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/list.proto.dot.svg)
 service InsuranceProductListService {
   // Gets an optional `modified_after` date and returns a product list.

@@ -11,8 +11,9 @@ import "cmp/types/v2/price.proto";
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_result_types.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v1/search_result_types.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_result_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_result_types.proto.dot.svg)
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.

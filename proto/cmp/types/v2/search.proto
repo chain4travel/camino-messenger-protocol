@@ -12,8 +12,9 @@ import "cmp/types/v2/currency.proto";
 
 // Search parameters for the search requests
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/search.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/search.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/search.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/search.proto.dot.svg)
 message SearchParameters {
   // Requested currency in which prices have to be supplied in the response
   // according to ISO 4217 Currency codes

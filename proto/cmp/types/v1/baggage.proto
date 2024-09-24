@@ -7,6 +7,7 @@ import "cmp/types/v1/measurement.proto";
 // Baggage message type
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/baggage.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/baggage.proto.dot.svg)
 message Baggage {
   // Baggage type

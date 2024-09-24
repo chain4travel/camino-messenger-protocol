@@ -88,8 +88,9 @@ message MintResponse {
   string buy_transaction_id = 11;
 }
 
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1/mint.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v1/mint.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v2/mint.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v2/mint.proto.dot.svg)
 service MintService {
   rpc Mint(MintRequest) returns (MintResponse);
 }

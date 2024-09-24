@@ -9,8 +9,9 @@ import "cmp/types/v2/country.proto";
 
 // Traveller
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/traveller.proto.dot.xs.svg)
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/traveller.proto.dot.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.svg)
 message BasicTraveller {
   // Guest number, the lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, like baggage.

@@ -25,6 +25,7 @@ message ActivityProductListResponse {
 // This service is used to get a product list for activities.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/list.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/list.proto.dot.svg)
 service ActivityProductListService {
   // Gets an optional `modified_after` date and returns a product list.

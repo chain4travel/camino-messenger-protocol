@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 // Date range message that includes start and end datetime as timestamps.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/datetime_range.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/datetime_range.proto.dot.svg)
 message DateTimeRange {
   google.protobuf.Timestamp start_datetime = 1;

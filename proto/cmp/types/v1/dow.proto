@@ -26,6 +26,7 @@ package cmp.types.v1;
 // | Result   | 64        | 32         | 16       | 8          | 4         | 2         | 1        |
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/dow.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/dow.proto.dot.svg)
 message DayOfWeek {
   int32 dow = 1;

@@ -10,6 +10,7 @@ import "cmp/types/v1/measurement.proto";
 // Represents a geographic location
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/location.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/location.proto.dot.svg)
 message Coordinates {
   // The latitude in degrees. It must be in the range [-90.0, +90.0].

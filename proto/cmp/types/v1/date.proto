@@ -5,6 +5,7 @@ package cmp.types.v1;
 // Date message that includes year, month and day as integers.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/date.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/date.proto.dot.svg)
 message Date {
   int32 year = 1;

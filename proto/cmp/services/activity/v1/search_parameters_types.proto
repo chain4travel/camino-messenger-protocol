@@ -10,6 +10,7 @@ import "cmp/types/v1/product_code.proto";
 // These are Activity specific search parameters
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/search_parameters_types.proto.dot.svg)
 message ActivitySearchParameters {
   // Specify the language(s) a potential guide should speak for example a tour in

@@ -13,6 +13,7 @@ import "cmp/types/v2/traveller.proto";
 // This type is used in search requests for parameters like insured booking, network, ... etc
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_parameters_types.proto.dot.xs.svg)
+//
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_parameters_types.proto.dot.svg)
 message InsuranceSearchParameters {
   // Product code list
