@@ -9,7 +9,7 @@ package cmp.types.v2;
 message Email {
   string address = 1;
 
-  EmailType type = 2;
+  cmp.types.v2.EmailType type = 2;
 }
 
 // Email Types
