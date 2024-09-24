@@ -101,7 +101,7 @@ jobs:
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
-      - name: Run proto dependency check
+      - name: Run proto FQPN check
         run: scripts/fqpn_check.sh
 
   # Push the draft branch to buf.build
