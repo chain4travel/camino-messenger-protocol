@@ -9,7 +9,7 @@ import "cmp/types/v2/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
-// This represents Insurance types which is needed for different insurance services (search, info, ... etc)
+// Insurance
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/insurance_types.proto.dot.svg)

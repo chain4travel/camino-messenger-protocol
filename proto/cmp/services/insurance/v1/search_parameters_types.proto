@@ -22,24 +22,21 @@ message InsuranceSearchParameters {
   // Value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
   cmp.types.v2.Price amount_purchase = 2;
 
-  // The smart contract address of the NFT, booking token or url of off-chain booking details, in case the booking is not registered on any blockchain
-  string booking_to_insure = 3;
+  // Insurance location and its references. Location can be on-chain or off-chain.
+  cmp.services.insurance.v1.InsuredBooking booking_to_insure = 3;
 
-  // Enum of chains: Camino, Polygon, Ethereum, off-chain, ... etc
-  cmp.services.insurance.v1.InsuredBooking insured_booking_location = 4;
+  // The country code of the end-consumer nationality. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
+  cmp.types.v2.Country nationality = 4;
 
-  // The country code of the end-consumer. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
-  cmp.types.v2.Country nationality = 5;
-
-  // The country code of the end-consumer
-  cmp.types.v2.Country country_residence = 6;
+  // The country code of the end-consumer place of residence
+  cmp.types.v2.Country country_residence = 5;
 
   // Travel period
-  cmp.types.v1.TravelPeriod travel_period = 7;
+  cmp.types.v1.TravelPeriod travel_period = 6;
 
   // Travellers
-  repeated cmp.types.v2.BasicTraveller travellers = 8;
+  repeated cmp.types.v2.BasicTraveller travellers = 7;
 
   // Loyalty Program
-  cmp.types.v1.LoyaltyProgram loyalty_program = 9;
+  cmp.types.v1.LoyaltyProgram loyalty_program = 8;
 }

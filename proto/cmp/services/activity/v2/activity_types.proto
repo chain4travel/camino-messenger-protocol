@@ -16,7 +16,7 @@ import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
-// This represents Activity types which is needed for different activity services (search, info, ... etc)
+// Activity
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/activity_types.proto.dot.xs.svg)
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v1/activity_types.proto.dot.svg)
