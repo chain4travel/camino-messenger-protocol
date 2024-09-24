@@ -95,7 +95,7 @@ jobs:
       - name: Run proto dependency check
         run: scripts/dependency_checker.py --print-graph
 
-  # Check if we use FQPN (full qualified package names) everywhere
+  # Check if we use FQPN (fully qualified package names) everywhere
   fqpn-check:
     runs-on: ubuntu-latest
     steps:
