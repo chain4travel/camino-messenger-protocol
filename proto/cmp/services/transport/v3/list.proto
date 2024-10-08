@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package cmp.services.transport.v3;
+
+import "cmp/services/transport/v2/trip_types.proto";
+import "cmp/types/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+message TransportProductListRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are modified after this timestamp
+  google.protobuf.Timestamp modified_after = 2;
+}
+
+message TransportProductListResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  //cmp.services.transport.v3.TransportSchedule transportation_schedule = 2;
+
+  // Product list: Trips
+  repeated cmp.services.transport.v2.Trip trips = 2;
+}
+
+// This service is used to get a product list for transportation.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/list.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/list.proto.dot.svg)
+service TransportProductListService {
+  // Gets an optional `modified_after` date and returns a product list.
+  rpc TransportProductList(TransportProductListRequest) returns (TransportProductListResponse);
+}
