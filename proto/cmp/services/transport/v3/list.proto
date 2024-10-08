@@ -18,8 +18,6 @@ message TransportProductListResponse {
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 
-  //cmp.services.transport.v3.TransportSchedule transportation_schedule = 2;
-
   // Product list: Trips
   repeated cmp.services.transport.v2.Trip trips = 2;
 }
