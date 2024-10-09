@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.services.transport.v3;
 
-import "cmp/services/transport/v2/trip_types.proto";
+import "cmp/services/transport/v3/trip_types.proto";
 import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -19,7 +19,7 @@ message TransportProductListResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Trips
-  repeated cmp.services.transport.v2.Trip trips = 2;
+  repeated cmp.services.transport.v3.Trip trips = 2;
 }
 
 // This service is used to get a product list for transportation.
