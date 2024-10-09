@@ -21,9 +21,19 @@ message Trip {
   // Schedule for the whole trip
   cmp.services.transport.v3.TripSchedule schedule = 1;
 
-  // Departure and Arrival dates and times can be derrived from the first and last segments
+  // Luggage
+  //
+  // Ex: `3`
+  cmp.types.v1.Baggage baggage = 2;
+
+  // Price
+  //
+  // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
+  cmp.types.v2.Price price = 3;
+
+  // Departure and Arrival dates and times can be derived from the first and last segments
   // Trip segments are the legs offered
-  repeated cmp.services.transport.v3.TripSegment segments = 2;
+  repeated cmp.services.transport.v3.TripSegment segments = 4;
 }
 
 // Represents a departure or arrival event
@@ -118,16 +128,6 @@ message TripSegment {
   //
   // Ex: `3`
   int32 max_pax = 15;
-
-  // Luggage
-  //
-  // Ex: `3`
-  cmp.types.v1.Baggage baggage = 16;
-
-  // Price
-  //
-  // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
-  cmp.types.v2.Price price = 17;
 }
 
 // A whole trip schedule from the first segment till the last one
