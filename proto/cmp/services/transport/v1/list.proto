@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.services.transport.v3;
+package cmp.services.transport.v1;
 
 import "cmp/services/transport/v3/trip_types.proto";
 import "cmp/types/v1/common.proto";
