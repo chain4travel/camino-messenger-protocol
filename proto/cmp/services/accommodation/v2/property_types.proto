@@ -23,6 +23,7 @@ import "google/protobuf/timestamp.proto";
 message Property {
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp last_modified = 1;
 
   // Supplier product Code

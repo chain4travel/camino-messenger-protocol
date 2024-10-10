@@ -17,6 +17,7 @@ message PingRequest {
   string ping_message = 2;
 
   // DateTime of the ping request
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp timestamp = 3;
 }
 
@@ -28,6 +29,7 @@ message PingResponse {
   string ping_message = 2;
 
   // DateTime of the ping response
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp timestamp = 3;
 }
 

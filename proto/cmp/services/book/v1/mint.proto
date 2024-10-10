@@ -58,6 +58,7 @@ message MintResponse {
   string provider_booking_reference = 4;
 
   // Timestamp of the booking in the inventory system of the supplier.
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp provider_booking_timestamp = 5;
 
   // Price of the `BookingToken`. This field is meant to be populated by the
@@ -73,6 +74,7 @@ message MintResponse {
 
   // On chain booking token should be only buyable until this timestamp and should
   // expire after that.
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp buyable_until = 9;
 
   // Transaction ID of the buy operation. This field is populated by the distributor

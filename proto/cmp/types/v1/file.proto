@@ -15,6 +15,7 @@ message File {
   string url = 2;
 
   // Last modification time
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp last_modified = 3;
 }
 

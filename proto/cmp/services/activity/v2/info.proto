@@ -14,6 +14,7 @@ message ActivityProductInfoRequest {
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
+  // For any on-chain transactions, if applicable, nanoseconds will be ignored
   google.protobuf.Timestamp modified_after = 2;
 
   // Languages to be included in the response for descriptions. Null means all
