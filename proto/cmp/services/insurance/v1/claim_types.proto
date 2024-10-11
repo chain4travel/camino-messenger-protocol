@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v1;
+
+import "cmp/types/v1/date.proto";
+import "cmp/types/v3/file.proto";
+import "cmp/types/v2/price.proto";
+
+// TODO-MO: shall I put this inside insurance types ?!
+// ClaimForm
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.svg)
+message ClaimForm {
+    // Dates of services
+    repeated cmp.types.v1.Date dates = 1;
+
+    repeated cmp.services.insurance.v1.ClaimableService services_to_claim = 2;
+
+    repeated cmp.services.insurance.v1.ClaimDocument additional_documents = 3;
+
+    repeated cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4;
+}
+
+message ClaimableService {
+    string service_description = 1;
+    cmp.types.v2.Price charge_amount = 2;
+    repeated cmp.services.insurance.v1.ClaimDocument documents = 3;
+}
+
+message ClaimDocument {
+    cmp.types.v3.File file = 1;
+    cmp.services.insurance.v1.ClaimDocumentType type = 2;
+}
+
+message ClaimAdditionalInfo {
+    repeated string info = 1; // TODO-MO: I added this
+    cmp.services.insurance.v1.ClaimConditions conditions = 2;
+}
+
+message ClaimConditions { // TODO-Mo: more conditions ?!
+    bool employment = 1;
+    bool car_accident = 2;
+    bool trip_delay = 3;
+    bool trip_cancelled = 4;
+    bool family = 5;
+    bool death = 6;
+    bool other_condition = 7;
+}
+
+enum ClaimDocumentType { //TODO-Mo: more types ?!
+    CLAIM_DOCUMENT_TYPE_UNSPECIFIED = 0;
+    CLAIM_DOCUMENT_TYPE_OTHER = 1;
+    CLAIM_DOCUMENT_TYPE_BILL = 2;
+    CLAIM_DOCUMENT_TYPE_POLICE_REPORT = 3;
+    CLAIM_DOCUMENT_TYPE_MEDICAL_REPORT = 4;
+    CLAIM_DOCUMENT_TYPE_LAB_RESULT = 5;
+}
+
+enum ClaimStatus { // TODO-Mo: more statuses ?
+    CLAIM_STATUS_UNSPECIFIED = 0;
+    CLAIM_STATUS_RECEIVED = 1;
+    CLAIM_STATUS_PROCESSING = 2;
+    CLAIM_STATUS_APPROVED = 3;
+    CLAIM_STATUS_REJECTED = 4;
+    CLAIM_STATUS_INVESTIGATING = 5;
+    CLAIM_STATUS_MORE_INFO_REQUIRED = 6;
+    CLAIM_STATUS_FEEDBACK = 7;
+    CLAIM_STATUS_REVIEW = 8;
+    CLAIM_STATUS_PAIDOUT = 9;
+    CLAIM_STATUS_DONE = 10;
+}
