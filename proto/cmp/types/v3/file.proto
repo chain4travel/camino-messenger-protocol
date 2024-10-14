@@ -32,7 +32,7 @@ message File {
 
 message Image {
   // file
-  cmp.types.v2.File file = 1;
+  cmp.types.v3.File file = 1;
 
   // Width
   int32 width = 2;
@@ -44,15 +44,15 @@ message Image {
   string category = 6;
 
   // Image type
-  cmp.types.v2.ImageFormat format = 7;
+  cmp.types.v3.ImageFormat format = 7;
 }
 
 message Video {
   // File
-  cmp.types.v2.File file = 1;
+  cmp.types.v3.File file = 1;
 
   // Codec of video
-  cmp.types.v2.Codec codec = 2;
+  cmp.types.v3.Codec codec = 2;
 
   // Bitrate in kbps
   int32 bitrate = 3;
@@ -66,7 +66,7 @@ message Video {
   int32 height = 6;
 
   // Container format. Ex: "MP4"
-  cmp.types.v2.VideoFormat format = 7;
+  cmp.types.v3.VideoFormat format = 7;
 
   // Category
   string category = 8;

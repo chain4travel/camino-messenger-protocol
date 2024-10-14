@@ -5,8 +5,7 @@ package cmp.services.insurance.v1;
 import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/language.proto";
-import "cmp/types/v2/product_code.proto";
+import "cmp/types/v2/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 message InsuranceSubmitClaimFormRequest {
@@ -18,11 +17,11 @@ message InsuranceSubmitClaimFormRequest {
   google.protobuf.Timestamp modified_after = 2;
 
   // Product list: Insurances
-  repeated cmp.types.v2.BasicTraveller insured_persons = 2;  // TODO-Mo: can an insurance include more than one person ?
+  repeated cmp.types.v2.BasicTraveller insured_persons = 3;  // TODO-Mo: can an insurance include more than one person ?
 
-  cmp.services.insurance.v1.PolicyExtendedInfo policy_info = 3;  
+  cmp.services.insurance.v1.PolicyExtendedInfo policy_info = 4;  
 
-  cmp.services.insurance.v1.ClaimForm form = 4;
+  cmp.services.insurance.v1.ClaimForm form = 5;
 }
 
 message InsuranceSubmitClaimFormResponse { //TODO-Mo what is the metadata here ?!
@@ -39,11 +38,11 @@ message InsuranceSubmitClaimFormResponse { //TODO-Mo what is the metadata here ?
   string processing_id = 4;
 }
 
-// Insurance get claim form service definition
+// Insurance submit claim form service definition
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/get_claim_form.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/submit_claim_form.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/get_claim_form.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/submit_claim_form.proto.dot.svg)
 service InsuranceSubmitClaimFormService {
   // Returns product info for insurance
   rpc InsuranceSubmitClaimForm(InsuranceSubmitClaimFormRequest) returns (InsuranceSubmitClaimFormResponse);

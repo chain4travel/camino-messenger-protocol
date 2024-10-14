@@ -2,11 +2,9 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1;
 
-import "cmp/services/insurance/v1/insurance_types.proto";
+
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v1/language.proto";
-import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 message InsuranceSubmitClaimFormExtraInfoRequest {
