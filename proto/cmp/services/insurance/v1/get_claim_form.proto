@@ -6,8 +6,10 @@ import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v2/product_code.proto";
+import "cmp/types/v2/traveller.proto";
+import "cmp/services/insurance/v1/search_result_types.proto";
 import "google/protobuf/timestamp.proto";
+
 
 message InsuranceGetClaimFormRequest {
   // Message header

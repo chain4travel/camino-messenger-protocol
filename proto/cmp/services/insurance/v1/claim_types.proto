@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.insurance.v1;
 
 import "cmp/types/v1/date.proto";
+import "cmp/types/v1/common.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v2/price.proto";
 
@@ -71,3 +72,20 @@ enum ClaimStatus { // TODO-Mo: more statuses ?
     CLAIM_STATUS_PAIDOUT = 9;
     CLAIM_STATUS_DONE = 10;
 }
+
+//TODO-Mo : what's metadata here ? I moved it to here because it's general for 3 requests
+message InsuranceSettlementResponse { //TODO-Mo what is the metadata here ?!
+    // Message header
+    cmp.types.v1.ResponseHeader header = 1;
+  
+    // Submission ID from the TO or OTA to trace this claim
+    string submission_id = 2;
+  
+    // Processing ID from insurance supplier
+    string processing_id = 3;
+  
+    // Carrier ID from insurance carrier
+    string carrier_id = 4;
+  
+    string message_status = 5; //TODO-Mo : do we need this ? if there is a response then msg is already received, do we need an enum for it ?
+  }

@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v1;
+
+import "cmp/services/insurance/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v2/price.proto";
+import "google/protobuf/timestamp.proto";
+
+message InsuranceSettlementDecisionRequest { //TODO-Mo:  I called it decision instead of acceptedrejected
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are new, modified or deactivated after this
+  // timestamp.
+  google.protobuf.Timestamp modified_after = 2;
+
+  // Submission ID from the TO or OTA to trace this claim
+  string submission_id = 3;
+
+  // Claim Status
+  cmp.services.insurance.v1.ClaimStatus status = 4;
+
+  string acceptance_reference = 5; // TODO-Mo: what if it is rejected ?
+
+  // Processing ID from insurance supplier
+  string processing_id = 6;
+
+  // Carrier ID from insurance carrier
+  string carrier_id = 7;
+
+  string transaction_id = 8;
+
+  string transaction_type = 9;
+
+  cmp.types.v2.Price amount = 10;
+}
+
+//TODO-Mo : what's metadata here ? 
+message InsuranceSettlementDecisionResponse { 
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Submission ID from the TO or OTA to trace this claim
+  string submission_id = 2;
+
+  // Processing ID from insurance supplier
+  string processing_id = 3;
+
+  // Carrier ID from insurance carrier
+  string carrier_id = 4;
+
+  string message_status = 5; //TODO-Mo : do we need this ? if there is a response then msg is already received, do we need an enum for it ?
+}
+
+// Insurance settlement decision (Accepted or Rejected) service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_settlement_decision.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_settlement_decision.proto.dot.svg)
+service InsuranceSettlementDecisionService {
+  // Returns insurance settlement response
+  rpc InsuranceSettlementDecision(InsuranceSettlementDecisionRequest) returns (InsuranceSettlementDecisionResponse);
+}
