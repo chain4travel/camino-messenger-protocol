@@ -15,42 +15,27 @@ message InsuranceSettlementPaidOutRequest {  //TODO-Mo: what's the difference be
   // timestamp.
   google.protobuf.Timestamp modified_after = 2;
 
-  // Submission ID from the TO or OTA to trace this claim
-  string submission_id = 3;
+  // Claim IDs: Submission ID, Processing ID and Carrier ID
+  cmp.services.insurance.v1.ClaimIds claim_ids = 3;
 
   // Claim Status
   cmp.services.insurance.v1.ClaimStatus status = 4;
 
   string acceptance_reference = 5; // TODO-Mo: what if it is rejected ?
 
-  // Processing ID from insurance supplier
-  string processing_id = 6;
+  string transaction_id = 6;
 
-  // Carrier ID from insurance carrier
-  string carrier_id = 7;
+  string transaction_type = 7;
 
-  string transaction_id = 8;
-
-  string transaction_type = 9;
-
-  cmp.types.v2.Price amount = 10;
+  cmp.types.v2.Price amount = 8;
 }
 
-//TODO-Mo : what's metadata here ? 
 message InsuranceSettlementPaidOutResponse { 
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Submission ID from the TO or OTA to trace this claim
-  string submission_id = 2;
-
-  // Processing ID from insurance supplier
-  string processing_id = 3;
-
-  // Carrier ID from insurance carrier
-  string carrier_id = 4;
-
-  string message_status = 5; //TODO-Mo : do we need this ? if there is a response then msg is already received, do we need an enum for it ?
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.insurance.v1.ClaimMessageResponse claim_message_response = 2;
 }
 
 // Insurance settlement PaidOut service definition

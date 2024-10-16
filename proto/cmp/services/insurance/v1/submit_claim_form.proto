@@ -5,37 +5,26 @@ package cmp.services.insurance.v1;
 import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/traveller.proto";
+import "cmp/types/v3/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
 message InsuranceSubmitClaimFormRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Only respond with the products that are new, modified or deactivated after this
-  // timestamp.
-  google.protobuf.Timestamp modified_after = 2;
-
-  // Product list: Insurances
-  repeated cmp.types.v2.BasicTraveller insured_persons = 3;  // TODO-Mo: can an insurance include more than one person ?
-
-  cmp.services.insurance.v1.PolicyExtendedInfo policy_info = 4;  
-
-  cmp.services.insurance.v1.ClaimForm form = 5;
+  // Claim form
+  cmp.services.insurance.v1.ClaimForm form = 2;
 }
 
-message InsuranceSubmitClaimFormResponse { //TODO-Mo what is the metadata here ?!
+message InsuranceSubmitClaimFormResponse {
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Submission ID from the TO or OTA to trace this claim
-  string submission_id = 2;
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.insurance.v1.ClaimMessageResponse claim_message_response = 2;
 
   // Claim Status
-  cmp.services.insurance.v1.ClaimStatus status = 3;
-
-  // Processing ID from insurance supplier
-  string processing_id = 4;
+  cmp.services.insurance.v1.ClaimStatus status = 4;
 }
 
 // Insurance submit claim form service definition
