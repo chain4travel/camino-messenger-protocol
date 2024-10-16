@@ -113,6 +113,7 @@ enum Codec {
   CODEC_MPEG2 = 5; // MPEG-2 (codec used for video on DVDs)
 }
 
+// File mime type
 enum MIMEType {
   FILE_TYPE_UNSPECIFIED = 0;
   FILE_TYPE_OTHER = 1;
@@ -191,12 +192,16 @@ enum MIMEType {
   MIME_TYPE_AAC	= 74;
 }
 
+// File Checksum
 message Checksum {
+  // Hash algorithm
   cmp.types.v3.HashAlgorithm hash_algorithm = 7;
 
+  // Hash content
   string hash_content = 8;
 }
 
+// Hash algorithms
 enum HashAlgorithm {
   HASH_ALGORITHM_UNSPECIFIED = 0;
   HASH_ALGORITHM_OTHER = 1;
