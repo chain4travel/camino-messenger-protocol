@@ -17,8 +17,8 @@ import "google/protobuf/timestamp.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/trip_types.proto.dot.svg)
 message TripExtended {
-  // Schedule for the whole trip
-  cmp.services.transport.v3.TripInfo info = 1;
+  // Trip supplier code
+  cmp.types.v2.SupplierProductCode supplier_code = 1;
 
   // Luggage
   //
@@ -30,7 +30,7 @@ message TripExtended {
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
   cmp.types.v2.Price price = 3;
 
-  // Trip segments are the legs offered
+  // Trip segments are the legs offered. Here we use extended segments type.
   //
   // Departure and Arrival dates and times can be derived from the first and last segments
   repeated cmp.services.transport.v3.SegmentExtended segments = 4;
@@ -40,21 +40,13 @@ message TripExtended {
 //
 // Intended to be used in list service.
 message TripBasic {
-  // Trip Info like carrier code, carrier type, period
-  cmp.services.transport.v3.TripInfo info = 1;
+  // Trip supplier code
+  cmp.types.v2.SupplierProductCode supplier_code = 1;
 
   // Trip segments are the legs offered
   //
   // Departure and Arrival dates and times can be derived from the first and last segments
   repeated cmp.services.transport.v3.Segment segments = 2;
-}
-
-message TripInfo {
-  // Carrier Code
-  string carrier_code = 1;
-
-  // Carrier Type. Ex: airline, transfer company, train company, .. etc
-  string carrier_type = 2;
 }
 
 // A segment of a trip
