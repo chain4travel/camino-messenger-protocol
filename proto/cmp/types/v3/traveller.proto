@@ -80,11 +80,17 @@ enum GenderType {
 
 // Extra info about the traveller or someone related
 message TravellerExtraInfo {
+  // Traveller
   cmp.types.v3.BasicTraveller basic_traveller = 1;
+
+  // Traveller name
   string name = 2;
+  
+  // Relationship with the traveller
   cmp.types.v3.TravellerRelationship relationship_to_traveller = 2;
 }
 
+// Traveller relationship
 enum TravellerRelationship {
   TRAVELLER_RELATIONSHIP_UNSPECIFIED = 0;
   TRAVELLER_RELATIONSHIP_OTHER = 1;
