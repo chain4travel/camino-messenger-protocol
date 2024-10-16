@@ -6,14 +6,21 @@ import "cmp/types/v1/date.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v3/traveller.proto";
 
-// TODO-MO: shall I put this inside insurance types ?!
 // ClaimForm
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.svg)
 message ClaimForm {
+
+    // Insured person or someone related
+    cmp.types.v3.TravellerExtraInfo insured_person = 2;  
+
+    // Policy brief info
+    cmp.services.insurance.v1.PolicyInfo policy_info = 3;
+    
     // Dates of services
     repeated cmp.types.v1.Date dates = 1;
 
@@ -21,7 +28,7 @@ message ClaimForm {
 
     repeated cmp.services.insurance.v1.ClaimDocument additional_documents = 3;
 
-    repeated cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4;
+    cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4; // TODO-Mo: I removed repeated from here and put it in each of the message parameters
 }
 
 message ClaimableService {
@@ -36,21 +43,26 @@ message ClaimDocument {
 }
 
 message ClaimAdditionalInfo {
-    repeated string info = 1; // TODO-MO: I added this
-    cmp.services.insurance.v1.ClaimConditions conditions = 2;
+    repeated string info = 1;
+    repeated cmp.services.insurance.v1.ClaimCondition condition = 2;
 }
 
-message ClaimConditions { // TODO-Mo: more conditions ?!
-    bool employment = 1;
-    bool car_accident = 2;
-    bool trip_delay = 3;
-    bool trip_cancelled = 4;
-    bool family = 5;
-    bool death = 6;
-    bool other_condition = 7;
+// Claim conditions
+// TODO: is this list enough ?
+enum ClaimCondition { 
+    CLAIM_CONDITION_UNSPECIFIED = 0;
+    CLAIM_CONDITION_OTHER = 1;
+    CLAIM_CONDITION_EMPLOYMENT = 2;
+    CLAIM_CONDITION_TRIP_DELAY = 3;
+    CLAIM_CONDITION_TRIP_CANCELLED = 4;
+    CLAIM_CONDITION_FAMILY = 5;
+    CLAIM_CONDITION_DEATH = 6;
+    CLAIM_CONDITION_CAR_ACCIDENT = 0;
 }
 
-enum ClaimDocumentType { //TODO-Mo: more types ?!
+// Claim document types
+// TODO: check if there are more types
+enum ClaimDocumentType {
     CLAIM_DOCUMENT_TYPE_UNSPECIFIED = 0;
     CLAIM_DOCUMENT_TYPE_OTHER = 1;
     CLAIM_DOCUMENT_TYPE_BILL = 2;
@@ -59,7 +71,9 @@ enum ClaimDocumentType { //TODO-Mo: more types ?!
     CLAIM_DOCUMENT_TYPE_LAB_RESULT = 5;
 }
 
-enum ClaimStatus { // TODO-Mo: more statuses ?
+// Claim Status
+// TODO: check if this list is sufficient
+enum ClaimStatus {
     CLAIM_STATUS_UNSPECIFIED = 0;
     CLAIM_STATUS_RECEIVED = 1;
     CLAIM_STATUS_PROCESSING = 2;
@@ -73,19 +87,51 @@ enum ClaimStatus { // TODO-Mo: more statuses ?
     CLAIM_STATUS_DONE = 10;
 }
 
-//TODO-Mo : what's metadata here ? I moved it to here because it's general for 3 requests
-message InsuranceSettlementResponse { //TODO-Mo what is the metadata here ?!
-    // Message header
-    cmp.types.v1.ResponseHeader header = 1;
-  
-    // Submission ID from the TO or OTA to trace this claim
-    string submission_id = 2;
-  
-    // Processing ID from insurance supplier
-    string processing_id = 3;
-  
-    // Carrier ID from insurance carrier
-    string carrier_id = 4;
-  
-    string message_status = 5; //TODO-Mo : do we need this ? if there is a response then msg is already received, do we need an enum for it ?
-  }
+// Claim Message Status
+// TODO: check if this list is sufficient
+enum ClaimMessageStatus {
+    CLAIM_MESSAGE_STATUS_UNSPECIFIED = 0;
+    CLAIM_MESSAGE_STATUS_OTHER = 1;
+    CLAIM_MESSAGE_STATUS_RECEIVED = 2;
+    CLAIM_MESSAGE_STATUS_UNKNOWN_CARRIER_ID = 3;
+    CLAIM_MESSAGE_STATUS_UNKNOWN_PROCESSING_ID = 4;
+    CLAIM_MESSAGE_STATUS_UNKNOWN_SUBMISSION_ID = 5;
+    CLAIM_MESSAGE_STATUS_EROOR = 6;
+}
+
+// Brief info about insurance policy
+message PolicyInfo {
+    cmp.types.v3.TravellerExtraInfo insured_person = 1;
+    uint64 policy_token_id = 2 ;
+    int32 chain_id = 3;
+    string wallet_address = 4;
+    string iban = 5;
+    string company_name = 6; // TODO-Mo: what about adding name to contact info in types ?
+    cmp.types.v2.ContactInfo comany_contact = 7;
+    cmp.services.insurance.v1.PolicyCodes policy_codes = 8;
+}
+
+message ClaimInfoRequested {
+    string service_description = 1;
+    cmp.types.v2.Price charge_amount = 2;
+    cmp.services.insurance.v1.ClaimDocumentType document_type = 3;
+}
+
+message ClaimIds {
+  // Submission ID from the TO or OTA to trace this claim
+  string submission_id = 1;
+
+  // Processing ID from insurance supplier
+  string processing_id = 2;
+
+  // Carrier ID from insurance carrier
+  string carrier_id = 3;
+}
+
+message ClaimMessageResponse {
+  // Claim IDs: Submission ID, Processing ID and Carrier ID
+  cmp.services.insurance.v1.ClaimIds claim_ids = 1;
+
+  // Claim Message Status
+  cmp.services.insurance.v1.ClaimMessageStatus message_status = 2;
+}

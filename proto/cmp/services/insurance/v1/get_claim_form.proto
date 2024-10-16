@@ -6,7 +6,7 @@ import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v2/traveller.proto";
+import "cmp/types/v3/traveller.proto";
 import "cmp/services/insurance/v1/search_result_types.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -15,30 +15,20 @@ message InsuranceGetClaimFormRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Only respond with the products that are new, modified or deactivated after this
-  // timestamp.
-  google.protobuf.Timestamp modified_after = 2;
-
   // Languages to be included in the response for descriptions. Null means all
   // available languages.
-  repeated cmp.types.v1.Language languages = 3;
+  repeated cmp.types.v1.Language languages = 2;
 
-  // Insurance codes
-  cmp.services.insurance.v1.PolicyCodes policy_codes = 4; // TODO-Mo: I used this instead of uuid
-
-  cmp.services.insurance.v1.InsuredBooking insured_booking = 5;  // TODO-Mo: I used this to specify on-off chain
+  // Booking token ID for the policy. You get it after minting an Insurance policy. This is not the booking token of the trip.
+  unit64 policy_token_id = 3;
 }
 
 message InsuranceGetClaimFormResponse {
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Product list: Insurances
-  repeated cmp.types.v2.BasicTraveller insured_persons = 2;  // TODO-Mo: can an insurance include more than one person ?
-
-  cmp.services.insurance.v1.PolicyExtendedInfo policy_info = 3;  
-
-  cmp.services.insurance.v1.ClaimForm form = 4;
+  // Claim form
+  cmp.services.insurance.v1.ClaimForm form = 2;
 }
 
 // Insurance get claim form service definition

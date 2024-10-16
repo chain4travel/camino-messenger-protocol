@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package cmp.types.v3;
+
+import "cmp/types/v1/date.proto";
+import "cmp/types/v1/document.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/country.proto";
+
+// Traveller
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.svg)
+message BasicTraveller {
+  // Guest number, the lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, like baggage.
+  // the traveller_id must be kept consistent between the search request and response.
+  // Conclusively if the request specifies traveller 0 and 1, then the response also refers
+  // to these traveller numbers. If the request specifies 1 and 2 or 10 and 20, then the
+  // response also returns these references.
+  // The traveller_id is specified in each unit and only detailed once in the search response
+  // repeated travellers field
+  int32 traveller_id = 1;
+
+  // Traveller type from enum below
+  cmp.types.v3.TravellerType type = 2;
+
+  // Birthdate
+  cmp.types.v1.Date birthdate = 3;
+
+  // The country code for the nationality of the traveller.
+  cmp.types.v2.Country nationality = 4;
+}
+
+// Traveller Type
+enum TravellerType {
+  TRAVELLER_TYPE_UNSPECIFIED = 0;
+  TRAVELLER_TYPE_ADULT = 1;
+  TRAVELLER_TYPE_CHILD = 2;
+  TRAVELLER_TYPE_INFANT = 3;
+  TRAVELLER_TYPE_SENIOR = 4;
+}
+
+message ExtensiveTraveller {
+  // Guest number, the lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, like baggage.
+  int32 traveller_id = 1;
+
+  // Gender from the enum below
+  cmp.types.v3.GenderType gender = 2;
+
+  // Many systems might just have one field for all first names and just one field
+  // for all surnames of a traveller. However, we see many countries with many
+  // surnames and authorities that require the names data to be correctly registered
+  // as in the passport of the traveller. In this case you can for example find in
+  // the fist name field "Diana Frances" and in the surname field "Spencer". However
+  // with double barrelled surnames this becomes problematic like in the case of
+  // firstname: "Winnie" Surname: "Madikizela-Mandela". In Spanish tradition, double
+  // surnames are the norm, which are composed of surname of their fathers, followed
+  // by the (first) surname of their mothers. These names are combined without
+  // hyphen for example Julio Iglesias de la Cueva and Enrique Iglesias Preysler.
+  // Conclusively systems that haye a limited number of first name and surname
+  // fields can just use one antry and systems that have multipl can fit John legen
+  // into first_name: John, first_name: Roger, surname: Stephens, surname: Legend.
+  repeated string first_names = 3;
+  repeated string surnames = 4;
+  cmp.types.v2.ContactInfo contact_info = 5;
+  repeated cmp.types.v1.Document documents = 6;
+}
+
+// Gender Type
+enum GenderType {
+  GENDER_TYPE_UNSPECIFIED = 0;
+  GENDER_TYPE_MALE = 1;
+  GENDER_TYPE_FEMALE = 2;
+  GENDER_TYPE_NONBINARY = 3;
+  GENDER_TYPE_AGENDER = 4;
+}
+
+// Extra info about the traveller or someone related
+message TravellerExtraInfo {
+  cmp.types.v3.BasicTraveller basic_traveller = 1;
+  string name = 2;
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 2;
+}
+
+enum TravellerRelationship {
+  TRAVELLER_RELATIONSHIP_UNSPECIFIED = 0;
+  TRAVELLER_RELATIONSHIP_OTHER = 1;
+  TRAVELLER_RELATIONSHIP_FATHER = 2;
+  TRAVELLER_RELATIONSHIP_MOTHER = 3;
+  TRAVELLER_RELATIONSHIP_SON = 4;
+  TRAVELLER_RELATIONSHIP_DAUGHTER = 5;
+  TRAVELLER_RELATIONSHIP_SPOUSE = 6;
+  TRAVELLER_RELATIONSHIP_BROTHER = 7;
+  TRAVELLER_RELATIONSHIP_SISTER = 8;
+  TRAVELLER_RELATIONSHIP_FAMILY_MEMBER = 9;
+  TRAVELLER_RELATIONSHIP_ADOPTED = 10;
+}
