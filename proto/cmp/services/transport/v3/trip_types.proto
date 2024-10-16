@@ -66,7 +66,7 @@ message TripSegment {
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
   string service_type_description = 3;
 
-  // Included, optional or compulsary services for this segment or leg. Just a code and
+  // Included, optional or compulsory services for this segment or leg. Just a code and
   // description can be included if it is a package (seat, priority, large carry-on).
   // or a price detail can be included for optionally pre-ordered meals for example.
   repeated cmp.types.v2.ServiceFact services = 4;
@@ -115,7 +115,7 @@ message SegmentInfo {
   // Sub supplier code, replacing Operating carrier or identifying sub contracted
   // services provided by other suppliers.
   //
-  // DB could be selling an intenational train trip operated by the Dutch Nederlands
+  // DB could be selling an international train trip operated by the Dutch Nederlands
   // Spoorwegen (NS) or the French SNCF. Holiday Taxis could be selling a transfer
   // that is operated by Transunion.
   string sub_supplier_code = 4;

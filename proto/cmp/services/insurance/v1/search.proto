@@ -62,7 +62,7 @@ message InsuranceSearchRequest {
 // insurances like hotel and holiday home searches within the platform.
 //
 // In the response a search_id must be included and a search_option_id for every
-// bookable option responded. Included, compulsary and optional services can be
+// bookable option responded. Included, compulsory and optional services can be
 // included. A simple "free cancellation upto" can be set or full cancellation
 // pilicies can be included.
 message InsuranceSearchResponse {

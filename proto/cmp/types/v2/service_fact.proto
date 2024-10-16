@@ -11,7 +11,7 @@ import "cmp/types/v2/price.proto";
 // travellers have an early flight. Or cleaning cost must be included for every booking
 // of a holiday home.
 //
-// It is important that these optional, included or compulsary services are simple. For
+// It is important that these optional, included or compulsory services are simple. For
 // complex combinations like a hotel with a rent-a-car or a skipass or ski lessons, packages
 // should be used so that each service can be described properly and a choice of what car,
 // which ski pass and what level of ski class that be properly selected.
