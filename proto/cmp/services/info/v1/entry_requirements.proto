@@ -105,6 +105,10 @@ message CountryEntryRequirementItem {
   cmp.services.info.v1.ItemStatus status = 3;
 
   // Significant update date
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
   google.protobuf.Timestamp last_significant_update = 4;
 }
 

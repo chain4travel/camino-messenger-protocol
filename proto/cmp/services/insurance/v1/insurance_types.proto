@@ -38,6 +38,10 @@ message Policy {
 
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
   google.protobuf.Timestamp last_modified = 3;
 }
 
