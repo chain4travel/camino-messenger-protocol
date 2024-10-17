@@ -48,7 +48,7 @@ message TransportSearchResponse {
   // Search response metadata
   cmp.types.v2.SearchResponseMetadata metadata = 2;
 
-  // Conten source types for this search request.
+  // Content source types for this search request.
   //
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
