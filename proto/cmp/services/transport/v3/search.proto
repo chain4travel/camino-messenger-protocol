@@ -53,7 +53,7 @@ message TransportSearchResponse {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated cmp.types.v1.ContentSourceType conten_source_types = 3;
+  repeated cmp.types.v1.ContentSourceType content_source_types = 3;
 
   // Transit search results
   repeated cmp.services.transport.v3.TransportSearchResult results = 4;
