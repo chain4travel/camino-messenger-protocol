@@ -144,7 +144,7 @@ message TransitEvent {
   // Date time of the event
   //
   // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds 
+  // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
   google.protobuf.Timestamp date_time = 1;
 
