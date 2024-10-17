@@ -21,13 +21,20 @@ message InsuranceSettlementDecisionRequest { //TODO-Mo:  I called it decision in
   // Claim Status
   cmp.services.insurance.v1.ClaimStatus status = 4;
 
-  string acceptance_reference = 5; // TODO-Mo: what if it is rejected ?
+  // TODO: Is this reference applied for Acceptance and Rejection ?
+  string decision_reference = 5; 
 
-  string transaction_id = 6;
+  // More info about decision such as rejection reason.
+  string decision_detail = 6;
 
-  string transaction_type = 7;
+  // Todo-Mo: create PayOutTransaction message with id and type.
+  // Payment transaction id
+  string transaction_id = 7;
 
-  cmp.types.v2.Price amount = 8;
+  string transaction_type = 8;
+
+  // TODO: ask whether there could be multiple payouts for the same claim.
+  cmp.types.v2.PriceDetail amount = 9;
 }
 
 message InsuranceSettlementDecisionResponse { 

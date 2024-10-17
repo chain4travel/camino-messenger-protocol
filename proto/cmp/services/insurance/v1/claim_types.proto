@@ -15,8 +15,8 @@ import "cmp/types/v3/traveller.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.svg)
 message ClaimForm {
 
-    // Insured person or someone related
-    cmp.types.v3.TravellerExtraInfo insured_person = 2;  
+    // Insured person or someone related who has the accident
+    cmp.types.v3.TravellerExtraInfo affected_person = 2;  
 
     // Policy brief info
     cmp.services.insurance.v1.PolicyInfo policy_info = 3;
@@ -28,7 +28,7 @@ message ClaimForm {
 
     repeated cmp.services.insurance.v1.ClaimDocument additional_documents = 3;
 
-    cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4; // TODO-Mo: I removed repeated from here and put it in each of the message parameters
+    repeated cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4; 
 }
 
 message ClaimableService {
@@ -43,8 +43,8 @@ message ClaimDocument {
 }
 
 message ClaimAdditionalInfo {
-    repeated string info = 1;
-    repeated cmp.services.insurance.v1.ClaimCondition condition = 2;
+    string info = 1;
+    cmp.services.insurance.v1.ClaimCondition condition = 2;
 }
 
 // Claim conditions
@@ -91,12 +91,11 @@ enum ClaimStatus {
 // TODO: check if this list is sufficient
 enum ClaimMessageStatus {
     CLAIM_MESSAGE_STATUS_UNSPECIFIED = 0;
-    CLAIM_MESSAGE_STATUS_OTHER = 1;
+    CLAIM_MESSAGE_STATUS_ERROR = 1;
     CLAIM_MESSAGE_STATUS_RECEIVED = 2;
     CLAIM_MESSAGE_STATUS_UNKNOWN_CARRIER_ID = 3;
     CLAIM_MESSAGE_STATUS_UNKNOWN_PROCESSING_ID = 4;
     CLAIM_MESSAGE_STATUS_UNKNOWN_SUBMISSION_ID = 5;
-    CLAIM_MESSAGE_STATUS_EROOR = 6;
 }
 
 // Brief info about insurance policy
@@ -104,10 +103,13 @@ message PolicyInfo {
     cmp.types.v3.TravellerExtraInfo insured_person = 1;
     uint64 policy_token_id = 2 ;
     int32 chain_id = 3;
+    // for payout // Todo-mo: should be one of
+    // TODO: how do they define currency for pay out and which chain to use ?
     string wallet_address = 4;
+    // for pay out
     string iban = 5;
-    string company_name = 6; // TODO-Mo: what about adding name to contact info in types ?
-    cmp.types.v2.ContactInfo comany_contact = 7;
+    string company_name = 6; // TODO-Mo: create new Company type to have name and contact info ?
+    cmp.types.v2.ContactInfo company_contact = 7;
     cmp.services.insurance.v1.PolicyCodes policy_codes = 8;
 }
 
@@ -117,7 +119,7 @@ message ClaimInfoRequested {
     cmp.services.insurance.v1.ClaimDocumentType document_type = 3;
 }
 
-message ClaimIds {
+message ClaimId {
   // Submission ID from the TO or OTA to trace this claim
   string submission_id = 1;
 
@@ -130,7 +132,7 @@ message ClaimIds {
 
 message ClaimMessageResponse {
   // Claim IDs: Submission ID, Processing ID and Carrier ID
-  cmp.services.insurance.v1.ClaimIds claim_ids = 1;
+  cmp.services.insurance.v1.ClaimId claim_id = 1;
 
   // Claim Message Status
   cmp.services.insurance.v1.ClaimMessageStatus message_status = 2;
