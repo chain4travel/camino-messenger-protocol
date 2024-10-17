@@ -14,7 +14,10 @@ message ActivityProductInfoRequest {
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
-  // For any on-chain transactions, if applicable, nanoseconds will be ignored
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
   google.protobuf.Timestamp modified_after = 2;
 
   // Languages to be included in the response for descriptions. Null means all
