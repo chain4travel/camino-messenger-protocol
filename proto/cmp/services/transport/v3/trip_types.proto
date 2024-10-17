@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.services.transport.v3;
 
 import "cmp/types/v1/baggage.proto";
-import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/measurement.proto";
 import "cmp/types/v2/location.proto";
@@ -17,9 +16,9 @@ import "google/protobuf/timestamp.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/trip_types.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/trip_types.proto.dot.svg)
-message Trip {
-  // Schedule for the whole trip
-  cmp.services.transport.v3.TripSchedule schedule = 1;
+message TripExtended {
+  // Trip supplier code
+  cmp.types.v2.SupplierProductCode supplier_code = 1;
 
   // Luggage
   //
@@ -31,24 +30,29 @@ message Trip {
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
   cmp.types.v2.Price price = 3;
 
+  // Trip segments are the legs offered. Here we use extended segments type.
+  //
   // Departure and Arrival dates and times can be derived from the first and last segments
-  // Trip segments are the legs offered
-  repeated cmp.services.transport.v3.TripSegment segments = 4;
+  repeated cmp.services.transport.v3.SegmentExtended segments = 4;
 }
 
-// Represents a departure or arrival event
-message TransitEvent {
-  // Date time of the event
-  google.protobuf.Timestamp date_time = 1;
+// A whole trip from the first segment till the last one with basic information.
+//
+// Intended to be used in list service.
+message TripBasic {
+  // Trip supplier code
+  cmp.types.v2.SupplierProductCode supplier_code = 1;
 
-  // Event location
-  cmp.types.v2.LocationCode location_code = 2;
+  // Trip segments are the legs offered
+  //
+  // Departure and Arrival dates and times can be derived from the first and last segments
+  repeated cmp.services.transport.v3.Segment segments = 2;
 }
 
 // A segment of a trip
-message TripSegment {
+message SegmentExtended {
   // Segment Info
-  cmp.services.transport.v3.SegmentInfo info = 1;
+  cmp.services.transport.v3.Segment info = 1;
 
   // Flights, trains and transfers often offer different service types
   // for a product. Think about economy or business for flights, first and second
@@ -82,22 +86,7 @@ message TripSegment {
   int32 max_pax = 6;
 }
 
-// A whole trip schedule from the first segment till the last one
-message TripSchedule {
-  // Carrier Code
-  string carrier_code = 1;
-
-  // Carrier Type. Ex: airline, transfer company, train company, .. etc
-  string carrier_type = 2;
-
-  // Start and end datetime for the trip
-  cmp.types.v1.DateTimeRange period = 3;
-
-  // Schedule for each segment of the trip
-  repeated cmp.services.transport.v3.SegmentInfo segments = 4;
-}
-
-message SegmentInfo {
+message Segment {
   // Segment ID
   // Ex: "SEG1234"
   string segment_id = 1;
@@ -148,4 +137,13 @@ message SegmentInfo {
   //
   // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
   cmp.types.v1.Length segment_distance = 10;
+}
+
+// Represents a departure or arrival event
+message TransitEvent {
+  // Date time of the event
+  google.protobuf.Timestamp date_time = 1;
+
+  // Event location
+  cmp.types.v2.LocationCode location_code = 2;
 }
