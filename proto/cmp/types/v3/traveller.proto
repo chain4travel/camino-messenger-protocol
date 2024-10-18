@@ -85,9 +85,9 @@ message TravellerExtraInfo {
 
   // Traveller name
   string name = 2;
-  
+
   // Relationship with the traveller
-  cmp.types.v3.TravellerRelationship relationship_to_traveller = 2;
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 3;
 }
 
 // Traveller relationship

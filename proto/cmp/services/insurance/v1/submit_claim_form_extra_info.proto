@@ -2,17 +2,15 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1;
 
-
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "google/protobuf/timestamp.proto";
 
 message InsuranceSubmitClaimFormExtraInfoRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Claim IDs: Submission ID, Processing ID and Carrier ID
-  cmp.services.insurance.v1.ClaimIds claim_ids = 2;
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.insurance.v1.ClaimId claim_id = 2;
 
   // Extra info needed
   repeated cmp.services.insurance.v1.ClaimableService requested_info = 3;
@@ -26,7 +24,7 @@ message InsuranceSubmitClaimFormExtraInfoResponse {
   cmp.services.insurance.v1.ClaimMessageResponse claim_message_response = 2;
 
   // Claim Status
-  cmp.services.insurance.v1.ClaimStatus status = 2;
+  cmp.services.insurance.v1.ClaimStatus status = 3;
 }
 
 // Insurance submit claim form service definition

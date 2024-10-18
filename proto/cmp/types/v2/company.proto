@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v2;
 
 import "cmp/types/v2/contact_info.proto";
 
@@ -19,6 +19,3 @@ message Company {
   // Contact Info
   cmp.types.v2.ContactInfo contact_info = 6;
 }
-
-
-

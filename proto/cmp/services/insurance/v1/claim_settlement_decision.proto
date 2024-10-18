@@ -16,17 +16,17 @@ message InsuranceSettlementDecisionRequest {
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.  
+  // will be ignored.
   google.protobuf.Timestamp modified_after = 2;
 
-  // Claim IDs: Submission ID, Processing ID and Carrier ID
-  cmp.services.insurance.v1.ClaimIds claim_ids = 3;
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.insurance.v1.ClaimId claim_id = 3;
 
   // Claim Status
   cmp.services.insurance.v1.ClaimStatus status = 4;
 
   // TODO: Is this reference applied for Acceptance and Rejection ?
-  string decision_reference = 5; 
+  string decision_reference = 5;
 
   // More info about decision such as rejection reason.
   string decision_detail = 6;
@@ -39,7 +39,7 @@ message InsuranceSettlementDecisionRequest {
   cmp.types.v2.PriceDetail amount = 8;
 }
 
-message InsuranceSettlementDecisionResponse { 
+message InsuranceSettlementDecisionResponse {
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 

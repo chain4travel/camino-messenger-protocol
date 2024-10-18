@@ -18,13 +18,13 @@ message InsuranceSettlementExtraInfoRequest {
   // will be ignored.
   google.protobuf.Timestamp modified_after = 2;
 
-  // Claim IDs: Submission ID, Processing ID and Carrier ID
-  cmp.services.insurance.v1.ClaimIds claim_ids = 3;
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.insurance.v1.ClaimId claim_id = 3;
 
   repeated cmp.services.insurance.v1.ClaimInfoRequested info_requested = 4;
 }
 
-message InsuranceSettlementExtraInfoResponse { 
+message InsuranceSettlementExtraInfoResponse {
   // Message header
   cmp.types.v1.ResponseHeader header = 1;
 

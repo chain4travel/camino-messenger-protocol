@@ -2,14 +2,9 @@ syntax = "proto3";
 
 package cmp.services.insurance.v1;
 
-import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/services/insurance/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v3/traveller.proto";
-import "cmp/services/insurance/v1/search_result_types.proto";
-import "google/protobuf/timestamp.proto";
-
 
 message InsuranceGetClaimFormRequest {
   // Message header
@@ -20,7 +15,7 @@ message InsuranceGetClaimFormRequest {
   repeated cmp.types.v1.Language languages = 2;
 
   // Booking token ID for the policy. You get it after minting an Insurance policy. This is not the booking token of the trip.
-  unit64 policy_token_id = 3;
+  uint64 policy_token_id = 3;
 }
 
 message InsuranceGetClaimFormResponse {
