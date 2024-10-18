@@ -8,10 +8,10 @@ import "cmp/types/v1/description.proto";
 import "cmp/types/v1/meal_plan.proto";
 import "cmp/types/v1/product_status.proto";
 import "cmp/types/v2/contact_info.proto";
-import "cmp/types/v3/file.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v2/service_fact.proto";
+import "cmp/types/v3/file.proto";
 import "cmp/types/v3/traveller.proto";
 import "google/protobuf/timestamp.proto";
 

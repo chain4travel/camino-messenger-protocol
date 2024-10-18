@@ -4,9 +4,9 @@ package cmp.services.book.v3;
 
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v2/payment.proto";
 import "cmp/types/v1/pubkey.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v2/payment.proto";
 import "cmp/types/v2/price.proto";
 import "cmp/types/v3/traveller.proto";
 import "google/protobuf/timestamp.proto";

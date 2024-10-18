@@ -11,9 +11,9 @@ import "cmp/types/v1/language.proto";
 import "cmp/types/v1/redemption.proto";
 import "cmp/types/v2/address.proto";
 import "cmp/types/v2/contact_info.proto";
-import "cmp/types/v3/file.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/file.proto";
 import "google/protobuf/timestamp.proto";
 
 // Activity

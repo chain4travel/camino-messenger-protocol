@@ -12,8 +12,8 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v3;
 
-import "cmp/services/accommodation/v3/search_query_types.proto";
 import "cmp/services/accommodation/v2/search_result_types.proto";
+import "cmp/services/accommodation/v3/search_query_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v2/search.proto";
 import "cmp/types/v3/traveller.proto";

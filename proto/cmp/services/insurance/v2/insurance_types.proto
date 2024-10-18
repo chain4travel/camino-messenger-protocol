@@ -5,9 +5,9 @@ package cmp.services.insurance.v2;
 import "cmp/types/v1/inclusivity.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v2/contact_info.proto";
-import "cmp/types/v3/file.proto";
 import "cmp/types/v2/price.proto";
 import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/file.proto";
 import "google/protobuf/timestamp.proto";
 
 // Insurance
@@ -26,7 +26,7 @@ message Insurance {
   string external_session_id = 2;
 
   // List of insurance policies
-  repeated cmp.services.insurance.v1.Policy policies = 3;
+  repeated cmp.services.insurance.v2.Policy policies = 3;
 }
 
 message Policy {
@@ -47,7 +47,7 @@ message Policy {
 
 message PolicyExtendedInfo {
   // Insurance Policy dynamic info
-  cmp.services.insurance.v1.Policy policy = 1;
+  cmp.services.insurance.v2.Policy policy = 1;
 
   // Carrier code, this provider is the holder of the policy and not a supplier to the Camino Network
   string carrier_code = 2;
@@ -59,19 +59,19 @@ message PolicyExtendedInfo {
   cmp.types.v3.Image logo = 4;
 
   // Enum of possible types, to be used for filtering
-  cmp.services.insurance.v1.PolicyType policy_type = 5;
+  cmp.services.insurance.v2.PolicyType policy_type = 5;
 
   // Support contact
   cmp.types.v2.ContactInfo support_contact = 6;
 
   // Criteria
-  repeated cmp.services.insurance.v1.PolicyCriteria criteria = 7;
+  repeated cmp.services.insurance.v2.PolicyCriteria criteria = 7;
 
   // Units
-  repeated cmp.services.insurance.v1.PolicyUnit units = 8;
+  repeated cmp.services.insurance.v2.PolicyUnit units = 8;
 
   // Services
-  repeated cmp.services.insurance.v1.PolicyService services = 9;
+  repeated cmp.services.insurance.v2.PolicyService services = 9;
 }
 
 message PolicyCriteria {
@@ -90,7 +90,7 @@ message PolicyUnit {
   string name = 2;
 
   // Coverage details
-  cmp.services.insurance.v1.PolicyCoverage policy_coverage = 4;
+  cmp.services.insurance.v2.PolicyCoverage policy_coverage = 4;
 }
 
 message PolicyService {
@@ -104,7 +104,7 @@ message PolicyService {
   repeated string unit_codes = 3;
 
   // Coverage details
-  cmp.services.insurance.v1.PolicyCoverage policy_coverage = 4;
+  cmp.services.insurance.v2.PolicyCoverage policy_coverage = 4;
 }
 
 enum PolicyType {
@@ -148,9 +148,9 @@ message InsuredBooking {
   // Location of insured booking: on-chain or off-chain
   oneof location {
     // On-Chain booking
-    cmp.services.insurance.v1.OnChainBooking on_chain = 1;
+    cmp.services.insurance.v2.OnChainBooking on_chain = 1;
     // Off-Chain booking
-    cmp.services.insurance.v1.OffChainBooking off_chain = 2;
+    cmp.services.insurance.v2.OffChainBooking off_chain = 2;
   }
 }
 
