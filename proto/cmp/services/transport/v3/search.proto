@@ -11,12 +11,12 @@ syntax = "proto3";
 // This package is a WIP.
 package cmp.services.transport.v3;
 
-import "cmp/services/transport/v2/search_query_types.proto";
+import "cmp/services/transport/v3/search_query_types.proto";
 import "cmp/services/transport/v3/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/content_source.proto";
 import "cmp/types/v2/search.proto";
-import "cmp/types/v2/traveller.proto";
+import "cmp/types/v3/traveller.proto";
 
 // Transport Search Request
 message TransportSearchRequest {
@@ -34,7 +34,7 @@ message TransportSearchRequest {
   cmp.types.v2.SearchParameters search_parameters = 3;
 
   // Multiple search queries for this search request
-  repeated cmp.services.transport.v2.TransportSearchQuery queries = 4;
+  repeated cmp.services.transport.v3.TransportSearchQuery queries = 4;
 
   // Remarks
   string remarks = 5;
@@ -59,7 +59,7 @@ message TransportSearchResponse {
   repeated cmp.services.transport.v3.TransportSearchResult results = 4;
 
   // Global definition of the travellers for all results to be used via the traveller_id
-  repeated cmp.types.v2.BasicTraveller travellers = 5;
+  repeated cmp.types.v3.BasicTraveller travellers = 5;
 }
 
 // Transport Search Service definition.

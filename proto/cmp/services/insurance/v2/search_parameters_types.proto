@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v2;
+
+import "cmp/services/insurance/v2/insurance_types.proto";
+import "cmp/types/v1/loyalty_program.proto";
+import "cmp/types/v1/travel_period.proto";
+import "cmp/types/v2/country.proto";
+import "cmp/types/v2/price.proto";
+import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/traveller.proto";
+
+// This type is used in search requests for parameters like insured booking, network, ... etc
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_parameters_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_parameters_types.proto.dot.svg)
+message InsuranceSearchParameters {
+  // Product code list
+  // Here a list of property codes would be used that could be of different types
+  repeated cmp.types.v2.ProductCode product_codes = 1;
+
+  // Value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
+  cmp.types.v2.Price amount_purchase = 2;
+
+  // Insurance location and its references. Location can be on-chain or off-chain.
+  cmp.services.insurance.v2.InsuredBooking booking_to_insure = 3;
+
+  // The country code of the end-consumer nationality. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
+  cmp.types.v2.Country nationality = 4;
+
+  // The country code of the end-consumer place of residence
+  cmp.types.v2.Country country_residence = 5;
+
+  // Travel period
+  cmp.types.v1.TravelPeriod travel_period = 6;
+
+  // Travellers
+  repeated cmp.types.v3.BasicTraveller travellers = 7;
+
+  // Loyalty Program
+  cmp.types.v1.LoyaltyProgram loyalty_program = 8;
+}
