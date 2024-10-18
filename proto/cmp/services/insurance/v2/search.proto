@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+// ## InsuranceServices
+//
+// Insurance Services has two main processes:
+//
+// - selling insurances: this process follows the same flow as selling any travel
+// product on the Camino Network: Static data download using the InsuranceProductList
+// message to obtain the (changed) portfolio of product a supplier offers, followed by
+// the InsuranceProductInfo message to get the exact detail of each product. The real-time data
+// does not contain any static information and consists of the InsuranceSearch message, followed
+// by the generic Validate and Mint messages.
+//
+// - making an insurance claim: this is a special workflow, only used in the Insurance Services.
+// A claim form is requested based on the insurance policy purchased. This "template" is then
+// filled with the required information, the necessary documents are attached, and the claim is
+// submitted to the supplier. The supplier pushes a status upon change to the distributor.
+// It might be possible that further information is required or that an off-line conversation is taking place.
+// This finally leads to an acceptance and pay-out or a denial.
+package cmp.services.insurance.v2;
+
+import "cmp/services/insurance/v2/search_query_types.proto";
+import "cmp/services/insurance/v1/search_result_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v2/search.proto";
+import "cmp/types/v3/traveller.proto";
+
+// InsuranceSearchRequest
+//
+// The Insurance Search Request message type facilitates the request for insurances
+// like health or cancellation insurances within the platform. In the request the market,
+// language and currency are specified at the top-level.
+//
+// In "queries" we specify the details of the insurances we would like to be offered.
+// In the Response, each InsuranceSearchResult is one bookable option as a "result_id".
+// Each consists of a "product" which indicates a type of insurance and if more options of
+// one type are available, then different units are offered. In case of an additional service,
+// like a sports package in combination with a health insurance, you would find one search result
+// with just the health insurance and another search result with both the health insurance and
+// the sports package.
+message InsuranceSearchRequest {
+  // Message header. Contains API version, message info string and end-user wallet
+  // address
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Search request metadata
+  cmp.types.v2.SearchRequestMetadata metadata = 2;
+
+  // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
+  // only the cheapest or all options.
+  // In the search parameters multiple filters can be applied for upfront filtering
+  // of the search results to for example to only include hotels that are less than
+  // one kilometer from the beach, have a kids club and offer an a la carte restaurant
+  cmp.types.v2.SearchParameters search_parameters_generic = 3;
+
+  // This field represents a list of search queries that can be used to create
+  // multiroom multi location searches.
+  repeated cmp.services.insurance.v2.InsuranceSearchQuery queries = 4;
+}
+
+// The `Insurance Search Response` message type facilitates the response for
+// insurances like hotel and holiday home searches within the platform.
+//
+// In the response a search_id must be included and a search_option_id for every
+// bookable option responded. Included, compulsory and optional services can be
+// included. A simple "free cancellation upto" can be set or full cancellation
+// pilicies can be included.
+message InsuranceSearchResponse {
+  // Message header. Contains API version, message info string and end user wallet
+  // address.
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Search response metadata
+  cmp.types.v2.SearchResponseMetadata metadata = 2;
+
+  // Unique combinations of bookable search results, like property,
+  repeated cmp.services.insurance.v1.InsuranceSearchResult results = 3;
+
+  // Global definition of the travellers for all results to be used via the traveller_id each unit.
+  repeated cmp.types.v3.BasicTraveller travellers = 4;
+}
+
+// Service definition for Insurance search
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search.proto.dot.svg)
+service InsuranceSearchService {
+  // Insurance Search method
+  rpc InsuranceSearch(InsuranceSearchRequest) returns (InsuranceSearchResponse);
+}
