@@ -7,12 +7,16 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v2/price.proto";
 import "google/protobuf/timestamp.proto";
 
-message InsuranceSettlementDecisionRequest { //TODO-Mo:  I called it decision instead of acceptedrejected
+message InsuranceSettlementDecisionRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.  
   google.protobuf.Timestamp modified_after = 2;
 
   // Claim IDs: Submission ID, Processing ID and Carrier ID
@@ -27,14 +31,12 @@ message InsuranceSettlementDecisionRequest { //TODO-Mo:  I called it decision in
   // More info about decision such as rejection reason.
   string decision_detail = 6;
 
-  // Todo-Mo: create PayOutTransaction message with id and type.
-  // Payment transaction id
-  string transaction_id = 7;
-
-  string transaction_type = 8;
+  // Pay-out transaction
+  cmp.services.insurance.v1.PayOutTransaction payout_transaction = 7;
 
   // TODO: ask whether there could be multiple payouts for the same claim.
-  cmp.types.v2.PriceDetail amount = 9;
+  // Amount
+  cmp.types.v2.PriceDetail amount = 8;
 }
 
 message InsuranceSettlementDecisionResponse { 

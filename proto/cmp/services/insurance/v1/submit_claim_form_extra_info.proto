@@ -14,6 +14,7 @@ message InsuranceSubmitClaimFormExtraInfoRequest {
   // Claim IDs: Submission ID, Processing ID and Carrier ID
   cmp.services.insurance.v1.ClaimIds claim_ids = 2;
 
+  // Extra info needed
   repeated cmp.services.insurance.v1.ClaimableService requested_info = 3;
 }
 

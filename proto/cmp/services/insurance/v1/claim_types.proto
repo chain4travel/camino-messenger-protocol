@@ -6,6 +6,7 @@ import "cmp/types/v1/date.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v2/payment.proto";
 import "cmp/types/v3/traveller.proto";
 
 // ClaimForm
@@ -24,26 +25,43 @@ message ClaimForm {
     // Dates of services
     repeated cmp.types.v1.Date dates = 1;
 
+    // Services to claim
     repeated cmp.services.insurance.v1.ClaimableService services_to_claim = 2;
 
+    // Additional documents
     repeated cmp.services.insurance.v1.ClaimDocument additional_documents = 3;
 
+    // Additional info
     repeated cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 4; 
 }
 
+// Service to claim
 message ClaimableService {
+    // Service description
     string service_description = 1;
+
+    // Amount to be claimed
     cmp.types.v2.Price charge_amount = 2;
+
+    // Documents
     repeated cmp.services.insurance.v1.ClaimDocument documents = 3;
 }
 
+// Claim Document
 message ClaimDocument {
+    // File
     cmp.types.v3.File file = 1;
+
+    // Type of the document
     cmp.services.insurance.v1.ClaimDocumentType type = 2;
 }
 
+// Additonal info
 message ClaimAdditionalInfo {
+    // Info string. More information regarding the claim/accident to be added here
     string info = 1;
+
+    // Condition related to the claim
     cmp.services.insurance.v1.ClaimCondition condition = 2;
 }
 
@@ -100,22 +118,41 @@ enum ClaimMessageStatus {
 
 // Brief info about insurance policy
 message PolicyInfo {
+    // Insured person
     cmp.types.v3.TravellerExtraInfo insured_person = 1;
+
+    // Token ID of the policy booking
     uint64 policy_token_id = 2 ;
+
+    // Chain ID , where the policy token was issued
     int32 chain_id = 3;
-    // for payout // Todo-mo: should be one of
+
     // TODO: how do they define currency for pay out and which chain to use ?
-    string wallet_address = 4;
-    // for pay out
-    string iban = 5;
-    string company_name = 6; // TODO-Mo: create new Company type to have name and contact info ?
-    cmp.types.v2.ContactInfo company_contact = 7;
-    cmp.services.insurance.v1.PolicyCodes policy_codes = 8;
+    // Payment method: wallet address or the IBAN of the claim issuer for pay-out
+    oneof payment_method {
+        // Wallet address for on-chain payment
+        string wallet_address = 4;
+
+        // IBAN for off-chain payment
+        string iban = 5;
+      }
+    
+    // Insurance Company
+    cmp.types.v1.Company company = 6;
+
+    // Policy Codes: unit Code, service code and product code
+    cmp.services.insurance.v1.PolicyCodes policy_code = 8;
 }
 
+// Claim more info requested
 message ClaimInfoRequested {
+    // Service description
     string service_description = 1;
+
+    // Claim service amount
     cmp.types.v2.Price charge_amount = 2;
+
+    // Document type requested
     cmp.services.insurance.v1.ClaimDocumentType document_type = 3;
 }
 
@@ -136,4 +173,13 @@ message ClaimMessageResponse {
 
   // Claim Message Status
   cmp.services.insurance.v1.ClaimMessageStatus message_status = 2;
+}
+
+// Claim Pay-Out Transaction
+message PayOutTransaction {
+    // Transaction ID
+    string transaction_id = 1;
+
+    // Transaction Type. It can be Bank transfer, Crypto transfer, Credit card, ... etc
+    cmp.types.v2.PaymentType transaction_type = 2;
 }
