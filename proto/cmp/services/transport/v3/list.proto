@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.services.transport.v1;
+package cmp.services.transport.v3;
 
 import "cmp/services/transport/v3/trip_types.proto";
 import "cmp/types/v1/common.proto";
@@ -28,9 +28,9 @@ message TransportProductListResponse {
 
 // This service is used to get a product list for transportation.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/list.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/list.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v1/list.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/list.proto.dot.svg)
 service TransportProductListService {
   // Gets an optional `modified_after` date and returns a product list.
   rpc TransportProductList(TransportProductListRequest) returns (TransportProductListResponse);
