@@ -35,13 +35,37 @@ function check_added_file {
 	FILE=$1
 
 	FILE_VERSION=$(echo $FILE | grep -oP "/v[0-9]+/" | cut -d"v" -f2 | cut -d"/" -f1)
+	DIRNAME=$(dirname $FILE)
+
+	# check whether this folder does already exist in the origin branch
+	if git show origin/$ORIGIN:$DIRNAME > /dev/null 2>&1 ; then
+		# This does already exist! 
+		echo -e "❌ ${RED}[FAIL] ERROR${NC}: The folder ${PURPLE}$DIRNAME${NC} is already present the origin branch. The newly added file ${PURPLE}$FILE${NC} should be in a new version folder not present in the origin branch!"
+		ERROR_FILES+=("$FILE")
+		return
+	fi
 
 	if [[ "$FILE_VERSION" == "1" ]] ; then
 		# Skip it as it's newly introduced
 		return
 	fi
-	
-	OTHER_FILE=$(echo $FILE | sed -e "s#/v$FILE_VERSION/#/v$(( FILE_VERSION - 1))/#")
+
+	SEARCH_VERSION=$FILE_VERSION
+	FOUND_PREV_VERSION=false
+
+	while [[ $SEARCH_VERSION > 0 ]] ; do
+		SEARCH_VERSION=$(( SEARCH_VERSION - 1 ))
+		OTHER_FILE=$(echo $FILE | sed -e "s#/v${FILE_VERSION}/#/v${SEARCH_VERSION}/#")
+		if git show origin/$ORIGIN:$OTHER_FILE > /dev/null 2>&1 ; then 
+			FOUND_PREV_VERSION=true
+			break
+		fi
+	done
+
+	if [[ "$FOUND_PREV_VERSION" == "false" ]] ; then
+		echo -e "✅ ${GREEN}[PASS] INFO${NC}: Skipping the newly introduced file ${PURPLE}$FILE${NC} as there is no previous version found in the origin branch"
+		return
+	fi
 
 	echo
 	echo -e "🆕 Detected newly added file: ${PURPLE}$FILE${NC}" 

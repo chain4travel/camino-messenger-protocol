@@ -59,8 +59,14 @@ def getC4TFiles():
 
 	# Get the proto files in the c4t branch by calling an external script
 	c4t_files = []
+	c4t_folders = {}
 	try:
 		c4t_files = os.popen("scripts/create_c4t_file_listing.sh").read().splitlines()
+		
+		for file in c4t_files:
+			folder = os.path.dirname(file)
+			if folder not in c4t_folders:
+				c4t_folders[folder] = 1
 	except:
 		print("⛔ [FATAL] Unable to get c4t files. Exiting")
 		sys.exit(1)
@@ -69,7 +75,7 @@ def getC4TFiles():
 		print("⛔ [FATAL] No files found in c4t branch. Exiting")
 		sys.exit(1)
 
-	return c4t_files
+	return c4t_files, c4t_folders
 
 def extract_command_line_args():
 	# Create an ArgumentParser object
@@ -241,7 +247,7 @@ if fix:
 	print()
 	print("🔧 Trying to fix the dependencies...")
 
-	c4tfiles = getC4TFiles()
+	c4tfiles, c4tfolders = getC4TFiles()
 
 	max_iterations=20
 
@@ -294,9 +300,19 @@ if fix:
 				match = file_pattern.match(file)
 				if match:
 					prefix, version, proto_filename = match.groups()
-					version_number = int(version[1:]) + 1
-					new_path = f"{prefix}/v{version_number}"
-					new_filename = f"{new_path}/{proto_filename}"
+					# We have to make sure that the directory does not exist already in the c4t branch because we always want to
+					# add new files into the released + 1 version!
+					vnr_add = 1
+					while True:
+						version_number = int(version[1:]) + vnr_add
+						new_path = f"{prefix}/v{version_number}"
+						# now we need to check whether this path does already exist in the c4t branch. 
+						# If yes, skip to the next version
+						# If no we found the right version!
+						if new_path not in c4tfolders:
+							new_filename = f"{new_path}/{proto_filename}"
+							break
+						vnr_add += 1
 	
 					print(f"✳️ Creating a new file: {new_filename}")
 					ensure_directory_exists(directory_path + new_path)
