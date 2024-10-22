@@ -142,6 +142,13 @@ message Segment {
 // Represents a departure or arrival event
 message TransitEvent {
   // Date time of the event
+<<<<<<< HEAD
+=======
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+>>>>>>> f2358d3 (claiming copy)
   google.protobuf.Timestamp date_time = 1;
 
   // Event location

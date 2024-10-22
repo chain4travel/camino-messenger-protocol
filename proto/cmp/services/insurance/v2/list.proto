@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v2;
+
+import "cmp/services/insurance/v2/insurance_types.proto";
+import "cmp/types/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+message InsuranceProductListRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are modified after this timestamp
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp modified_after = 2;
+}
+
+message InsuranceProductListResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Product list: Insurance
+  repeated cmp.services.insurance.v2.Insurance insurances = 2;
+}
+
+// This service is used to get a product list for insurances.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v2/list.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v2/list.proto.dot.svg)
+service InsuranceProductListService {
+  // Gets an optional `modified_after` date and returns a product list.
+  rpc InsuranceProductList(InsuranceProductListRequest) returns (InsuranceProductListResponse);
+}

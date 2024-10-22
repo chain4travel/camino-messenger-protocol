@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cmp.services.seat_map.v3;
+
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/language.proto";
+import "cmp/types/v3/seat_map.proto";
+
+// Request for seat map data
+//
+// Requests the seat map data for a given map ID
+message SeatMapRequest {
+  // Request header
+  //
+  // Header contains information about the request
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Unique identifier for the seat map
+  //
+  // This is the map ID that is received in the search results and also from the
+  // product info responses.
+  string map_id = 2;
+
+  // Requested Languages
+  repeated cmp.types.v1.Language languages = 3;
+}
+
+// Response for seat map request
+//
+// Contains the seat map data for a given map ID
+message SeatMapResponse {
+  // Response header
+  //
+  // Header contains information about the response
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Seat map data
+  //
+  // Contains the seat map data for the requested map ID
+  cmp.types.v3.SeatMap seat_map = 2;
+}
+
+// Service for requesting seat map data for a given map ID
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v3/seat_map.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v3/seat_map.proto.dot.svg)
+service SeatMapService {
+  // Get seat map data
+  //
+  // Requests the seat map data for a given map ID
+  rpc SeatMap(SeatMapRequest) returns (SeatMapResponse);
+}

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package cmp.services.claim.v1;
+
+import "cmp/services/claim/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v2/price.proto";
+import "google/protobuf/timestamp.proto";
+
+message ClaimSettlementDecisionRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are new, modified or deactivated after this
+  // timestamp.
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp modified_after = 2;
+
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.claim.v1.ClaimId claim_id = 3;
+
+  // Claim Status
+  cmp.services.claim.v1.ClaimStatus status = 4;
+
+  // TODO: Is this reference applied for Acceptance and Rejection ?
+  string decision_reference = 5;
+
+  // More info about decision such as rejection reason.
+  string decision_detail = 6;
+
+  // Pay-out transaction
+  cmp.services.claim.v1.PayOutTransaction payout_transaction = 7;
+
+  // TODO: ask whether there could be multiple payouts for the same claim.
+  // Amount
+  cmp.types.v2.PriceDetail amount = 8;
+}
+
+message ClaimSettlementDecisionResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.claim.v1.ClaimMessageResponse claim_message_response = 2;
+}
+
+// Claim settlement decision (Accepted or Rejected) service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.svg)
+service ClaimSettlementDecisionService {
+  // Returns claim settlement response
+  rpc ClaimSettlementDecision(ClaimSettlementDecisionRequest) returns (ClaimSettlementDecisionResponse);
+}

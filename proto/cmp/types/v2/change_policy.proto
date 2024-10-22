@@ -21,6 +21,10 @@ message ChangePolicy {
 
   // The "free change upto" identifier specifies the exact DateTime upto when
   // this search result can be changed free of charge.
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
   google.protobuf.Timestamp free_change_upto = 2;
 
   // Full change policies can be complex and extensive. Inclusion in search
