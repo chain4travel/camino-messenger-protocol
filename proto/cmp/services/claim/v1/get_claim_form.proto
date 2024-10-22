@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package cmp.services.claim.v1;
+
+import "cmp/services/claim/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/language.proto";
+
+message ClaimGetFormRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Languages to be included in the response for descriptions. Null means all
+  // available languages.
+  repeated cmp.types.v1.Language languages = 2;
+
+  // Booking token ID for the policy. You get it after minting an Insurance policy. This is not the booking token of the trip.
+  uint64 policy_token_id = 3;
+}
+
+message ClaimGetFormResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Claim form
+  cmp.services.claim.v1.ClaimForm form = 2;
+}
+
+// Claim get claim form service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/get_claim_form.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/get_claim_form.proto.dot.svg)
+service ClaimGetFormService {
+  // Returns product info for claim
+  rpc ClaimGetForm(ClaimGetFormRequest) returns (ClaimGetFormResponse);
+}

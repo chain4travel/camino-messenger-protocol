@@ -6,8 +6,8 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/pubkey.proto";
 import "cmp/types/v1/uuid.proto";
-import "cmp/types/v2/payment.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v3/payment.proto";
 import "cmp/types/v3/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -41,7 +41,7 @@ message MintRequest {
   string buyer_address = 10;
 
   // This field is only relevant for off chain virtual credit card payments.
-  cmp.types.v2.AdditionalPaymentInfo additional_payment_info = 11;
+  cmp.types.v3.AdditionalPaymentInfo additional_payment_info = 11;
 }
 
 message MintResponse {

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package cmp.services.claim.v1;
+
+import "cmp/services/claim/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+
+message ClaimSubmitFormExtraInfoRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.claim.v1.ClaimId claim_id = 2;
+
+  // Extra info needed
+  repeated cmp.services.claim.v1.ClaimableService requested_info = 3;
+}
+
+message ClaimSubmitFormExtraInfoResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.claim.v1.ClaimMessageResponse claim_message_response = 2;
+
+  // Claim Status
+  cmp.services.claim.v1.ClaimStatus status = 3;
+}
+
+// Claim submit claim form service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form_extra_info.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form_extra_info.proto.dot.svg)
+service ClaimSubmitFormExtraInfoService {
+  // Returns product info for claim
+  rpc ClaimSubmitFormExtraInfo(ClaimSubmitFormExtraInfoRequest) returns (ClaimSubmitFormExtraInfoResponse);
+}

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package cmp.services.claim.v1;
+
+import "cmp/services/claim/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+message ClaimSettlementExtraInfoRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Only respond with the products that are new, modified or deactivated after this
+  // timestamp.
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp modified_after = 2;
+
+  // Claim ID: Submission ID, Processing ID and Carrier ID
+  cmp.services.claim.v1.ClaimId claim_id = 3;
+
+  repeated cmp.services.claim.v1.ClaimInfoRequested info_requested = 4;
+}
+
+message ClaimSettlementExtraInfoResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.claim.v1.ClaimMessageResponse claim_message_response = 2;
+}
+
+// Claim settlement Extra Info service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_extra_info.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_extra_info.proto.dot.svg)
+service ClaimSettlementExtraInfoService {
+  // Returns claim settlement response
+  rpc ClaimSettlementExtraInfo(ClaimSettlementExtraInfoRequest) returns (ClaimSettlementExtraInfoResponse);
+}

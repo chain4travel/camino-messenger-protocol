@@ -1,38 +1,38 @@
 syntax = "proto3";
 
-package cmp.services.insurance.v1;
+package cmp.services.claim.v1;
 
 import "cmp/services/insurance/v1/search_result_types.proto";
 import "cmp/types/v1/date.proto";
-import "cmp/types/v2/company.proto";
-import "cmp/types/v2/payment.proto";
 import "cmp/types/v2/price.proto";
+import "cmp/types/v3/company.proto";
 import "cmp/types/v3/file.proto";
+import "cmp/types/v3/payment.proto";
 import "cmp/types/v3/traveller.proto";
 
 // ClaimForm
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/claim_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_types.proto.dot.svg)
 message ClaimForm {
   // Insured person or someone related who has the accident
   cmp.types.v3.TravellerExtraInfo affected_person = 1;
 
   // Policy brief info
-  cmp.services.insurance.v1.PolicyInfo policy_info = 2;
+  cmp.services.claim.v1.PolicyInfo policy_info = 2;
 
   // Dates of services
   repeated cmp.types.v1.Date dates = 3;
 
   // Services to claim
-  repeated cmp.services.insurance.v1.ClaimableService services_to_claim = 4;
+  repeated cmp.services.claim.v1.ClaimableService services_to_claim = 4;
 
   // Additional documents
-  repeated cmp.services.insurance.v1.ClaimDocument additional_documents = 5;
+  repeated cmp.services.claim.v1.ClaimDocument additional_documents = 5;
 
   // Additional info
-  repeated cmp.services.insurance.v1.ClaimAdditionalInfo additional_info = 6;
+  repeated cmp.services.claim.v1.ClaimAdditionalInfo additional_info = 6;
 }
 
 // Service to claim
@@ -44,7 +44,7 @@ message ClaimableService {
   cmp.types.v2.Price charge_amount = 2;
 
   // Documents
-  repeated cmp.services.insurance.v1.ClaimDocument documents = 3;
+  repeated cmp.services.claim.v1.ClaimDocument documents = 3;
 }
 
 // Claim Document
@@ -53,7 +53,7 @@ message ClaimDocument {
   cmp.types.v3.File file = 1;
 
   // Type of the document
-  cmp.services.insurance.v1.ClaimDocumentType type = 2;
+  cmp.services.claim.v1.ClaimDocumentType type = 2;
 }
 
 // Additonal info
@@ -62,7 +62,7 @@ message ClaimAdditionalInfo {
   string info = 1;
 
   // Condition related to the claim
-  cmp.services.insurance.v1.ClaimCondition condition = 2;
+  cmp.services.claim.v1.ClaimCondition condition = 2;
 }
 
 // Claim conditions
@@ -138,7 +138,7 @@ message PolicyInfo {
   }
 
   // Insurance Company
-  cmp.types.v2.Company company = 6;
+  cmp.types.v3.Company company = 6;
 
   // Policy Codes: unit Code, service code and product code
   cmp.services.insurance.v1.PolicyCodes policy_code = 8;
@@ -153,7 +153,7 @@ message ClaimInfoRequested {
   cmp.types.v2.Price charge_amount = 2;
 
   // Document type requested
-  cmp.services.insurance.v1.ClaimDocumentType document_type = 3;
+  cmp.services.claim.v1.ClaimDocumentType document_type = 3;
 }
 
 message ClaimId {
@@ -169,10 +169,10 @@ message ClaimId {
 
 message ClaimMessageResponse {
   // Claim IDs: Submission ID, Processing ID and Carrier ID
-  cmp.services.insurance.v1.ClaimId claim_id = 1;
+  cmp.services.claim.v1.ClaimId claim_id = 1;
 
   // Claim Message Status
-  cmp.services.insurance.v1.ClaimMessageStatus message_status = 2;
+  cmp.services.claim.v1.ClaimMessageStatus message_status = 2;
 }
 
 // Claim Pay-Out Transaction
@@ -181,5 +181,5 @@ message PayOutTransaction {
   string transaction_id = 1;
 
   // Transaction Type. It can be Bank transfer, Crypto transfer, Credit card, ... etc
-  cmp.types.v2.PaymentType transaction_type = 2;
+  cmp.types.v3.PaymentType transaction_type = 2;
 }

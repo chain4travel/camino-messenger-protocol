@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v3;
 
 import "cmp/types/v2/contact_info.proto";
 
 // ### Company message type
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/company.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/company.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/company.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/company.proto.dot.svg)
 message Company {
   // Short name of the partner. Ex: Chain4Travel
   string short_name = 1;
