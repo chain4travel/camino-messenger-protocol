@@ -11,12 +11,9 @@ syntax = "proto3";
 // does not contain any static information and consists of the InsuranceSearch message, followed
 // by the generic Validate and Mint messages.
 //
-// - making an insurance claim: this is a special workflow, only used in the Insurance Services.
-// A claim form is requested based on the insurance policy purchased. This "template" is then
-// filled with the required information, the necessary documents are attached, and the claim is
-// submitted to the supplier. The supplier pushes a status upon change to the distributor.
-// It might be possible that further information is required or that an off-line conversation is taking place.
-// This finally leads to an acceptance and pay-out or a denial.
+// - making an insurance claim: this is a special workflow and further explained in the claim service
+//
+// further below you'll find the technical details of the insurance selling service.
 package cmp.services.insurance.v2;
 
 import "cmp/services/insurance/v1/search_result_types.proto";
