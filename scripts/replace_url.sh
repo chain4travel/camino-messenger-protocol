@@ -10,6 +10,8 @@ file_path=$1
 branch=$2
 old_url="https:\/\/storage.googleapis.com\/docs-cmp-files\/diagrams"
 new_url="https:\/\/storage.googleapis.com\/docs-cmp-files\/diagrams\/${branch}"
+old_assets_url="https:\/\/storage.googleapis.com\/docs-cmp-files\/assets"
+new_assets_url="https:\/\/storage.googleapis.com\/docs-cmp-files\/assets\/${branch}"
 
 # Check if the file exists
 if [ ! -f "$file_path" ]; then
@@ -20,4 +22,8 @@ fi
 # Replace the URL
 sed -i "s/$old_url/$new_url/g" "$file_path"
 
+# Replace the assets URL
+sed -i "s/$old_assets_url/$new_assets_url/g" "$file_path"
+
 echo "URL updated successfully with ${branch} in $file_path"
+

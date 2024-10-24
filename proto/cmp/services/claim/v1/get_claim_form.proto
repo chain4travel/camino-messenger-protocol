@@ -33,7 +33,7 @@ syntax = "proto3";
 // Process flow diagram:
 //
 // <figure>
-// <img class="zoom" src="/assets/images/claim_process_workflow.png" alt="This image displays the claim process workflow"/>
+// <img class="zoom" src="https://storage.googleapis.com/docs-cmp-files/assets/images/claim_process_workflow.png" alt="This image displays the claim process workflow"/>
 // <figcaption align = "center">Fig.1: claim process</figcaption>
 // </figure>
 //
