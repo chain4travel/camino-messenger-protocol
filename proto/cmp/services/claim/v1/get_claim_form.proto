@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+// # Insurance Claims Processing System
+// ## Technical Documentation
+//
+// ### Overview
+// This documentation outlines the technical specifications and workflows for the insurance claims processing service, focusing on the interaction between Distributors and Suppliers through standardized message types. The system supports various insurance products including CFAR (Cancel For Any Reason), travel medical insurance, and baggage coverage.
+//
+// ### Message Types
+// The system implements four primary message types for claims processing:
+//
+// 1. **InsuranceGetClaimForm**
+//    - Direction: Distributor → Supplier
+//    - Purpose: Retrieves claim form for a specific policy
+//    - Trigger: Initial claim request from end-customer
+//
+// 2. **InsuranceSubmitClaimForm**
+//    - Direction: Distributor → Supplier
+//    - Purpose: Submits claim data including:
+//      - Booking NFT/Data
+//      - Required documentation
+//      - Claim registration details
+//    - Note: For operational changes, updated booking details must be re-attached
+//
+// 3. **InsuranceSettlement**
+//    - Direction: Supplier → Distributor
+//    - Purpose: Provides claim status updates
+//    - Features:
+//      - Push-based notification system
+//      - Supports iterative information requests
+//      - Handles multiple settlement statuses
+//
+// Process flow diagram:
+//
+// <figure>
+// <img class="zoom" src="https://storage.googleapis.com/docs-cmp-files/assets/images/claim_process_workflow.png" alt="This image displays the claim process workflow"/>
+// <figcaption align = "center">Fig.1: claim process</figcaption>
+// </figure>
+//
+// ### Implementation Requirements
+//
+// #### Distributor Requirements
+// 1. Must implement and enable InsuranceSettlement service in their profile
+// 2. System must be capable of:
+//    - Processing InsuranceSettlementRQ messages
+//    - Communicating status updates to end-consumers
+//    - Handling document submission and resubmission
+//    - Supporting uniform user experience across insurance providers
+//
+// #### Settlement Processing
+// - Supports multiple settlement statuses:
+// - "received" (initial acknowledgment)
+//   - "more info required" (with specific documentation requests)
+//   - "denied" or "accepted"
+//   - "paid-out" (final status)
+//
+// ### Payment Processing
+//
+// #### Payment Methods
+// The system supports two primary payment channels:
+// 1. Direct bank transfer to provided IBAN
+// 2. Blockchain transaction on Camino network
+//    - Supports Camino wallet addresses
+//    - Integration with Partner Plugin for blockchain transactions
+//
+// #### Currency Handling
+// - Supports multiple currency types:
+//   - Fiat currencies
+//   - Stable cryptocurrencies
+//   - Volatile cryptocurrencies
+// - Payment processing in original purchase currency
+//
+// ### Security and Compliance
+// - Implements fraud prevention measures through document verification
+// - Supports policy-specific document submission
+// - Maintains audit trail of all claim-related communications
+//
+package cmp.services.claim.v1;
+
+import "cmp/services/claim/v1/claim_types.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v1/language.proto";
+
+message ClaimGetFormRequest {
+  // Message header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Languages to be included in the response for descriptions. Null means all
+  // available languages.
+  repeated cmp.types.v1.Language languages = 2;
+
+  // Booking token ID for the policy. You get it after minting an Insurance policy. This is not the booking token of the trip.
+  uint64 policy_token_id = 3;
+}
+
+message ClaimGetFormResponse {
+  // Message header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Claim form
+  cmp.services.claim.v1.ClaimForm form = 2;
+}
+
+// Claim get claim form service definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/get_claim_form.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/get_claim_form.proto.dot.svg)
+service ClaimGetFormService {
+  // Returns product info for claim
+  rpc ClaimGetForm(ClaimGetFormRequest) returns (ClaimGetFormResponse);
+}

@@ -183,3 +183,8 @@ jobs:
         run: |
           # '-J' options is to set Content-Encoding to gzip
           gsutil -m rsync -J -R -d gen/diagrams gs://docs-cmp-files/diagrams/${{ github.ref_name }}
+
+      - name: Upload Assets
+        run: |
+          # '-J' options is to set Content-Encoding to gzip
+          gsutil -m rsync -J -R -d assets gs://docs-cmp-files/assets/${{ github.ref_name }}
