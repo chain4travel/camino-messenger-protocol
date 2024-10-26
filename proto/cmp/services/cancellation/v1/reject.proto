@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v1;
+
+import "cmp/types/v1/common.proto";
+
+// Request for cancellation rejection
+message RejectCancellationRequest {
+  // Request Header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // Token ID to reject the cancellation for (Booking Token)
+  uint64 token_id = 2;
+
+  // Reason for rejection
+  cmp.services.cancellation.v1.CancellationRejectionReason reason = 3;
+}
+
+// Response for cancellation rejection
+message RejectCancellationResponse {
+  // Response Header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // Transaction id for the rejected cancellation
+  string transaction_id = 2;
+}
+
+enum CancellationRejectionReason {
+  CANCELLATION_REJECTION_REASON_UNSPECIFIED = 0;
+  CANCELLATION_REJECTION_REASON_TECHNICAL_ERROR = 1;
+  CANCELLATION_REJECTION_REASON_INVALID_SERVICE_OR_BOOKING_REFERENCE = 2;
+  CANCELLATION_REJECTION_REASON_BOOKING_IS_ALREADY_CANCELLED = 3;
+  CANCELLATION_REJECTION_REASON_SERVICE_HAS_STARTED_OR_HAS_BEEN_DELIVERED = 4;
+  CANCELLATION_REJECTION_REASON_CANCELLATION_WINDOW_EXPIRED = 5;
+  CANCELLATION_REJECTION_REASON_SERVICE_CANNOT_BE_CANCELLED_ONLINE = 6;
+  CANCELLATION_REJECTION_REASON_RATE_OR_FARE_CANNOT_BE_CANCELLED = 7;
+  CANCELLATION_REJECTION_REASON_ENTIRE_PACKAGE_MUST_BE_CANCELLED = 8; // Service forms part of a package, the entire package must be cancelled
+  CANCELLATION_REJECTION_REASON_REFUND_CURRENCY_NOT_SUPPORTED = 9;
+}
