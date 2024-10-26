@@ -9,6 +9,11 @@ import "cmp/services/cancellation/v1/counter.proto";
 import "cmp/services/cancellation/v1/initiate.proto";
 import "cmp/services/cancellation/v1/reject.proto";
 
+// Cancellation service
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.svg)
 service CancellationService {
   // Initiate cancellation
   rpc InitiateCancellation(InitiateCancellationRequest) returns (InitiateCancellationResponse) {}

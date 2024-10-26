@@ -6,6 +6,10 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v2/price.proto";
 
 // Request for cancellation acceptance
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.svg)
 message AcceptCancellationRequest {
   // Request header
   optional cmp.types.v1.RequestHeader header = 1;
