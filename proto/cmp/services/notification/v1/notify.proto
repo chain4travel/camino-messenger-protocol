@@ -16,6 +16,12 @@ message TokenExpired {
   cmp.types.v1.UUID mint_id = 2;
 }
 
+// Notification service for different events that the partner should be notified about
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/notification/v2/notify.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/notification/v2/notify.proto.dot.svg)
+//
 /// @custom:cmp-service type:product routing:local on-chain:true
 service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);

@@ -8,6 +8,7 @@ lint:
   ignore_only:
     RPC_REQUEST_STANDARD_NAME:
       - proto/cmp/services/notification/v1/notify.proto
+      - proto/cmp/services/notification/v2/notify.proto
   rpc_allow_google_protobuf_empty_responses: true
 breaking:
   use:
