@@ -17,5 +17,5 @@ message Company {
   string legal_name = 2;
 
   // Contact Info
-  cmp.types.v2.ContactInfo contact_info = 6;
+  cmp.types.v2.ContactInfo contact_info = 3;
 }

@@ -83,11 +83,14 @@ message TravellerExtraInfo {
   // Traveller
   cmp.types.v3.BasicTraveller basic_traveller = 1;
 
-  // Traveller name
-  string name = 2;
+  // Traveller first names
+  repeated string first_names = 2;
+
+  // Traveller surnames
+  repeated string surnames = 3;
 
   // Relationship with the traveller
-  cmp.types.v3.TravellerRelationship relationship_to_traveller = 3;
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4;
 }
 
 // Traveller relationship
