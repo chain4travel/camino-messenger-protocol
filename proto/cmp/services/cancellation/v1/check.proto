@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v1;
+
+import "cmp/services/cancellation/v1/reject.proto";
+import "cmp/types/v1/common.proto";
+import "cmp/types/v2/price.proto";
+import "google/protobuf/timestamp.proto";
+
+// Service for checking cancellation
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.dot.svg)
+service CheckCancellationService {
+  rpc CheckCancellation(CheckCancellationRequest) returns (CheckCancellationResponse);
+}
+
+message CheckCancellationRequest {
+  // The request header
+  cmp.types.v1.RequestHeader header = 1;
+
+  // The token id of the booking to be cancelled
+  uint64 token_id = 2;
+
+  // The amount to be refunded
+  cmp.types.v2.Price refund_amount = 3;
+}
+
+message CheckCancellationResponse {
+  // The response header
+  cmp.types.v1.ResponseHeader header = 1;
+
+  // The token id of the booking to be cancelled
+  uint64 token_id = 2;
+
+  // The amount to be refunded
+  cmp.types.v2.Price refund_amount = 3;
+
+  // The policy id applied
+  string policy_id_applied = 4;
+
+  // Status of the cancellation check
+  cmp.services.cancellation.v1.CancellationCheckStatus status = 5;
+
+  // Rejection reason
+  cmp.services.cancellation.v1.CancellationRejectionReason rejection_reason = 6;
+
+  // Cancellation check timestamp
+  google.protobuf.Timestamp timestamp = 7;
+}
+
+enum CancellationCheckStatus {
+  CANCELLATION_CHECK_STATUS_UNSPECIFIED = 0;
+  CANCELLATION_CHECK_STATUS_ALREADY_CANCELLED = 1;
+  CANCELLATION_CHECK_STATUS_CONFIRM = 2;
+  CANCELLATION_CHECK_STATUS_REJECT = 3;
+}

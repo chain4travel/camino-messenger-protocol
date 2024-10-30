@@ -7,17 +7,17 @@ import "cmp/types/v1/common.proto";
 // Request for cancelling an active cancellation proposal
 message CancelCancellationRequest {
   // Request header
-  optional cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1;
 
   // Cancellation token ID
-  optional uint64 token_id = 2;
+  uint64 token_id = 2;
 }
 
 // Response for cancelling an active cancellation proposal
 message CancelCancellationResponse {
   // Response header
-  optional cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Accept cancellation transaction ID
-  optional string transaction_id = 2;
+  string transaction_id = 2;
 }

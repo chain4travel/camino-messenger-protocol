@@ -12,20 +12,20 @@ import "cmp/types/v2/price.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.svg)
 message AcceptCancellationRequest {
   // Request header
-  optional cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1;
 
   // Cancellation token ID
-  optional uint64 token_id = 2;
+  uint64 token_id = 2;
 
   // Refund amount to validate the acceptance on-chain
-  optional cmp.types.v2.Price refund_amount = 3;
+  cmp.types.v2.Price refund_amount = 3;
 }
 
 // Response for cancellation acceptance
 message AcceptCancellationResponse {
   // Response header
-  optional cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Accept cancellation transaction ID
-  optional string transaction_id = 2;
+  string transaction_id = 2;
 }
