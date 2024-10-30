@@ -9,9 +9,9 @@ import "google/protobuf/timestamp.proto";
 
 // Service for checking cancellation
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/check.proto.dot.svg)
 service CheckCancellationService {
   rpc CheckCancellation(CheckCancellationRequest) returns (CheckCancellationResponse);
 }
