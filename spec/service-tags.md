@@ -23,9 +23,14 @@ service ServiceName {
 The `type` tag identifies the fundamental nature of the service:
 
 - `core` - Essential protocol services (e.g., ping, network fee)
-- `product` - Product services (e.g., booking, search)
-- `operational` - Operational services (e.g., notifications, monitoring)
+- `product` - Product related services (e.g., booking, search, notification,
+  cancellation).
 - `system` - System-level services (e.g., health checks, metrics)
+
+> [!NOTE]
+> Notifications and cancellation services also fall under `product` type because
+> they relate to the product, even if they do not directly communicate between
+> partners via the messenger server.
 
 ## Service Routing Patterns
 
@@ -36,11 +41,13 @@ The `routing` tag defines the message routing pattern:
 
 ## Service Blockchain Interaction
 
-The `on-chain` tag identifies if the service does any on-chain action. Possible
-values are `true` and `false`, with `false` being default if the tag is omitted.
+The `on-chain` tag indicates whether the service interacts with the blockchain in any
+way. Possible values are `true` and `false`, with `false` as the default if the tag is
+omitted.
 
-- `false` - For services that **do not** trigger any on-chain action (e.g., search, list, info)
-- `true` - For services that does some kind of on-chain action (e.g., mint, cancellation)
+- `false` - For services that **do not** interact with the blockchain (e.g., search, list, info)
+- `true` - For services that involve any on-chain interaction, including read or
+  write actions (e.g., listening for events, minting, cancellation)
 
 ## Examples
 
@@ -53,10 +60,10 @@ service AccommodationSearchService {
 }
 ```
 
-### Local Operational Service (in package cmp.services.notification.v1)
+### Local Service (in package cmp.services.notification.v1)
 
 ```protobuf
-/// @custom:cmp-service type:operational routing:local on-chain:true
+/// @custom:cmp-service type:product routing:local on-chain:true
 service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
   rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
