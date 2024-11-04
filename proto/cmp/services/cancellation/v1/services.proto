@@ -1,5 +1,15 @@
 syntax = "proto3";
 
+// ## Cancellation Services
+//
+// The Cancellation services are used for any message type or vertical.
+// There is an imperative workflow, which has the purpose to register the
+// cancellation request moment, followed by both parties agreeing the cancellation
+// is possible and the refund amount on the blockchain, so that there will be no
+// disputes after a cancellation is executed.
+//
+// There is a detailed explanation on [Camino Docs](https://docs.camino.network/camino-messenger/cancellation)
+
 package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/accept.proto";
