@@ -23,13 +23,3 @@ message ClaimSubmitFormResponse {
   // Claim Status
   cmp.services.claim.v1.ClaimStatus status = 4;
 }
-
-// Claim submit claim form service definition
-//
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form.proto.dot.xs.svg)
-//
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form.proto.dot.svg)
-service ClaimSubmitFormService {
-  // Returns product info for claim
-  rpc ClaimSubmitForm(ClaimSubmitFormRequest) returns (ClaimSubmitFormResponse);
-}

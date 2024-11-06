@@ -46,13 +46,3 @@ message ClaimSettlementDecisionResponse {
   // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
   cmp.services.claim.v1.ClaimMessageResponse claim_message_response = 2;
 }
-
-// Claim settlement decision (Accepted or Rejected) service definition
-//
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.xs.svg)
-//
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.svg)
-service ClaimSettlementDecisionService {
-  // Returns claim settlement response
-  rpc ClaimSettlementDecision(ClaimSettlementDecisionRequest) returns (ClaimSettlementDecisionResponse);
-}

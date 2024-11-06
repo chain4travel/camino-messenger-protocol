@@ -26,13 +26,3 @@ message ClaimSubmitFormExtraInfoResponse {
   // Claim Status
   cmp.services.claim.v1.ClaimStatus status = 3;
 }
-
-// Claim submit claim form service definition
-//
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form_extra_info.proto.dot.xs.svg)
-//
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form_extra_info.proto.dot.svg)
-service ClaimSubmitFormExtraInfoService {
-  // Returns product info for claim
-  rpc ClaimSubmitFormExtraInfo(ClaimSubmitFormExtraInfoRequest) returns (ClaimSubmitFormExtraInfoResponse);
-}
