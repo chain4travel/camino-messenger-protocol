@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.services.book.v3;
+package cmp.services.book.v2;
 
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
