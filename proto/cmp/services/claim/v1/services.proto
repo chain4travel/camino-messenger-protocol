@@ -88,7 +88,7 @@ import "cmp/services/claim/v1/submit_claim_form_extra_info.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/services.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/services.proto.dot.svg)
-service CancellationService {
+service ClaimService {
   // Claim Get Form
   rpc ClaimGetForm(ClaimGetFormRequest) returns (ClaimGetFormResponse) {}
 
