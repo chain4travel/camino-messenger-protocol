@@ -51,7 +51,17 @@ message InsuranceSearchRequest {
   cmp.types.v2.SearchParameters search_parameters_generic = 3;
 
   // This field represents a list of search queries that can be used to create
-  // multiroom multi location searches.
+  // a request that covers multiple bookings, travellers that have a different
+  // nationality or residence. Or for sequential travel periods.
+  // what is important to realize is that each query, when booked will result
+  // to one policy that can be claimed. It is never possible to only claim
+  // part of a policy.
+  // As insurances of different product families will be covered with different
+  // carriers, never combine different product families in one request. These
+  // are specified in the "insured_product_type" in the search parameters.
+  // Instead of adding multiple product families into multiple queries, it is
+  // recommended to split them into multiple requests so that they can be
+  // processed in parallel.
   repeated cmp.services.insurance.v2.InsuranceSearchQuery queries = 4;
 }
 
