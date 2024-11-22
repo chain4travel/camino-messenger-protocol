@@ -4,7 +4,11 @@ syntax = "proto3";
 // ## Technical Documentation
 //
 // ### Overview
-// This documentation outlines the technical specifications and workflows for the insurance claims processing service, focusing on the interaction between Distributors and Suppliers through standardized message types. The system supports various insurance products including CFAR (Cancel For Any Reason), travel medical insurance, and baggage coverage.
+// This documentation outlines the technical specifications and workflows for the
+// insurance claims processing service, focusing on the interaction between
+// Distributors and Suppliers through standardized message types. The system
+// supports various insurance products including CFAR (Cancel For Any Reason),
+// travel medical insurance, and baggage coverage.
 //
 // ### Message Types
 // The system implements four primary message types for claims processing:
