@@ -69,6 +69,7 @@ message ResponseHeader {
   cmp.types.v1.Header base_header = 1;
 
   // Status of the response, success or failure
+  // THIS FIELD IS MANDATORY
   cmp.types.v1.StatusType status = 2;
 
   // Alert for more detailed information about the response
