@@ -126,16 +126,16 @@ message Room {
   // availability data for display to the end user.
   string supplier_code = 1;
 
-  // Room name. In case of hotel a standardized room name is often derrived from
-  // room code structures. Exmple: "superior seaview room".
+  // Room name. In case of hotel a standardized room name is often derived from
+  // room code structures. Example: "superior sea view room".
   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
   // "Bathroom" when specific descriptions for each room are available.
   string supplier_name = 2;
 
-  // Original room name as assigned by the hotel. In case of spefifically designated room
+  // Original room name as assigned by the hotel. In case of specifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
-  // For holiday homes specific room names if availbale can be given.
+  // For holiday homes specific room names if available can be given.
   string original_name = 3;
 
   repeated cmp.types.v3.Image images = 4;
