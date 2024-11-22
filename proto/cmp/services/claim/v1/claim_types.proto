@@ -148,7 +148,7 @@ message PolicyInfo {
   cmp.types.v3.Company company = 6;
 
   // Policy Codes: unit Code, service code and product code
-  cmp.services.insurance.v1.PolicyCodes policy_code = 8;
+  cmp.services.insurance.v1.PolicyCodes policy_code = 7;
 }
 
 // Claim more info requested
