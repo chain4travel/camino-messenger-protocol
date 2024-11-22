@@ -35,6 +35,7 @@ message ClaimSettlementDecisionRequest {
   cmp.services.claim.v1.PayOutTransaction payout_transaction = 7;
 
   // TODO: ask whether there could be multiple payouts for the same claim.
+  //
   // Amount
   cmp.types.v2.PriceDetail amount = 8;
 }
