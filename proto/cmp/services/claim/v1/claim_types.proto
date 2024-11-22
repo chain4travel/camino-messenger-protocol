@@ -43,8 +43,14 @@ message ClaimableService {
   // Amount to be claimed
   cmp.types.v2.Price charge_amount = 2;
 
-  // Documents
+  // Documents supporting the claim
   repeated cmp.services.claim.v1.ClaimDocument documents = 3;
+
+  // CancellationConfirmed is a boolean indicating that the Partner certifies
+  // that the insured booking is cancelled in case of CFAR insurance.
+  // Proof of cancellation as for example NFT status query or cancellation
+  // request/response has to be included in documents.
+  bool cancellation_confirmed = 4;
 }
 
 // Claim Document
@@ -87,6 +93,7 @@ enum ClaimDocumentType {
   CLAIM_DOCUMENT_TYPE_POLICE_REPORT = 3;
   CLAIM_DOCUMENT_TYPE_MEDICAL_REPORT = 4;
   CLAIM_DOCUMENT_TYPE_LAB_RESULT = 5;
+  CLAIM_DOCUMENT_TYPE_CANCELLATION_CONFIRMATION = 6;
 }
 
 // Claim Status
