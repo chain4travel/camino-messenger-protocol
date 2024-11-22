@@ -195,10 +195,10 @@ enum MIMEType {
 // File Checksum
 message Checksum {
   // Hash algorithm
-  cmp.types.v3.HashAlgorithm hash_algorithm = 7;
+  cmp.types.v3.HashAlgorithm hash_algorithm = 1;
 
   // Hash content
-  string hash_content = 8;
+  string hash_content = 2;
 }
 
 // Hash algorithms
