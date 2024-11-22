@@ -27,7 +27,7 @@ message InsuranceSearchParameters {
   cmp.services.insurance.v2.PolicyType policy_type = 2;
 
   // Insured product type has to be specified. It can only be one product type
-  // from the enumeration in each query. Seperate queries or requests have to be
+  // from the enumeration in each query. Separate queries or requests have to be
   // submitted for different insured product types
   cmp.services.insurance.v2.InsuredProductType insured_product_type = 3;
 
