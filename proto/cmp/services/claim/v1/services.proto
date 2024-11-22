@@ -90,17 +90,17 @@ import "cmp/services/claim/v1/submit_claim_form_extra_info.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/services.proto.dot.svg)
 service ClaimService {
   // Claim Get Form
-  rpc ClaimGetForm(ClaimGetFormRequest) returns (ClaimGetFormResponse) {}
+  rpc ClaimGetForm(ClaimGetFormRequest) returns (ClaimGetFormResponse);
 
   // Claim Submit Form
-  rpc ClaimSubmitForm(ClaimSubmitFormRequest) returns (ClaimSubmitFormResponse) {}
+  rpc ClaimSubmitForm(ClaimSubmitFormRequest) returns (ClaimSubmitFormResponse);
 
   // Claim Settlement Extra Info
-  rpc ClaimSettlementExtraInfo(ClaimSettlementExtraInfoRequest) returns (ClaimSettlementExtraInfoResponse) {}
+  rpc ClaimSettlementExtraInfo(ClaimSettlementExtraInfoRequest) returns (ClaimSettlementExtraInfoResponse);
 
   // Claim Submit Extra Info
-  rpc ClaimSubmitFormExtraInfo(ClaimSubmitFormExtraInfoRequest) returns (ClaimSubmitFormExtraInfoResponse) {}
+  rpc ClaimSubmitFormExtraInfo(ClaimSubmitFormExtraInfoRequest) returns (ClaimSubmitFormExtraInfoResponse);
 
   // Claim Settlement Decision
-  rpc ClaimSettlementDecision(ClaimSettlementDecisionRequest) returns (ClaimSettlementDecisionResponse) {}
+  rpc ClaimSettlementDecision(ClaimSettlementDecisionRequest) returns (ClaimSettlementDecisionResponse);
 }
