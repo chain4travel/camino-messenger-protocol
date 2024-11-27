@@ -18,6 +18,8 @@ message CancelCancellationResponse {
   // Response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Accept cancellation transaction ID
+  // Transaction ID on-chain for cancelling the cancellation proposal. This
+  // transaction proves the cancellation of the cancellation proposal on-chain to
+  // avoid disputes.
   string transaction_id = 2;
 }

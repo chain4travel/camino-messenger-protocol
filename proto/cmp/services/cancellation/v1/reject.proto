@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
+import "cmp/services/cancellation/v1/rejection_reason.proto";
 import "cmp/types/v1/common.proto";
 
 // Request for cancellation rejection
@@ -14,6 +15,13 @@ message RejectCancellationRequest {
 
   // Reason for rejection
   cmp.services.cancellation.v1.CancellationRejectionReason reason = 3;
+
+  // Rejection reason version. This is used by the contract to store on-chain,
+  // the protobuf pkg version of the enum above. So it's clear which enum is used.
+  //
+  // FIXME: Do we need this here? Maybe the bot can extract this info from the
+  // version of the package of the enum itself.
+  uint32 reason_version = 4;
 }
 
 // Response for cancellation rejection
@@ -21,19 +29,7 @@ message RejectCancellationResponse {
   // Response Header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction id for the rejected cancellation
+  // Transaction ID on-chain for the cancellation proposal rejection. This
+  // transaction proves the rejection of the proposal on-chain to avoid disputes.
   string transaction_id = 2;
-}
-
-enum CancellationRejectionReason {
-  CANCELLATION_REJECTION_REASON_UNSPECIFIED = 0;
-  CANCELLATION_REJECTION_REASON_TECHNICAL_ERROR = 1;
-  CANCELLATION_REJECTION_REASON_INVALID_SERVICE_OR_BOOKING_REFERENCE = 2;
-  CANCELLATION_REJECTION_REASON_BOOKING_IS_ALREADY_CANCELLED = 3;
-  CANCELLATION_REJECTION_REASON_SERVICE_HAS_STARTED_OR_HAS_BEEN_DELIVERED = 4;
-  CANCELLATION_REJECTION_REASON_CANCELLATION_WINDOW_EXPIRED = 5;
-  CANCELLATION_REJECTION_REASON_SERVICE_CANNOT_BE_CANCELLED_ONLINE = 6;
-  CANCELLATION_REJECTION_REASON_RATE_OR_FARE_CANNOT_BE_CANCELLED = 7;
-  CANCELLATION_REJECTION_REASON_ENTIRE_PACKAGE_MUST_BE_CANCELLED = 8; // Service forms part of a package, the entire package must be cancelled
-  CANCELLATION_REJECTION_REASON_REFUND_CURRENCY_NOT_SUPPORTED = 9;
 }

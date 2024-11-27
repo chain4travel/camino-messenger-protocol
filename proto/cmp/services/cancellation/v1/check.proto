@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "cmp/services/cancellation/v1/reject.proto";
+import "cmp/services/cancellation/v1/reason.proto";
+import "cmp/services/cancellation/v1/rejection_reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v2/price.proto";
 import "google/protobuf/timestamp.proto";
@@ -25,6 +26,9 @@ message CheckCancellationRequest {
 
   // The amount to be refunded
   cmp.types.v2.Price refund_amount = 3;
+
+  // Cancellation reason
+  cmp.services.cancellation.v1.CancellationReason reason = 4;
 }
 
 message CheckCancellationResponse {

@@ -22,6 +22,8 @@ message AcceptCounterCancellationResponse {
   // Response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Accept counter cancellation transaction ID
+  // Transaction ID on-chain for the counter cancellation proposal acceptance. This
+  // transaction proves the acceptance of the counter proposal on-chain to avoid
+  // disputes.
   string transaction_id = 2;
 }

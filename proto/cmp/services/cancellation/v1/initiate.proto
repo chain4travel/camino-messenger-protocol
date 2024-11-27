@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
+import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v2/price.proto";
 
@@ -14,12 +15,24 @@ message InitiateCancellationRequest {
 
   // The amount to be refunded
   cmp.types.v2.Price refund_amount = 3;
+
+  // The cancellation reason
+  cmp.services.cancellation.v1.CancellationReason reason = 4;
+
+  // Cancellation reason version. This is used by the contract to store on-chain,
+  // the protobuf pkg version of the enum above. So it's clear which enum is used.
+  //
+  // FIXME: Do we need this here? Maybe the bot can extract this info from the
+  // version of the package of the enum itself.
+  uint32 reason_version = 5;
 }
 
 message InitiateCancellationResponse {
   // The response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction id for the initiate cancellation request
+  // Transaction ID on-chain for the cancellation proposal initiation. This
+  // transaction proves the initiation of the cancellation proposal on-chain to
+  // avoid disputes.
   string transaction_id = 2;
 }
