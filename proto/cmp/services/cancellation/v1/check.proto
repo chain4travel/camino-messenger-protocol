@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/reason.proto";
-import "cmp/services/cancellation/v1/rejection_reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v2/price.proto";
 import "google/protobuf/timestamp.proto";
@@ -48,7 +47,7 @@ message CheckCancellationResponse {
   cmp.services.cancellation.v1.CancellationCheckStatus status = 5;
 
   // Rejection reason
-  cmp.services.cancellation.v1.CancellationRejectionReason rejection_reason = 6;
+  cmp.services.cancellation.v1.RejectionReason rejection_reason = 6;
 
   // Cancellation check timestamp
   google.protobuf.Timestamp timestamp = 7;

@@ -18,13 +18,6 @@ message InitiateCancellationRequest {
 
   // The cancellation reason
   cmp.services.cancellation.v1.CancellationReason reason = 4;
-
-  // Cancellation reason version. This is used by the contract to store on-chain,
-  // the protobuf pkg version of the enum above. So it's clear which enum is used.
-  //
-  // FIXME: Do we need this here? Maybe the bot can extract this info from the
-  // version of the package of the enum itself.
-  uint32 reason_version = 5;
 }
 
 message InitiateCancellationResponse {

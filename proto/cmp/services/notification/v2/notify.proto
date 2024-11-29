@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.services.notification.v2;
 
 import "cmp/services/cancellation/v1/reason.proto";
-import "cmp/services/cancellation/v1/rejection_reason.proto";
 import "cmp/types/v1/uuid.proto";
 import "google/protobuf/empty.proto";
 
@@ -17,9 +16,9 @@ service NotificationService {
   rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
   rpc CancellationPendingNotification(CancellationPending) returns (google.protobuf.Empty);
   rpc CancellationAcceptedNotification(CancellationAccepted) returns (google.protobuf.Empty);
-  rpc CancellationProposalAcceptedByTheOwnerNotification(CancellationProposalAcceptedByTheOwner) returns (google.protobuf.Empty);
+  rpc CancellationAcceptedByTheOwnerNotification(CancellationAcceptedByTheOwner) returns (google.protobuf.Empty);
   rpc CancellationCounteredNotification(CancellationCountered) returns (google.protobuf.Empty);
-  rpc CancellationProposalCancelledNotification(CancellationProposalCancelled) returns (google.protobuf.Empty);
+  rpc CancellationWithdrawnNotification(CancellationWithdrawn) returns (google.protobuf.Empty);
   rpc CancellationRejectedNotification(CancellationRejected) returns (google.protobuf.Empty);
 }
 
@@ -62,9 +61,9 @@ message CancellationAccepted {
 // Related on-chain event:
 //
 // ```solidity
-// event CancellationProposalAcceptedByTheOwner(uint256 indexed tokenId, address indexed acceptedBy, uint256 refundAmount);
+// event CancellationAcceptedByTheOwner(uint256 indexed tokenId, address indexed acceptedBy, uint256 refundAmount);
 // ```
-message CancellationProposalAcceptedByTheOwner {
+message CancellationAcceptedByTheOwner {
   uint64 token_id = 1;
   string accepted_by = 2;
   uint64 refund_amount = 3;
@@ -86,12 +85,13 @@ message CancellationCountered {
 // Related on-chain event:
 //
 // ```solidity
-// event CancellationProposalCancelled(uint256 indexed tokenId, address indexed cancelledBy);
+// event CancellationWithdrawn(uint256 indexed tokenId, address indexed cancelledBy, uint16 reason, uint16 reasonVersion);
 // ```
-message CancellationProposalCancelled {
+message CancellationWithdrawn {
   uint64 token_id = 1;
   string cancelled_by = 2;
-  string tx_id = 3;
+  cmp.services.cancellation.v1.WithdrawalReason reason = 3;
+  string tx_id = 4;
 }
 
 // Related on-chain event:
@@ -102,6 +102,6 @@ message CancellationProposalCancelled {
 message CancellationRejected {
   uint64 token_id = 1;
   string rejected_by = 2;
-  cmp.services.cancellation.v1.CancellationRejectionReason reason = 3;
+  cmp.services.cancellation.v1.RejectionReason reason = 3;
   string tx_id = 4;
 }

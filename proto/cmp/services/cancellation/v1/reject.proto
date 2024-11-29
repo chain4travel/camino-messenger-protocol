@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "cmp/services/cancellation/v1/rejection_reason.proto";
+import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 
 // Request for cancellation rejection
@@ -14,14 +14,7 @@ message RejectCancellationRequest {
   uint64 token_id = 2;
 
   // Reason for rejection
-  cmp.services.cancellation.v1.CancellationRejectionReason reason = 3;
-
-  // Rejection reason version. This is used by the contract to store on-chain,
-  // the protobuf pkg version of the enum above. So it's clear which enum is used.
-  //
-  // FIXME: Do we need this here? Maybe the bot can extract this info from the
-  // version of the package of the enum itself.
-  uint32 reason_version = 4;
+  cmp.services.cancellation.v1.RejectionReason reason = 3;
 }
 
 // Response for cancellation rejection
