@@ -223,6 +223,7 @@ else
     for service in "${no_tag_services[@]}"; do
         format_service_output "$service"
     done
+    EXIT_CODE=1
 fi
 
 echo -e "\n${BYELLOW}${WARNING} Services with invalid @custom:cmp-service tag:${NC}"
@@ -235,6 +236,7 @@ else
     done
 
     echo -e "\n  ${INFO} Valid values: type=\"${valid_types[@]}\" routing=\"${valid_routing[@]}\" on-chain=\"${valid_onchain[@]}\""
+    EXIT_CODE=1
 fi
 
 echo -e "\n${LGREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
@@ -254,3 +256,4 @@ echo -e "${RED}${ERROR} Missing tags: ${#no_tag_services[@]}${NC}"
 echo -e "${YELLOW}${WARNING} Invalid tags: ${#invalid_tag_services[@]}${NC}"
 echo -e "${GREEN}${SUCCESS} Valid tags: ${#valid_tag_services[@]}${NC}"
 echo -e "Total services: $((${#no_tag_services[@]} + ${#invalid_tag_services[@]} + ${#valid_tag_services[@]}))"
+exit $EXIT_CODE

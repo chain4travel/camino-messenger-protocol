@@ -97,6 +97,15 @@ jobs:
       - name: Run proto dependency check
         run: scripts/dependency_checker.py --print-graph
 
+  # dependency check to catch if proto files were not updated correctly
+  analyze-service-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Run service tag analysis
+        run: scripts/analyze-service-tags.sh proto
+
   # Check if we use FQPN (fully qualified package names) everywhere
   fqpn-check:
     runs-on: ubuntu-latest
