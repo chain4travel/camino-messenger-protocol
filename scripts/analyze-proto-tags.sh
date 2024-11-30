@@ -4,13 +4,16 @@
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
+LGREEN='\033[1;32m'
 BLUE='\033[0;34m'
+LBLUE='\033[1;34m'
 CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Emojis
-WARNING="⚠️ "
+WARNING="🚫"
 ERROR="❌"
 SUCCESS="✅"
 INFO="ℹ️ "
@@ -39,8 +42,8 @@ check_service() {
         return
     fi
 
-    # Check if the tag matches the expected format
-    if ! [[ $tag =~ @custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:(true|false))? ]]; then
+    # Check if the tag matches the expected format (including strict on-chain value check)
+    if ! [[ $tag =~ ^@custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:(true|false))?$ ]]; then
         invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format")
         return
     fi
@@ -108,15 +111,19 @@ format_service_output() {
         local service="${rest%%|*}"
         local tag="${rest#*|}"
 
-        local error_msg=""
-        if [[ "$tag" =~ .*-.* ]]; then
-            error_msg=" - ${tag#* - }"
-            tag="${tag%% - *}"
-        fi
+        # For valid services, don't try to extract error message
+        if [[ "$tag" =~ .*" - ".* ]]; then
+            local error_msg=" - ${tag#* - }"
+            local clean_tag="${tag%% - *}"
 
-        echo -e "  ${CYAN}${filepath}${NC}"
-        echo -e "    └─ ${BOLD}$service${NC}"
-        echo -e "       ${tag}${RED}${error_msg}${NC}"
+            echo -e "  ${CYAN}${filepath}${NC}"
+            echo -e "    └─ ${BOLD}$service${NC}"
+            echo -e "       ${clean_tag}${RED}${error_msg}${NC}"
+        else
+            echo -e "  ${CYAN}${filepath}${NC}"
+            echo -e "    └─ ${BOLD}$service${NC}"
+            echo -e "       ${GREEN}${tag}${NC} ${SUCCESS}"
+        fi
     else
         # No tag case
         local service="$rest"
@@ -160,7 +167,7 @@ else
     done
 fi
 
-echo -e "\n${GREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
+echo -e "\n${LGREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
 echo "=========================================="
 if [ ${#valid_tag_services[@]} -eq 0 ]; then
     echo -e "  ${INFO} No services found with valid tags"
