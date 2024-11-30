@@ -2,7 +2,8 @@
 
 # Colors for output
 RED='\033[0;31m'
-YELLOW='\033[1;33m'
+YELLOW='\033[0;33m'
+BYELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 LGREEN='\033[1;32m'
 BLUE='\033[0;34m'
@@ -42,9 +43,9 @@ check_service() {
         return
     fi
 
-    # Check if the tag matches the expected format (including strict on-chain value check)
-    if ! [[ $tag =~ ^@custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:(true|false))?$ ]]; then
-        invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format")
+    # First, check basic format (more permissive)
+    if ! [[ $tag =~ ^@custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:([[:alnum:]]+))?$ ]]; then
+        invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format: must follow '@custom:cmp-service type:<TYPE> routing:<ROUTING> [on-chain:<BOOL>]'")
         return
     fi
 
@@ -115,10 +116,9 @@ format_service_output() {
         if [[ "$tag" =~ .*" - ".* ]]; then
             local error_msg=" - ${tag#* - }"
             local clean_tag="${tag%% - *}"
-
             echo -e "  ${CYAN}${filepath}${NC}"
             echo -e "    └─ ${BOLD}$service${NC}"
-            echo -e "       ${clean_tag}${RED}${error_msg}${NC}"
+            echo -e "       ${YELLOW}${clean_tag}${NC} ${RED}${error_msg}${NC}"
         else
             echo -e "  ${CYAN}${filepath}${NC}"
             echo -e "    └─ ${BOLD}$service${NC}"
@@ -148,7 +148,7 @@ scan_proto_files "$1"
 
 # Print results
 echo -e "\n${RED}${ERROR} Services without @custom:cmp-service tag:${NC}"
-echo "=========================================="
+echo "================================================="
 if [ ${#no_tag_services[@]} -eq 0 ]; then
     echo -e "  ${INFO} No services found without tags"
 else
@@ -157,18 +157,20 @@ else
     done
 fi
 
-echo -e "\n${YELLOW}${WARNING} Services with invalid @custom:cmp-service tag:${NC}"
-echo "=========================================="
+echo -e "\n${BYELLOW}${WARNING} Services with invalid @custom:cmp-service tag:${NC}"
+echo "================================================="
 if [ ${#invalid_tag_services[@]} -eq 0 ]; then
     echo -e "  ${INFO} No services found with invalid tags"
 else
     for service in "${invalid_tag_services[@]}"; do
         format_service_output "$service"
     done
+
+    echo -e "\n  ${INFO} Valid values: type=\"${valid_types[@]}\" routing=\"${valid_routing[@]}\" on-chain=\"${valid_onchain[@]}\""
 fi
 
 echo -e "\n${LGREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
-echo "=========================================="
+echo "================================================="
 if [ ${#valid_tag_services[@]} -eq 0 ]; then
     echo -e "  ${INFO} No services found with valid tags"
 else
@@ -179,7 +181,7 @@ fi
 
 # Print summary
 echo -e "\n${BLUE}${INFO} Summary:${NC}"
-echo "=========================================="
+echo "================================================="
 echo -e "${RED}${ERROR} Missing tags: ${#no_tag_services[@]}${NC}"
 echo -e "${YELLOW}${WARNING} Invalid tags: ${#invalid_tag_services[@]}${NC}"
 echo -e "${GREEN}${SUCCESS} Valid tags: ${#valid_tag_services[@]}${NC}"
