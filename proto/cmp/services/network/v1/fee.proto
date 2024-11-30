@@ -24,6 +24,7 @@ message GetNetworkFeeResponse {
   int32 current_block_height = 2;
 }
 
+/// @custom:cmp-service type:core routing:local on-chain:true
 service GetNetworkFeeService {
   rpc GetNetworkFee(GetNetworkFeeRequest) returns (GetNetworkFeeResponse);
 }

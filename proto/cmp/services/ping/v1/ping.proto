@@ -44,6 +44,8 @@ message PingResponse {
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1/ping.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/ping/v1/ping.proto.dot.svg)
+//
+/// @custom:cmp-service type:core routing:p2p on-chain:false
 service PingService {
   // Ping Method
   rpc Ping(PingRequest) returns (PingResponse);

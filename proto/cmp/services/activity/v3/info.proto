@@ -41,6 +41,8 @@ message ActivityProductInfoResponse {
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v3/info.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v3/info.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false
 service ActivityProductInfoService {
   // Returns product list for activity
   rpc ActivityProductInfo(ActivityProductInfoRequest) returns (ActivityProductInfoResponse);

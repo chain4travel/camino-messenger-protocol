@@ -70,6 +70,8 @@ message TransportSearchResponse {
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v2/search.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false
 service TransportSearchService {
   rpc TransportSearch(TransportSearchRequest) returns (TransportSearchResponse);
 }

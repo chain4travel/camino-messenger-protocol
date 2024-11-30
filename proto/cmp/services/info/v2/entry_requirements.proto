@@ -15,6 +15,8 @@ import "google/protobuf/timestamp.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v2/entry_requirements.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/info/v2/entry_requirements.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false
 service CountryEntryRequirementsService {
   rpc CountryEntryRequirements(CountryEntryRequirementsRequest) returns (CountryEntryRequirementsResponse);
 }

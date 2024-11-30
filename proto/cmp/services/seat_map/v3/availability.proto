@@ -52,6 +52,8 @@ message SeatMapAvailabilityResponse {
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v3/availability.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/seat_map/v3/availability.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false
 service SeatMapAvailabilityService {
   // Get seat map availability data
   //

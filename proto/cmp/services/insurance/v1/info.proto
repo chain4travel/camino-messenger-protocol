@@ -41,6 +41,8 @@ message InsuranceProductInfoResponse {
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/info.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/info.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false
 service InsuranceProductInfoService {
   // Returns product info for insurance
   rpc InsuranceProductInfo(InsuranceProductInfoRequest) returns (InsuranceProductInfoResponse);
