@@ -102,21 +102,26 @@ format_service_output() {
     local input="$1"
     local filepath="${input%%:*}"
     local rest="${input#*:}"
-    local service="${rest%%|*}"
-    local tag="${rest#*|}"
 
-    if [[ "$tag" == "$service" ]]; then
-        echo -e "  ${CYAN}${filepath}${NC}"
-        echo -e "    └─ ${BOLD}$service${NC}"
-    else
+    # Check if the input contains a tag (has a | separator)
+    if [[ "$rest" == *"|"* ]]; then
+        local service="${rest%%|*}"
+        local tag="${rest#*|}"
+
         local error_msg=""
         if [[ "$tag" =~ .*-.* ]]; then
             error_msg=" - ${tag#* - }"
             tag="${tag%% - *}"
         fi
+
         echo -e "  ${CYAN}${filepath}${NC}"
         echo -e "    └─ ${BOLD}$service${NC}"
         echo -e "       ${tag}${RED}${error_msg}${NC}"
+    else
+        # No tag case
+        local service="$rest"
+        echo -e "  ${CYAN}${filepath}${NC}"
+        echo -e "    └─ ${BOLD}$service${NC}"
     fi
 }
 
