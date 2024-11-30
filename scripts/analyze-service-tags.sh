@@ -2,14 +2,17 @@
 
 # Colors for output
 RED='\033[0;31m'
+LRED='\033[1;31m'
 YELLOW='\033[0;33m'
-BYELLOW='\033[1;33m'
+LYELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 LGREEN='\033[1;32m'
 BLUE='\033[0;34m'
 LBLUE='\033[1;34m'
 CYAN='\033[0;36m'
+LCYAN='\033[1;36m'
 PURPLE='\033[0;35m'
+LPURPLE='\033[1;35m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
@@ -102,6 +105,70 @@ scan_proto_files() {
     done < <(find "$dir" -type f -name "*.proto" -print0)
 }
 
+colorize_tag() {
+    local tag="$1"
+
+    # Color mappings for different values
+    local TYPE_CORE="${LPURPLE}"
+    local TYPE_PRODUCT="${LBLUE}"
+    local TYPE_SYSTEM="${LRED}"
+
+    local ROUTING_P2P="${LGREEN}"
+    local ROUTING_LOCAL="${LYELLOW}"
+
+    local ONCHAIN_TRUE="${LPURPLE}"
+    local ONCHAIN_FALSE="${LCYAN}"
+
+    # Extract each part using regex
+    if [[ $tag =~ ^(@custom:cmp-service)[[:space:]]+(type:([[:alnum:]]+))[[:space:]]+(routing:([[:alnum:]]+))([[:space:]]+on-chain:([[:alnum:]]+))?$ ]]; then
+        local prefix="${BASH_REMATCH[1]}"
+        local type_full="${BASH_REMATCH[2]}"
+        local type_value="${BASH_REMATCH[3]}"
+        local routing_full="${BASH_REMATCH[4]}"
+        local routing_value="${BASH_REMATCH[5]}"
+        local onchain_full="${BASH_REMATCH[6]}"
+        local onchain_value="${BASH_REMATCH[7]}"
+
+        # Select color for type
+        local type_color
+        case "$type_value" in
+        "core") type_color="$TYPE_CORE" ;;
+        "product") type_color="$TYPE_PRODUCT" ;;
+        "system") type_color="$TYPE_SYSTEM" ;;
+        *) type_color="$RED" ;; # Invalid value
+        esac
+
+        # Select color for routing
+        local routing_color
+        case "$routing_value" in
+        "p2p") routing_color="$ROUTING_P2P" ;;
+        "local") routing_color="$ROUTING_LOCAL" ;;
+        *) routing_color="$RED" ;; # Invalid value
+        esac
+
+        # Select color for on-chain
+        local onchain_color
+        case "$onchain_value" in
+        "true") onchain_color="$ONCHAIN_TRUE" ;;
+        "false") onchain_color="$ONCHAIN_FALSE" ;;
+        *) onchain_color="$RED" ;; # Invalid value
+        esac
+
+        # Build the colored string
+        local result="${BOLD}$prefix${NC} ${type_color}${type_full}${NC} ${routing_color}${routing_full}${NC}"
+        #local result="$prefix type:${type_color}${type_value}${NC} routing:${routing_color}${routing_value}${NC}"
+        if [ ! -z "$onchain_full" ]; then
+            #result+=" on-chain:${onchain_color}${onchain_value}${NC}"
+            result+=" ${onchain_color}on-chain:${onchain_value}${NC}"
+        fi
+
+        echo "$result"
+    else
+        # If the tag doesn't match the expected format, return it unchanged
+        echo "$tag"
+    fi
+}
+
 format_service_output() {
     local input="$1"
     local filepath="${input%%:*}"
@@ -122,7 +189,8 @@ format_service_output() {
         else
             echo -e "  ${CYAN}${filepath}${NC}"
             echo -e "    └─ ${BOLD}$service${NC}"
-            echo -e "       ${GREEN}${tag}${NC} ${SUCCESS}"
+            #echo -e "       ${GREEN}${tag}${NC} ${SUCCESS}"
+            echo -e "       $(colorize_tag "$tag")"
         fi
     else
         # No tag case
