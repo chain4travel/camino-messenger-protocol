@@ -16,6 +16,7 @@ message TokenExpired {
   cmp.types.v1.UUID mint_id = 2;
 }
 
+/// @custom:cmp-service type:product routing:local on-chain:true
 service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
   rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
