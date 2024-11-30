@@ -4,7 +4,18 @@
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
 NC='\033[0m' # No Color
+
+# Emojis
+WARNING="⚠️ "
+ERROR="❌"
+SUCCESS="✅"
+INFO="ℹ️ "
+FOLDER="📁"
+MAGNIFIER="🔍"
 
 # Valid values
 valid_types=("core" "product" "system")
@@ -30,7 +41,7 @@ check_service() {
 
     # Check if the tag matches the expected format
     if ! [[ $tag =~ @custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:(true|false))? ]]; then
-        invalid_tag_services+=("$filepath:$service_name - Malformed tag format")
+        invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format")
         return
     fi
 
@@ -41,28 +52,31 @@ check_service() {
 
     # Validate type
     if [[ ! " ${valid_types[@]} " =~ " ${type} " ]]; then
-        invalid_tag_services+=("$filepath:$service_name - Invalid type: $type")
+        invalid_tag_services+=("$filepath:$service_name|$tag - Invalid type: $type")
         return
     fi
 
     # Validate routing
     if [[ ! " ${valid_routing[@]} " =~ " ${routing} " ]]; then
-        invalid_tag_services+=("$filepath:$service_name - Invalid routing: $routing")
+        invalid_tag_services+=("$filepath:$service_name|$tag - Invalid routing: $routing")
         return
     fi
 
     # Validate on-chain if present
     if [ ! -z "$onchain" ] && [[ ! " ${valid_onchain[@]} " =~ " ${onchain} " ]]; then
-        invalid_tag_services+=("$filepath:$service_name - Invalid on-chain value: $onchain")
+        invalid_tag_services+=("$filepath:$service_name|$tag - Invalid on-chain value: $onchain")
         return
     fi
 
     # If we get here, the tag is valid
-    valid_tag_services+=("$filepath:$service_name")
+    valid_tag_services+=("$filepath:$service_name|$tag")
 }
 
 scan_proto_files() {
     local dir="$1"
+
+    echo -e "${BLUE}${MAGNIFIER} Scanning directory: ${CYAN}$dir${NC}"
+    echo "----------------------------------------"
 
     # Find all .proto files recursively
     while IFS= read -r -d '' file; do
@@ -84,14 +98,36 @@ scan_proto_files() {
     done < <(find "$dir" -type f -name "*.proto" -print0)
 }
 
+format_service_output() {
+    local input="$1"
+    local filepath="${input%%:*}"
+    local rest="${input#*:}"
+    local service="${rest%%|*}"
+    local tag="${rest#*|}"
+
+    if [[ "$tag" == "$service" ]]; then
+        echo -e "  ${CYAN}${filepath}${NC}"
+        echo -e "    └─ ${BOLD}$service${NC}"
+    else
+        local error_msg=""
+        if [[ "$tag" =~ .*-.* ]]; then
+            error_msg=" - ${tag#* - }"
+            tag="${tag%% - *}"
+        fi
+        echo -e "  ${CYAN}${filepath}${NC}"
+        echo -e "    └─ ${BOLD}$service${NC}"
+        echo -e "       ${tag}${RED}${error_msg}${NC}"
+    fi
+}
+
 # Main execution
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <directory>"
+    echo -e "${ERROR} Usage: $0 <directory>"
     exit 1
 fi
 
 if [ ! -d "$1" ]; then
-    echo "Error: Directory $1 does not exist"
+    echo -e "${ERROR} Error: Directory $1 does not exist"
     exit 1
 fi
 
@@ -99,17 +135,40 @@ fi
 scan_proto_files "$1"
 
 # Print results
-echo -e "\n${RED}Services without @custom:cmp-service tag:${NC}"
-printf '%s\n' "${no_tag_services[@]}" | sort
+echo -e "\n${RED}${ERROR} Services without @custom:cmp-service tag:${NC}"
+echo "=========================================="
+if [ ${#no_tag_services[@]} -eq 0 ]; then
+    echo -e "  ${INFO} No services found without tags"
+else
+    for service in "${no_tag_services[@]}"; do
+        format_service_output "$service"
+    done
+fi
 
-echo -e "\n${YELLOW}Services with invalid @custom:cmp-service tag:${NC}"
-printf '%s\n' "${invalid_tag_services[@]}" | sort
+echo -e "\n${YELLOW}${WARNING} Services with invalid @custom:cmp-service tag:${NC}"
+echo "=========================================="
+if [ ${#invalid_tag_services[@]} -eq 0 ]; then
+    echo -e "  ${INFO} No services found with invalid tags"
+else
+    for service in "${invalid_tag_services[@]}"; do
+        format_service_output "$service"
+    done
+fi
 
-echo -e "\n${GREEN}Services with valid @custom:cmp-service tag:${NC}"
-printf '%s\n' "${valid_tag_services[@]}" | sort
+echo -e "\n${GREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
+echo "=========================================="
+if [ ${#valid_tag_services[@]} -eq 0 ]; then
+    echo -e "  ${INFO} No services found with valid tags"
+else
+    for service in "${valid_tag_services[@]}"; do
+        format_service_output "$service"
+    done
+fi
 
 # Print summary
-echo -e "\nSummary:"
-echo "Total services without tag: ${#no_tag_services[@]}"
-echo "Total services with invalid tag: ${#invalid_tag_services[@]}"
-echo "Total services with valid tag: ${#valid_tag_services[@]}"
+echo -e "\n${BLUE}${INFO} Summary:${NC}"
+echo "=========================================="
+echo -e "${RED}${ERROR} Missing tags: ${#no_tag_services[@]}${NC}"
+echo -e "${YELLOW}${WARNING} Invalid tags: ${#invalid_tag_services[@]}${NC}"
+echo -e "${GREEN}${SUCCESS} Valid tags: ${#valid_tag_services[@]}${NC}"
+echo -e "Total services: $((${#no_tag_services[@]} + ${#invalid_tag_services[@]} + ${#valid_tag_services[@]}))"
