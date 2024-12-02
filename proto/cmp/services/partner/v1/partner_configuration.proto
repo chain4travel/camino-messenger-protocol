@@ -36,7 +36,7 @@ message GetPartnerConfigurationResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v1/partner_configuration.proto.dot.svg)
 //
-/// @custom:cmp-service type:core routing:local on-chain:true
+/// @custom:cmp-service type:product routing:local on-chain:true
 service GetPartnerConfigurationService {
   // #### GetPartnerConfiguration
   //
