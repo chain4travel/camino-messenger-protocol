@@ -215,15 +215,14 @@ fi
 scan_proto_files "$1"
 
 # Print results
-echo -e "\n${RED}${ERROR} Services without @custom:cmp-service tag:${NC}"
+echo -e "\n${LGREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
 echo "================================================="
-if [ ${#no_tag_services[@]} -eq 0 ]; then
-    echo -e "  ${INFO} No services found without tags"
+if [ ${#valid_tag_services[@]} -eq 0 ]; then
+    echo -e "  ${INFO} No services found with valid tags"
 else
-    for service in "${no_tag_services[@]}"; do
+    for service in "${valid_tag_services[@]}"; do
         format_service_output "$service"
     done
-    EXIT_CODE=1
 fi
 
 echo -e "\n${BYELLOW}${WARNING} Services with invalid @custom:cmp-service tag:${NC}"
@@ -239,21 +238,22 @@ else
     EXIT_CODE=1
 fi
 
-echo -e "\n${LGREEN}${SUCCESS} Services with valid @custom:cmp-service tag:${NC}"
+echo -e "\n${RED}${ERROR} Services without @custom:cmp-service tag:${NC}"
 echo "================================================="
-if [ ${#valid_tag_services[@]} -eq 0 ]; then
-    echo -e "  ${INFO} No services found with valid tags"
+if [ ${#no_tag_services[@]} -eq 0 ]; then
+    echo -e "  ${INFO} No services found without tags"
 else
-    for service in "${valid_tag_services[@]}"; do
+    for service in "${no_tag_services[@]}"; do
         format_service_output "$service"
     done
+    EXIT_CODE=1
 fi
 
 # Print summary
 echo -e "\n${BLUE}${INFO} Summary:${NC}"
 echo "================================================="
-echo -e "${RED}${ERROR} Missing tags: ${#no_tag_services[@]}${NC}"
-echo -e "${YELLOW}${WARNING} Invalid tags: ${#invalid_tag_services[@]}${NC}"
-echo -e "${GREEN}${SUCCESS} Valid tags: ${#valid_tag_services[@]}${NC}"
 echo -e "Total services: $((${#no_tag_services[@]} + ${#invalid_tag_services[@]} + ${#valid_tag_services[@]}))"
+echo -e "${GREEN}${SUCCESS} Valid tags: ${#valid_tag_services[@]}${NC}"
+echo -e "${YELLOW}${WARNING} Invalid tags: ${#invalid_tag_services[@]}${NC}"
+echo -e "${RED}${ERROR} Missing tags: ${#no_tag_services[@]}${NC}"
 exit $EXIT_CODE
