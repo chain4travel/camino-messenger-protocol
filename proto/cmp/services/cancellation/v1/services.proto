@@ -23,6 +23,8 @@ import "cmp/services/cancellation/v1/withdraw.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:local on-chain:true
 service CancellationService {
   // Initiate cancellation
   rpc InitiateCancellation(InitiateCancellationRequest) returns (InitiateCancellationResponse) {}
