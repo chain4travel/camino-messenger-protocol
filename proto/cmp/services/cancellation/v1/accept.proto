@@ -17,7 +17,9 @@ message AcceptCancellationRequest {
   // Cancellation token ID
   uint64 token_id = 2;
 
-  // Refund amount to validate the acceptance on-chain
+  // Refund amount that must match the original cancellation proposal for on-chain
+  // validation. The transaction will fail if the amounts don't match. This is used
+  // to prevent front-running attacks.
   cmp.types.v2.Price refund_amount = 3;
 }
 
@@ -26,7 +28,10 @@ message AcceptCancellationResponse {
   // Response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction ID on-chain for the cancellation proposal acceptance. This
-  // transaction proves the acceptance of the proposal on-chain to avoid disputes.
+  // Transaction ID on-chain for the cancellation proposal acceptance.
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of acceptance
+  // 2. Validate the accepted refund amount
+  // 3. Prevent disputes about acceptance terms
   string transaction_id = 2;
 }

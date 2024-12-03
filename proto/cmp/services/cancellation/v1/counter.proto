@@ -22,7 +22,10 @@ message CounterCancellationResponse {
   // Response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction ID on-chain for the cancellation proposal counter. This transaction
-  // proves the counter of the proposal on-chain to avoid disputes.
+  // Transaction ID on-chain for the cancellation proposal counter.
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of the counter proposal
+  // 2. Validate the counter refund amount
+  // 3. Prevent disputes about counter terms
   string transaction_id = 2;
 }

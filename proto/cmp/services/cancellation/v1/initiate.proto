@@ -25,7 +25,11 @@ message InitiateCancellationResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Transaction ID on-chain for the cancellation proposal initiation. This
-  // transaction proves the initiation of the cancellation proposal on-chain to
-  // avoid disputes.
+  // transaction proves the initiation of the cancellation proposal on-chain.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of initiation of the cancellation proposal
+  // 2. Validate the refund amount
+  // 3. Prevent disputes about the cancellation terms
   string transaction_id = 2;
 }

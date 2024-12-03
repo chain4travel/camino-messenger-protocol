@@ -22,7 +22,11 @@ message RejectCancellationResponse {
   // Response Header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction ID on-chain for the cancellation proposal rejection. This
-  // transaction proves the rejection of the proposal on-chain to avoid disputes.
+  // Transaction ID on-chain for the cancellation proposal rejection.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of the rejection
+  // 2. Validate the rejection reason
+  // 3. Prevent disputes about the cancellation
   string transaction_id = 2;
 }

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
+import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 
 // Request for withdrawal of an active cancellation proposal
@@ -11,6 +12,9 @@ message WithdrawCancellationRequest {
 
   // Cancellation token ID
   uint64 token_id = 2;
+
+  // Withdrawal reason
+  cmp.services.cancellation.v1.WithdrawalReason reason = 3;
 }
 
 // Response for withdrawal of an active cancellation proposal
@@ -18,8 +22,11 @@ message WithdrawCancellationResponse {
   // Response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction ID on-chain for withdrawing the cancellation proposal. This
-  // transaction proves the withdrawal of the cancellation proposal on-chain to
-  // avoid disputes.
+  // Transaction ID on-chain for withdrawing the cancellation proposal.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of withdrawal
+  // 2. Validate the accepted refund amount
+  // 3. Prevent disputes about acceptance terms
   string transaction_id = 2;
 }
