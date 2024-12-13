@@ -88,6 +88,19 @@ jobs:
       - name: Run diff against branch
         run: scripts/diff_against_branch.sh
 
+  # diff check against dev branch to help with the PR reviews
+  diff-dev:
+    name: Diff against dev to help with the PR reviews
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Run diff against branch
+        run: |
+          scripts/diff_against_branch.sh dev || true
+          echo -e "\n🛟 Note: This diff check against dev branch is for PR review purposes only."
+          echo -e "🛟 Any reported differences are informational and not considered errors.\n"
+
   # dependency check to catch if proto files were not updated correctly
   dependency-check:
     runs-on: ubuntu-latest
