@@ -32,21 +32,35 @@ message ValidationResponse {
 
 // Additional layer to allow for selecting seats in different segments.
 message SeatSelection {
-  // Segment ID for the seat selection (e.g. flight segment, concert segment - necessary as the seat map id may be the same for different segments)
+  // Segment ID for the seat selection 
+  // e.g. flight segment, concert segment - necessary as the seat map id may be the same for different segments
   string segment_id = 1;
   // Seat selection based on the segment
   cmp.types.v3.SeatMapInventory seat_map_inventory = 2;
 }
 
-// Validation message that represents a single `result_id` from the search results
-// message and also the optional `unit_identifier` for specific services that
-// requires it. For example a seat for a concert.
+// Additional layer to allow for selecting optional service facts in different segments.
+message ServiceFactSelection {
+  // Segment ID for the service fact selection 
+  // e.g. flight segment, concert segment - necessary as the service fact id may be the same for different segments. 
+  // In case no segments are present like for accommodation this field is empty).
+  string segment_id = 1;
+  // Service fact code selection based on the segment. This needs to be the `code` of the `ServiceFact` message.
+  string service_fact_code = 2;
+}
+
+// Validation message that represents a single offer to be validated for the mint request.
+// This can also contain additional (optional) selections for seats and service facts which can
+// add additional costs to the offer and therefore needs to be reflected in the `price_detail` of the `ValidationResponse`.
 message ValidationObject {
   // Search result identifier with `search_id` & `result_id`
   cmp.types.v2.SearchIdentifier search_identifier = 1;
 
-  // Optional seat selection for the validation
+  // Optional seat selection for the validation. Only applicable for products with (selectable) seats.
   repeated cmp.services.book.v4.SeatSelection seat_selections = 2;
+
+  // Optional service fact selection for the validation. Only applicable for products with (optional) service facts.
+  repeated cmp.services.book.v4.ServiceFactSelection service_fact_selections = 3;
 }
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v4/validate.proto.dot.xs.svg)
