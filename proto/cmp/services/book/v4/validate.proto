@@ -43,7 +43,7 @@ message SeatSelection {
 message ServiceFactSelection {
   // Segment ID for the service fact selection
   // e.g. flight segment, concert segment - necessary as the service fact id may be the same for different segments.
-  // In case no segments are present like for accommodation this field is empty).
+  // In case no segments are present like for accommodation this field is empty.
   string segment_id = 1;
   // Service fact code selection based on the segment. This needs to be the `code` of the `ServiceFact` message.
   string service_fact_code = 2;
