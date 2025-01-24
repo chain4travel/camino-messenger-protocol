@@ -8,7 +8,7 @@ import "google/protobuf/empty.proto";
 // See extensive explanation at Price in price.proto
 message Currency {
   oneof currency {
-    cmp.types.v2.IsoCurrency iso_currency = 1;
+    cmp.types.v3.IsoCurrency iso_currency = 1;
 
     cmp.types.v2.TokenCurrency token_currency = 2;
 
