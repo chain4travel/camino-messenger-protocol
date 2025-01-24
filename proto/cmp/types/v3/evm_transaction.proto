@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package cmp.types.v3;
+
+// This represents an EVM transaction ID in hex format
+//
+// Example: "0xeb8d83e82ff50b27ab9287cd84e1b55a39b30377e68203fb74837aa35c489924"
+message EVMTransactionID {
+  string hash = 1;
+}

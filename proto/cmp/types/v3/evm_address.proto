@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package cmp.types.v3;
+
+// Address type that represents an EVM address in hex format
+//
+// Example: "0x1234567890abcdef1234567890abcdef12345678"
+message EVMAddress {
+  string address = 1;
+}
