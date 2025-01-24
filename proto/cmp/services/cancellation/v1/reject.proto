@@ -4,6 +4,7 @@ package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
+import "cmp/types/v3/evm_transaction.proto";
 
 // Request for cancellation rejection
 message RejectCancellationRequest {
@@ -28,5 +29,5 @@ message RejectCancellationResponse {
   // 1. Prove the exact time of the rejection
   // 2. Validate the rejection reason
   // 3. Prevent disputes about the cancellation
-  string transaction_id = 2;
+  cmp.types.v3.EVMTransactionID transaction_id = 2;
 }

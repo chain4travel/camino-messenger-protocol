@@ -4,6 +4,7 @@ package cmp.services.notification.v2;
 
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "google/protobuf/empty.proto";
 
 // Notification service for different events that the partner should be notified about
@@ -31,7 +32,7 @@ service NotificationService {
 // ```
 message TokenBought {
   uint64 token_id = 1;
-  string tx_id = 2;
+  cmp.types.v3.EVMTransactionID tx_id = 2;
   cmp.types.v1.UUID mint_id = 3;
 }
 
@@ -42,7 +43,7 @@ message TokenBought {
 // ```
 message TokenExpired {
   uint64 token_id = 1;
-  string tx_id = 2;
+  cmp.types.v3.EVMTransactionID tx_id = 2;
   cmp.types.v1.UUID mint_id = 3;
 }
 
@@ -56,7 +57,7 @@ message CancellationPending {
   string proposed_by = 2;
   uint64 refund_amount = 3;
   cmp.services.cancellation.v1.CancellationReason reason = 4;
-  string tx_id = 5;
+  cmp.types.v3.EVMTransactionID tx_id = 5;
 }
 
 // Related on-chain event:
@@ -68,7 +69,7 @@ message CancellationAccepted {
   uint64 token_id = 1;
   string accepted_by = 2;
   uint64 refund_amount = 3;
-  string tx_id = 4;
+  cmp.types.v3.EVMTransactionID tx_id = 4;
 }
 
 // Related on-chain event:
@@ -80,7 +81,7 @@ message CancellationAcceptedByTheOwner {
   uint64 token_id = 1;
   string accepted_by = 2;
   uint64 refund_amount = 3;
-  string tx_id = 4;
+  cmp.types.v3.EVMTransactionID tx_id = 4;
 }
 
 // Related on-chain event:
@@ -92,7 +93,7 @@ message CancellationCountered {
   uint64 token_id = 1;
   string countered_by = 2;
   uint64 new_refund_amount = 3;
-  string tx_id = 4;
+  cmp.types.v3.EVMTransactionID tx_id = 4;
 }
 
 // Related on-chain event:
@@ -104,7 +105,7 @@ message CancellationWithdrawn {
   uint64 token_id = 1;
   string cancelled_by = 2;
   cmp.services.cancellation.v1.WithdrawalReason reason = 3;
-  string tx_id = 4;
+  cmp.types.v3.EVMTransactionID tx_id = 4;
 }
 
 // Related on-chain event:
@@ -116,5 +117,5 @@ message CancellationRejected {
   uint64 token_id = 1;
   string rejected_by = 2;
   cmp.services.cancellation.v1.RejectionReason reason = 3;
-  string tx_id = 4;
+  cmp.types.v3.EVMTransactionID tx_id = 4;
 }

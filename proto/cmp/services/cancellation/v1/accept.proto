@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/types/v1/common.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
 // Request for cancellation acceptance
@@ -33,5 +34,5 @@ message AcceptCancellationResponse {
   // 1. Prove the exact time of acceptance
   // 2. Validate the accepted refund amount
   // 3. Prevent disputes about acceptance terms
-  string transaction_id = 2;
+  cmp.types.v3.EVMTransactionID transaction_id = 2;
 }

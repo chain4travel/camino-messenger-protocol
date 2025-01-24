@@ -4,6 +4,7 @@ package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
 message InitiateCancellationRequest {
@@ -31,5 +32,5 @@ message InitiateCancellationResponse {
   // 1. Prove the exact time of initiation of the cancellation proposal
   // 2. Validate the refund amount
   // 3. Prevent disputes about the cancellation terms
-  string transaction_id = 2;
+  cmp.types.v3.EVMTransactionID transaction_id = 2;
 }

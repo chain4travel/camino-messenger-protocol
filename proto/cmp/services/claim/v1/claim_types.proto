@@ -5,6 +5,7 @@ package cmp.services.claim.v1;
 import "cmp/services/insurance/v2/search_result_types.proto";
 import "cmp/types/v1/date.proto";
 import "cmp/types/v3/company.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v3/payment.proto";
 import "cmp/types/v3/price.proto";
@@ -185,7 +186,10 @@ message ClaimMessageResponse {
 // Claim Pay-Out Transaction
 message PayOutTransaction {
   // Transaction ID
-  string transaction_id = 1;
+  //
+  // FIXME: This looks like it's intended to be a string so it can be used for both
+  // on-chain and off-chain transactions. Should we use a oneof?
+  cmp.types.v3.EVMTransactionID transaction_id = 1;
 
   // Transaction Type. It can be Bank transfer, Crypto transfer, Credit card, ... etc
   cmp.types.v3.PaymentType transaction_type = 2;

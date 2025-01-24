@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/types/v1/common.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
 // Request for countering a cancellation
@@ -27,5 +28,5 @@ message CounterCancellationResponse {
   // 1. Prove the exact time of the counter proposal
   // 2. Validate the counter refund amount
   // 3. Prevent disputes about counter terms
-  string transaction_id = 2;
+  cmp.types.v3.EVMTransactionID transaction_id = 2;
 }

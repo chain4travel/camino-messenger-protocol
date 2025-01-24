@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/types/v1/common.proto";
+import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
 // Request for counter cancellation acceptance
@@ -25,5 +26,5 @@ message AcceptCounterCancellationResponse {
   // Transaction ID on-chain for the counter cancellation proposal acceptance. This
   // transaction proves the acceptance of the counter proposal on-chain to avoid
   // disputes.
-  string transaction_id = 2;
+  cmp.types.v3.EVMTransactionID transaction_id = 2;
 }
