@@ -58,7 +58,10 @@ def generate_proto_enum(currencies: List[Dict], currency_entities: Dict[str, Lis
         # Build the enum entry
 
         if withdrawal_note:
-            enum_lines.append(f'  // - {withdrawal_note}')
+            #enum_lines.append(f'  // - {withdrawal_note}')
+            # Skip if withdrawal date is present which means this is a historical currency
+            print(f"WARN: Skipping historical currency: {curr['Currency']}", file=sys.stderr)
+            continue
 
         enum_lines.append(f'  // - Currency: {curr["Currency"]} [{alphabetic_code}, {numeric_code}]')
 
