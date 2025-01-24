@@ -5,9 +5,9 @@ package cmp.services.insurance.v2;
 import "cmp/types/v1/inclusivity.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v2/contact_info.proto";
-import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v3/file.proto";
+import "cmp/types/v3/price.proto";
 import "google/protobuf/timestamp.proto";
 
 // Insurance

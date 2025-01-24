@@ -4,8 +4,8 @@ package cmp.services.activity.v3;
 
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/price.proto";
 
 // These are Activity specific search parameters
 //

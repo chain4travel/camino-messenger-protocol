@@ -6,9 +6,9 @@ import "cmp/types/v1/bed.proto";
 import "cmp/types/v1/meal_plan.proto";
 import "cmp/types/v1/rate.proto";
 import "cmp/types/v1/travel_period.proto";
+import "cmp/types/v2/product_code.proto";
 import "cmp/types/v3/cancel_policy.proto";
 import "cmp/types/v3/price.proto";
-import "cmp/types/v2/product_code.proto";
 import "cmp/types/v3/service_fact.proto";
 
 // A Unit can represent a room in a hotel. One search option can have multiple units

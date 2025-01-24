@@ -4,8 +4,8 @@ package cmp.services.transport.v3;
 
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/time.proto";
-import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/price.proto";
 
 // Transport Search Parameters
 //

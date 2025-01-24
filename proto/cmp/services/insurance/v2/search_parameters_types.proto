@@ -6,8 +6,8 @@ import "cmp/services/insurance/v2/insurance_types.proto";
 import "cmp/types/v1/loyalty_program.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/country.proto";
-import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v3/traveller.proto";
 
 // This type is used in search requests for parameters like insured booking, network, ... etc

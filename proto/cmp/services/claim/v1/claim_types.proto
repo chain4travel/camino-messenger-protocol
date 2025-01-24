@@ -4,10 +4,10 @@ package cmp.services.claim.v1;
 
 import "cmp/services/insurance/v2/search_result_types.proto";
 import "cmp/types/v1/date.proto";
-import "cmp/types/v3/price.proto";
 import "cmp/types/v3/company.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v3/payment.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v3/traveller.proto";
 
 // ClaimForm
