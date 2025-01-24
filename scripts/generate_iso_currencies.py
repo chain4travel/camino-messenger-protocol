@@ -1,3 +1,4 @@
+import sys
 import csv
 import argparse
 from collections import defaultdict
@@ -25,20 +26,30 @@ def format_withdrawal_date(date: Optional[str]) -> str:
 def generate_proto_enum(currencies: List[Dict], currency_entities: Dict[str, List[str]]) -> str:
     enum_lines = ['enum IsoCurrency {', '  // Placeholder or unspecified currency', '  ISO_CURRENCY_UNSPECIFIED = 0;', '']
     
-    # Process each unique currency code
-    seen_codes = set()
+    # Process each unique alphabetic currency code
+    seen_alphabetic_codes = set()
+    seen_numeric_codes = set()
     for curr in currencies:
-        code = curr['AlphabeticCode']
-        if not code or code in seen_codes:
+        alphabetic_code = curr['AlphabeticCode']
+        if not alphabetic_code or alphabetic_code in seen_alphabetic_codes:
+            print(f"WARN: Skipping duplicate currency code: {alphabetic_code}", file=sys.stderr)
             continue
             
-        seen_codes.add(code)
+        seen_alphabetic_codes.add(alphabetic_code)
         numeric_code = curr['NumericCode']
         if not numeric_code:
+            # Warn to stderr
+            print(f"WARN: Missing numeric code for currency: {curr['Currency']}", file=sys.stderr)
             continue
+
+        if numeric_code in seen_numeric_codes:
+            print(f"WARN: Skipping duplicate numeric code: {numeric_code} for currency: {curr['Currency']}", file=sys.stderr)
+            continue
+
+        seen_numeric_codes.add(numeric_code)
             
         # Get all entities for this currency code
-        entities = currency_entities[code]
+        entities = currency_entities[alphabetic_code]
         entities_str = ', '.join(entities)
         
         # Format withdrawal date if present
@@ -49,14 +60,14 @@ def generate_proto_enum(currencies: List[Dict], currency_entities: Dict[str, Lis
         if withdrawal_note:
             enum_lines.append(f'  // - {withdrawal_note}')
 
-        enum_lines.append(f'  // - Currency: {curr["Currency"]} [{code}, {numeric_code}]')
+        enum_lines.append(f'  // - Currency: {curr["Currency"]} [{alphabetic_code}, {numeric_code}]')
 
         if curr['MinorUnit']:
             enum_lines.append(f'  // - Decimals: {curr["MinorUnit"]}')
 
         enum_lines.extend([
             f'  // - Entities: {entities_str}',
-            f'  ISO_CURRENCY_{code} = {int(float(numeric_code))};',
+            f'  ISO_CURRENCY_{alphabetic_code} = {int(float(numeric_code))};',
             ''
         ])
 

@@ -18,11 +18,14 @@ message Currency {
 
 // Currency list of ISO 4217 standard. See https://en.wikipedia.org/wiki/ISO_4217
 //
-// Generated from CSV file: https://github.com/havan/currency-codes/blob/c5229ae1ef0c21b7c0ec0f0b2d439cf93afb390b/data/codes-all.csv
+// Generated from CSV file:
+// https://github.com/havan/currency-codes/blob/c5229ae1ef0c21b7c0ec0f0b2d439cf93afb390b/data/codes-all.csv
+// excluding the entries with duplicate numerical entries.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/currency.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/currency.proto.dot.svg)
+// [Open Message
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/currency.proto.dot.svg)
 enum IsoCurrency {
   // Placeholder or unspecified currency
   ISO_CURRENCY_UNSPECIFIED = 0;
@@ -932,11 +935,6 @@ enum IsoCurrency {
   // - Entities: ÅLAND ISLANDS, FINLAND
   ISO_CURRENCY_FIM = 246;
 
-  // - [HISTORICAL: 1989-12]
-  // - Currency: Old Lek [ALK, 008]
-  // - Entities: ALBANIA
-  ISO_CURRENCY_ALK = 8;
-
   // - [HISTORICAL: 2003-07]
   // - Currency: Andorran Peseta [ADP, 020]
   // - Entities: ANDORRA
@@ -958,29 +956,9 @@ enum IsoCurrency {
   ISO_CURRENCY_AOK = 24;
 
   // - [HISTORICAL: 2000-02]
-  // - Currency: New Kwanza [AON, 024]
-  // - Entities: ANGOLA
-  ISO_CURRENCY_AON = 24;
-
-  // - [HISTORICAL: 2000-02]
   // - Currency: Kwanza Reajustado [AOR, 982]
   // - Entities: ANGOLA
   ISO_CURRENCY_AOR = 982;
-
-  // - [HISTORICAL: 1992-01]
-  // - Currency: Austral [ARA, 032]
-  // - Entities: ARGENTINA
-  ISO_CURRENCY_ARA = 32;
-
-  // - [HISTORICAL: 1985-07]
-  // - Currency: Peso Argentino [ARP, 032]
-  // - Entities: ARGENTINA
-  ISO_CURRENCY_ARP = 32;
-
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Peso [ARY, 032]
-  // - Entities: ARGENTINA
-  ISO_CURRENCY_ARY = 32;
 
   // - [HISTORICAL: 1994-08]
   // - Currency: Russian Ruble [RUR, 810]
@@ -1027,11 +1005,6 @@ enum IsoCurrency {
   // - Entities: BELGIUM
   ISO_CURRENCY_BEL = 992;
 
-  // - [HISTORICAL: 1987-02]
-  // - Currency: Peso boliviano [BOP, 068]
-  // - Entities: BOLIVIA
-  ISO_CURRENCY_BOP = 68;
-
   // - [HISTORICAL: 1998-07]
   // - Currency: Dinar [BAD, 070]
   // - Entities: BOSNIA AND HERZEGOVINA
@@ -1041,21 +1014,6 @@ enum IsoCurrency {
   // - Currency: Cruzeiro [BRB, 076]
   // - Entities: BRAZIL
   ISO_CURRENCY_BRB = 76;
-
-  // - [HISTORICAL: 1989-02]
-  // - Currency: Cruzado [BRC, 076]
-  // - Entities: BRAZIL
-  ISO_CURRENCY_BRC = 76;
-
-  // - [HISTORICAL: 1993-03]
-  // - Currency: Cruzeiro [BRE, 076]
-  // - Entities: BRAZIL
-  ISO_CURRENCY_BRE = 76;
-
-  // - [HISTORICAL: 1990-03]
-  // - Currency: New Cruzado [BRN, 076]
-  // - Entities: BRAZIL
-  ISO_CURRENCY_BRN = 76;
 
   // - [HISTORICAL: 1994-07]
   // - Currency: Cruzeiro Real [BRR, 987]
@@ -1067,40 +1025,15 @@ enum IsoCurrency {
   // - Entities: BULGARIA
   ISO_CURRENCY_BGJ = 100;
 
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Lev A/62 [BGK, 100]
-  // - Entities: BULGARIA
-  ISO_CURRENCY_BGK = 100;
-
-  // - [HISTORICAL: 2003-11]
-  // - Currency: Lev [BGL, 100]
-  // - Entities: BULGARIA
-  ISO_CURRENCY_BGL = 100;
-
-  // - [HISTORICAL: 1990-02]
-  // - Currency: Kyat [BUK, 104]
-  // - Entities: BURMA
-  ISO_CURRENCY_BUK = 104;
-
   // - [HISTORICAL: 1995-01]
   // - Currency: Croatian Dinar [HRD, 191]
   // - Entities: CROATIA
   ISO_CURRENCY_HRD = 191;
 
-  // - [HISTORICAL: 2015-06]
-  // - Currency: Croatian Kuna [HRK, 191]
-  // - Entities: CROATIA, CROATIA
-  ISO_CURRENCY_HRK = 191;
-
   // - [HISTORICAL: 2008-01]
   // - Currency: Cyprus Pound [CYP, 196]
   // - Entities: CYPRUS
   ISO_CURRENCY_CYP = 196;
-
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Krona A/53 [CSJ, 203]
-  // - Entities: CZECHOSLOVAKIA
-  ISO_CURRENCY_CSJ = 203;
 
   // - [HISTORICAL: 1993-03]
   // - Currency: Koruna [CSK, 200]
@@ -1162,70 +1095,25 @@ enum IsoCurrency {
   // - Entities: GREECE
   ISO_CURRENCY_GRD = 300;
 
-  // - [HISTORICAL: 1989-12]
-  // - Currency: Syli [GNE, 324]
-  // - Entities: GUINEA
-  ISO_CURRENCY_GNE = 324;
-
-  // - [HISTORICAL: 1986-02]
-  // - Currency: Syli [GNS, 324]
-  // - Entities: GUINEA
-  ISO_CURRENCY_GNS = 324;
-
   // - [HISTORICAL: 1978 to 1981]
   // - Currency: Guinea Escudo [GWE, 624]
   // - Entities: GUINEA-BISSAU
   ISO_CURRENCY_GWE = 624;
-
-  // - [HISTORICAL: 1997-05]
-  // - Currency: Guinea-Bissau Peso [GWP, 624]
-  // - Entities: GUINEA-BISSAU
-  ISO_CURRENCY_GWP = 624;
 
   // - [HISTORICAL: 2002-03]
   // - Currency: Italian Lira [ITL, 380]
   // - Entities: HOLY SEE (VATICAN CITY STATE), ITALY, SAN MARINO
   ISO_CURRENCY_ITL = 380;
 
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Old Krona [ISJ, 352]
-  // - Entities: ICELAND
-  ISO_CURRENCY_ISJ = 352;
-
   // - [HISTORICAL: 2002-03]
   // - Currency: Irish Pound [IEP, 372]
   // - Entities: IRELAND
   ISO_CURRENCY_IEP = 372;
 
-  // - [HISTORICAL: 1978 to 1981]
-  // - Currency: Pound [ILP, 376]
-  // - Entities: ISRAEL
-  ISO_CURRENCY_ILP = 376;
-
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Old Shekel [ILR, 376]
-  // - Entities: ISRAEL
-  ISO_CURRENCY_ILR = 376;
-
-  // - [HISTORICAL: 1979-12]
-  // - Currency: Pathet Lao Kip [LAJ, 418]
-  // - Entities: LAO
-  ISO_CURRENCY_LAJ = 418;
-
   // - [HISTORICAL: 2014-01]
   // - Currency: Latvian Lats [LVL, 428]
   // - Entities: LATVIA
   ISO_CURRENCY_LVL = 428;
-
-  // - [HISTORICAL: 1994-12]
-  // - Currency: Latvian Ruble [LVR, 428]
-  // - Entities: LATVIA
-  ISO_CURRENCY_LVR = 428;
-
-  // - [HISTORICAL: 1985-05]
-  // - Currency: Loti [LSM, 426]
-  // - Entities: LESOTHO
-  ISO_CURRENCY_LSM = 426;
 
   // - [HISTORICAL: 1995-03]
   // - Currency: Financial Rand [ZAL, 991]
@@ -1236,11 +1124,6 @@ enum IsoCurrency {
   // - Currency: Lithuanian Litas [LTL, 440]
   // - Entities: LITHUANIA
   ISO_CURRENCY_LTL = 440;
-
-  // - [HISTORICAL: 1993-07]
-  // - Currency: Talonas [LTT, 440]
-  // - Entities: LITHUANIA
-  ISO_CURRENCY_LTT = 440;
 
   // - [HISTORICAL: 1990-03]
   // - Currency: Luxembourg Convertible Franc [LUC, 989]
@@ -1262,11 +1145,6 @@ enum IsoCurrency {
   // - Entities: MADAGASCAR
   ISO_CURRENCY_MGF = 450;
 
-  // - [HISTORICAL: 1989-12]
-  // - Currency: Maldive Rupee [MVQ, 462]
-  // - Entities: MALDIVES
-  ISO_CURRENCY_MVQ = 462;
-
   // - [HISTORICAL: 1984-11]
   // - Currency: Mali Franc [MLF, 466]
   // - Entities: MALI
@@ -1277,55 +1155,20 @@ enum IsoCurrency {
   // - Entities: MALTA
   ISO_CURRENCY_MTL = 470;
 
-  // - [HISTORICAL: 1983-06]
-  // - Currency: Maltese Pound [MTP, 470]
-  // - Entities: MALTA
-  ISO_CURRENCY_MTP = 470;
-
   // - [HISTORICAL: 2017-12]
   // - Currency: Ouguiya [MRO, 478]
   // - Entities: MAURITANIA
   ISO_CURRENCY_MRO = 478;
-
-  // - [HISTORICAL: 1993-01]
-  // - Currency: Mexican Peso [MXP, 484]
-  // - Entities: MEXICO
-  ISO_CURRENCY_MXP = 484;
 
   // - [HISTORICAL: 1978 to 1981]
   // - Currency: Mozambique Escudo [MZE, 508]
   // - Entities: MOZAMBIQUE
   ISO_CURRENCY_MZE = 508;
 
-  // - [HISTORICAL: 2006-06]
-  // - Currency: Mozambique Metical [MZM, 508]
-  // - Entities: MOZAMBIQUE
-  ISO_CURRENCY_MZM = 508;
-
   // - [HISTORICAL: 2002-03]
   // - Currency: Netherlands Guilder [NLG, 528]
   // - Entities: NETHERLANDS
   ISO_CURRENCY_NLG = 528;
-
-  // - [HISTORICAL: 1990-10]
-  // - Currency: Cordoba [NIC, 558]
-  // - Entities: NICARAGUA
-  ISO_CURRENCY_NIC = 558;
-
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Sol [PEH, 604]
-  // - Entities: PERU
-  ISO_CURRENCY_PEH = 604;
-
-  // - [HISTORICAL: 1991-07]
-  // - Currency: Inti [PEI, 604]
-  // - Entities: PERU
-  ISO_CURRENCY_PEI = 604;
-
-  // - [HISTORICAL: 1986-02]
-  // - Currency: Sol [PES, 604]
-  // - Entities: PERU
-  ISO_CURRENCY_PES = 604;
 
   // - [HISTORICAL: 1997-01]
   // - Currency: Zloty [PLZ, 616]
@@ -1341,11 +1184,6 @@ enum IsoCurrency {
   // - Currency: Leu A/52 [ROK, 642]
   // - Entities: ROMANIA
   ISO_CURRENCY_ROK = 642;
-
-  // - [HISTORICAL: 2005-06]
-  // - Currency: Old Leu [ROL, 642]
-  // - Entities: ROMANIA
-  ISO_CURRENCY_ROL = 642;
 
   // - [HISTORICAL: 2017-12]
   // - Currency: Dobra [STD, 678]
@@ -1392,20 +1230,10 @@ enum IsoCurrency {
   // - Entities: SUDAN
   ISO_CURRENCY_SDD = 736;
 
-  // - [HISTORICAL: 1998-06]
-  // - Currency: Sudanese Pound [SDP, 736]
-  // - Entities: SUDAN
-  ISO_CURRENCY_SDP = 736;
-
   // - [HISTORICAL: 2003-12]
   // - Currency: Surinam Guilder [SRG, 740]
   // - Entities: SURINAME
   ISO_CURRENCY_SRG = 740;
-
-  // - [HISTORICAL: 2004-11]
-  // - Currency: WIR Franc (for electronic) [CHC, 948]
-  // - Entities: SWITZERLAND
-  ISO_CURRENCY_CHC = 948;
 
   // - [HISTORICAL: 2001-04]
   // - Currency: Tajik Ruble [TJR, 762]
@@ -1427,40 +1255,15 @@ enum IsoCurrency {
   // - Entities: TURKMENISTAN
   ISO_CURRENCY_TMM = 795;
 
-  // - [HISTORICAL: 1987-05]
-  // - Currency: Uganda Shilling [UGS, 800]
-  // - Entities: UGANDA
-  ISO_CURRENCY_UGS = 800;
-
-  // - [HISTORICAL: 1989 to 1990]
-  // - Currency: Old Shilling [UGW, 800]
-  // - Entities: UGANDA
-  ISO_CURRENCY_UGW = 800;
-
   // - [HISTORICAL: 1996-09]
   // - Currency: Karbovanet [UAK, 804]
   // - Entities: UKRAINE
   ISO_CURRENCY_UAK = 804;
 
-  // - [HISTORICAL: 1990-12]
-  // - Currency: Rouble [SUR, 810]
-  // - Entities: UNION OF SOVIET SOCIALIST REPUBLICS
-  ISO_CURRENCY_SUR = 810;
-
   // - [HISTORICAL: 2014-03]
   // - Currency: US Dollar (Same day) [USS, 998]
   // - Entities: UNITED STATES
   ISO_CURRENCY_USS = 998;
-
-  // - [HISTORICAL: 1989-12]
-  // - Currency: Old Uruguay Peso [UYN, 858]
-  // - Entities: URUGUAY
-  ISO_CURRENCY_UYN = 858;
-
-  // - [HISTORICAL: 1993-03]
-  // - Currency: Uruguayan Peso [UYP, 858]
-  // - Entities: URUGUAY
-  ISO_CURRENCY_UYP = 858;
 
   // - [HISTORICAL: 2008-01]
   // - Currency: Bolivar [VEB, 862]
@@ -1472,11 +1275,6 @@ enum IsoCurrency {
   // - Entities: VENEZUELA, VENEZUELA (BOLIVARIAN REPUBLIC OF), VENEZUELA (BOLIVARIAN REPUBLIC OF)
   ISO_CURRENCY_VEF = 937;
 
-  // - [HISTORICAL: 1989-1990]
-  // - Currency: Old Dong [VNC, 704]
-  // - Entities: VIETNAM
-  ISO_CURRENCY_VNC = 704;
-
   // - [HISTORICAL: 1991-09]
   // - Currency: Yemeni Dinar [YDD, 720]
   // - Entities: YEMEN, DEMOCRATIC
@@ -1487,40 +1285,15 @@ enum IsoCurrency {
   // - Entities: YUGOSLAVIA
   ISO_CURRENCY_YUD = 890;
 
-  // - [HISTORICAL: 2003-07]
-  // - Currency: New Dinar [YUM, 891]
-  // - Entities: YUGOSLAVIA
-  ISO_CURRENCY_YUM = 891;
-
-  // - [HISTORICAL: 1995-11]
-  // - Currency: Yugoslavian Dinar [YUN, 890]
-  // - Entities: YUGOSLAVIA
-  ISO_CURRENCY_YUN = 890;
-
   // - [HISTORICAL: 1999-06]
   // - Currency: New Zaire [ZRN, 180]
   // - Entities: ZAIRE
   ISO_CURRENCY_ZRN = 180;
 
-  // - [HISTORICAL: 1994-02]
-  // - Currency: Zaire [ZRZ, 180]
-  // - Entities: ZAIRE
-  ISO_CURRENCY_ZRZ = 180;
-
   // - [HISTORICAL: 2012-12]
   // - Currency: Zambian Kwacha [ZMK, 894]
   // - Entities: ZAMBIA
   ISO_CURRENCY_ZMK = 894;
-
-  // - [HISTORICAL: 1989-12]
-  // - Currency: Rhodesian Dollar [ZWC, 716]
-  // - Entities: ZIMBABWE
-  ISO_CURRENCY_ZWC = 716;
-
-  // - [HISTORICAL: 2006-08]
-  // - Currency: Zimbabwe Dollar (old) [ZWD, 716]
-  // - Entities: ZIMBABWE, ZIMBABWE
-  ISO_CURRENCY_ZWD = 716;
 
   // - [HISTORICAL: 2006-09]
   // - Currency: Zimbabwe Dollar (new) [ZWN, 942]
