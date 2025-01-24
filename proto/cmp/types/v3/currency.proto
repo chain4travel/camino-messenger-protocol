@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
-import "cmp/types/v2/token.proto";
+import "cmp/types/v3/token.proto";
 import "google/protobuf/empty.proto";
 
 // See extensive explanation at Price in price.proto
@@ -10,7 +10,7 @@ message Currency {
   oneof currency {
     cmp.types.v3.IsoCurrency iso_currency = 1;
 
-    cmp.types.v2.TokenCurrency token_currency = 2;
+    cmp.types.v3.TokenCurrency token_currency = 2;
 
     google.protobuf.Empty native_token = 3;
   }
