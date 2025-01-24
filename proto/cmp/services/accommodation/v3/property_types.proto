@@ -10,7 +10,7 @@ import "cmp/types/v1/product_status.proto";
 import "cmp/types/v2/contact_info.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/product_code.proto";
-import "cmp/types/v2/service_fact.proto";
+import "cmp/types/v3/service_fact.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v3/traveller.proto";
 import "google/protobuf/timestamp.proto";
@@ -154,7 +154,7 @@ message Room {
   cmp.services.accommodation.v3.Occupancy total_occupancy = 9;
 
   // Services
-  repeated cmp.types.v2.ServiceFact services = 10;
+  repeated cmp.types.v3.ServiceFact services = 10;
 
   // Amenities
   repeated cmp.types.v1.Amenity amenities = 11;

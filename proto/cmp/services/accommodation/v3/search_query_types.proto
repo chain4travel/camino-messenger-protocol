@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.accommodation.v3;
 
 import "cmp/services/accommodation/v2/search_parameters_types.proto";
-import "cmp/services/accommodation/v2/unit_types.proto";
+import "cmp/services/accommodation/v3/unit_types.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v3/traveller.proto";
 
@@ -25,5 +25,5 @@ message AccommodationSearchQuery {
   int32 unit_count = 5;
 
   // Type of the unit, like room or holiday home
-  cmp.services.accommodation.v2.UnitType unit_type = 6;
+  cmp.services.accommodation.v3.UnitType unit_type = 6;
 }

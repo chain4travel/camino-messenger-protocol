@@ -7,9 +7,9 @@ import "cmp/types/v1/bookability.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v1/rate.proto";
-import "cmp/types/v2/cancel_policy.proto";
-import "cmp/types/v2/change_policy.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/cancel_policy.proto";
+import "cmp/types/v3/change_policy.proto";
+import "cmp/types/v3/price.proto";
 
 // Transport search result
 //
@@ -42,7 +42,7 @@ message TransportSearchResult {
   repeated cmp.services.transport.v3.TripExtended travelling_trips = 5;
 
   // Total Price
-  cmp.types.v2.PriceDetail total_price = 6;
+  cmp.types.v3.PriceDetail total_price = 6;
 
   // Rate Rules
   repeated cmp.types.v1.RateRule rate_rules = 7;
@@ -61,10 +61,10 @@ message TransportSearchResult {
   cmp.types.v1.DateTimeRange validity = 10;
 
   // Cancel Policy
-  cmp.types.v2.CancelPolicy cancel_policy = 11;
+  cmp.types.v3.CancelPolicy cancel_policy = 11;
 
   // Change Policy
-  cmp.types.v2.ChangePolicy change_policy = 12;
+  cmp.types.v3.ChangePolicy change_policy = 12;
 
   // Observations
   string observations = 13;

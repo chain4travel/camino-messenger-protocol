@@ -6,9 +6,9 @@ import "cmp/types/v1/baggage.proto";
 import "cmp/types/v1/duration.proto";
 import "cmp/types/v1/measurement.proto";
 import "cmp/types/v2/location.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
-import "cmp/types/v2/service_fact.proto";
+import "cmp/types/v3/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 
 // This message type represents a one way trip, either travelling or returning.
@@ -28,7 +28,7 @@ message TripExtended {
   // Price
   //
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
-  cmp.types.v2.Price price = 3;
+  cmp.types.v3.Price price = 3;
 
   // Trip segments are the legs offered. Here we use extended segments type.
   //
@@ -73,7 +73,7 @@ message SegmentExtended {
   // Included, optional or compulsory services for this segment or leg. Just a code and
   // description can be included if it is a package (seat, priority, large carry-on).
   // or a price detail can be included for optionally pre-ordered meals for example.
-  repeated cmp.types.v2.ServiceFact services = 4;
+  repeated cmp.types.v3.ServiceFact services = 4;
 
   // Min PAX
   //

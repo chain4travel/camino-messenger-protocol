@@ -4,7 +4,7 @@ package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "google/protobuf/timestamp.proto";
 
 // Service for checking cancellation
@@ -26,7 +26,7 @@ message CheckCancellationRequest {
   uint64 token_id = 2;
 
   // The amount to be refunded
-  cmp.types.v2.Price refund_amount = 3;
+  cmp.types.v3.Price refund_amount = 3;
 
   // Cancellation reason
   cmp.services.cancellation.v1.CancellationReason reason = 4;
@@ -40,7 +40,7 @@ message CheckCancellationResponse {
   uint64 token_id = 2;
 
   // The amount to be refunded
-  cmp.types.v2.Price refund_amount = 3;
+  cmp.types.v3.Price refund_amount = 3;
 
   // The policy id applied
   string policy_id_applied = 4;

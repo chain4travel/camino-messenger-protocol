@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 
 // Request for cancellation acceptance
 //
@@ -20,7 +20,7 @@ message AcceptCancellationRequest {
   // Refund amount that must match the original cancellation proposal for on-chain
   // validation. The transaction will fail if the amounts don't match. This is used
   // to prevent front-running attacks.
-  cmp.types.v2.Price refund_amount = 3;
+  cmp.types.v3.Price refund_amount = 3;
 }
 
 // Response for cancellation acceptance

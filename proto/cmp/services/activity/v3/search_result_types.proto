@@ -5,7 +5,7 @@ package cmp.services.activity.v3;
 import "cmp/services/activity/v3/activity_types.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/price_type.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
@@ -37,7 +37,7 @@ message ActivitySearchResult {
   int32 max_participants = 7;
 
   // Price with value and currency code
-  cmp.types.v2.Price price = 8;
+  cmp.types.v3.Price price = 8;
 
   // Pricing type
   // Ex: "PerPerson", "PerGroup"

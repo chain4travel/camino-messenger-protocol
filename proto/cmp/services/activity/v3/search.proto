@@ -37,12 +37,12 @@ syntax = "proto3";
 // just like the Transport service. This package is **WIP**.
 package cmp.services.activity.v3;
 
-import "cmp/services/activity/v2/search_parameters_types.proto";
+import "cmp/services/activity/v3/search_parameters_types.proto";
 import "cmp/services/activity/v3/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/location.proto";
-import "cmp/types/v2/search.proto";
+import "cmp/types/v3/search.proto";
 import "cmp/types/v3/traveller.proto";
 
 // Search request for Activities
@@ -52,19 +52,19 @@ message ActivitySearchRequest {
   cmp.types.v1.RequestHeader header = 1;
 
   // Search request metadata
-  cmp.types.v2.SearchRequestMetadata metadata = 2;
+  cmp.types.v3.SearchRequestMetadata metadata = 2;
 
   // Generic search parameters
   //
   // Ex: Inclusion of OnRequest options, inclusion of only the cheapest or all
   // options, setting the market, language, currency, sorting and filters etc.
-  cmp.types.v2.SearchParameters search_parameters_generic = 3;
+  cmp.types.v3.SearchParameters search_parameters_generic = 3;
 
   // Activity specific search parameters
   //
   // Here we set for example a list of activity product codes that we want to search
   // for, set min or mar duration or price.
-  cmp.services.activity.v2.ActivitySearchParameters search_parameters_activity = 4;
+  cmp.services.activity.v3.ActivitySearchParameters search_parameters_activity = 4;
 
   // Travel period
   cmp.types.v1.TravelPeriod travel_period = 5;
@@ -135,7 +135,7 @@ message ActivitySearchResponse {
   //
   // The most important field is the search_id, which is a UUID that needs to be
   // carried through to the validate request.
-  cmp.types.v2.SearchResponseMetadata metadata = 2;
+  cmp.types.v3.SearchResponseMetadata metadata = 2;
 
   // Unique combinations of bookable search results, each identified by a result_id
   // that needs to be carried through to the validate request.

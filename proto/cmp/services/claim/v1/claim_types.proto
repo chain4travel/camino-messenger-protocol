@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package cmp.services.claim.v1;
 
-import "cmp/services/insurance/v1/search_result_types.proto";
+import "cmp/services/insurance/v2/search_result_types.proto";
 import "cmp/types/v1/date.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v3/company.proto";
 import "cmp/types/v3/file.proto";
 import "cmp/types/v3/payment.proto";
@@ -41,7 +41,7 @@ message ClaimableService {
   string service_description = 1;
 
   // Amount to be claimed
-  cmp.types.v2.Price charge_amount = 2;
+  cmp.types.v3.Price charge_amount = 2;
 
   // Documents supporting the claim
   repeated cmp.services.claim.v1.ClaimDocument documents = 3;
@@ -148,7 +148,7 @@ message PolicyInfo {
   cmp.types.v3.Company company = 6;
 
   // Policy Codes: unit Code, service code and product code
-  cmp.services.insurance.v1.PolicyCodes policy_code = 7;
+  cmp.services.insurance.v2.PolicyCodes policy_code = 7;
 }
 
 // Claim more info requested
@@ -157,7 +157,7 @@ message ClaimInfoRequested {
   string service_description = 1;
 
   // Claim service amount
-  cmp.types.v2.Price charge_amount = 2;
+  cmp.types.v3.Price charge_amount = 2;
 
   // Document type requested
   cmp.services.claim.v1.ClaimDocumentType document_type = 3;

@@ -15,7 +15,7 @@ import "cmp/services/transport/v3/search_query_types.proto";
 import "cmp/services/transport/v3/search_result_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/content_source.proto";
-import "cmp/types/v2/search.proto";
+import "cmp/types/v3/search.proto";
 import "cmp/types/v3/traveller.proto";
 
 // Transport Search Request
@@ -25,13 +25,13 @@ message TransportSearchRequest {
   cmp.types.v1.RequestHeader header = 1;
 
   // Search request metadata
-  cmp.types.v2.SearchRequestMetadata metadata = 2;
+  cmp.types.v3.SearchRequestMetadata metadata = 2;
 
   // Generic search parameters
   //
   // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all
   // options.
-  cmp.types.v2.SearchParameters search_parameters = 3;
+  cmp.types.v3.SearchParameters search_parameters = 3;
 
   // Multiple search queries for this search request
   repeated cmp.services.transport.v3.TransportSearchQuery queries = 4;
@@ -46,7 +46,7 @@ message TransportSearchResponse {
   cmp.types.v1.ResponseHeader header = 1;
 
   // Search response metadata
-  cmp.types.v2.SearchResponseMetadata metadata = 2;
+  cmp.types.v3.SearchResponseMetadata metadata = 2;
 
   // Content source types for this search request.
   //

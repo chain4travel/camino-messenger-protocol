@@ -4,8 +4,8 @@ package cmp.services.book.v3;
 
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/uuid.proto";
-import "cmp/types/v2/price.proto";
-import "cmp/types/v2/search.proto";
+import "cmp/types/v3/price.proto";
+import "cmp/types/v3/search.proto";
 import "cmp/types/v3/seat_map.proto";
 
 message ValidationRequest {
@@ -27,7 +27,7 @@ message ValidationResponse {
   cmp.services.book.v3.ValidationObject validation_object = 3;
 
   // Price details for the validated product
-  cmp.types.v2.PriceDetail price_detail = 4;
+  cmp.types.v3.PriceDetail price_detail = 4;
 }
 
 // Validation message that represents a single `result_id` from the search results
@@ -35,7 +35,7 @@ message ValidationResponse {
 // requires it. For example a seat for a concert.
 message ValidationObject {
   // Search result identifier with `search_id` & `result_id`
-  cmp.types.v2.SearchIdentifier search_identifier = 1;
+  cmp.types.v3.SearchIdentifier search_identifier = 1;
 
   // Unit identifier that is used to describe selected units from the `result_id`.
   // For example: seats for a concert.

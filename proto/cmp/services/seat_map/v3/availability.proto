@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.seat_map.v3;
 
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/search.proto";
+import "cmp/types/v3/search.proto";
 import "cmp/types/v3/seat_map.proto";
 
 // Request for seat map availability data
@@ -28,7 +28,7 @@ message SeatMapAvailabilityRequest {
     //
     // Example: For requesting seat availability for search results. In this case,
     // booking has not happended yet.
-    cmp.types.v2.SearchIdentifier search_identifier = 3;
+    cmp.types.v3.SearchIdentifier search_identifier = 3;
   }
 }
 

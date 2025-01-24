@@ -6,7 +6,7 @@ import "cmp/services/insurance/v2/insurance_types.proto";
 import "cmp/types/v1/loyalty_program.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/country.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v3/traveller.proto";
 
@@ -32,7 +32,7 @@ message InsuranceSearchParameters {
   cmp.services.insurance.v2.InsuredProductType insured_product_type = 3;
 
   // Value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
-  cmp.types.v2.Price amount_purchase = 4;
+  cmp.types.v3.Price amount_purchase = 4;
 
   // Insurance location and its references. Location can be on-chain or off-chain.
   cmp.services.insurance.v2.InsuredBooking booking_to_insure = 5;

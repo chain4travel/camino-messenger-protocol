@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 
 // Request for counter cancellation acceptance
 message AcceptCounterCancellationRequest {
@@ -14,7 +14,7 @@ message AcceptCounterCancellationRequest {
   uint64 token_id = 2;
 
   // Refund amount to validate the acceptance on-chain
-  cmp.types.v2.Price refund_amount = 3;
+  cmp.types.v3.Price refund_amount = 3;
 }
 
 // Response for counter cancellation acceptance

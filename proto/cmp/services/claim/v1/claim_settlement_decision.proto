@@ -4,7 +4,7 @@ package cmp.services.claim.v1;
 
 import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "google/protobuf/timestamp.proto";
 
 message ClaimSettlementDecisionRequest {
@@ -37,7 +37,7 @@ message ClaimSettlementDecisionRequest {
   // TODO: ask whether there could be multiple payouts for the same claim.
   //
   // Amount
-  cmp.types.v2.PriceDetail amount = 8;
+  cmp.types.v3.PriceDetail amount = 8;
 }
 
 message ClaimSettlementDecisionResponse {

@@ -5,7 +5,7 @@ package cmp.services.insurance.v2;
 import "cmp/types/v1/inclusivity.proto";
 import "cmp/types/v1/link.proto";
 import "cmp/types/v2/contact_info.proto";
-import "cmp/types/v2/price.proto";
+import "cmp/types/v3/price.proto";
 import "cmp/types/v2/product_code.proto";
 import "cmp/types/v3/file.proto";
 import "google/protobuf/timestamp.proto";
@@ -127,7 +127,7 @@ enum PolicyType {
 
 message PolicyCoverage {
   // Maximum coverage amount
-  cmp.types.v2.Price max_coverage_amount = 3;
+  cmp.types.v3.Price max_coverage_amount = 3;
 
   // URL to Detailed list of risks covered
   cmp.types.v1.Link coverage_link = 4;
