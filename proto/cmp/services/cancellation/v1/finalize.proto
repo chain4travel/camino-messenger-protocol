@@ -2,12 +2,11 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
-message InitiateCancellationRequest {
+message FinalizeCancellationRequest {
   // The request header
   cmp.types.v1.RequestHeader header = 1;
 
@@ -16,20 +15,17 @@ message InitiateCancellationRequest {
 
   // The amount to be refunded
   cmp.types.v3.Price refund_amount = 3;
-
-  // The cancellation reason
-  cmp.services.cancellation.v1.CancellationReason reason = 4;
 }
 
-message InitiateCancellationResponse {
+message FinalizeCancellationResponse {
   // The response header
   cmp.types.v1.ResponseHeader header = 1;
 
-  // Transaction ID on-chain for the cancellation proposal initiation. This
-  // transaction proves the initiation of the cancellation proposal on-chain.
+  // Transaction ID on-chain for the cancellation proposal finalization. This
+  // transaction proves the finalization of the cancellation proposal on-chain.
   //
   // This transaction can be verified on-chain to:
-  // 1. Prove the exact time of initiation of the cancellation proposal
+  // 1. Prove the exact time of finalization of the cancellation proposal
   // 2. Validate the refund amount
   // 3. Prevent disputes about the cancellation terms
   cmp.types.v3.EVMTransactionID transaction_id = 2;

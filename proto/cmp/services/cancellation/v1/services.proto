@@ -12,8 +12,8 @@ syntax = "proto3";
 package cmp.services.cancellation.v1;
 
 import "cmp/services/cancellation/v1/accept.proto";
-import "cmp/services/cancellation/v1/accept_counter.proto";
 import "cmp/services/cancellation/v1/counter.proto";
+import "cmp/services/cancellation/v1/finalize.proto";
 import "cmp/services/cancellation/v1/initiate.proto";
 import "cmp/services/cancellation/v1/reject.proto";
 import "cmp/services/cancellation/v1/withdraw.proto";
@@ -38,9 +38,9 @@ service CancellationService {
   // Counter cancellation
   rpc CounterCancellation(CounterCancellationRequest) returns (CounterCancellationResponse) {}
 
-  // Accept countered cancellation
-  rpc AcceptCounterCancellation(AcceptCounterCancellationRequest) returns (AcceptCounterCancellationResponse) {}
-
   // Withdraw cancellation proposal
   rpc WithdrawCancellation(WithdrawCancellationRequest) returns (WithdrawCancellationResponse) {}
+
+  // Finalize countered cancellation
+  rpc FinalizeCancellation(FinalizeCancellationRequest) returns (FinalizeCancellationResponse) {}
 }

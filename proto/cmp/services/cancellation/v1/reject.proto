@@ -11,7 +11,7 @@ message RejectCancellationRequest {
   // Request Header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Token ID to reject the cancellation for (Booking Token)
+  // Booking token ID this request is for
   uint64 token_id = 2;
 
   // Reason for rejection

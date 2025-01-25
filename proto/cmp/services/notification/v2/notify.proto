@@ -4,6 +4,7 @@ package cmp.services.notification.v2;
 
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/uuid.proto";
+import "cmp/types/v3/evm_address.proto";
 import "cmp/types/v3/evm_transaction.proto";
 import "google/protobuf/empty.proto";
 
@@ -18,11 +19,9 @@ service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
   rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
   rpc CancellationPendingNotification(CancellationPending) returns (google.protobuf.Empty);
-  rpc CancellationAcceptedNotification(CancellationAccepted) returns (google.protobuf.Empty);
-  rpc CancellationAcceptedByTheOwnerNotification(CancellationAcceptedByTheOwner) returns (google.protobuf.Empty);
-  rpc CancellationCounteredNotification(CancellationCountered) returns (google.protobuf.Empty);
   rpc CancellationWithdrawnNotification(CancellationWithdrawn) returns (google.protobuf.Empty);
   rpc CancellationRejectedNotification(CancellationRejected) returns (google.protobuf.Empty);
+  rpc CancellationFinalizedNotification(CancellationFinalized) returns (google.protobuf.Empty);
 }
 
 // Related on-chain event:
@@ -47,75 +46,79 @@ message TokenExpired {
   cmp.types.v1.UUID mint_id = 3;
 }
 
-// Related on-chain event:
+// Related on-chain events:
 //
 // ```solidity
-// event CancellationPending(uint256 indexed tokenId, address indexed proposedBy, uint256 refundAmount, uint16 cancellationReason, uint16 cancellationReasonVersion);
+// event CancellationPending(
+//   uint256 indexed tokenId,
+//   address indexed initialProposer,
+//   address indexed currentProposer,
+//   uint256 refundAmount,
+//   bool ownerAccepted,
+//   bool supplierAccepted,
+//   uint32 timesCountered,
+//   uint32 timesRejected
+// );
+//
+// event CancellationReasons(
+//   uint256 indexed tokenId,
+//   uint16 cancellationReason,
+//   uint16 cancellationReasonVersion,
+//   uint16 rejectionReason,
+//   uint16 rejectionVersion,
+//   uint16 counterReason,
+//   uint16 counterVersion,
+//   uint16 withdrawalReason,
+//   uint16 withdrawalVersion
+// );
 // ```
 message CancellationPending {
   uint64 token_id = 1;
-  string proposed_by = 2;
-  uint64 refund_amount = 3;
-  cmp.services.cancellation.v1.CancellationReason reason = 4;
-  cmp.types.v3.EVMTransactionID tx_id = 5;
+  cmp.types.v3.EVMAddress initial_proposer = 2;
+  cmp.types.v3.EVMAddress current_proposer = 3;
+  uint64 refund_amount = 4;
+  bool owner_accepted = 5;
+  bool supplier_accepted = 6;
+  uint64 times_countered = 7;
+  uint64 times_rejected = 8;
+
+  cmp.types.v3.EVMTransactionID tx_id = 9;
+
+  // Reasons
+  cmp.services.cancellation.v1.CancellationReason cancellation_reason = 10;
+  cmp.services.cancellation.v1.RejectionReason rejection_reason = 11;
+  cmp.services.cancellation.v1.CounterReason counter_reason = 12;
+  cmp.services.cancellation.v1.WithdrawalReason withdrawal_reason = 13;
 }
 
 // Related on-chain event:
 //
 // ```solidity
-// event CancellationAccepted(uint256 indexed tokenId, address indexed acceptedBy, uint256 refundAmount);
-// ```
-message CancellationAccepted {
-  uint64 token_id = 1;
-  string accepted_by = 2;
-  uint64 refund_amount = 3;
-  cmp.types.v3.EVMTransactionID tx_id = 4;
-}
-
-// Related on-chain event:
-//
-// ```solidity
-// event CancellationAcceptedByTheOwner(uint256 indexed tokenId, address indexed acceptedBy, uint256 refundAmount);
-// ```
-message CancellationAcceptedByTheOwner {
-  uint64 token_id = 1;
-  string accepted_by = 2;
-  uint64 refund_amount = 3;
-  cmp.types.v3.EVMTransactionID tx_id = 4;
-}
-
-// Related on-chain event:
-//
-// ```solidity
-// event CancellationCountered(uint256 indexed tokenId, address indexed counteredBy, uint256 newRefundAmount);
-// ```
-message CancellationCountered {
-  uint64 token_id = 1;
-  string countered_by = 2;
-  uint64 new_refund_amount = 3;
-  cmp.types.v3.EVMTransactionID tx_id = 4;
-}
-
-// Related on-chain event:
-//
-// ```solidity
-// event CancellationWithdrawn(uint256 indexed tokenId, address indexed cancelledBy, uint16 reason, uint16 reasonVersion);
+// event CancellationWithdrawn(uint256 indexed tokenId, uint16 withdrawalReason, uint16 withdrawalVersion);
 // ```
 message CancellationWithdrawn {
   uint64 token_id = 1;
-  string cancelled_by = 2;
-  cmp.services.cancellation.v1.WithdrawalReason reason = 3;
-  cmp.types.v3.EVMTransactionID tx_id = 4;
+  cmp.services.cancellation.v1.WithdrawalReason reason = 2;
+  cmp.types.v3.EVMTransactionID tx_id = 3;
 }
 
 // Related on-chain event:
 //
 // ```solidity
-// event CancellationRejected(uint256 indexed tokenId, address indexed rejectedBy, uint16 rejectionReason, uint16 rejectionReasonVersion);
+// event CancellationRejected(uint256 indexed tokenId, uint16 rejectionReason, uint16 rejectionVersion);
 // ```
 message CancellationRejected {
   uint64 token_id = 1;
-  string rejected_by = 2;
-  cmp.services.cancellation.v1.RejectionReason reason = 3;
-  cmp.types.v3.EVMTransactionID tx_id = 4;
+  cmp.services.cancellation.v1.RejectionReason reason = 2;
+  cmp.types.v3.EVMTransactionID tx_id = 3;
+}
+
+// Related on-chain event:
+//
+// ```solidity
+// event CancellationFinalized(uint256 indexed tokenId);
+// ```
+message CancellationFinalized {
+  uint64 token_id = 1;
+  cmp.types.v3.EVMTransactionID tx_id = 2;
 }

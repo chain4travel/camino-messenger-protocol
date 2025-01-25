@@ -15,7 +15,7 @@ message AcceptCancellationRequest {
   // Request header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Cancellation token ID
+  // Booking token ID this request is for
   uint64 token_id = 2;
 
   // Refund amount that must match the original cancellation proposal for on-chain

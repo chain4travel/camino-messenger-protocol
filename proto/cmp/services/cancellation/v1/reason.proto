@@ -94,37 +94,136 @@ enum RejectionReason {
   REJECTION_REASON_CANCELLATION_WINDOW_EXPIRED = 5;
   REJECTION_REASON_SERVICE_CANNOT_BE_CANCELLED_ONLINE = 6;
   REJECTION_REASON_RATE_OR_FARE_CANNOT_BE_CANCELLED = 7;
-  REJECTION_REASON_ENTIRE_PACKAGE_MUST_BE_CANCELLED = 8; // Service forms part of a package, the entire package must be cancelled
+  // Service forms part of a package, the entire package must be cancelled
+  REJECTION_REASON_ENTIRE_PACKAGE_MUST_BE_CANCELLED = 8;
   REJECTION_REASON_REFUND_CURRENCY_NOT_SUPPORTED = 9;
+
+  // AUTOMATIC REJECTION REASON DURING TRANSFER OF THE TOKEN ON-CHAIN
+  REJECTION_REASON_TRANSFER_ON_CHAIN = 99;
+}
+
+enum CounterReason {
+  COUNTER_REASON_UNSPECIFIED = 0;
+
+  // Market Conditions
+
+  // High demand during peak travel seasons justifying stricter refund policies
+  COUNTER_REASON_PEAK_SEASON_DEMAND = 1;
+  // Property is running at high occupancy rate, limiting rebooking flexibility
+  COUNTER_REASON_HIGH_OCCUPANCY_PERIOD = 2;
+  // Booking coincides with local events/festivals affecting demand
+  COUNTER_REASON_SPECIAL_EVENT_PERIOD = 3;
+  // Few remaining units/rooms available for the period
+  COUNTER_REASON_LIMITED_AVAILABILITY = 4;
+
+  // Booking Value
+
+  // Booking was made at premium/rack rates affecting refund calculation
+  COUNTER_REASON_PREMIUM_RATE_BOOKING = 5;
+  // Extended stay discounts were applied to the original booking
+  COUNTER_REASON_LONG_STAY_DISCOUNT_APPLIED = 6;
+  // Booking is part of a package with specific cancellation terms
+  COUNTER_REASON_PACKAGE_DEAL_TERMS = 7;
+  // Special promotional rates were applied with specific conditions
+  COUNTER_REASON_PROMOTIONAL_RATE_TERMS = 8;
+
+  // Business Impact
+
+  // Limited time remaining to resell the inventory
+  COUNTER_REASON_RESELL_OPPORTUNITY_LIMITED = 9;
+  // Resources already allocated (staff, equipment, services)
+  COUNTER_REASON_RESOURCE_ALLOCATION_COST = 10;
+  // Operational costs already incurred in preparation
+  COUNTER_REASON_OPERATIONAL_EXPENSES_INCURRED = 11;
+  // Commitments made to external service providers
+  COUNTER_REASON_THIRD_PARTY_COMMITMENTS = 12;
+
+  // Policy Based
+
+  // Different refund tiers based on time until check-in
+  COUNTER_REASON_CANCELLATION_WINDOW_TIER = 13;
+  // Specific terms in booking contract affecting refund
+  COUNTER_REASON_BOOKING_TERMS_REQUIREMENT = 14;
+  // Rate plan has specific cancellation/refund rules
+  COUNTER_REASON_RATE_PLAN_RESTRICTION = 15;
+  // Seasonal policies affecting refund calculations
+  COUNTER_REASON_SEASONAL_POLICY_APPLIED = 16;
+
+  // Relationship Management
+
+  // Customer's previous booking/cancellation history considered
+  COUNTER_REASON_CUSTOMER_HISTORY_CONSIDERATION = 17;
+  // Loyalty program status and benefits affecting refund
+  COUNTER_REASON_LOYALTY_PROGRAM_TERMS = 18;
+  // Corporate rate agreement terms affecting cancellation
+  COUNTER_REASON_CORPORATE_AGREEMENT_TERMS = 19;
+  // Distribution partner contract terms affecting refund
+  COUNTER_REASON_PARTNER_CONTRACT_TERMS = 20;
+
+  // Calculation Disputes
+
+  // Initial calculation missed applicable fees or charges
+  COUNTER_REASON_MISSING_FEES = 21;
+  // Incorrect tax calculation or tax exemption status
+  COUNTER_REASON_TAX_CALCULATION_ERROR = 22;
+  // Currency conversion or exchange rate miscalculation
+  COUNTER_REASON_CURRENCY_CALCULATION_ERROR = 23;
+  // Incorrect cancellation penalty timing or tier applied
+  COUNTER_REASON_PENALTY_CALCULATION_ERROR = 24;
+  // Promotional discounts or credits not properly accounted
+  COUNTER_REASON_DISCOUNT_CALCULATION_ERROR = 25;
 }
 
 enum WithdrawalReason {
-  // Default unspecified value - required for proto3
   WITHDRAWAL_REASON_UNSPECIFIED = 0;
 
   // Change of Circumstances
-  WITHDRAWAL_REASON_RESOLVED_WITH_SUPPLIER = 1; // Issue resolved through direct communication
-  WITHDRAWAL_REASON_ORIGINAL_ISSUE_RESOLVED = 2; // The original reason for cancellation no longer exists
-  WITHDRAWAL_REASON_ALTERNATIVE_SOLUTION_FOUND = 3; // Found another solution without cancelling
-  WITHDRAWAL_REASON_TRAVEL_PLANS_READJUSTED = 4; // Modified travel plans to accommodate booking
+
+  // Issue resolved through direct communication
+  WITHDRAWAL_REASON_RESOLVED_WITH_SUPPLIER = 1;
+  // The original reason for cancellation no longer exists
+  WITHDRAWAL_REASON_ORIGINAL_ISSUE_RESOLVED = 2;
+  // Found another solution without cancelling
+  WITHDRAWAL_REASON_ALTERNATIVE_SOLUTION_FOUND = 3;
+  // Modified travel plans to accommodate booking
+  WITHDRAWAL_REASON_TRAVEL_PLANS_READJUSTED = 4;
 
   // Financial Reasons
-  WITHDRAWAL_REASON_FUNDS_SECURED = 5; // Found money to continue with booking
-  WITHDRAWAL_REASON_BETTER_REFUND_OPTION_FOUND = 6; // Found a better way to handle the refund
-  WITHDRAWAL_REASON_PAYMENT_ISSUE_RESOLVED = 7; // Original payment problems resolved
+
+  // Found money to continue with booking
+  WITHDRAWAL_REASON_FUNDS_SECURED = 5;
+  // Found a better way to handle the refund
+  WITHDRAWAL_REASON_BETTER_REFUND_OPTION_FOUND = 6;
+  // Original payment problems resolved
+  WITHDRAWAL_REASON_PAYMENT_ISSUE_RESOLVED = 7;
 
   // Process Related
-  WITHDRAWAL_REASON_SUBMITTED_BY_MISTAKE = 8; // Accidental submission
-  WITHDRAWAL_REASON_INCORRECT_BOOKING_SELECTED = 9; // Wrong booking selected for cancellation
-  WITHDRAWAL_REASON_DUPLICATE_REQUEST = 10; // Already requested through another channel
+
+  // Accidental submission
+  WITHDRAWAL_REASON_SUBMITTED_BY_MISTAKE = 8;
+  // Wrong booking selected for cancellation
+  WITHDRAWAL_REASON_INCORRECT_BOOKING_SELECTED = 9;
+  // Already requested through another channel
+  WITHDRAWAL_REASON_DUPLICATE_REQUEST = 10;
 
   // Administrative
-  WITHDRAWAL_REASON_PENDING_SUPPLIER_RESPONSE = 11; // Waiting for supplier response on different matter
-  WITHDRAWAL_REASON_UNDER_REVIEW = 12; // Situation under review by customer service
-  WITHDRAWAL_REASON_AWAITING_DOCUMENTATION = 13; // Need to gather more documentation first
+
+  // Waiting for supplier response on different matter
+  WITHDRAWAL_REASON_PENDING_SUPPLIER_RESPONSE = 11;
+  // Situation under review by customer service
+  WITHDRAWAL_REASON_UNDER_REVIEW = 12;
+  // Need to gather more documentation first
+  WITHDRAWAL_REASON_AWAITING_DOCUMENTATION = 13;
 
   // Reconsidered
-  WITHDRAWAL_REASON_FEE_TOO_HIGH = 14; // After seeing cancellation fee, decided to keep booking
-  WITHDRAWAL_REASON_BETTER_TO_RESELL = 15; // Decided to try reselling/transferring instead
-  WITHDRAWAL_REASON_CHANGED_MIND = 16; // Simply changed mind about cancelling
+
+  // After seeing cancellation fee, decided to keep booking
+  WITHDRAWAL_REASON_FEE_TOO_HIGH = 14;
+  // Decided to try reselling/transferring instead
+  WITHDRAWAL_REASON_BETTER_TO_RESELL = 15;
+  // Simply changed mind about cancelling
+  WITHDRAWAL_REASON_CHANGED_MIND = 16;
+
+  // AUTOMATIC WITHDRAWAL REASON DURING TRANSFER OF THE TOKEN ON-CHAIN
+  WITHDRAWAL_REASON_TRANSFER_ON_CHAIN = 99;
 }

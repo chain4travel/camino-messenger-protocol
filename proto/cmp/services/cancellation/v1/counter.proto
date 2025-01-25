@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
+import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
@@ -11,11 +12,14 @@ message CounterCancellationRequest {
   // Request header
   cmp.types.v1.RequestHeader header = 1;
 
-  // Cancellation token ID
+  // Booking token ID this request is for
   uint64 token_id = 2;
 
   // Refund amount to counter the cancellation proposal with
   cmp.types.v3.Price refund_amount = 3;
+
+  // Counter reason
+  cmp.services.cancellation.v1.CounterReason reason = 4;
 }
 
 // Response for countering a cancellation
