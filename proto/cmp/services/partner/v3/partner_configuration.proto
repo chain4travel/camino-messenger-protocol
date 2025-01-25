@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.partner.v3;
 
+import "cmp/types/v3/evm_address.proto";
 import "cmp/types/v3/partner.proto";
 
 // Partner Configuration message type
@@ -19,7 +20,7 @@ message GetPartnerConfigurationRequest {
 
   // Partner wallet addresses. Response is returned with only partners that have
   // these addresses.
-  repeated string partner_addresses = 3;
+  repeated cmp.types.v3.EVMAddress partner_addresses = 3;
 }
 
 message GetPartnerConfigurationResponse {
