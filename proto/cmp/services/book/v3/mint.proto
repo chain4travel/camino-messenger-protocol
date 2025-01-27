@@ -97,9 +97,8 @@ message MintResponse {
   // This field is not meant for the supplier.
   cmp.types.v3.EVMTransactionID buy_transaction_id = 11;
 
-  // This field indicates whether the booking can be cancelled. If this field
-  // is not used, the default value is false, whick means the booking cannot be
-  // cancelled.
+  // This field indicates whether the booking can be cancelled. If this field is not
+  // used, the default value is false, which means the booking cannot be cancelled.
   bool cancellable = 12;
 }
 
