@@ -18,9 +18,16 @@ message AdditionalPaymentInfo {
 enum PaymentType {
   PAYMENT_TYPE_UNSPECIFIED = 0;
   PAYMENT_TYPE_OTHER = 1;
-  PAYMENT_TYPE_CRYPTO = 2;
-  PAYMENT_TYPE_BANK_TRANSFER = 3;
-  PAYMENT_TYPE_CREDITCARD = 4;
-  PAYMENT_TYPE_PAYPAL = 5;
-  PAYMENT_TYPE_CRYPTO_CARD = 6;
+  PAYMENT_TYPE_BANK_TRANSFER = 2;
+  PAYMENT_TYPE_CREDIT_CARD = 3;
+  PAYMENT_TYPE_PAYPAL = 4;
+  PAYMENT_TYPE_CRYPTO_CARD = 5;
+}
+
+message OffChainPayment {
+  // Payment ID
+  string payment_id = 1;
+
+  // Payment Type. It can be Bank transfer, Credit card, ... etc
+  cmp.types.v3.PaymentType payment_type = 2;
 }
