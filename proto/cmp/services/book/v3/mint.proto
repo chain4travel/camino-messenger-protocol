@@ -99,6 +99,12 @@ message MintResponse {
 
   // This field indicates whether the booking can be cancelled. If this field is not
   // used, the default value is false, which means the booking cannot be cancelled.
+  // If cancellation is at all possible, the field must be set to true AND cancellation
+  // via the messenger MUST be implemented. If cancellation of an on-chain minted
+  // booking would be possible via extranet, email or phone, the status of a booking
+  // on the Camino Network would become inconsistent and the ledger functionality
+  // of the blockchain would be undermined. Disputes will reoccur. This kind of flows
+  // are strongly discouraged.
   bool cancellable = 12;
 }
 
