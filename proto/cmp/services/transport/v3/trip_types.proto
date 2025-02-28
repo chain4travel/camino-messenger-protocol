@@ -51,7 +51,7 @@ message TripBasic {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-	google.protobuf.Timestamp last_modified = 3;
+  google.protobuf.Timestamp last_modified = 3;
 }
 
 // A segment of a trip
