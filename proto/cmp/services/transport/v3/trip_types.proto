@@ -47,6 +47,11 @@ message TripBasic {
   //
   // Departure and Arrival dates and times can be derived from the first and last segments
   repeated cmp.services.transport.v3.Segment segments = 2;
+
+  // Timestamps may be used for both off-chain and on-chain operations.
+	// For on-chain operations, only seconds are supported, and nanoseconds
+	// will be ignored.
+	google.protobuf.Timestamp last_modified = 3;
 }
 
 // A segment of a trip
