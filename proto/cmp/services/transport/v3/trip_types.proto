@@ -149,5 +149,16 @@ message TransitEvent {
   google.protobuf.Timestamp date_time = 1;
 
   // Event location
-  cmp.types.v2.LocationCode location_code = 2;
+  cmp.services.transport.v3.TransitEventLocation location = 2;
+}
+
+// Represents a departure or arrival event's location
+message TransitEventLocation {
+  oneof location {
+    // A location code.
+    cmp.types.v2.LocationCode location_code = 1;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v2.Coordinates location_coordinates = 2;
+  }
 }

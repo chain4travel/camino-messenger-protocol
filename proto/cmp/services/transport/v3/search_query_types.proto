@@ -50,5 +50,25 @@ message QueryTransitEvent {
   cmp.types.v1.Date date = 1;
 
   // Event location
-  cmp.types.v2.LocationCode location_code = 2;
+  cmp.services.transport.v3.QueryTransitEventLocation location = 2;
+}
+
+// Represents a departure or arrival event's location
+message QueryTransitEventLocation {
+  oneof location {
+    // A list of location codes or just one code.
+    cmp.types.v2.LocationCodes location_codes = 1;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v2.Coordinates location_coordinates = 2;
+
+    // Geo tree type, represented by Country, Region, and City_or_Resort.
+    cmp.types.v2.GeoTree location_geo_tree = 3;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v2.GeoCircle location_geo_circle = 4;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v2.GeoPolygon location_geo_polygon = 5;
+  }
 }
