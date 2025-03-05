@@ -62,9 +62,9 @@ message ExtensiveTraveller {
   // as in "Julio Iglesias de la Cueva" and "Enrique Iglesias Preysler". To handle
   // these variations, multiple entries are allowed. Systems with a fixed number of
   // fields may use the first entry for one component and the second entry for the other.
-  // For example:
-  //    first_names: "John", first_names: "Roger"
-  //    surnames: "Stephens", surnames: "Legend"
+  // For example for full name "John Roger Stephens Legend":
+  //    first_names: ["John",  "Roger"]
+  //    surnames: ["Stephens", "Legend"]
   repeated string first_names = 3;
   repeated string surnames = 4;
   cmp.types.v2.ContactInfo contact_info = 5;
