@@ -43,26 +43,28 @@ enum TravellerType {
 }
 
 message ExtensiveTraveller {
-  // Guest number, the lowest number is the lead-pax. This ID is also used for
-  // referencing services linked to specific participants, like baggage.
+  // Guest number. The lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, such as baggage.
   int32 traveller_id = 1;
 
-  // Gender from the enum below
+  // Gender, as defined by the enum below.
   cmp.types.v3.GenderType gender = 2;
 
-  // Many systems might just have one field for all first names and just one field
-  // for all surnames of a traveller. However, we see many countries with many
-  // surnames and authorities that require the names data to be correctly registered
-  // as in the passport of the traveller. In this case you can for example find in
-  // the fist name field "Diana Frances" and in the surname field "Spencer". However
-  // with double barrelled surnames this becomes problematic like in the case of
-  // firstname: "Winnie" Surname: "Madikizela-Mandela". In Spanish tradition, double
-  // surnames are the norm, which are composed of surname of their fathers, followed
-  // by the (first) surname of their mothers. These names are combined without
-  // hyphen for example Julio Iglesias de la Cueva and Enrique Iglesias Preysler.
-  // Conclusively systems that haye a limited number of first name and surname
-  // fields can just use one antry and systems that have multipl can fit John legen
-  // into first_name: John, first_name: Roger, surname: Stephens, surname: Legend.
+  // Many systems use a single field each for all first names and surnames.
+  // However, many countries have multiple given names and family names, and certain
+  // authorities require the names to be registered exactly as they appear in the
+  // traveller's passport.
+  //
+  // For example, a traveller might have "Diana Frances" as the first name and
+  // "Spencer" as the surname, or "Winnie" as the first name and "Madikizela-Mandela"
+  // as the surname (i.e. a double-barrelled surname). In Spanish naming traditions,
+  // it is common to have two surnames: one from the father and one from the mother,
+  // as in "Julio Iglesias de la Cueva" and "Enrique Iglesias Preysler". To handle
+  // these variations, multiple entries are allowed. Systems with a fixed number of
+  // fields may use the first entry for one component and the second entry for the other.
+  // For example:
+  //    first_names: "John", first_names: "Roger"
+  //    surnames: "Stephens", surnames: "Legend"
   repeated string first_names = 3;
   repeated string surnames = 4;
   cmp.types.v2.ContactInfo contact_info = 5;
