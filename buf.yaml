@@ -14,3 +14,5 @@ breaking:
   use:
     - FILE
   ignore_unstable_packages: true
+deps:
+  - buf.build/bufbuild/protovalidate
