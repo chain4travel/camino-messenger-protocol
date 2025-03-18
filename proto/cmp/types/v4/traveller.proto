@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v3;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/date.proto";
@@ -27,7 +27,7 @@ message BasicTraveller {
   }];
 
   // Traveller type from enum below
-  cmp.types.v3.TravellerType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.TravellerType type = 2 [(buf.validate.field).enum = {
     not_in: [0] /* Ensure a valid traveller type is specified (not UNSPECIFIED) */
   }];
 
@@ -55,7 +55,7 @@ message ExtensiveTraveller {
   }];
 
   // Gender, as defined by the enum below.
-  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.GenderType gender = 2 [(buf.validate.field).enum = {
     not_in: [0] /* Ensure a valid gender type is specified (not UNSPECIFIED) */
   }];
 
@@ -112,7 +112,7 @@ enum GenderType {
 // Extra info about the traveller or someone related
 message TravellerExtraInfo {
   // Traveller
-  cmp.types.v3.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
 
   // Traveller first names
   repeated string first_names = 2 [(buf.validate.field).repeated = {
@@ -137,7 +137,7 @@ message TravellerExtraInfo {
   }];
 
   // Relationship with the traveller
-  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum = {
+  cmp.types.v4.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum = {
     not_in: [0] /* Ensure a valid relationship is specified (not UNSPECIFIED) */
   }];
 }
