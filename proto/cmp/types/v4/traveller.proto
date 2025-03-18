@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package cmp.types.v3;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v1/date.proto";
+import "cmp/types/v1/document.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/country.proto";
+
+// Traveller
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/traveller.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/traveller.proto.dot.svg)
+message BasicTraveller {
+  // Guest number, the lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, like baggage.
+  // the traveller_id must be kept consistent between the search request and response.
+  // Conclusively if the request specifies traveller 0 and 1, then the response also refers
+  // to these traveller numbers. If the request specifies 1 and 2 or 10 and 20, then the
+  // response also returns these references.
+  // The traveller_id is specified in each unit and only detailed once in the search response
+  // repeated travellers field
+  int32 traveller_id = 1 [(buf.validate.field).int32 = {
+    gte: 0 // Ensure traveller_id is non-negative
+  }];
+
+  // Traveller type from enum below
+  cmp.types.v3.TravellerType type = 2 [(buf.validate.field).enum = {
+    not_in: [0] /* Ensure a valid traveller type is specified (not UNSPECIFIED) */
+  }];
+
+  // Birthdate
+  cmp.types.v1.Date birthdate = 3 [(buf.validate.field).required = true];
+
+  // The country code for the nationality of the traveller.
+  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true];
+}
+
+// Traveller Type
+enum TravellerType {
+  TRAVELLER_TYPE_UNSPECIFIED = 0;
+  TRAVELLER_TYPE_ADULT = 1;
+  TRAVELLER_TYPE_CHILD = 2;
+  TRAVELLER_TYPE_INFANT = 3;
+  TRAVELLER_TYPE_SENIOR = 4;
+}
+
+message ExtensiveTraveller {
+  // Guest number. The lowest number is the lead-pax. This ID is also used for
+  // referencing services linked to specific participants, such as baggage.
+  int32 traveller_id = 1 [(buf.validate.field).int32 = {
+    gte: 0 // Ensure traveller_id is non-negative
+  }];
+
+  // Gender, as defined by the enum below.
+  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum = {
+    not_in: [0] /* Ensure a valid gender type is specified (not UNSPECIFIED) */
+  }];
+
+  // Many systems use a single field each for all first names and surnames.
+  // However, many countries have multiple given names and family names, and certain
+  // authorities require the names to be registered exactly as they appear in the
+  // traveller's passport.
+  //
+  // For example, a traveller might have "Diana Frances" as the first name and
+  // "Spencer" as the surname, or "Winnie" as the first name and "Madikizela-Mandela"
+  // as the surname (i.e. a double-barrelled surname). In Spanish naming traditions,
+  // it is common to have two surnames: one from the father and one from the mother,
+  // as in "Julio Iglesias de la Cueva" and "Enrique Iglesias Preysler". To handle
+  // these variations, multiple entries are allowed. Systems with a fixed number of
+  // fields may use the first entry for one component and the second entry for the other.
+  // For example for full name "John Roger Stephens Legend":
+  //    first_names: ["John",  "Roger"]
+  //    surnames: ["Stephens", "Legend"]
+  repeated string first_names = 3 [(buf.validate.field).repeated = {
+    min_items: 1 // At least one first name is required
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  repeated string surnames = 4 [(buf.validate.field).repeated = {
+    min_items: 1 // At least one surname is required
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  cmp.types.v2.ContactInfo contact_info = 5 [(buf.validate.field).required = true];
+  repeated cmp.types.v1.Document documents = 6;
+}
+
+// Gender Type
+enum GenderType {
+  GENDER_TYPE_UNSPECIFIED = 0;
+  GENDER_TYPE_MALE = 1;
+  GENDER_TYPE_FEMALE = 2;
+  GENDER_TYPE_NONBINARY = 3;
+  GENDER_TYPE_AGENDER = 4;
+}
+
+// Extra info about the traveller or someone related
+message TravellerExtraInfo {
+  // Traveller
+  cmp.types.v3.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
+
+  // Traveller first names
+  repeated string first_names = 2 [(buf.validate.field).repeated = {
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  // Traveller surnames
+  repeated string surnames = 3 [(buf.validate.field).repeated = {
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  // Relationship with the traveller
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum = {
+    not_in: [0] /* Ensure a valid relationship is specified (not UNSPECIFIED) */
+  }];
+}
+
+// Traveller relationship
+enum TravellerRelationship {
+  TRAVELLER_RELATIONSHIP_UNSPECIFIED = 0;
+  TRAVELLER_RELATIONSHIP_OTHER = 1;
+  TRAVELLER_RELATIONSHIP_FATHER = 2;
+  TRAVELLER_RELATIONSHIP_MOTHER = 3;
+  TRAVELLER_RELATIONSHIP_SON = 4;
+  TRAVELLER_RELATIONSHIP_DAUGHTER = 5;
+  TRAVELLER_RELATIONSHIP_SPOUSE = 6;
+  TRAVELLER_RELATIONSHIP_BROTHER = 7;
+  TRAVELLER_RELATIONSHIP_SISTER = 8;
+  TRAVELLER_RELATIONSHIP_FAMILY_MEMBER = 9;
+  TRAVELLER_RELATIONSHIP_ADOPTED = 10;
+}
