@@ -2,18 +2,30 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v3/token.proto";
 import "google/protobuf/empty.proto";
 
 // See extensive explanation at Price in price.proto
 message Currency {
   oneof currency {
-    cmp.types.v3.IsoCurrency iso_currency = 1;
+    option (buf.validate.oneof).required = true; // at least one field is required
+
+    cmp.types.v3.IsoCurrency iso_currency = 1 [(buf.validate.field).enum.defined_only = true];
 
     cmp.types.v3.TokenCurrency token_currency = 2;
 
     google.protobuf.Empty native_token = 3;
   }
+
+  // FIXME: check
+  option (buf.validate.message) = {
+    cel: {
+      id: "valid_iso_currency"
+      message: "If iso_currency is chosen, it cannot be ISO_CURRENCY_UNSPECIFIED (0)"
+      expression: "!has(this.iso_currency) || this.iso_currency != 0"
+    }
+  };
 }
 
 // Currency list of ISO 4217 standard. See https://en.wikipedia.org/wiki/ISO_4217

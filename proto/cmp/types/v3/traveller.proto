@@ -28,14 +28,26 @@ message BasicTraveller {
 
   // Traveller type from enum below
   cmp.types.v3.TravellerType type = 2 [(buf.validate.field).enum = {
-    not_in: [0] /* Ensure a valid traveller type is specified (not UNSPECIFIED) */
+    /* Only allow defined traveller types */
+    defined_only: true
+    /* Do not allow UNSPECIFIED */
+    not_in: [0]
   }];
 
   // Birthdate
-  cmp.types.v1.Date birthdate = 3 [(buf.validate.field).required = true];
+  cmp.types.v1.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
-  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true];
+  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
+
+  // Message validations
+  option (buf.validate.message) = {
+    cel: {
+      id: "child_requires_birthdate"
+      message: "Birthdate is required when traveller type is CHILD"
+      expression: "this.type == 2 ? has(this.birthdate) : true"
+    }
+  };
 }
 
 // Traveller Type
@@ -55,9 +67,7 @@ message ExtensiveTraveller {
   }];
 
   // Gender, as defined by the enum below.
-  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum = {
-    not_in: [0] /* Ensure a valid gender type is specified (not UNSPECIFIED) */
-  }];
+  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
 
   // Many systems use a single field each for all first names and surnames.
   // However, many countries have multiple given names and family names, and certain
@@ -96,7 +106,7 @@ message ExtensiveTraveller {
     }
   }];
 
-  cmp.types.v2.ContactInfo contact_info = 5 [(buf.validate.field).required = true];
+  cmp.types.v2.ContactInfo contact_info = 5;
   repeated cmp.types.v1.Document documents = 6;
 }
 
@@ -109,10 +119,13 @@ enum GenderType {
   GENDER_TYPE_AGENDER = 4;
 }
 
+// FIXME: We should check the usage of TravellerExtraInfo & ExtensiveTraveller. We
+// have a lot of repeated fields.
+
 // Extra info about the traveller or someone related
 message TravellerExtraInfo {
   // Traveller
-  cmp.types.v3.BasicTraveller basic_traveller = 1;
+  cmp.types.v3.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
 
   // Traveller first names
   repeated string first_names = 2 [(buf.validate.field).repeated = {
@@ -137,9 +150,7 @@ message TravellerExtraInfo {
   }];
 
   // Relationship with the traveller
-  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum = {
-    not_in: [0] /* Ensure a valid relationship is specified (not UNSPECIFIED) */
-  }];
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true]; // Only allow defined traveller types
 }
 
 // Traveller relationship

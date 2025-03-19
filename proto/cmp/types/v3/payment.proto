@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/credit_card.proto";
 
 // Additional payment info message with currently only a single field of
@@ -26,8 +27,8 @@ enum PaymentType {
 
 message OffChainPayment {
   // Payment ID
-  string payment_id = 1;
+  string payment_id = 1 [(buf.validate.field).string.min_len = 1];
 
   // Payment Type. It can be Bank transfer, Credit card, ... etc
-  cmp.types.v3.PaymentType payment_type = 2;
+  cmp.types.v3.PaymentType payment_type = 2 [(buf.validate.field).enum.defined_only = true];
 }

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/content_source.proto";
 import "cmp/types/v1/filter.proto";
 import "cmp/types/v1/language.proto";
@@ -69,7 +70,7 @@ message SearchParameters {
 // This message type is used in every search request to contain the request metadata
 message SearchRequestMetadata {
   // Request unique identifier
-  cmp.types.v1.UUID request_id = 1;
+  cmp.types.v1.UUID request_id = 1 [(buf.validate.field).required = true];
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
@@ -80,7 +81,7 @@ message SearchRequestMetadata {
 message SearchResponseMetadata {
   // Search_id to be used in the Validation Request. This must be a UUID according
   // to RFC 4122
-  cmp.types.v1.UUID search_id = 1;
+  cmp.types.v1.UUID search_id = 1 [(buf.validate.field).required = true];
 
   // Context for Inventory system concepts that need to be included in a search response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
@@ -108,9 +109,9 @@ message SearchResponseMetadata {
 message SearchIdentifier {
   // Search ID that is returned in the search response message in the `metadata``
   // (`SearchResponseMetadata`) field.
-  cmp.types.v1.UUID search_id = 1;
+  cmp.types.v1.UUID search_id = 1 [(buf.validate.field).required = true];
 
-  // Result ID that is that is returned by `result_id` field of the search result
+  // Result ID that is returned by `result_id` field of the search result
   // messages, for example: `AccommodationSearchResult`.
   int32 result_id = 2;
 }

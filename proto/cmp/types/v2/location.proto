@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/measurement.proto";
 import "cmp/types/v2/country.proto";
 
@@ -14,9 +15,16 @@ import "cmp/types/v2/country.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/location.proto.dot.svg)
 message Coordinates {
   // The latitude in degrees. It must be in the range [-90.0, +90.0].
-  double latitude = 1;
+  double latitude = 1 [(buf.validate.field).double = {
+    gte: -90.0
+    lte: 90.0
+  }];
+
   // The longitude in degrees. It must be in the range [-180.0, +180.0].
-  double longitude = 2;
+  double longitude = 2 [(buf.validate.field).double = {
+    gte: -180.0
+    lte: 180.0
+  }];
 }
 
 // Geo Circle
@@ -28,7 +36,7 @@ message GeoCircle {
 // Geo Polygon
 message GeoPolygon {
   // GPS points of the polygon
-  repeated cmp.types.v2.Coordinates points = 1;
+  repeated cmp.types.v2.Coordinates points = 1 [(buf.validate.field).repeated.min_items = 3]; // At least 3 points for a polygon
 }
 
 // Geo Tree
@@ -37,7 +45,7 @@ message GeoPolygon {
 // and would require mapping for every connection. If possible use generic concepts,
 // so that implementations can easily be reused among suppliers.
 message GeoTree {
-  cmp.types.v2.Country country = 1;
+  cmp.types.v2.Country country = 1; // FIXME: required?
   string region = 2;
   string city_or_resort = 3;
 }
@@ -48,8 +56,10 @@ message GeoTree {
 // code types. However, using provider specific codes makes an implementation more
 // unique.
 message LocationCode {
-  string code = 1;
-  cmp.types.v2.LocationCodeType type = 2;
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 3 // FIXME: check, is it high or low?
+  }];
+  cmp.types.v2.LocationCodeType type = 2 [(buf.validate.field).enum.defined_only = true]; // FIXME: Should UNSPECIFIED be allowed?
 }
 
 // Represents a list of `LocationCode` message type. We need to encapsulate repeated
@@ -58,7 +68,7 @@ message LocationCode {
 // Protobuf `oneof` field type does not support repeated member fields. To get the
 // same functionality we need to wrap the needed message type with another message.
 message LocationCodes {
-  repeated cmp.types.v2.LocationCode codes = 1;
+  repeated cmp.types.v2.LocationCode codes = 1 [(buf.validate.field).repeated.min_items = 1];
 }
 
 // Location Code Type

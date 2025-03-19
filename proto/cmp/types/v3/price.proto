@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/price_type.proto";
 import "cmp/types/v3/currency.proto";
 
@@ -18,14 +19,14 @@ import "cmp/types/v3/currency.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
-  cmp.types.v3.Price price = 1;
+  cmp.types.v3.Price price = 1 [(buf.validate.field).required = true];
 
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
   bool binding = 2;
 
   // Description of the product or service this price(element) is valid for.
-  string description = 3;
+  string description = 3; // FIXME: Should we put min_len and max_len to all descriptions?
 
   // If not specified, the default of the boolean is false which means it is
   // included in the price. If set to True, it means that this PriceDetail is only
@@ -80,5 +81,5 @@ message PriceDetail {
 message Price {
   string value = 1;
   int32 decimals = 2;
-  cmp.types.v3.Currency currency = 3;
+  cmp.types.v3.Currency currency = 3 [(buf.validate.field).required = true];
 }

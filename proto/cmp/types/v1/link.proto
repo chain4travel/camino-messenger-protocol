@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 // Link is used to represent websites, social media contact, online check-in url, ... etc
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/link.proto.dot.xs.svg)
@@ -10,8 +12,8 @@ package cmp.types.v1;
 message Link {
   // Link type
   //
-  // Ex: "LG" or "TC"
-  cmp.types.v1.LinkType type = 1;
+  // Ex: "LG" or "TC" FIXME: Examples wrong?
+  cmp.types.v1.LinkType type = 1 [(buf.validate.field).enum.defined_only = true];
 
   // Link description
   //
@@ -21,7 +23,7 @@ message Link {
   // Link reference
   //
   // Ex: "https://api.lyko.tech/v2.1/transfers/ebaa9aed-dbc4-4d51-a41a-336a3c3e9bfc/pdf-terms-and-conditions"
-  string ref = 3;
+  string ref = 3 [(buf.validate.field).string.uri = true];
 }
 
 enum LinkType {

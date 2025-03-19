@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/file.proto.dot.xs.svg)
@@ -9,10 +10,10 @@ import "google/protobuf/timestamp.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/file.proto.dot.svg)
 message File {
   // file name
-  string name = 1;
+  string name = 1; // FIXME: Can this be empty?
 
   // URL
-  string url = 2;
+  string url = 2 [(buf.validate.field).string.uri = true];
 
   // Last modification time
   google.protobuf.Timestamp last_modified = 3;
@@ -21,7 +22,7 @@ message File {
   string description = 4;
 
   // MIME Type
-  cmp.types.v3.MIMEType type = 5;
+  cmp.types.v3.MIMEType type = 5 [(buf.validate.field).enum.defined_only = true];
 
   // File size
   uint64 size = 6;
@@ -32,7 +33,7 @@ message File {
 
 message Image {
   // file
-  cmp.types.v3.File file = 1;
+  cmp.types.v3.File file = 1 [(buf.validate.field).required = true];
 
   // Width
   int32 width = 2;
@@ -44,15 +45,15 @@ message Image {
   string category = 6;
 
   // Image type
-  cmp.types.v3.ImageFormat format = 7;
+  cmp.types.v3.ImageFormat format = 7 [(buf.validate.field).enum.defined_only = true];
 }
 
 message Video {
   // File
-  cmp.types.v3.File file = 1;
+  cmp.types.v3.File file = 1 [(buf.validate.field).required = true];
 
   // Codec of video
-  cmp.types.v3.Codec codec = 2;
+  cmp.types.v3.Codec codec = 2 [(buf.validate.field).enum.defined_only = true];
 
   // Bitrate in kbps
   int32 bitrate = 3;
@@ -66,7 +67,7 @@ message Video {
   int32 height = 6;
 
   // Container format. Ex: "MP4"
-  cmp.types.v3.VideoFormat format = 7;
+  cmp.types.v3.VideoFormat format = 7 [(buf.validate.field).enum.defined_only = true];
 
   // Category
   string category = 8;
@@ -195,10 +196,13 @@ enum MIMEType {
 // File Checksum
 message Checksum {
   // Hash algorithm
-  cmp.types.v3.HashAlgorithm hash_algorithm = 1;
+  cmp.types.v3.HashAlgorithm hash_algorithm = 1 [(buf.validate.field).enum = {
+    not_in: [0]
+    defined_only: true
+  }];
 
   // Hash content
-  string hash_content = 2;
+  string hash_content = 2 [(buf.validate.field).string.min_len = 1];
 }
 
 // Hash algorithms
