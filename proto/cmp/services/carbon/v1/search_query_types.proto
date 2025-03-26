@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package cmp.services.carbon.v1;
+
+import "cmp/services/accommodation/v3/property_types.proto";
+import "cmp/services/carbon/v1/search_parameters.proto";
+import "cmp/services/transport/v3/search_query_types.proto";
+import "cmp/types/v1/datetime_range.proto";
+import "cmp/types/v2/location.proto";
+
+message CarbonSearchQuery {
+  // Integer query ID, unique per search request
+  int32 query_id = 1;
+
+  // Carbon specific search parameters Ex: Specific search parameters like
+  // geo location, meal plan, rate plan and rate rules.
+  cmp.services.carbon.v1.CarbonSearchParameters search_parameters_carbon = 2;
+
+  repeated AccommodationCarbonSearchQuery accommodation = 3;
+  repeated ActivityCarbonSearchQuery activity = 4;
+  repeated TransportCarbonSearchQuery transport = 5;
+  repeated CarRentalCarbonSearchQuery car_rental = 6;
+}
+
+message TransportCarbonSearchQuery {
+  int32 id = 1;
+
+  // End customer booking reference to ensure the NFT for compensation is always
+  // unique
+  string reference = 2;
+
+  cmp.services.transport.v3.QueryTransitEventLocation from = 3;
+
+  cmp.services.transport.v3.QueryTransitEventLocation to = 4;
+
+  // Type of the vehicle. For example; airplane A320, in a transfer it could be a
+  // minibus or a private car.
+  string vehicle_type = 5;
+}
+
+message CarRentalCarbonSearchQuery {
+  int32 id = 1;
+
+  // End customer booking reference to ensure the NFT for compensation is always
+  // unique
+  string reference = 2;
+
+  // Start and end date of the car rental period to calculate the number of days
+  // the car has been used.
+  cmp.types.v1.DateTimeRange period = 3;
+
+  oneof location {
+    cmp.types.v2.GeoTree geo_tree = 4;
+    cmp.types.v2.GeoCircle geo_circle = 5;
+    cmp.types.v2.LocationCode location_code = 6;
+  }
+
+  // Example: "MBMR" (for reference go: https://www.acriss.org/car-codes/)
+  string acriss_code = 7;
+}
+
+message AccommodationCarbonSearchQuery {
+  int32 id = 1;
+
+  // End customer booking reference to ensure the NFT for compensation is always
+  // unique
+  string reference = 2;
+
+  oneof location {
+    cmp.types.v2.Coordinates coordinates = 3;
+    cmp.types.v2.GeoTree geo_tree = 4;
+    cmp.types.v2.GeoCircle geo_circle = 5;
+    cmp.types.v2.LocationCode location_code = 6;
+  }
+
+  // Ex: CATEGORY_RATING_4_5
+  cmp.services.accommodation.v3.CategoryRating category_rating = 7;
+
+  // Ex: CATEGORY_UNIT_PALMS
+  cmp.services.accommodation.v3.CategoryUnit category_unit = 8;
+
+  // Start and end date to calculate the days of the stay in the accommodation
+  cmp.types.v1.DateTimeRange period = 9;
+}
+
+message ActivityCarbonSearchQuery {
+  int32 id = 1;
+
+  // End customer booking reference to ensure the NFT for compensation is always
+  // unique
+  string reference = 2;
+
+  oneof location {
+    cmp.types.v2.Coordinates coordinates = 3;
+    cmp.types.v2.GeoTree geo_tree = 4;
+    cmp.types.v2.GeoCircle geo_circle = 5;
+    cmp.types.v2.LocationCode location_code = 6;
+  }
+
+  // Start and end date to calculate the days of the activity
+  cmp.types.v1.DateTimeRange period = 7;
+
+  // Activity type
+  string type = 8;
+}
