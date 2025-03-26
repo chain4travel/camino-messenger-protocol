@@ -1,3 +1,37 @@
 syntax = "proto3";
 
 package cmp.services.carbon.v1;
+
+import "cmp/types/v3/price.proto";
+
+message CarbonSearchResult {
+  // ID for the search result. This is an increasing number starting at 0 and
+  // increasing by 1 for every search result.
+  //
+  // We expect a search result for CO2 compensation in carbon debits and another
+  // search result if we want to offset carbon compensation by buying trees.
+  int32 result_id = 1;
+
+  // This field represents the query ID associated with the search result.
+  int32 query_id = 2;
+
+  repeated cmp.services.carbon.v1.CarbonCompensation compensation_package = 3;
+
+  // Total Price
+  cmp.types.v3.Price total_price = 4;
+}
+
+message CarbonCompensation {
+  int32 id = 1;
+
+  int32 reference = 2;
+
+  // CO2 compensation amount in kg.
+  float amount = 3;
+
+  // Price
+  cmp.types.v3.Price price = 4;
+
+  // Reference to the calculated compensation
+  string proposal_id = 5;
+}
