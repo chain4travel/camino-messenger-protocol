@@ -59,7 +59,10 @@ message LocationCode {
   string code = 1 [(buf.validate.field).string = {
     min_len: 3 // FIXME: check, is it high or low?
   }];
-  cmp.types.v1.LocationCodeType type = 2 [(buf.validate.field).enum.defined_only = true]; // FIXME: Should UNSPECIFIED be allowed?
+  cmp.types.v1.LocationCodeType type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }]; // FIXME: Should UNSPECIFIED be allowed?
 }
 
 // Represents a list of `LocationCode` message type. We need to encapsulate repeated
@@ -68,7 +71,10 @@ message LocationCode {
 // Protobuf `oneof` field type does not support repeated member fields. To get the
 // same functionality we need to wrap the needed message type with another message.
 message LocationCodes {
-  repeated cmp.types.v1.LocationCode codes = 1 [(buf.validate.field).repeated.min_items = 1];
+  repeated cmp.types.v1.LocationCode codes = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
 }
 
 // Location Code Type

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/file.proto.dot.xs.svg)
@@ -9,10 +10,13 @@ import "google/protobuf/timestamp.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/file.proto.dot.svg)
 message File {
   // file name
-  string name = 1;
+  string name = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 200
+  }];
 
   // URL
-  string url = 2;
+  string url = 2 [(buf.validate.field).string.uri = true];
 
   // Last modification time
   //
@@ -24,32 +28,38 @@ message File {
 
 message Image {
   // file
-  cmp.types.v1.File file = 1;
+  cmp.types.v1.File file = 1 [(buf.validate.field).required = true];
 
   // Width
-  int32 width = 2;
+  int32 width = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Height
-  int32 height = 3;
+  int32 height = 3 [(buf.validate.field).int32 = {gte: 0}];
 
   // Category
   //
   // FIXME: Enum?
-  string category = 6;
+  string category = 6 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 100
+  }];
 }
 
 message Video {
   // File
-  cmp.types.v1.File file = 1;
+  cmp.types.v1.File file = 1 [(buf.validate.field).required = true];
 
   // Codec of video
-  string codec = 2;
+  string codec = 2 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 100
+  }];
 
   // Bitrate in kbps
-  int32 bitrate = 3;
+  int32 bitrate = 3 [(buf.validate.field).int32 = {gte: 0}];
 
   // Framerate
-  int32 framerate = 4;
+  int32 framerate = 4 [(buf.validate.field).int32 = {gte: 0}];
 
   // Aspect ratio as a string with format "int:int". Ex: "16:9"
   string aspect_ratio = 5;

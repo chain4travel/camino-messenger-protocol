@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 // Amenity message type
 //
 // Examples:
@@ -36,7 +38,12 @@ package cmp.types.v1;
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/amenity.proto.dot.svg)
 message Amenity {
   // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
-  cmp.types.v1.AmenityType type = 1;
+  cmp.types.v1.AmenityType type = 1 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
+  }];
 
   // Attributes of the amenity
   map<string, string> attributes = 2;

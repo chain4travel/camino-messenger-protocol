@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 // Date range message that includes start and end datetime as timestamps.
@@ -14,10 +15,10 @@ message DateTimeRange {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp start_datetime = 1;
+  google.protobuf.Timestamp start_datetime = 1 [(buf.validate.field).required = true];
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp end_datetime = 2;
+  google.protobuf.Timestamp end_datetime = 2 [(buf.validate.field).required = true];
 }

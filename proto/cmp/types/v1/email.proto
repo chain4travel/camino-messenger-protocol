@@ -14,7 +14,10 @@ message Email {
 
   cmp.types.v1.EmailType type = 2 [(buf.validate.field).enum.defined_only = true];
 
-  string description = 3;
+  string description = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 500
+  }];
 }
 
 // Email Types

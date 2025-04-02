@@ -2,9 +2,14 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 
 message LocalizedString {
-  string text = 1;
-  cmp.types.v1.Language language = 2;
+  string text = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
+
+  cmp.types.v1.Language language = 2 [(buf.validate.field).enum.defined_only = true];
 }

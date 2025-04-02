@@ -2,14 +2,21 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 // Document type to be used in various messages
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/document.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/document.proto.dot.svg)
 message Document {
-  string document_number = 1;
-  cmp.types.v1.DocumentType document_type = 2;
+  // TODO: Explain the purpose of this field
+  string document_number = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
+
+  cmp.types.v1.DocumentType document_type = 2 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 enum DocumentType {

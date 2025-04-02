@@ -18,7 +18,10 @@ message Link {
   // Link description
   //
   // Ex: "Baggage conditions"
-  string description = 2;
+  string description = 2 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 500
+  }];
 
   // Link reference
   //
