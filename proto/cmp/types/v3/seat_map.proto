@@ -15,7 +15,10 @@ import "google/protobuf/wrappers.proto";
 message Seat {
   // Unique identifier for the seat, such as "12B" or "A26". This identifier must be
   // unique within the section to which this seat belongs.
-  string id = 1 [(buf.validate.field).string.min_len = 1]; // FIXME: check
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   // The location of the seat within the seat map. This can be defined using either
   // a vector (SVG) or bitmap format.
@@ -30,7 +33,7 @@ message Seat {
 
 // List of seats
 message SeatList {
-  repeated cmp.types.v3.Seat seats = 1 [(buf.validate.field).required = true];
+  repeated cmp.types.v3.Seat seats = 1 [(buf.validate.field).repeated = {min_items: 1}];
 }
 
 // A Section represents a distinct area within a venue, which can be defined by
@@ -41,18 +44,23 @@ message SeatList {
 message Section {
   // Level, section or row identifier, e.g., "Upper", "Balcony" or "Section 101",
   // "Orchestra" or "A", "12". Must be unique for each section.
-  string id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   // List of localized names Human readable names of the section
   repeated cmp.types.v1.LocalizedString names = 2;
 
   // Seats in this section.
   oneof seat_info {
+    //option (buf.validate.oneof).required = true; // CHECK: if total_seats=0 is allowed!?
+
     // List of seats in this section.
     cmp.types.v3.SeatList seat_list = 3;
 
     // Total number of seats in this section as an integer.
-    google.protobuf.Int32Value total_seats = 4;
+    google.protobuf.Int32Value total_seats = 4 [(buf.validate.field).int32 = {gte: 1}]; // TODO: Check if this rule makes it impossible to select seat_list from this oneof.
   }
 
   // Image that provides a visual representation of the section's layout, which can
@@ -81,7 +89,10 @@ message Section {
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for the seat map
-  string id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   // A list of sections within the seat map. Each section represents a distinct area
   // within the venue, such as rows, sections, levels, or blocks of seats. This
@@ -118,7 +129,10 @@ message SeatInventory {
 // within the section.
 message SectionInventory {
   // Unique identifier for the section. Must be unique within the seat map.
-  string id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   oneof seat_info {
     option (buf.validate.oneof).required = true;
@@ -146,7 +160,10 @@ message SectionInventory {
 // section and its inner sections.
 message SeatMapInventory {
   // Unique identifier for the seat map that this Inventory refers to.
-  string id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   // A list of seat inventories for each section within the seat map. This field
   // includes detailed seat information and supports nested sections, allowing for a
@@ -205,7 +222,10 @@ message BitmapSeatLocation {
 // used for labeling elements within the SVG.
 message VectorSeatLocation {
   // Label for the seat location in the SVG, e.g., "section-TERRACE-26-34-2-label".
-  string label = 1 [(buf.validate.field).string.min_len = 1];
+  string label = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 }
 
 // Represents the location of a seat within a seat map, which can be defined using

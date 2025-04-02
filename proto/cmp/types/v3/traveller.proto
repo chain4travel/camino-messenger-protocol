@@ -38,14 +38,14 @@ message BasicTraveller {
   cmp.types.v1.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
-  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
+  cmp.types.v2.Country nationality = 4 [(buf.validate.field).enum.defined_only = true];
 
   // Message validations
   option (buf.validate.message) = {
     cel: {
       id: "child_requires_birthdate"
-      message: "Birthdate is required when traveller type is CHILD"
-      expression: "this.type == 2 ? has(this.birthdate) : true"
+      message: "Birthdate is required when traveller type is *not* ADULT"
+      expression: "this.type != 1 ? has(this.birthdate) : true"
     }
   };
 }
@@ -86,6 +86,7 @@ message ExtensiveTraveller {
   //    surnames: ["Stephens", "Legend"]
   repeated string first_names = 3 [(buf.validate.field).repeated = {
     min_items: 1 // At least one first name is required
+    max_items: 10
     items: {
       string: {
         min_len: 1 // Name must not be empty
@@ -97,6 +98,7 @@ message ExtensiveTraveller {
 
   repeated string surnames = 4 [(buf.validate.field).repeated = {
     min_items: 1 // At least one surname is required
+    max_items: 10
     items: {
       string: {
         min_len: 1 // Name must not be empty
