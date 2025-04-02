@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 message PublicKey {
-  string key = 1;
+  string key = 1 [(buf.validate.field).string = {
+    min_len: 32
+    max_len: 500 // FIXME: What types of public keys should we support here?
+  }];
 }

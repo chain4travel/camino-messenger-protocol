@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 // Rate Rule
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/rate.proto.dot.xs.svg)
@@ -11,12 +13,23 @@ message RateRule {
   // RateRule
   //
   // The eneumeration for RateRuleType is meant for uniformed and standardized display.
-  cmp.types.v1.RateRuleType rate_type = 1;
+  cmp.types.v1.RateRuleType rate_type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Rate description and reference. In case of enrichment additional description of the rate type.
   // Please omit if covered with the RateRuleType.
-  string rate_description = 2;
-  string rate_reference = 3;
+  string rate_description = 2 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 500
+  }];
+
+  // TODO: Explain the purpose of this field
+  string rate_reference = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 100
+  }];
 }
 
 // Rate Rule Type
@@ -35,15 +48,24 @@ message RatePlan {
   // Rate plan
   //
   // Supplier Rateplan code
-  string rate_plan_code = 1;
+  string rate_plan_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 100
+  }];
 
   // Rateplan type standardization
-  cmp.types.v1.RatePlanType rate_plan_type = 2;
+  cmp.types.v1.RatePlanType rate_plan_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Rateplan description. In case of enrichment additional description of the rate plan.
   //
   // Ex: "Package Rate". Please omit if covered with the RatePlanType.
-  string rate_plan_description = 3;
+  string rate_plan_description = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 500
+  }];
 }
 
 enum RatePlanType {

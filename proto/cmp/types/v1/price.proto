@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/currency.proto";
 import "cmp/types/v1/price_type.proto";
 
@@ -18,14 +19,17 @@ import "cmp/types/v1/price_type.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
-  cmp.types.v1.Price price = 1;
+  cmp.types.v1.Price price = 1 [(buf.validate.field).required = true];
 
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
   bool binding = 2;
 
   // Description of the product or service this price(element) is valid for.
-  string description = 3;
+  string description = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_len: 500
+  }];
 
   // If not specified, the default of the boolean is false which means it is
   // included in the price. If set to True, it means that this PriceDetail is only
@@ -39,7 +43,10 @@ message PriceDetail {
   cmp.types.v1.PriceBreakdownType type = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated cmp.types.v1.PriceDetail breakdowns = 6;
+  repeated cmp.types.v1.PriceDetail breakdowns = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // ### Simple Price type message Price
@@ -78,7 +85,10 @@ message PriceDetail {
 //  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
 //  10^18 => 1000000000 aCAM
 message Price {
-  string value = 1;
-  int32 decimals = 2;
-  cmp.types.v1.Currency currency = 3;
+  string value = 1 [(buf.validate.field).string = {
+    pattern: "^[0-9]+$"
+    min_len: 1
+  }];
+  int32 decimals = 2 [(buf.validate.field).int32.gte = 0];
+  cmp.types.v1.Currency currency = 3 [(buf.validate.field).required = true];
 }

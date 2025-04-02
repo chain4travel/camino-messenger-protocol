@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
+
 // Product code and type
 //
 // This is being used in requests to specify the a list of products to be included in the reponse
@@ -22,9 +24,12 @@ message ProductCode {
   // Please note that when utilizing licensed codes or formats such as GiataID and DRV
   // GlobalTypes, it is the partners' responsibility to confirm and settle any associated
   // license fees directly with the respective organizations
-  string code = 1;
-  int32 number = 2;
-  cmp.types.v1.ProductCodeType type = 3;
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 0 // FIXME: Is this field required?
+    max_len: 100
+  }];
+  int32 number = 2; // FIXME: Is this field required? gt: 0?
+  cmp.types.v1.ProductCodeType type = 3 [(buf.validate.field).enum.defined_only = true];
 }
 
 // Product Code type
@@ -47,7 +52,7 @@ message SupplierProductCode {
   // the hotel with a ski pass or the hotel with a rent a car. For packages we can imagine
   // an accommodation, the accommodation with a flight and transfer or the accommodation with
   // a flight and a rent a car. As the product descriptions from the supplier will have
-  // different services, it is safe to assume the product codes will be differnt, the product
+  // different services, it is safe to assume the product codes will be different, the product
   // name will be different and the descriptions and amenities as well in the ProductList and
   // ProductInfo messages.
   string supplier_code = 1;
