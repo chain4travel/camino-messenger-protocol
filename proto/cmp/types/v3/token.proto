@@ -21,5 +21,5 @@ message Token {
   cmp.types.v3.EVMAddress contract = 1 [(buf.validate.field).required = true];
 
   // Token ID
-  uint64 token_id = 2 [(buf.validate.field).required = true];
+  uint64 token_id = 2 [(buf.validate.field).uint64 = {gte: 0}];
 }

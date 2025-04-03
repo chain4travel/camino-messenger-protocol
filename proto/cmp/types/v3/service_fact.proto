@@ -26,18 +26,14 @@ message ServiceFact {
   // referenced in the validate request, so that the optional service will be added
   // to the booking.
   string code = 1 [(buf.validate.field).string = {
-    // `min_len` validates that string must have at least N characters.
     min_len: 1
-    // `max_len` validates that string must have at most N characters.
     max_len: 100
   }];
 
   // A description of the service like "business class", "shuttle transfer", "early
   // check-in" etc.
   string description = 2 [(buf.validate.field).string = {
-    // `min_len` validates that string must have at least N characters.
     min_len: 3
-    // `max_len` validates that string must have at most N characters.
     max_len: 500
   }];
 
