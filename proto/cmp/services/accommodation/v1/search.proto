@@ -12,6 +12,7 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v1/search_query_types.proto";
 import "cmp/services/accommodation/v1/search_result_types.proto";
 import "cmp/types/v1/common.proto";
@@ -73,10 +74,10 @@ import "cmp/types/v1/traveller.proto";
 message AccommodationSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
-  cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
-  cmp.types.v1.SearchRequestMetadata metadata = 2;
+  cmp.types.v1.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
   // only the cheapest or all options.
@@ -87,7 +88,7 @@ message AccommodationSearchRequest {
 
   // This field represents a list of search queries that can be used to create
   // multiroom multi location searches.
-  repeated cmp.services.accommodation.v1.AccommodationSearchQuery queries = 4;
+  repeated cmp.services.accommodation.v1.AccommodationSearchQuery queries = 4 [(buf.validate.field).repeated.min_items = 1];
 }
 
 // The `Accommodation Search Response` message type facilitates the response for
@@ -100,10 +101,10 @@ message AccommodationSearchRequest {
 message AccommodationSearchResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
-  cmp.types.v1.SearchResponseMetadata metadata = 2;
+  cmp.types.v1.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, like property,
   repeated cmp.services.accommodation.v1.AccommodationSearchResult results = 3;

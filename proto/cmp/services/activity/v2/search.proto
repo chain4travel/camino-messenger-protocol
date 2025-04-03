@@ -40,6 +40,7 @@ package cmp.services.activity.v2;
 import "cmp/services/activity/v2/search_parameters_types.proto";
 import "cmp/services/activity/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
+import "buf/validate/validate.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/search.proto";
@@ -49,10 +50,10 @@ import "cmp/types/v2/traveller.proto";
 message ActivitySearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address.
-  cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
-  cmp.types.v2.SearchRequestMetadata metadata = 2;
+  cmp.types.v2.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Generic search parameters
   //
@@ -129,7 +130,7 @@ message ActivitySearchRequest {
 message ActivitySearchResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
   //

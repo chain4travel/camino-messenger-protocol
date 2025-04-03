@@ -4,10 +4,11 @@ package cmp.services.claim.v1;
 
 import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
+import "buf/validate/validate.proto";
 
 message ClaimSubmitFormExtraInfoRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Claim ID: Submission ID, Processing ID and Carrier ID
   cmp.services.claim.v1.ClaimId claim_id = 2;
@@ -18,7 +19,7 @@ message ClaimSubmitFormExtraInfoRequest {
 
 message ClaimSubmitFormExtraInfoResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
   cmp.services.claim.v1.ClaimMessageResponse claim_message_response = 2;

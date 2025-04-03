@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.services.seat_map.v2;
 
 import "cmp/types/v1/common.proto";
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v2/seat_map.proto";
 
@@ -13,7 +14,7 @@ message SeatMapRequest {
   // Request header
   //
   // Header contains information about the request
-  cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique identifier for the seat map
   //
@@ -32,7 +33,7 @@ message SeatMapResponse {
   // Response header
   //
   // Header contains information about the response
-  cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Seat map data
   //

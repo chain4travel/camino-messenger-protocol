@@ -4,13 +4,14 @@ package cmp.services.insurance.v1;
 
 import "cmp/services/insurance/v1/insurance_types.proto";
 import "cmp/types/v1/common.proto";
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v2/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 message InsuranceProductInfoRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1;
+  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
@@ -30,7 +31,7 @@ message InsuranceProductInfoRequest {
 
 message InsuranceProductInfoResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1;
+  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Insurances
   repeated cmp.services.insurance.v1.PolicyExtendedInfo insurances = 2;
