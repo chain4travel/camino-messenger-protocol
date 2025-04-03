@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/price.proto";
 
 // Service fact message type
