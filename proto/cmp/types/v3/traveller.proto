@@ -43,8 +43,8 @@ message BasicTraveller {
   // Message validations
   option (buf.validate.message) = {
     cel: {
-      id: "child_requires_birthdate"
-      message: "Birthdate is required when traveller type is *not* ADULT"
+      id: "non_adult_requires_birthdate"
+      message: "Birthdate is required when traveller type is **not** ADULT"
       expression: "this.type != 1 ? has(this.birthdate) : true"
     }
   };
@@ -109,6 +109,7 @@ message ExtensiveTraveller {
   }];
 
   cmp.types.v2.ContactInfo contact_info = 5;
+
   repeated cmp.types.v1.Document documents = 6;
 }
 
