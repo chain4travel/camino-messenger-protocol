@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "cmp/types/v1/common.proto";
 import "buf/validate/validate.proto";
+import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.services.book.v1;
 
-import "cmp/types/v1/common.proto";
 import "buf/validate/validate.proto";
+import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/payment.proto";
 import "cmp/types/v1/price.proto";

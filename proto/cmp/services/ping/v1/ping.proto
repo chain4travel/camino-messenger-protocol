@@ -3,8 +3,8 @@ syntax = "proto3";
 // ### Ping Message
 package cmp.services.ping.v1;
 
-import "cmp/types/v1/common.proto";
 import "buf/validate/validate.proto";
+import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
 // The ping message is designed to test the availability of a provider service and

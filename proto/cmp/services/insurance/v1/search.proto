@@ -19,10 +19,10 @@ syntax = "proto3";
 // This finally leads to an acceptance and pay-out or a denial.
 package cmp.services.insurance.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/services/insurance/v1/search_query_types.proto";
 import "cmp/services/insurance/v1/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "buf/validate/validate.proto";
 import "cmp/types/v2/search.proto";
 import "cmp/types/v2/traveller.proto";
 

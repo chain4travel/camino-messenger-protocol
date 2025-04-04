@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package cmp.services.info.v1;
 
-import "cmp/types/v1/common.proto";
 import "buf/validate/validate.proto";
+import "cmp/types/v1/common.proto";
 import "cmp/types/v1/country.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/filter.proto";

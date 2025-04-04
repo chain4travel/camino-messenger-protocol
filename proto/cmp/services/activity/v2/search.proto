@@ -37,10 +37,10 @@ syntax = "proto3";
 // just like the Transport service. This package is **WIP**.
 package cmp.services.activity.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/services/activity/v2/search_parameters_types.proto";
 import "cmp/services/activity/v2/search_result_types.proto";
 import "cmp/types/v1/common.proto";
-import "buf/validate/validate.proto";
 import "cmp/types/v1/travel_period.proto";
 import "cmp/types/v2/location.proto";
 import "cmp/types/v2/search.proto";

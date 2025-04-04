@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package cmp.services.claim.v1;
 
+import "buf/validate/validate.proto";
 import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
-import "buf/validate/validate.proto";
 import "cmp/types/v3/price.proto";
 import "google/protobuf/timestamp.proto";
 
