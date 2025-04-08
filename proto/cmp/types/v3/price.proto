@@ -77,6 +77,35 @@ message PriceDetail {
 //  Columbus and conclusively to mint the value of 1 nCam must be divided by 10^9 =
 //  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
 //  10^18 => 1000000000 aCAM
+//
+// For the "currency" field, you'll find a "one-of" in the Currency message that gives
+//  the option to specify a traditional fiat currency like EUR, USD, CHF according to
+//  the related ISO codes list, the native currency CAM of the Camino blockchain, or
+//  a digital currency like a stable coin (EURe, EURSH, EURC, USDC,..), a volatile coin
+//  like  for example BTC or AVAX, or even loyalty points like Aventus (AVT) popular
+//  with event tickets, Plutus (PLU) from Visa, AVA from Travala or Blackbird's FLY.
+//
+//  As a Distributor you will look-up the configured currencies you Suppliers support
+//  in their CM Account configuration. If a digital currency or loyalty points are used,
+//  the EVM contract address needs to be supplied in the Search Request. This address
+//  can be found in the Suppliers CM account, but has to be verified to be authentic.
+//
+//  The Distributor acquires the necessary funds and transfer them to their CM Account
+//  in case of on-chain payment.
+//
+//  The Supplier verifies the currency received in the request and if supported,
+//  processes the request to respond in the requested currency. If the requested
+//  currency is not recognized or not supported, a respective error is returned.
+//
+//  The Partner Plugin of both the Distributor and the Supplier is expected to be able
+//  to map a CAM or other digital currency specification with an EVM Contract address
+//  to the respective currency entities in the back office system.
+//
+//  An empty currency specification in the search request is allowed, in which case
+//  the Distributor and Supplier are assumed to have a currency agreement in their
+//  respective back-offices. In that case it is still mandatory for the supplier to
+//  include the currency in each response so that no dispute may arise on the price of
+//  an on-chain transaction.
 message Price {
   string value = 1;
   int32 decimals = 2;
