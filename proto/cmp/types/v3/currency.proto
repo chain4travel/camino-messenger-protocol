@@ -5,7 +5,7 @@ package cmp.types.v3;
 import "cmp/types/v3/token.proto";
 import "google/protobuf/empty.proto";
 
-// See extensive explanation at Price in price.proto
+// See extensive explanation in the Price message in price.proto
 message Currency {
   oneof currency {
     cmp.types.v3.IsoCurrency iso_currency = 1;

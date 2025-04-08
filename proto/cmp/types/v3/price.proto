@@ -44,68 +44,76 @@ message PriceDetail {
 
 // ### Simple Price type message Price
 //
-// Value of the price, this should be an integer converted to string.
+// Value of the price, represented as an integer converted to string.
 //
-// This field is a string intentionally. Because the currency can be a crypto
-// currency, we need a reliable way to represent big integers as most of the crypto
-// currencies have 18 decimals precision.
+// This field is intentionally a string. Since currency can be cryptocurrency
+// with up to 18 decimal places precision, we need a reliable way to represent
+// large integers without precision loss.
 //
 // Definition of the price message: The combination of "value" and "decimals" fields
-// express always the value of the currency, not of the fraction of the currency [
-// ETH not wei, CAM and not aCAM, BTC and not Satoshi, EUR not EUR-Cents ] Be aware
-// that partners should not do rounding with crypto currencies.
+// always expresses the value of the currency itself, not its smallest fraction
+// (e.g., ETH not wei, CAM not aCAM, BTC not Satoshi, EUR not EUR-Cents).
+// Partners should avoid rounding with cryptocurrencies.
 //
-// Example implementations: off-chain payment of 100 € or 100 $: value=10000
-// decimals=2 iso_currency=EUR or USD
+// Example implementations:
 //
-// On-chain payment of 100.65 EURSH value=10065 decimals=2 contract_address=0x...
-//  this currency has 5 decimals on Columbus and conclusively to create the
-//  transaction value, 10065 must be divided by 10^2 = 100.65 EURSH and created in
-//  its smallest fraction by multiplying  100.65 EURSH * 10^5 => 10065000 (example
-//  conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
+// Off-chain payment of 100 € or 100 $:
+// value=10000, decimals=2, iso_currency=EUR or USD
 //
-// On-chain payment of 0.0065 BTC value=65 decimals=4 contract_address=0x... Using
-//  the contract address, we get the decimals decimals and the currency name or
-//  abbreviation: 8 decimals & WBTC Because we see 4 decimals specified in the
-//  message we divide 65 by 10^4 == 0.0065 WBTC (for showing in the front-end UIs)
+// On-chain payment of 100.65 EURSH:
+// value=10065, decimals=2, contract_address=0x...
+// This currency has 5 decimals on Columbus and Camino. To create the transaction value,
+// 10065 must be divided by 10^2 = 100.65 EURSH, then represented in its smallest
+// fraction by multiplying 100.65 EURSH * 10^5 => 10065000
+// (Example conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
 //
-//  This currency has 8 decimals on-chain and conclusively to use the value of
-//  0.0065 for on-chain operations must be converted to big integer as bigint(65) *
-//  10^(8-4) == 650000
+// On-chain payment of 0.0065 BTC:
+// value=65, decimals=4, contract_address=0x...
+// Using the contract address, we retrieve the decimals and currency name: 8 decimals & WBTC
+// With 4 decimals specified in the message, we divide 65 by 10^4 == 0.0065 WBTC
+// (for display in UIs)
 //
-// On-chain payment of 1 nCAM value=1 decimals=9 this currency has denominator 18 on
-//  Columbus and conclusively to mint the value of 1 nCam must be divided by 10^9 =
-//  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
-//  10^18 => 1000000000 aCAM
+// For on-chain operations, this value must be converted to its smallest unit as:
+// bigint(65) * 10^(8-4) == 650000
 //
-// For the "currency" field, you'll find a "one-of" in the Currency message that gives
-//  the option to specify a traditional fiat currency like EUR, USD, CHF according to
-//  the related ISO codes list, the native currency CAM of the Camino blockchain, or
-//  a digital currency like a stable coin (EURe, EURSH, EURC, USDC,..), a volatile coin
-//  like  for example BTC or AVAX, or even loyalty points like Aventus (AVT) popular
-//  with event tickets, Plutus (PLU) from Visa, AVA from Travala or Blackbird's FLY.
+// On-chain payment of 1 nCAM:
+// value=1, decimals=9
+// This currency has denominator 18 on Columbus and Camino. To mint 1 nCam, it must be
+// divided by 10^9 = The currency has denominator 18 on
+// Columbus. To mint 1 nCam, divide by 10^9 = 0.000000001 CAM, then express in its
+// smallest fraction by multiplying 0.000000001 * 10^18 => 1000000000 aCAM
 //
-//  As a Distributor you will look-up the configured currencies you Suppliers support
-//  in their CM Account configuration. If a digital currency or loyalty points are used,
-//  the EVM contract address needs to be supplied in the Search Request. This address
-//  can be found in the Suppliers CM account, but has to be verified to be authentic.
+// For the "currency" field, the Currency message provides a "one-of" option to specify:
+// - Traditional fiat currency (EUR, USD, CHF) according to ISO codes
+// - Native Camino and Columbus blockchain currency (CAM)
+// - ERC20 digital currencies like stablecoins (EURe, EURSH, EURC, USDC), Volatile
+//   coins (BTC, AVAX) and Loyalty points (Aventus/AVT for events, Plutus/PLU from
+//   Visa, AVA from Travala, Blackbird's FLY)
 //
-//  The Distributor acquires the necessary funds and transfer them to their CM Account
-//  in case of on-chain payment.
+// The value of loyalty points must be verifiable or agreed between partners.
+// Partial payment combining loyalty points with fiat or ERC20 currencies in a
+// single transaction is not yet implemented.
 //
-//  The Supplier verifies the currency received in the request and if supported,
-//  processes the request to respond in the requested currency. If the requested
-//  currency is not recognized or not supported, a respective error is returned.
+// As a Distributor, look up the configured currencies your Suppliers support
+// in their CM Account configuration. For ERC20 currencies or loyalty points,
+// the EVM contract address must be supplied in the Search Request. This address
+// can be found in the Supplier's CM account and must be verified as authentic.
 //
-//  The Partner Plugin of both the Distributor and the Supplier is expected to be able
-//  to map a CAM or other digital currency specification with an EVM Contract address
-//  to the respective currency entities in the back office system.
+// Distributors must acquire necessary funds and transfer them to their CM Account
+// for on-chain payments.
 //
-//  An empty currency specification in the search request is allowed, in which case
-//  the Distributor and Supplier are assumed to have a currency agreement in their
-//  respective back-offices. In that case it is still mandatory for the supplier to
-//  include the currency in each response so that no dispute may arise on the price of
-//  an on-chain transaction.
+// Suppliers verify the received currency in the search request and, if supported,
+// process the request to respond in the requested currency. If the currency is
+// not recognized or supported, an error is returned.
+//
+// Partner Plugins for both Distributors and Suppliers should be able to map
+// CAM or other digital currencies with EVM Contract addresses to their respective
+// currency entities in the back office system.
+//
+// An empty currency specification in the search request is permitted, assuming
+// Distributors and Suppliers have a currency agreement in their respective
+// back-offices. In this case, Suppliers must still include the currency in each
+// response to prevent disputes regarding the price of on-chain transactions.
 message Price {
   string value = 1;
   int32 decimals = 2;
