@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -13,7 +13,7 @@ message MealPlan {
   // Meal Plan Code
   //
   // Ex: `MealPlan.MEAL_PLAN_AI` for "All Inclusive" meal plan.
-  cmp.types.v1.MealPlanCode code = 1 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.MealPlanCode code = 1 [(buf.validate.field).enum.defined_only = true];
 
   // Mealplan description. In case of enrichment additional description of the unit code.
   //

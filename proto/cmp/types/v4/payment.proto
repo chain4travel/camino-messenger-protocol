@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package cmp.types.v3;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/credit_card.proto";
+import "cmp/types/v4/credit_card.proto";
 
 // Additional payment info message with currently only a single field of
 // `CreditCard` message type.
@@ -12,7 +12,7 @@ import "cmp/types/v1/credit_card.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/payment.proto.dot.svg)
 message AdditionalPaymentInfo {
-  cmp.types.v1.CreditCard credit_card = 1;
+  cmp.types.v4.CreditCard credit_card = 1;
 }
 
 // Payment Types
@@ -30,5 +30,5 @@ message OffChainPayment {
   string payment_id = 1 [(buf.validate.field).string.min_len = 1];
 
   // Payment Type. It can be Bank transfer, Credit card, ... etc
-  cmp.types.v3.PaymentType payment_type = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.PaymentType payment_type = 2 [(buf.validate.field).enum.defined_only = true];
 }

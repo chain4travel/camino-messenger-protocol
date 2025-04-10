@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -16,7 +16,7 @@ message Document {
     max_len: 100
   }];
 
-  cmp.types.v1.DocumentType document_type = 2 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.types.v4.DocumentType document_type = 2 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 enum DocumentType {

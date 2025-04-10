@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -40,7 +40,7 @@ message Filter {
 
   // A filter type can be set to for example "DRV GlobalTypes", "IATA codes", "UIC
   // codes", "ACRISS codes".
-  cmp.types.v1.FilterType type = 3 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.FilterType type = 3 [(buf.validate.field).enum.defined_only = true];
 
   // Adding a filter value like for example "star_rating=5" or "row_number=1".
   string value = 4;

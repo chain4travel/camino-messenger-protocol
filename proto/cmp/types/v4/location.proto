@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/measurement.proto";
 import "cmp/types/v2/country.proto";
+import "cmp/types/v4/measurement.proto";
 
 // ### Coordinate
 //
@@ -29,14 +29,14 @@ message Coordinates {
 
 // Geo Circle
 message GeoCircle {
-  cmp.types.v2.Coordinates center = 1;
-  cmp.types.v1.Length radius = 2;
+  cmp.types.v4.Coordinates center = 1;
+  cmp.types.v4.Length radius = 2;
 }
 
 // Geo Polygon
 message GeoPolygon {
   // GPS points of the polygon
-  repeated cmp.types.v2.Coordinates points = 1 [(buf.validate.field).repeated.min_items = 3]; // At least 3 points for a polygon
+  repeated cmp.types.v4.Coordinates points = 1 [(buf.validate.field).repeated.min_items = 3]; // At least 3 points for a polygon
 }
 
 // Geo Tree
@@ -59,7 +59,7 @@ message LocationCode {
   string code = 1 [(buf.validate.field).string = {
     min_len: 3 // FIXME: check, is it high or low?
   }];
-  cmp.types.v1.LocationCodeType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.LocationCodeType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }]; // FIXME: Should UNSPECIFIED be allowed?
@@ -71,7 +71,7 @@ message LocationCode {
 // Protobuf `oneof` field type does not support repeated member fields. To get the
 // same functionality we need to wrap the needed message type with another message.
 message LocationCodes {
-  repeated cmp.types.v1.LocationCode codes = 1 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.LocationCode codes = 1 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];

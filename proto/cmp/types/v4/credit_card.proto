@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/date.proto";
+import "cmp/types/v4/date.proto";
 
 message CreditCard {
   // A creditcard should be stored as a string to facilitate cards that have leading
@@ -15,7 +15,7 @@ message CreditCard {
     max_len: 19
   }];
 
-  cmp.types.v1.Date expiration_date = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.Date expiration_date = 2 [(buf.validate.field).required = true];
 
   int32 cvc = 3 [(buf.validate.field).int32 = {
     gte: 0

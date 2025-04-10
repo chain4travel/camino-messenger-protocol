@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -12,7 +12,7 @@ import "buf/validate/validate.proto";
 message Email {
   string address = 1 [(buf.validate.field).string.email = true];
 
-  cmp.types.v2.EmailType type = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.EmailType type = 2 [(buf.validate.field).enum.defined_only = true];
 }
 
 // Email Types

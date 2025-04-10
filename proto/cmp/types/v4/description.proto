@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/types/v1/description.proto";
 import "cmp/types/v1/language.proto";
 
 // Localized description set for a given language

@@ -28,7 +28,7 @@ syntax = "proto3";
 // the trips in this order it is defined that the trip in the middle is a same day return
 // LAS to LAX and not LAX to LAS as then it should have been specified as travelling 15 June
 // LAX->LAS, travelling 15 June LAS->LAX.
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -42,7 +42,7 @@ message Header {
   // for messaging. This will help transparency and troubleshooting when issues
   // arise. For example in case one partner uses bot v9.0.0 and the other partner
   // uses bot v10.0.0, which are incompatible.
-  cmp.types.v1.Version version = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Version version = 1 [(buf.validate.field).required = true];
 
   // End-user wallet ID for personalization purposes
   string end_user_wallet_address = 2;
@@ -64,15 +64,15 @@ message Version {
 }
 
 message RequestHeader {
-  cmp.types.v1.Header base_header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Header base_header = 1 [(buf.validate.field).required = true];
 }
 
 message ResponseHeader {
-  cmp.types.v1.Header base_header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Header base_header = 1 [(buf.validate.field).required = true];
 
   // Status of the response, success or failure
   // THIS FIELD IS MANDATORY
-  cmp.types.v1.StatusType status = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.StatusType status = 2 [(buf.validate.field).enum = {
     // Only allow defined types
     defined_only: true
     // Do not allow UNSPECIFIED
@@ -80,7 +80,7 @@ message ResponseHeader {
   }];
 
   // Alert for more detailed information about the response
-  repeated cmp.types.v1.Alert alerts = 3;
+  repeated cmp.types.v4.Alert alerts = 3;
 }
 
 message Alert {
@@ -89,7 +89,7 @@ message Alert {
     max_len: 500
   }];
 
-  cmp.types.v1.AlertType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.AlertType type = 2 [(buf.validate.field).enum = {
     // Only allow defined types
     defined_only: true
     // Do not allow UNSPECIFIED

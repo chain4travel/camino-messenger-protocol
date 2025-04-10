@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/measurement.proto";
+import "cmp/types/v4/measurement.proto";
 
 // Baggage message type
 //
@@ -14,7 +14,7 @@ message Baggage {
   // Baggage type
   //
   // Enum of allowed baggage types.
-  cmp.types.v1.BaggageType type = 1 [(buf.validate.field).enum = {
+  cmp.types.v4.BaggageType type = 1 [(buf.validate.field).enum = {
     // Only allow defined types
     defined_only: true
     // Do not allow UNSPECIFIED
@@ -25,10 +25,10 @@ message Baggage {
   int32 max_count = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Maximum weight of each of the specified baggage type allowed
-  cmp.types.v1.Weight max_weight = 3;
+  cmp.types.v4.Weight max_weight = 3;
 
   // Maximum length, width and height of the specified baggage type allowed
-  cmp.types.v1.Dimension max_dimension = 4;
+  cmp.types.v4.Dimension max_dimension = 4;
 
   // traveller ID to specify the various types of baggage for each of participants
   // of a trip. If there is just a total of different types of baggage, then it is

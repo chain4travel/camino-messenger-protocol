@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/link.proto";
+import "cmp/types/v4/link.proto";
 
 // Loyalty Program
 //
@@ -19,7 +19,7 @@ message LoyaltyProgram {
     string contract_address = 1;
 
     // Off-chain loyalty program
-    cmp.types.v1.OffChainLoyaltyProgram off_chain_loyalty = 2;
+    cmp.types.v4.OffChainLoyaltyProgram off_chain_loyalty = 2;
   }
 
   // Official name of the loyalty program that might be required to map
@@ -29,7 +29,7 @@ message LoyaltyProgram {
   }];
 
   // Url to the details of the loyalty program
-  cmp.types.v1.Link link = 4;
+  cmp.types.v4.Link link = 4;
 }
 
 message OffChainLoyaltyProgram {

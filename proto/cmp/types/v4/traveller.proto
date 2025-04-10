@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package cmp.types.v3;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/date.proto";
-import "cmp/types/v1/document.proto";
 import "cmp/types/v2/contact_info.proto";
 import "cmp/types/v2/country.proto";
+import "cmp/types/v4/date.proto";
+import "cmp/types/v4/document.proto";
 
 // Traveller
 //
@@ -27,7 +27,7 @@ message BasicTraveller {
   }];
 
   // Traveller type from enum below
-  cmp.types.v3.TravellerType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.TravellerType type = 2 [(buf.validate.field).enum = {
     /* Only allow defined traveller types */
     defined_only: true
     /* Do not allow UNSPECIFIED */
@@ -35,7 +35,7 @@ message BasicTraveller {
   }];
 
   // Birthdate
-  cmp.types.v1.Date birthdate = 3;
+  cmp.types.v4.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
   cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
@@ -67,7 +67,7 @@ message ExtensiveTraveller {
   }];
 
   // Gender, as defined by the enum below.
-  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
+  cmp.types.v4.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
 
   // Many systems use a single field each for all first names and surnames.
   // However, many countries have multiple given names and family names, and certain
@@ -110,7 +110,7 @@ message ExtensiveTraveller {
 
   cmp.types.v2.ContactInfo contact_info = 5;
 
-  repeated cmp.types.v1.Document documents = 6;
+  repeated cmp.types.v4.Document documents = 6;
 }
 
 // Gender Type
@@ -128,7 +128,7 @@ enum GenderType {
 // Extra info about the traveller or someone related
 message TravellerExtraInfo {
   // Traveller
-  cmp.types.v3.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
 
   // Traveller first names
   repeated string first_names = 2 [(buf.validate.field).repeated = {
@@ -153,7 +153,7 @@ message TravellerExtraInfo {
   }];
 
   // Relationship with the traveller
-  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true]; // Only allow defined traveller types
+  cmp.types.v4.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true]; // Only allow defined traveller types
 }
 
 // Traveller relationship

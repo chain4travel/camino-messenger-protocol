@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package cmp.types.v3;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/price_type.proto";
-import "cmp/types/v3/currency.proto";
+import "cmp/types/v4/price_type.proto";
+import "cmp/types/v4/currency.proto";
 
 // ### PriceDetail
 //
@@ -19,7 +19,7 @@ import "cmp/types/v3/currency.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/price.proto.dot.svg)
 message PriceDetail {
   // Principle price element
-  cmp.types.v3.Price price = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Price price = 1 [(buf.validate.field).required = true];
 
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
@@ -40,10 +40,10 @@ message PriceDetail {
   // Type of price breakdown. This is meant to be used in price breakdown
   // definitions, when we want to specify the different elements of how a total
   // price was computed.
-  cmp.types.v1.PriceBreakdownType type = 5;
+  cmp.types.v4.PriceBreakdownType type = 5;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated cmp.types.v3.PriceDetail breakdowns = 6 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.PriceDetail breakdowns = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -90,5 +90,5 @@ message Price {
     min_len: 1
   }];
   int32 decimals = 2 [(buf.validate.field).int32.gte = 0];
-  cmp.types.v3.Currency currency = 3 [(buf.validate.field).required = true];
+  cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }

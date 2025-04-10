@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -29,7 +29,7 @@ message ProductCode {
     max_len: 100
   }];
   int32 number = 2; // FIXME: Is this field required? gt: 0?
-  cmp.types.v1.ProductCodeType type = 3 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.ProductCodeType type = 3 [(buf.validate.field).enum.defined_only = true];
 }
 
 // Product Code type

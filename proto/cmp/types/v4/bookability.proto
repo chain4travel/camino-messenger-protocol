@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/time.proto";
@@ -9,7 +9,7 @@ import "cmp/types/v1/time.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.svg)
 message Bookability {
-  cmp.types.v1.BookabilityType type = 1 [(buf.validate.field).enum = {
+  cmp.types.v4.BookabilityType type = 1 [(buf.validate.field).enum = {
     // Only allow defined types
     defined_only: true
     // Do not allow UNSPECIFIED

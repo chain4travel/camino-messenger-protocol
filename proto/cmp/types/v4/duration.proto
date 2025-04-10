@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -15,6 +15,6 @@ message Duration {
 
 // Duration range message that includes minimum and maximum duration.
 message DurationRange {
-  cmp.types.v1.Duration min_duration = 1 [(buf.validate.field).required = true];
-  cmp.types.v1.Duration max_duration = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.Duration min_duration = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Duration max_duration = 2 [(buf.validate.field).required = true];
 }

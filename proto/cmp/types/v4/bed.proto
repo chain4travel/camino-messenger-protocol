@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -8,7 +8,7 @@ import "buf/validate/validate.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bed.proto.dot.svg)
 message Bed {
-  cmp.types.v1.BedType type = 1 [(buf.validate.field).enum = {
+  cmp.types.v4.BedType type = 1 [(buf.validate.field).enum = {
     // Only allow defined types
     defined_only: true
     // Do not allow UNSPECIFIED

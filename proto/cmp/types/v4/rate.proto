@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -13,7 +13,7 @@ message RateRule {
   // RateRule
   //
   // The eneumeration for RateRuleType is meant for uniformed and standardized display.
-  cmp.types.v1.RateRuleType rate_type = 1 [(buf.validate.field).enum = {
+  cmp.types.v4.RateRuleType rate_type = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
@@ -54,7 +54,7 @@ message RatePlan {
   }];
 
   // Rateplan type standardization
-  cmp.types.v1.RatePlanType rate_plan_type = 2 [(buf.validate.field).enum = {
+  cmp.types.v4.RatePlanType rate_plan_type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];

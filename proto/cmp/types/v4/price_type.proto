@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
@@ -246,19 +246,19 @@ message PriceBreakdownType {
     // Detailing whether the price component is the base (room, flight seat,
     // ticket), a unit or a service surcharge or even a negative application of an
     // offer or a discount.
-    cmp.types.v1.PriceType price_type = 2 [(buf.validate.field).enum = {
+    cmp.types.v4.PriceType price_type = 2 [(buf.validate.field).enum = {
       defined_only: true
       not_in: [0] /* FIXME: Is this OK? */
     }];
 
     // The tax code of the price.
-    cmp.types.v1.TaxCode tax_code = 3 [(buf.validate.field).enum = {
+    cmp.types.v4.TaxCode tax_code = 3 [(buf.validate.field).enum = {
       defined_only: true
       not_in: [0] /* FIXME: Is this OK? */
     }];
 
     // The fee code of the price.
-    cmp.types.v1.FeeCode fee_code = 4 [(buf.validate.field).enum = {
+    cmp.types.v4.FeeCode fee_code = 4 [(buf.validate.field).enum = {
       defined_only: true
       not_in: [0] /* FIXME: Is this OK? */
     }];

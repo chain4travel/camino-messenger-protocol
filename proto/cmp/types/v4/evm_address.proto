@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v3;
+package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
