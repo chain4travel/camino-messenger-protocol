@@ -34,9 +34,9 @@ import "buf/validate/validate.proto";
 
 // ### CM Message Header
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/common.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/common.proto.dot.svg)
 message Header {
   // Bot Version The request and response should always hold the bot version used
   // for messaging. This will help transparency and troubleshooting when issues

@@ -6,9 +6,9 @@ import "buf/validate/validate.proto";
 
 // Phone type to be used in various types as hotels, holiday homes etc.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/phone.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/phone.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/phone.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/phone.proto.dot.svg)
 message Phone {
   string number = 1 [(buf.validate.field).string = {
     min_len: 1 // FIXME: better validation?

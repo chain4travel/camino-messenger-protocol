@@ -8,9 +8,9 @@ import "cmp/types/v4/credit_card.proto";
 // Additional payment info message with currently only a single field of
 // `CreditCard` message type.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/payment.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/payment.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/payment.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/payment.proto.dot.svg)
 message AdditionalPaymentInfo {
   cmp.types.v4.CreditCard credit_card = 1;
 }

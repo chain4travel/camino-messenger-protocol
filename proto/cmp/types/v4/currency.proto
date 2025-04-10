@@ -34,10 +34,10 @@ message Currency {
 // https://github.com/havan/currency-codes/blob/c5229ae1ef0c21b7c0ec0f0b2d439cf93afb390b/data/codes-all.csv
 // excluding the historical entries with withdrawal dates.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/currency.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/currency.proto.dot.xs.svg)
 //
 // [Open Message
-// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/currency.proto.dot.svg)
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/currency.proto.dot.svg)
 enum IsoCurrency {
   // Placeholder or unspecified currency
   ISO_CURRENCY_UNSPECIFIED = 0;

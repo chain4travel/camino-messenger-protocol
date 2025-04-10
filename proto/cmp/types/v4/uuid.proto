@@ -8,9 +8,9 @@ import "buf/validate/validate.proto";
 //
 // This must be a UUID according to RFC 4122 standard.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/uuid.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/uuid.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/uuid.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/uuid.proto.dot.svg)
 message UUID {
   // This ensures that value is a valid [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.2)
   string value = 1 [(buf.validate.field).string.uuid = true];

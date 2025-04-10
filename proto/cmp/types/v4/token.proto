@@ -7,9 +7,9 @@ import "cmp/types/v4/evm_address.proto";
 
 // Token Reference
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/token.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/token.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/token.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/token.proto.dot.svg)
 message TokenCurrency {
   cmp.types.v4.EVMAddress contract_address = 1 [(buf.validate.field).required = true];
 }

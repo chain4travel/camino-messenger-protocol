@@ -33,9 +33,9 @@ import "buf/validate/validate.proto";
 // )
 // ```
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/amenity.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/amenity.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/amenity.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/amenity.proto.dot.svg)
 message Amenity {
   // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
   cmp.types.v4.AmenityType type = 1 [(buf.validate.field).enum = {

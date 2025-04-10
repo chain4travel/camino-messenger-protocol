@@ -27,9 +27,9 @@ import "buf/validate/validate.proto";
 // | Exponent | 2^6       | 2^5        | 2^4      | 2^3        | 2^2       | 2^1       | 2^0      |
 // | Result   | 64        | 32         | 16       | 8          | 4         | 2         | 1        |
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/dow.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/dow.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/dow.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/dow.proto.dot.svg)
 message DayOfWeek {
   int32 dow = 1 [(buf.validate.field).int32 = {
     gte: 0 // Cannot be negative
