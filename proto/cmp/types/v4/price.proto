@@ -3,8 +3,8 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v4/price_type.proto";
 import "cmp/types/v4/currency.proto";
+import "cmp/types/v4/price_type.proto";
 
 // ### PriceDetail
 //
