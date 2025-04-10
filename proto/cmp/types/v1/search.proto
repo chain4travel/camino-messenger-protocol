@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/content_source.proto";
 import "cmp/types/v1/country.proto";
 import "cmp/types/v1/currency.proto";
@@ -41,7 +40,7 @@ message SearchParameters {
   bool include_combinations = 6;
 
   // Limit the maximum number of options included in the response
-  int32 max_options = 7 [(buf.validate.field).int32 = {gte: 0}];
+  int32 max_options = 7;
 
   // Specify the sorting required in the response
   cmp.types.v1.Sorting sorting = 8;
@@ -50,16 +49,13 @@ message SearchParameters {
   // provided here in agreed name/value pairs.
   repeated cmp.types.v1.Filter filters = 9;
 
-  // Free-text field to provide more details for better offer personalization. This
+  // Free-text field to provide more detials for better offer personalization. This
   // field can be provided in combination with a Geo location or as stand-alone.
   // If speech is provided as a recording for better offer personalization, then
   // the recording has to be processed to text.
   // This field can be provided in combination with a Geo location
   // or as stand-alone.
-  string search_description_text = 10 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 1000
-  }];
+  string search_description_text = 10;
 
   // Content source types for this search request to specify which sources to
   // include.
@@ -67,44 +63,29 @@ message SearchParameters {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated cmp.types.v1.ContentSourceType content_source_types = 11 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-    items: {
-      enum: {
-        defined_only: true
-        not_in: [0]
-      }
-    }
-  }];
+  repeated cmp.types.v1.ContentSourceType content_source_types = 11;
 }
 
 // This message type is used in every search request to contain the request metadata
 message SearchRequestMetadata {
   // Request unique identifier
-  cmp.types.v1.UUID request_id = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.UUID request_id = 1;
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string external_session_id = 2;
 }
 
 // This message type is used in every search response to contain the response metadata
 message SearchResponseMetadata {
   // Search_id to be used in the Validation Request. This must be a UUID according
   // to RFC 4122
-  cmp.types.v1.UUID search_id = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.UUID search_id = 1;
 
   // Context for Inventory system concepts that need to be included in a search response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
   // serialized combination of these codes.
-  string context = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string context = 2;
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
@@ -116,26 +97,20 @@ message SearchResponseMetadata {
   repeated string warnings = 4;
 
   // Supplier code from the Inventory System for this search response.
-  string supplier_code = 5 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string supplier_code = 5;
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 6 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string external_session_id = 6;
 }
 
 // Search identifier
 message SearchIdentifier {
   // Search ID that is returned in the search response message in the `metadata``
   // (`SearchResponseMetadata`) field.
-  cmp.types.v1.UUID search_id = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.UUID search_id = 1;
 
   // Result ID that is that is returned by `result_id` field of the search result
   // messages, for example: `AccommodationSearchResult`.
-  int32 result_id = 2 [(buf.validate.field).int32 = {gte: 0}];
+  int32 result_id = 2;
 }

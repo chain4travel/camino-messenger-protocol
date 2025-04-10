@@ -2,22 +2,9 @@ syntax = "proto3";
 
 package cmp.types.v3;
 
-import "buf/validate/validate.proto";
-
 // This represents an EVM transaction ID in hex format
 //
 // Example: "0xeb8d83e82ff50b27ab9287cd84e1b55a39b30377e68203fb74837aa35c489924"
 message EVMTransactionID {
-  string hash = 1 [(buf.validate.field).string = {
-    len: 66 // EVM tx hashes are always 66 chars (including 0x prefix)
-    pattern: "^0x[0-9a-fA-F]{64}$" // Starts with 0x followed by 64 hex characters
-  }];
+  string hash = 1;
 }
-
-// FIXME: Another option, smaller in size but might require pre/post processing (add remove 0x prefix) of the hash
-//
-// message EVMTransactionID {
-//   string hash = 1 [(buf.validate.field).string = {
-//     pattern: "^(0x)?[0-9a-fA-F]{64}$",           // 0x prefix optional
-//   }];
-// }

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/date.proto";
 import "cmp/types/v1/document.proto";
 import "cmp/types/v2/contact_info.proto";
@@ -22,32 +21,16 @@ message BasicTraveller {
   // response also returns these references.
   // The traveller_id is specified in each unit and only detailed once in the search response
   // repeated travellers field
-  int32 traveller_id = 1 [(buf.validate.field).int32 = {
-    gte: 0 // Ensure traveller_id is non-negative
-  }];
+  int32 traveller_id = 1;
 
   // Traveller type from enum below
-  cmp.types.v2.TravellerType type = 2 [(buf.validate.field).enum = {
-    /* Only allow defined traveller types */
-    defined_only: true
-    /* Do not allow UNSPECIFIED */
-    not_in: [0]
-  }];
+  cmp.types.v2.TravellerType type = 2;
 
   // Birthdate
   cmp.types.v1.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
-  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
-
-  // Message validations
-  option (buf.validate.message) = {
-    cel: {
-      id: "non_adult_requires_birthdate"
-      message: "Birthdate is required when traveller type is **not** ADULT"
-      expression: "this.type != 1 ? has(this.birthdate) : true"
-    }
-  };
+  cmp.types.v2.Country nationality = 4;
 }
 
 // Traveller Type
@@ -62,12 +45,10 @@ enum TravellerType {
 message ExtensiveTraveller {
   // Guest number. The lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, such as baggage.
-  int32 traveller_id = 1 [(buf.validate.field).int32 = {
-    gte: 0 // Ensure traveller_id is non-negative
-  }];
+  int32 traveller_id = 1;
 
   // Gender, as defined by the enum below.
-  cmp.types.v2.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
+  cmp.types.v2.GenderType gender = 2;
 
   // Many systems use a single field each for all first names and surnames.
   // However, many countries have multiple given names and family names, and certain
@@ -84,28 +65,9 @@ message ExtensiveTraveller {
   // For example:
   //    first_names: ["John",  "Roger"]
   //    surnames: ["Stephens", "Legend"]
-  repeated string first_names = 3 [(buf.validate.field).repeated = {
-    min_items: 1 // At least one first name is required
-    items: {
-      string: {
-        min_len: 1 // Name must not be empty
-        max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
-      }
-    }
-  }];
-  repeated string surnames = 4 [(buf.validate.field).repeated = {
-    min_items: 1 // At least one surname is required
-    items: {
-      string: {
-        min_len: 1 // Name must not be empty
-        max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
-      }
-    }
-  }];
+  repeated string first_names = 3;
+  repeated string surnames = 4;
   cmp.types.v2.ContactInfo contact_info = 5;
-
   repeated cmp.types.v1.Document documents = 6;
 }
 

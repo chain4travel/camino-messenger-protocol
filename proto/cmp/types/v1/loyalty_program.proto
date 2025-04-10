@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/link.proto";
 
 // Loyalty Program
@@ -13,20 +12,14 @@ import "cmp/types/v1/link.proto";
 message LoyaltyProgram {
   // In case of an off-chain loyalty program, this is the id of the loyalty program in loyalty system
   oneof loyalty_id {
-    option (buf.validate.oneof).required = true;
-
     // Smart Contract address of a loyalty program
     string contract_address = 1;
-
     // Off-chain loyalty program
     cmp.types.v1.OffChainLoyaltyProgram off_chain_loyalty = 2;
   }
 
   // Official name of the loyalty program that might be required to map
-  string name = 3 [(buf.validate.field).string = {
-    min_len: 0 // FIXME: Is it required?
-    max_len: 100
-  }];
+  string name = 3;
 
   // Url to the details of the loyalty program
   cmp.types.v1.Link link = 4;
@@ -34,14 +27,7 @@ message LoyaltyProgram {
 
 message OffChainLoyaltyProgram {
   // Identification number/code for the loyalty program
-  string id = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_len: 100
-  }];
-
+  string id = 1;
   // Membership ID
-  string membership_id = 2 [(buf.validate.field).string = {
-    min_len: 1
-    max_len: 100
-  }];
+  string membership_id = 2;
 }

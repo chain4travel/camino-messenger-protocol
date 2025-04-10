@@ -2,31 +2,21 @@ syntax = "proto3";
 
 package cmp.types.v2;
 
-import "buf/validate/validate.proto";
-
 // Token Reference
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/token.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/token.proto.dot.svg)
 message TokenCurrency {
-  string contract_address = 1 [(buf.validate.field).string = {
-    len: 42 // Typical EVM address length is 42 characters (0x + 40 hex chars). Enforce exact length
-    prefix: "0x" // Must start with 0x
-    pattern: "^0x[0-9a-fA-F]{40}$" // 0x followed by exactly 40 hex characters
-  }];
+  string contract_address = 1;
 }
 
 // Booking token that represents to access to the service
 message Token {
   // Contract address of the smart contract or the address of natively implemented
   // asset on-chain.
-  string contract = 1 [(buf.validate.field).string = {
-    len: 42 // Typical EVM address length is 42 characters (0x + 40 hex chars). Enforce exact length
-    prefix: "0x" // Must start with 0x
-    pattern: "^0x[0-9a-fA-F]{40}$" // 0x followed by exactly 40 hex characters
-  }];
+  string contract = 1;
 
   // Token ID
-  uint64 token_id = 2 [(buf.validate.field).uint64 = {gte: 0}];
+  uint64 token_id = 2;
 }

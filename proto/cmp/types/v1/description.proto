@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 
 // Localized description set for a given language
@@ -12,25 +11,16 @@ import "cmp/types/v1/language.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/description.proto.dot.svg)
 message LocalizedDescriptionSet {
   // Language
-  cmp.types.v1.Language language = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.Language language = 1;
 
   // Description set
-  repeated cmp.types.v1.Description descriptions = 2 [(buf.validate.field).repeated = {
-    min_items: 1
-    max_items: 100
-  }];
+  repeated cmp.types.v1.Description descriptions = 2;
 }
 
 message Description {
   // Category of the description like "General", "Amenities".
-  string category = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_len: 100
-  }];
+  string category = 1;
 
   // Description text
-  string text = 2 [(buf.validate.field).string = {
-    min_len: 1
-    max_len: 1000 // FIXME: Is this enough for descriptions?
-  }];
+  string text = 2;
 }

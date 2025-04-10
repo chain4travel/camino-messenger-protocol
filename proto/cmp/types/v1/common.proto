@@ -30,8 +30,6 @@ syntax = "proto3";
 // LAX->LAS, travelling 15 June LAS->LAX.
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
-
 // ### CM Message Header
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/common.proto.dot.xs.svg)
@@ -42,7 +40,7 @@ message Header {
   // for messaging. This will help transparency and troubleshooting when issues
   // arise. For example in case one partner uses bot v9.0.0 and the other partner
   // uses bot v10.0.0, which are incompatible.
-  cmp.types.v1.Version version = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.Version version = 1;
 
   // End-user wallet ID for personalization purposes
   string end_user_wallet_address = 2;
@@ -52,49 +50,35 @@ message Header {
 message Version {
   // API Version, major version which can have breaking changes (semantic
   // versioning)
-  int32 major = 1 [(buf.validate.field).int32 = {gte: 0}];
+  int32 major = 1;
 
   // API Version, minor version has backwards compatible new features (semantic
   // versioning)
-  int32 minor = 2 [(buf.validate.field).int32 = {gte: 0}];
+  int32 minor = 2;
 
   // API Version, patch version small improvements and bugfixes (semantic
   // versioning)
-  int32 patch = 3 [(buf.validate.field).int32 = {gte: 0}];
+  int32 patch = 3;
 }
 
 message RequestHeader {
-  cmp.types.v1.Header base_header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.Header base_header = 1;
 }
 
 message ResponseHeader {
-  cmp.types.v1.Header base_header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.Header base_header = 1;
 
   // Status of the response, success or failure
   // THIS FIELD IS MANDATORY
-  cmp.types.v1.StatusType status = 2 [(buf.validate.field).enum = {
-    // Only allow defined types
-    defined_only: true
-    // Do not allow UNSPECIFIED
-    not_in: [0]
-  }];
+  cmp.types.v1.StatusType status = 2;
 
   // Alert for more detailed information about the response
   repeated cmp.types.v1.Alert alerts = 3;
 }
 
 message Alert {
-  string message = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_len: 500
-  }];
-
-  cmp.types.v1.AlertType type = 2 [(buf.validate.field).enum = {
-    // Only allow defined types
-    defined_only: true
-    // Do not allow UNSPECIFIED
-    not_in: [0]
-  }];
+  string message = 1;
+  cmp.types.v1.AlertType type = 2;
 }
 
 enum AlertType {

@@ -2,23 +2,13 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/date.proto";
 
 message CreditCard {
   // A creditcard should be stored as a string to facilitate cards that have leading
   // zeros, but also to allow for spaces or dashes for readability, like for example
   // 1234-5678-9876-5432
-  string number = 1 [(buf.validate.field).string = {
-    // FIXME: Comment above says it should allow spaces and dashes. Is that a good idea? Why not enforce a common format?
-    min_len: 12
-    max_len: 19
-  }];
-
-  cmp.types.v1.Date expiration_date = 2 [(buf.validate.field).required = true];
-
-  int32 cvc = 3 [(buf.validate.field).int32 = {
-    gte: 0
-    lte: 999 // FIXME: check
-  }];
+  string number = 1;
+  cmp.types.v1.Date expiration_date = 2;
+  int32 cvc = 3;
 }

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/price.proto";
 import "google/protobuf/timestamp.proto";
@@ -26,7 +25,7 @@ message ChangePolicy {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp free_change_upto = 2 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp free_change_upto = 2;
 
   // Full change policies can be complex and extensive. Inclusion in search
   // messages should be avoided because they substantially increase the message size
@@ -40,10 +39,7 @@ message ChangePolicy {
   // before consumption, they must be computed to one uniform format of date ranges
   // and fees, related to the start DateTime of the service or product
   // delivery.
-  repeated cmp.types.v1.ChangeType change_types = 3 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
+  repeated cmp.types.v1.ChangeType change_types = 3;
 }
 
 // ChangeTypes Different change types can be defined depending on what part of a
@@ -54,26 +50,20 @@ message ChangePolicy {
 // service.
 message ChangeType {
   // Change type code in case the change type has a specific code
-  string code = 1 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string code = 1;
 
   // When this change type and date is valid. Either use the start and end date of
   // the DateTime range
-  cmp.types.v1.DateTimeRange datetime_range = 2 [(buf.validate.field).required = true];
+  cmp.types.v1.DateTimeRange datetime_range = 2;
 
   // change fee. Percentages of the selling price are purposely not allowed for
   // simplicity and uniformity.
-  cmp.types.v1.Price value = 3 [(buf.validate.field).required = true];
+  cmp.types.v1.Price value = 3;
 
   // Description of the change in a non computable manner. The Description should be
   // in the language that is specified in the request.
-  string description = 4 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 500
-  }];
+  string description = 4;
 
   // For which rateplan the policy is valid.
-  repeated string valid_for_rate_plans = 5; // FIXME: check if this is required
+  repeated string valid_for_rate_plans = 5;
 }

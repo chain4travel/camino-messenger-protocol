@@ -2,16 +2,13 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/token.proto";
 import "google/protobuf/empty.proto";
 
 // See extensive explanation at Price in price.proto
 message Currency {
   oneof currency {
-    option (buf.validate.oneof).required = true;
-
-    cmp.types.v1.IsoCurrency iso_currency = 1 [(buf.validate.field).enum.defined_only = true];
+    cmp.types.v1.IsoCurrency iso_currency = 1;
 
     cmp.types.v1.TokenCurrency token_currency = 2;
 

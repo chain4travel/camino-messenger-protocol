@@ -2,33 +2,19 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/time.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bookability.proto.dot.svg)
 message Bookability {
-  cmp.types.v1.BookabilityType type = 1 [(buf.validate.field).enum = {
-    // Only allow defined types
-    defined_only: true
-    // Do not allow UNSPECIFIED
-    not_in: [0]
-  }];
+  cmp.types.v1.BookabilityType type = 1;
 
   // In case of a bookable=on_request status, a confirmation time should be given by
   // the supplier. The supplier is to confirm the on-request booking with that
   // specified time. If confirmation id not provided, the booking is to be
   // considered "rejected".
   cmp.types.v1.Time confirmation_time = 2;
-
-  option (buf.validate.message) = {
-    cel: {
-      id: "bookability.confirmation_time_required_for_on_request"
-      message: "confirmation_time must be provided when bookable status is ON_REQUEST"
-      expression: "this.type == 2 ? has(this.confirmation_time) : true"
-    }
-  };
 }
 
 enum BookabilityType {
