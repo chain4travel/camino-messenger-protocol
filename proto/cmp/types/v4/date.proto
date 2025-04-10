@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "buf/validate/validate.proto";
+
+// Date message that includes year, month and day as integers.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/date.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/date.proto.dot.svg)
+message Date {
+  int32 year = 1 [(buf.validate.field).int32 = {
+    gte: 0
+    lte: 9999
+  }];
+
+  int32 month = 2 [(buf.validate.field).int32 = {
+    gte: 1
+    lte: 12
+  }];
+
+  int32 day = 3 [(buf.validate.field).int32 = {
+    gte: 1
+    lte: 31
+  }];
+}

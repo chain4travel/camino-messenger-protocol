@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package cmp.types.v1;
+
+import "buf/validate/validate.proto";
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bed.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/bed.proto.dot.svg)
+message Bed {
+  cmp.types.v1.BedType type = 1 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
+  }];
+
+  int32 count = 2 [(buf.validate.field).int32 = {gte: 0}];
+}
+
+enum BedType {
+  BED_TYPE_UNSPECIFIED = 0;
+  BED_TYPE_SINGLE = 1;
+  BED_TYPE_DOUBLE = 2;
+  BED_TYPE_KING = 3;
+}
