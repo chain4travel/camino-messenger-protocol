@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v3;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/date.proto";
@@ -10,9 +10,9 @@ import "cmp/types/v2/country.proto";
 
 // Traveller
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/traveller.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/traveller.proto.dot.svg)
 message BasicTraveller {
   // Guest number, the lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, like baggage.
@@ -27,7 +27,7 @@ message BasicTraveller {
   }];
 
   // Traveller type from enum below
-  cmp.types.v2.TravellerType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v3.TravellerType type = 2 [(buf.validate.field).enum = {
     /* Only allow defined traveller types */
     defined_only: true
     /* Do not allow UNSPECIFIED */
@@ -67,7 +67,7 @@ message ExtensiveTraveller {
   }];
 
   // Gender, as defined by the enum below.
-  cmp.types.v2.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
+  cmp.types.v3.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
 
   // Many systems use a single field each for all first names and surnames.
   // However, many countries have multiple given names and family names, and certain
@@ -108,7 +108,7 @@ message ExtensiveTraveller {
     }
   }];
 
-  cmp.types.v1.ContactInfo contact_info = 5;
+  cmp.types.v2.ContactInfo contact_info = 5;
 
   repeated cmp.types.v1.Document documents = 6;
 }
@@ -120,4 +120,53 @@ enum GenderType {
   GENDER_TYPE_FEMALE = 2;
   GENDER_TYPE_NONBINARY = 3;
   GENDER_TYPE_AGENDER = 4;
+}
+
+// FIXME: We should check the usage of TravellerExtraInfo & ExtensiveTraveller. We
+// have a lot of repeated fields.
+
+// Extra info about the traveller or someone related
+message TravellerExtraInfo {
+  // Traveller
+  cmp.types.v3.BasicTraveller basic_traveller = 1 [(buf.validate.field).required = true];
+
+  // Traveller first names
+  repeated string first_names = 2 [(buf.validate.field).repeated = {
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  // Traveller surnames
+  repeated string surnames = 3 [(buf.validate.field).repeated = {
+    items: {
+      string: {
+        min_len: 1 // Name must not be empty
+        max_len: 50 // Reasonable maximum length for a name
+        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
+      }
+    }
+  }];
+
+  // Relationship with the traveller
+  cmp.types.v3.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true]; // Only allow defined traveller types
+}
+
+// Traveller relationship
+enum TravellerRelationship {
+  TRAVELLER_RELATIONSHIP_UNSPECIFIED = 0;
+  TRAVELLER_RELATIONSHIP_OTHER = 1;
+  TRAVELLER_RELATIONSHIP_FATHER = 2;
+  TRAVELLER_RELATIONSHIP_MOTHER = 3;
+  TRAVELLER_RELATIONSHIP_SON = 4;
+  TRAVELLER_RELATIONSHIP_DAUGHTER = 5;
+  TRAVELLER_RELATIONSHIP_SPOUSE = 6;
+  TRAVELLER_RELATIONSHIP_BROTHER = 7;
+  TRAVELLER_RELATIONSHIP_SISTER = 8;
+  TRAVELLER_RELATIONSHIP_FAMILY_MEMBER = 9;
+  TRAVELLER_RELATIONSHIP_ADOPTED = 10;
 }

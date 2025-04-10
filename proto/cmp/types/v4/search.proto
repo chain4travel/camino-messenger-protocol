@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v3;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/content_source.proto";
@@ -9,17 +9,17 @@ import "cmp/types/v1/language.proto";
 import "cmp/types/v1/sorting.proto";
 import "cmp/types/v1/uuid.proto";
 import "cmp/types/v2/country.proto";
-import "cmp/types/v2/currency.proto";
+import "cmp/types/v3/currency.proto";
 
 // Search parameters for the search requests
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/search.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/search.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/search.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/search.proto.dot.svg)
 message SearchParameters {
   // Requested currency in which prices have to be supplied in the response
   // according to ISO 4217 Currency codes
-  cmp.types.v2.Currency currency = 1;
+  cmp.types.v3.Currency currency = 1;
 
   // Requested language setting for descriptions in the response according to ISO
   // 639-1 Language codes
@@ -135,7 +135,7 @@ message SearchIdentifier {
   // (`SearchResponseMetadata`) field.
   cmp.types.v1.UUID search_id = 1 [(buf.validate.field).required = true];
 
-  // Result ID that is that is returned by `result_id` field of the search result
+  // Result ID that is returned by `result_id` field of the search result
   // messages, for example: `AccommodationSearchResult`.
   int32 result_id = 2 [(buf.validate.field).int32 = {gte: 0}];
 }

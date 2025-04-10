@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package cmp.types.v2;
+package cmp.types.v3;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/description.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/localized.proto";
-import "cmp/types/v2/file.proto";
+import "cmp/types/v3/file.proto";
 import "google/protobuf/wrappers.proto";
 
 // Represents a basic seat with optional features and restrictions. Each seat has a
@@ -22,18 +22,18 @@ message Seat {
 
   // The location of the seat within the seat map. This can be defined using either
   // a vector (SVG) or bitmap format.
-  cmp.types.v2.SeatLocation location = 2;
+  cmp.types.v3.SeatLocation location = 2;
 
   // Static features associated with the seat, such as type, amenities, etc.
-  repeated cmp.types.v2.LocalizedSeatAttributeSet features = 3;
+  repeated cmp.types.v3.LocalizedSeatAttributeSet features = 3;
 
   // Restrictions associated with the seat, such as age limits or accessibility requirements.
-  repeated cmp.types.v2.LocalizedSeatAttributeSet restrictions = 4;
+  repeated cmp.types.v3.LocalizedSeatAttributeSet restrictions = 4;
 }
 
 // List of seats
 message SeatList {
-  repeated cmp.types.v2.Seat seats = 1 [(buf.validate.field).repeated = {min_items: 1}];
+  repeated cmp.types.v3.Seat seats = 1 [(buf.validate.field).repeated = {min_items: 1}];
 }
 
 // A Section represents a distinct area within a venue, which can be defined by
@@ -57,7 +57,7 @@ message Section {
     //option (buf.validate.oneof).required = true; // FIXME: CHECK: if total_seats=0 is allowed!?
 
     // List of seats in this section.
-    cmp.types.v2.SeatList seat_list = 3;
+    cmp.types.v3.SeatList seat_list = 3;
 
     // Total number of seats in this section as an integer.
     google.protobuf.Int32Value total_seats = 4 [(buf.validate.field).int32 = {gte: 1}]; // TODO: Check if this rule makes it impossible to select seat_list from this oneof.
@@ -69,7 +69,7 @@ message Section {
   // If set, it is assumed that this image is used for locating seats within the
   // section. (the `SeatLocation` message type in the `Seat` message above is
   // used to represent seat location inside this image).
-  cmp.types.v2.Image image = 5;
+  cmp.types.v3.Image image = 5;
 
   // A list of localized descriptions for this section, useful for providing
   // information about features and amenities in multiple languages.
@@ -77,16 +77,16 @@ message Section {
 
   // Nested sections within this section, allowing for a hierarchical representation
   // of the venue's layout.
-  repeated cmp.types.v2.Section sections = 7;
+  repeated cmp.types.v3.Section sections = 7;
 }
 
 // High-level representation of a seat map, which defines the layout and structure
 // of seating within a venue. This message provides a comprehensive overview of the
 // seating arrangement, including sections, images, and localized descriptions.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/seat_map.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/seat_map.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/seat_map.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for the seat map
   string id = 1 [(buf.validate.field).string = {
@@ -98,12 +98,12 @@ message SeatMap {
   // within the venue, such as rows, sections, levels, or blocks of seats. This
   // field is recursive, allowing for hierarchical structuring of the seating
   // layout.
-  repeated cmp.types.v2.Section sections = 2;
+  repeated cmp.types.v3.Section sections = 2;
 
   // Image that provides a visual representation of the seat map, illustrating the
   // location and arrangement of seats. The image can be in vector format (SVG) or
   // bitmap format.
-  cmp.types.v2.Image image = 3;
+  cmp.types.v3.Image image = 3;
 
   // A list of localized descriptions for the seat map. This can be used to describe
   // features and amenities of the seating arrangement in multiple languages.
@@ -138,7 +138,7 @@ message SectionInventory {
     option (buf.validate.oneof).required = true;
 
     // List of individual seat IDs within this section.
-    cmp.types.v2.SeatInventory seat_list = 2;
+    cmp.types.v3.SeatInventory seat_list = 2;
 
     // Seat count in this section, representing either the remaining seats for
     // availability purposes or the selected seats for seat selection messages.
@@ -151,7 +151,7 @@ message SectionInventory {
   // Nested inner sections within this section, allowing for a hierarchical
   // representation of seat inventory. Each inner section can have its own seat
   // information and further nested sections.
-  repeated cmp.types.v2.SectionInventory sections = 4;
+  repeated cmp.types.v3.SectionInventory sections = 4;
 }
 
 // Represents the inventory of seats for a specific seat map, used for both seat
@@ -168,7 +168,7 @@ message SeatMapInventory {
   // A list of seat inventories for each section within the seat map. This field
   // includes detailed seat information and supports nested sections, allowing for a
   // hierarchical representation of the seating arrangement.
-  repeated cmp.types.v2.SectionInventory sections = 2 [(buf.validate.field).repeated.min_items = 1]; // Minimum 1 section inventory FIXME: check
+  repeated cmp.types.v3.SectionInventory sections = 2 [(buf.validate.field).repeated.min_items = 1]; // Minimum 1 section inventory FIXME: check
 }
 
 message LocalizedSeatAttributeSet {
@@ -177,8 +177,9 @@ message LocalizedSeatAttributeSet {
     not_in: [0]
   }];
 
-  repeated cmp.types.v2.SeatAttribute seat_attributes = 2 [(buf.validate.field).repeated.min_items = 1];
+  repeated cmp.types.v3.SeatAttribute seat_attributes = 2 [(buf.validate.field).repeated.min_items = 1];
 }
+
 /* Helper messages */
 
 // Defines a static attribute for a seat, which can be used for specifying features
@@ -217,7 +218,7 @@ enum AreaType {
 // is generally used with the HTML `area` tag to specify clickable regions.
 message BitmapSeatLocation {
   // The type of area defining the seat location, such as rectangle, circle, or polygon.
-  cmp.types.v2.AreaType type = 1 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v3.AreaType type = 1 [(buf.validate.field).enum.defined_only = true];
 
   // Coordinates defining the area. The format of the coordinates depends on the
   // area type (e.g., top-left (x1,y1) and bottom-right (x2,y2) corners for a
@@ -244,9 +245,9 @@ message SeatLocation {
     option (buf.validate.oneof).required = true;
 
     // Vector-based seat location, used for SVG maps.
-    cmp.types.v2.VectorSeatLocation vector = 1;
+    cmp.types.v3.VectorSeatLocation vector = 1;
 
     // Bitmap-based seat location, used for HTML image maps.
-    cmp.types.v2.BitmapSeatLocation bitmap = 2;
+    cmp.types.v3.BitmapSeatLocation bitmap = 2;
   }
 }
