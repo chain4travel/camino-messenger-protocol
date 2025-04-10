@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v4/contact_info.proto";
 
 // ### Company message type
 //
@@ -18,5 +18,5 @@ message Company {
   string legal_name = 2 [(buf.validate.field).string.min_len = 1]; // FIXME: check length
 
   // Contact Info
-  cmp.types.v2.ContactInfo contact_info = 3;
+  cmp.types.v4.ContactInfo contact_info = 3;
 }

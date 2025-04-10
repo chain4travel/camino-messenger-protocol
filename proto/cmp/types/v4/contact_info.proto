@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "cmp/types/v4/address.proto";
+import "cmp/types/v4/email.proto";
+import "cmp/types/v4/link.proto";
+import "cmp/types/v4/phone.proto";
+
+// Contact Info for general use.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.svg)
+message ContactInfo {
+  // Address
+  repeated cmp.types.v4.Address address = 1;
+
+  // Phones
+  repeated cmp.types.v4.Phone phones = 2;
+
+  // Emails
+  repeated cmp.types.v4.Email emails = 3;
+
+  // Websites
+  repeated cmp.types.v4.Link links = 4;
+}

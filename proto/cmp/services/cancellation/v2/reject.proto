@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v2;
+
+import "cmp/services/cancellation/v1/reason.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/evm_transaction.proto";
+
+// Request for cancellation rejection
+message RejectCancellationRequest {
+  // Request Header
+  cmp.types.v4.RequestHeader header = 1;
+
+  // Booking token ID this request is for
+  uint64 token_id = 2;
+
+  // Reason for rejection
+  cmp.services.cancellation.v1.RejectionReason reason = 3;
+}
+
+// Response for cancellation rejection
+message RejectCancellationResponse {
+  // Response Header
+  cmp.types.v4.ResponseHeader header = 1;
+
+  // Transaction ID on-chain for the cancellation proposal rejection.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of the rejection
+  // 2. Validate the rejection reason
+  // 3. Prevent disputes about the cancellation
+  cmp.types.v4.EVMTransactionID transaction_id = 2;
+}

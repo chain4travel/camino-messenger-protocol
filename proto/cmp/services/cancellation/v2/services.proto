@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+// ## Cancellation Services
+//
+// The Cancellation services are used for any message type or vertical.
+// There is an imperative workflow, which has the purpose to register the
+// cancellation request moment, followed by both parties agreeing the cancellation
+// is possible and the refund amount on the blockchain, so that there will be no
+// disputes after a cancellation is executed.
+//
+// There is a detailed explanation on [Camino Docs](https://docs.camino.network/camino-messenger/cancellation)
+package cmp.services.cancellation.v2;
+
+import "cmp/services/cancellation/v2/accept.proto";
+import "cmp/services/cancellation/v2/counter.proto";
+import "cmp/services/cancellation/v2/finalize.proto";
+import "cmp/services/cancellation/v2/initiate.proto";
+import "cmp/services/cancellation/v2/reject.proto";
+import "cmp/services/cancellation/v2/withdraw.proto";
+
+// Cancellation service
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/services.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:local on-chain:true
+service CancellationService {
+  // Initiate cancellation
+  rpc InitiateCancellation(InitiateCancellationRequest) returns (InitiateCancellationResponse) {}
+
+  // Accept cancellation
+  rpc AcceptCancellation(AcceptCancellationRequest) returns (AcceptCancellationResponse) {}
+
+  // Reject cancellation
+  rpc RejectCancellation(RejectCancellationRequest) returns (RejectCancellationResponse) {}
+
+  // Counter cancellation
+  rpc CounterCancellation(CounterCancellationRequest) returns (CounterCancellationResponse) {}
+
+  // Withdraw cancellation proposal
+  rpc WithdrawCancellation(WithdrawCancellationRequest) returns (WithdrawCancellationResponse) {}
+
+  // Finalize countered cancellation
+  rpc FinalizeCancellation(FinalizeCancellationRequest) returns (FinalizeCancellationResponse) {}
+}

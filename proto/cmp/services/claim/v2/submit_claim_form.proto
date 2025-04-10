@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package cmp.services.claim.v2;
+
+import "cmp/services/claim/v2/claim_types.proto";
+import "cmp/types/v4/common.proto";
+
+message ClaimSubmitFormRequest {
+  // Message header
+  cmp.types.v4.RequestHeader header = 1;
+
+  // Claim form
+  cmp.services.claim.v2.ClaimForm form = 2;
+}
+
+message ClaimSubmitFormResponse {
+  // Message header
+  cmp.types.v4.ResponseHeader header = 1;
+
+  // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
+  cmp.services.claim.v2.ClaimMessageResponse claim_message_response = 2;
+
+  // Claim Status
+  cmp.services.claim.v2.ClaimStatus status = 3;
+}

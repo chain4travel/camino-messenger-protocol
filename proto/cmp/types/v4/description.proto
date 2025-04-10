@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/description.proto";
 import "cmp/types/v1/language.proto";
 
 // Localized description set for a given language
@@ -16,7 +15,7 @@ message LocalizedDescriptionSet {
   cmp.types.v1.Language language = 1 [(buf.validate.field).required = true];
 
   // Description set
-  repeated cmp.types.v1.Description descriptions = 2 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Description descriptions = 2 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];

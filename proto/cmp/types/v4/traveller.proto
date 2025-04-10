@@ -3,8 +3,8 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v2/contact_info.proto";
 import "cmp/types/v2/country.proto";
+import "cmp/types/v4/contact_info.proto";
 import "cmp/types/v4/date.proto";
 import "cmp/types/v4/document.proto";
 
@@ -108,7 +108,7 @@ message ExtensiveTraveller {
     }
   }];
 
-  cmp.types.v2.ContactInfo contact_info = 5;
+  cmp.types.v4.ContactInfo contact_info = 5;
 
   repeated cmp.types.v4.Document documents = 6;
 }
