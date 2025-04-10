@@ -1,18 +1,18 @@
 syntax = "proto3";
 
-package cmp.types.v1;
+package cmp.types.v2;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/contact_info.proto";
-import "cmp/types/v1/country.proto";
 import "cmp/types/v1/date.proto";
 import "cmp/types/v1/document.proto";
+import "cmp/types/v2/contact_info.proto";
+import "cmp/types/v2/country.proto";
 
 // Traveller
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/traveller.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/traveller.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/traveller.proto.dot.svg)
 message BasicTraveller {
   // Guest number, the lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, like baggage.
@@ -27,7 +27,7 @@ message BasicTraveller {
   }];
 
   // Traveller type from enum below
-  cmp.types.v1.TravellerType type = 2 [(buf.validate.field).enum = {
+  cmp.types.v2.TravellerType type = 2 [(buf.validate.field).enum = {
     /* Only allow defined traveller types */
     defined_only: true
     /* Do not allow UNSPECIFIED */
@@ -38,7 +38,7 @@ message BasicTraveller {
   cmp.types.v1.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
-  cmp.types.v1.Country nationality = 4 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
 
   // Message validations
   option (buf.validate.message) = {
@@ -67,7 +67,7 @@ message ExtensiveTraveller {
   }];
 
   // Gender, as defined by the enum below.
-  cmp.types.v1.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
+  cmp.types.v2.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.
 
   // Many systems use a single field each for all first names and surnames.
   // However, many countries have multiple given names and family names, and certain
