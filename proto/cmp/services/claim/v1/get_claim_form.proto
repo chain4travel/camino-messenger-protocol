@@ -2,14 +2,13 @@ syntax = "proto3";
 
 package cmp.services.claim.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 
 message ClaimGetFormRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Languages to be included in the response for descriptions. Null means all
   // available languages.
@@ -25,7 +24,7 @@ message ClaimGetFormRequest {
 
 message ClaimGetFormResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Claim form
   cmp.services.claim.v1.ClaimForm form = 2;

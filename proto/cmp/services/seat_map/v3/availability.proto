@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.seat_map.v3;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/search.proto";
 import "cmp/types/v3/seat_map.proto";
@@ -14,7 +13,7 @@ message SeatMapAvailabilityRequest {
   // Message header
   //
   // Header contains information about the request
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Required. The identifier of the seat map.
   oneof identifier {
@@ -40,7 +39,7 @@ message SeatMapAvailabilityResponse {
   // Message header
   //
   // Header contains information about the response
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Required. Seat map availability data.
   cmp.types.v3.SeatMapInventory seat_map = 2;

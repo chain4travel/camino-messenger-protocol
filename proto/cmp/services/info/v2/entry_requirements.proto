@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.info.v2;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/datetime_range.proto";
 import "cmp/types/v1/filter.proto";
@@ -24,7 +23,7 @@ service CountryEntryRequirementsService {
 
 message CountryEntryRequirementsRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Departure country
   cmp.types.v2.Country departure = 2;
@@ -62,7 +61,7 @@ message CountryEntryRequirementsRequest {
 
 message CountryEntryRequirementsResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // This must be a UUID according to RFC 4122
   cmp.types.v1.UUID response_id = 2;

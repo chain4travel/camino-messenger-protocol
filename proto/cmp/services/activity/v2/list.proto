@@ -2,14 +2,13 @@ syntax = "proto3";
 
 package cmp.services.activity.v2;
 
-import "buf/validate/validate.proto";
 import "cmp/services/activity/v2/activity_types.proto";
 import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
 message ActivityProductListRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Only respond with the products that are modified after this timestamp
   //
@@ -21,7 +20,7 @@ message ActivityProductListRequest {
 
 message ActivityProductListResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Activities
   repeated cmp.services.activity.v2.Activity activities = 2;

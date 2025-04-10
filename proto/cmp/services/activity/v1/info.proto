@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.activity.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/services/activity/v1/activity_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
@@ -11,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 
 message ActivityProductInfoRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
@@ -31,7 +30,7 @@ message ActivityProductInfoRequest {
 
 message ActivityProductInfoResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Activities
   repeated cmp.services.activity.v1.ActivityExtendedInfo activities = 2;

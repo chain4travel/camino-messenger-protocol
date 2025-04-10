@@ -2,14 +2,13 @@ syntax = "proto3";
 
 package cmp.services.transport.v3;
 
-import "buf/validate/validate.proto";
 import "cmp/services/transport/v3/trip_types.proto";
 import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
 message TransportProductListRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Only respond with the products that are modified after this timestamp
   //
@@ -21,7 +20,7 @@ message TransportProductListRequest {
 
 message TransportProductListResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Trips
   repeated cmp.services.transport.v3.TripBasic trips = 2;

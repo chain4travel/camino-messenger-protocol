@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.book.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/payment.proto";
@@ -15,7 +14,7 @@ import "google/protobuf/timestamp.proto";
 
 message MintRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // This must be a UUID according to RFC 4122
   cmp.types.v1.UUID validation_id = 2;
@@ -48,7 +47,7 @@ message MintRequest {
 
 message MintResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // This must be a UUID according to RFC 4122
   cmp.types.v1.UUID mint_id = 2;

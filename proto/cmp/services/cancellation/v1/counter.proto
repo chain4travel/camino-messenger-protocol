@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
@@ -11,7 +10,7 @@ import "cmp/types/v3/price.proto";
 // Request for countering a cancellation
 message CounterCancellationRequest {
   // Request header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Booking token ID this request is for
   uint64 token_id = 2;
@@ -26,7 +25,7 @@ message CounterCancellationRequest {
 // Response for countering a cancellation
 message CounterCancellationResponse {
   // Response header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Transaction ID on-chain for the cancellation proposal counter.
   // This transaction can be verified on-chain to:

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
@@ -14,7 +13,7 @@ import "cmp/types/v3/price.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.svg)
 message AcceptCancellationRequest {
   // Request header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Booking token ID this request is for
   uint64 token_id = 2;
@@ -28,7 +27,7 @@ message AcceptCancellationRequest {
 // Response for cancellation acceptance
 message AcceptCancellationResponse {
   // Response header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Transaction ID on-chain for the cancellation proposal acceptance.
   // This transaction can be verified on-chain to:

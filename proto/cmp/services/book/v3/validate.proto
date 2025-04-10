@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.book.v3;
 
-import "buf/validate/validate.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/uuid.proto";
 import "cmp/types/v3/price.proto";
@@ -11,7 +10,7 @@ import "cmp/types/v3/seat_map.proto";
 
 message ValidationRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Validation object
   cmp.services.book.v3.ValidationObject validation_object = 2;
@@ -19,7 +18,7 @@ message ValidationRequest {
 
 message ValidationResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Unique validation ID. This must be a UUID according to RFC 4122
   cmp.types.v1.UUID validation_id = 2;

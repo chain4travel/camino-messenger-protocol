@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v2;
 
-import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v2/property_types.proto";
 import "cmp/types/v1/common.proto";
 import "cmp/types/v1/language.proto";
@@ -11,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 
 message AccommodationProductInfoRequest {
   // Message header
-  cmp.types.v1.RequestHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.RequestHeader header = 1;
 
   // Only respond with the products that are modified after this timestamp
   //
@@ -24,12 +23,12 @@ message AccommodationProductInfoRequest {
   repeated cmp.types.v1.Language languages = 3;
 
   // Property codes
-  repeated cmp.types.v2.SupplierProductCode supplier_codes = 4 [(buf.validate.field).repeated.min_items = 1];
+  repeated cmp.types.v2.SupplierProductCode supplier_codes = 4;
 }
 
 message AccommodationProductInfoResponse {
   // Message header
-  cmp.types.v1.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.ResponseHeader header = 1;
 
   // Product list: Properties
   repeated cmp.services.accommodation.v2.PropertyExtendedInfo properties = 2;
