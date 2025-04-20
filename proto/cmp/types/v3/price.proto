@@ -109,11 +109,6 @@ message PriceDetail {
 // Partner Plugins for both Distributors and Suppliers should be able to map
 // CAM or other digital currencies with EVM Contract addresses to their respective
 // currency entities in the back office system.
-//
-// An empty currency specification in the search request is permitted, assuming
-// Distributors and Suppliers have a currency agreement in their respective
-// back-offices. In this case, Suppliers must still include the currency in each
-// response to prevent disputes regarding the price of on-chain transactions.
 message Price {
   string value = 1;
   int32 decimals = 2;
