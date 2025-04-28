@@ -17,8 +17,8 @@ import "google/protobuf/timestamp.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/cancel_policy.proto.dot.svg)
 message CancelPolicy {
-  // the search result is refundable or not (at least one cancellation penalty exists
-  // that provides a (partial) refund)
+  // The search result is refundable or not (at least one cancellation penalty exists
+  // that provides a (partial) refund.
   bool refundable = 1;
 
   // The "free cancellation upto" identifier specifies the exact DateTime upto when
@@ -27,7 +27,7 @@ message CancelPolicy {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp free_cancellation_upto = 2 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp free_cancellation_upto = 2;
 
   // Full cancellation policies can be complex and extensive. Inclusion in search
   // messages should be avoided because they substantially increase the message size
@@ -43,7 +43,7 @@ message CancelPolicy {
   // delivery.
   repeated cmp.types.v4.CancelPenalty cancel_penalties = 3 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 10
   }];
 }
 
@@ -59,10 +59,7 @@ message CancelPenalty {
 
   // Description of the penalty in a non computable manner. The Description should
   // be in the language that is specified in the request.
-  string description = 3 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 500
-  }];
+  string description = 3 [(buf.validate.field).string = {max_bytes: 512}];
 
   // For which rateplan the penalty is valid.
   repeated string valid_for_rate_plans = 4; // FIXME: check if this is required

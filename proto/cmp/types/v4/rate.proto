@@ -22,13 +22,13 @@ message RateRule {
   // Please omit if covered with the RateRuleType.
   string rate_description = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512
   }];
 
   // TODO: Explain the purpose of this field
   string rate_reference = 3 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 100
+    max_bytes: 512
   }];
 }
 
@@ -50,7 +50,7 @@ message RatePlan {
   // Supplier Rateplan code
   string rate_plan_code = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // Rateplan type standardization
@@ -64,7 +64,7 @@ message RatePlan {
   // Ex: "Package Rate". Please omit if covered with the RatePlanType.
   string rate_plan_description = 3 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512
   }];
 }
 

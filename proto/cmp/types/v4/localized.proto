@@ -8,8 +8,11 @@ import "cmp/types/v1/language.proto";
 message LocalizedString {
   string text = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
-  cmp.types.v1.Language language = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v1.Language language = 2 [(buf.validate.field).enum = {
+    defined_only: true /* Only allow defined enum values */
+    not_in: [0] /* Exclude unspecified value */
+  }];
 }

@@ -25,7 +25,7 @@ message Description {
   // Category of the description like "General", "Amenities".
   string category = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // Description text

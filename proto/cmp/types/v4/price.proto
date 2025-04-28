@@ -28,7 +28,7 @@ message PriceDetail {
   // Description of the product or service this price(element) is valid for.
   string description = 3 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512
   }];
 
   // If not specified, the default of the boolean is false which means it is
@@ -88,7 +88,10 @@ message Price {
   string value = 1 [(buf.validate.field).string = {
     pattern: "^[0-9]+$"
     min_len: 1
+    max_len: 78 // Max digits for uint256
   }];
+
   int32 decimals = 2 [(buf.validate.field).int32.gte = 0];
+
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }

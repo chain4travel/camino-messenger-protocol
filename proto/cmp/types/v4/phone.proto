@@ -15,11 +15,17 @@ message Phone {
     max_len: 100
   }];
 
-  cmp.types.v4.PhoneType type = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.PhoneType type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+    // FIXME: Should we do this ^^^? People can still select OTHER from the enum (if
+    // it's there) but why not use UNSPECIFIED as "other"? Is there any value in
+    // having "other" on wire?
+  }];
 
   string description = 3 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512
   }];
 }
 

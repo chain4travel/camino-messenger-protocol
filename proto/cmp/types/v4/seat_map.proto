@@ -17,7 +17,7 @@ message Seat {
   // unique within the section to which this seat belongs.
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // The location of the seat within the seat map. This can be defined using either
@@ -25,15 +25,22 @@ message Seat {
   cmp.types.v4.SeatLocation location = 2;
 
   // Static features associated with the seat, such as type, amenities, etc.
-  repeated cmp.types.v4.LocalizedSeatAttributeSet features = 3;
+  repeated cmp.types.v4.LocalizedSeatAttributeSet features = 3 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Restrictions associated with the seat, such as age limits or accessibility requirements.
-  repeated cmp.types.v4.LocalizedSeatAttributeSet restrictions = 4;
+  repeated cmp.types.v4.LocalizedSeatAttributeSet restrictions = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 // List of seats
 message SeatList {
-  repeated cmp.types.v4.Seat seats = 1 [(buf.validate.field).repeated = {min_items: 1}];
+  repeated cmp.types.v4.Seat seats = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
 }
 
 // A Section represents a distinct area within a venue, which can be defined by
@@ -46,11 +53,13 @@ message Section {
   // "Orchestra" or "A", "12". Must be unique for each section.
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // List of localized names Human readable names of the section
-  repeated cmp.types.v4.LocalizedString names = 2;
+  repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Seats in this section.
   oneof seat_info {
@@ -73,11 +82,15 @@ message Section {
 
   // A list of localized descriptions for this section, useful for providing
   // information about features and amenities in multiple languages.
-  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 6;
+  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 6 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Nested sections within this section, allowing for a hierarchical representation
   // of the venue's layout.
-  repeated cmp.types.v4.Section sections = 7;
+  repeated cmp.types.v4.Section sections = 7 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 // High-level representation of a seat map, which defines the layout and structure
@@ -91,14 +104,16 @@ message SeatMap {
   // Unique identifier for the seat map
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // A list of sections within the seat map. Each section represents a distinct area
   // within the venue, such as rows, sections, levels, or blocks of seats. This
   // field is recursive, allowing for hierarchical structuring of the seating
   // layout.
-  repeated cmp.types.v4.Section sections = 2;
+  repeated cmp.types.v4.Section sections = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Image that provides a visual representation of the seat map, illustrating the
   // location and arrangement of seats. The image can be in vector format (SVG) or
@@ -108,7 +123,9 @@ message SeatMap {
   // A list of localized descriptions for the seat map. This can be used to describe
   // features and amenities of the seating arrangement in multiple languages.
   // The languages should match those requested in SeatMapRequest
-  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 4;
+  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 // List of _only_ seat IDs to be used for seat selection or seat availability.
@@ -116,6 +133,7 @@ message SeatInventory {
   // List of seat IDs
   repeated string ids = 1 [(buf.validate.field).repeated = {// FIXME: check
     min_items: 1
+    max_items: 100 // FIXME: This feels like it might need to be bigger?
     unique: true
     items: {
       string: {min_len: 1}
@@ -131,7 +149,7 @@ message SectionInventory {
   // Unique identifier for the section. Must be unique within the seat map.
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   oneof seat_info {
@@ -151,7 +169,9 @@ message SectionInventory {
   // Nested inner sections within this section, allowing for a hierarchical
   // representation of seat inventory. Each inner section can have its own seat
   // information and further nested sections.
-  repeated cmp.types.v4.SectionInventory sections = 4;
+  repeated cmp.types.v4.SectionInventory sections = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 // Represents the inventory of seats for a specific seat map, used for both seat
@@ -162,13 +182,16 @@ message SeatMapInventory {
   // Unique identifier for the seat map that this Inventory refers to.
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // A list of seat inventories for each section within the seat map. This field
   // includes detailed seat information and supports nested sections, allowing for a
   // hierarchical representation of the seating arrangement.
-  repeated cmp.types.v4.SectionInventory sections = 2 [(buf.validate.field).repeated.min_items = 1]; // Minimum 1 section inventory FIXME: check
+  repeated cmp.types.v4.SectionInventory sections = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }]; // Minimum 1 section inventory FIXME: check max value!
 }
 
 message LocalizedSeatAttributeSet {
@@ -177,7 +200,10 @@ message LocalizedSeatAttributeSet {
     not_in: [0]
   }];
 
-  repeated cmp.types.v4.SeatAttribute seat_attributes = 2 [(buf.validate.field).repeated.min_items = 1];
+  repeated cmp.types.v4.SeatAttribute seat_attributes = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
 }
 
 /* Helper messages */
@@ -191,13 +217,13 @@ message SeatAttribute {
   // Name of the attribute, used to identify the feature or restriction.
   string name = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }]; // FIXME: check
 
   // Human-readable description of the attribute, providing more details about its purpose.
   string description = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500 // FIXME: check
+    max_bytes: 512 // FIXME: check
   }];
 
   // Integer value associated with the attribute, which can be used for conditions
@@ -218,12 +244,18 @@ enum AreaType {
 // is generally used with the HTML `area` tag to specify clickable regions.
 message BitmapSeatLocation {
   // The type of area defining the seat location, such as rectangle, circle, or polygon.
-  cmp.types.v4.AreaType type = 1 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.AreaType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Coordinates defining the area. The format of the coordinates depends on the
   // area type (e.g., top-left (x1,y1) and bottom-right (x2,y2) corners for a
   // rectangle: `<area shape="rect" coords="x1,y1,x2,y2"`).
-  repeated int32 coordinates = 2 [(buf.validate.field).repeated.min_items = 1]; // FIXME: We need more examples above!
+  repeated int32 coordinates = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }]; // FIXME: We need more examples above!
 }
 
 // Defines the location of a seat within an SVG (vector) seat map. This is typically
@@ -232,7 +264,7 @@ message VectorSeatLocation {
   // Label for the seat location in the SVG, e.g., "section-TERRACE-26-34-2-label".
   string label = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 }
 

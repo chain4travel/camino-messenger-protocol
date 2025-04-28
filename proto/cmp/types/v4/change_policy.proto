@@ -54,10 +54,7 @@ message ChangePolicy {
 // service.
 message ChangeType {
   // Change type code in case the change type has a specific code
-  string code = 1 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 100
-  }];
+  string code = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // When this change type and date is valid. Either use the start and end date of
   // the DateTime range
@@ -69,11 +66,14 @@ message ChangeType {
 
   // Description of the change in a non computable manner. The Description should be
   // in the language that is specified in the request.
-  string description = 4 [(buf.validate.field).string = {
-    min_len: 0
-    max_len: 500
-  }];
+  string description = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // For which rateplan the policy is valid.
-  repeated string valid_for_rate_plans = 5; // FIXME: check if this is required
+  repeated string valid_for_rate_plans = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }]; // FIXME: check if this is required
 }

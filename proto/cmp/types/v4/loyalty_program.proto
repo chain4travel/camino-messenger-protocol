@@ -16,7 +16,7 @@ message LoyaltyProgram {
     option (buf.validate.oneof).required = true;
 
     // Smart Contract address of a loyalty program
-    string contract_address = 1;
+    string contract_address = 1 [(buf.validate.field).string.max_bytes = 512];
 
     // Off-chain loyalty program
     cmp.types.v4.OffChainLoyaltyProgram off_chain_loyalty = 2;
@@ -25,7 +25,7 @@ message LoyaltyProgram {
   // Official name of the loyalty program that might be required to map
   string name = 3 [(buf.validate.field).string = {
     min_len: 0 // FIXME: Is it required?
-    max_len: 100
+    max_bytes: 512
   }];
 
   // Url to the details of the loyalty program
@@ -36,12 +36,12 @@ message OffChainLoyaltyProgram {
   // Identification number/code for the loyalty program
   string id = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // Membership ID
   string membership_id = 2 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 }

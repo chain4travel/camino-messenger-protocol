@@ -15,7 +15,7 @@ message Bed {
     not_in: [0]
   }];
 
-  int32 count = 2 [(buf.validate.field).int32 = {gte: 0}];
+  int32 count = 2 [(buf.validate.field).int32 = {gt: 0}];
 }
 
 enum BedType {

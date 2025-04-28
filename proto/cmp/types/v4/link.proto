@@ -20,7 +20,7 @@ message Link {
   // Ex: "Baggage conditions"
   string description = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512 // FIXME: Is it enough for a desc here?
   }];
 
   // Link reference

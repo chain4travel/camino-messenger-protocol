@@ -46,7 +46,7 @@ message Amenity {
   }];
 
   // Attributes of the amenity
-  map<string, string> attributes = 2;
+  map<string, string> attributes = 2; // FIXME: Needs discussion
 }
 
 enum AmenityType {

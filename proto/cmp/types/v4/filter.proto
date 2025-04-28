@@ -29,13 +29,13 @@ message Filter {
   // using their unique codes
   string code = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // Description of the filter code.
   string description = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 500
+    max_bytes: 512 // FIXME: Is it enough for a desc here?
   }];
 
   // A filter type can be set to for example "DRV GlobalTypes", "IATA codes", "UIC
@@ -43,7 +43,7 @@ message Filter {
   cmp.types.v4.FilterType type = 3 [(buf.validate.field).enum.defined_only = true];
 
   // Adding a filter value like for example "star_rating=5" or "row_number=1".
-  string value = 4;
+  string value = 4 [(buf.validate.field).string.max_bytes = 512];
 }
 
 // Filter Type

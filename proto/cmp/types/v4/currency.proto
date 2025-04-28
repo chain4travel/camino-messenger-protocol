@@ -11,21 +11,15 @@ message Currency {
   oneof currency {
     option (buf.validate.oneof).required = true; // at least one field is required
 
-    cmp.types.v4.IsoCurrency iso_currency = 1 [(buf.validate.field).enum.defined_only = true];
+    cmp.types.v4.IsoCurrency iso_currency = 1 [(buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }];
 
     cmp.types.v4.TokenCurrency token_currency = 2;
 
     google.protobuf.Empty native_token = 3;
   }
-
-  // FIXME: check
-  option (buf.validate.message) = {
-    cel: {
-      id: "valid_iso_currency"
-      message: "If iso_currency is chosen, it cannot be ISO_CURRENCY_UNSPECIFIED (0)"
-      expression: "!has(this.iso_currency) || this.iso_currency != 0"
-    }
-  };
 }
 
 // Currency list of ISO 4217 standard. See https://en.wikipedia.org/wiki/ISO_4217

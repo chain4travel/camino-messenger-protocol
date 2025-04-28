@@ -24,9 +24,9 @@ message Bookability {
 
   option (buf.validate.message) = {
     cel: {
-      id: "bookability.confirmation_time_required_for_on_request"
-      message: "confirmation_time must be provided when bookable status is ON_REQUEST"
-      expression: "this.type == 2 ? has(this.confirmation_time) : true"
+      id: "bookability.no_confirmation_time_when_available"
+      message: "confirmation_time must NOT be provided when bookable status is AVAILABLE"
+      expression: "this.type == 1 ? has(this.confirmation_time) : false"
     }
   };
 }

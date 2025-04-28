@@ -31,6 +31,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/types/v4/evm_address.proto";
 
 // ### CM Message Header
 //
@@ -45,7 +46,7 @@ message Header {
   cmp.types.v4.Version version = 1 [(buf.validate.field).required = true];
 
   // End-user wallet ID for personalization purposes
-  string end_user_wallet_address = 2;
+  cmp.types.v4.EVMAddress end_user_wallet_address = 2;
 }
 
 // Version
@@ -80,13 +81,15 @@ message ResponseHeader {
   }];
 
   // Alert for more detailed information about the response
-  repeated cmp.types.v4.Alert alerts = 3;
+  repeated cmp.types.v4.Alert alerts = 3 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 message Alert {
   string message = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 500
+    max_bytes: 512
   }];
 
   cmp.types.v4.AlertType type = 2 [(buf.validate.field).enum = {

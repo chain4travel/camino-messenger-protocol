@@ -27,14 +27,14 @@ message ServiceFact {
   // to the booking.
   string code = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 100
+    max_bytes: 512
   }];
 
   // A description of the service like "business class", "shuttle transfer", "early
   // check-in" etc.
   string description = 2 [(buf.validate.field).string = {
     min_len: 3
-    max_len: 500
+    max_bytes: 512
   }];
 
   // the price and price breakdown of the service

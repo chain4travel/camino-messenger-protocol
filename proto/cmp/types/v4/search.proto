@@ -19,7 +19,7 @@ import "cmp/types/v4/uuid.proto";
 message SearchParameters {
   // Requested currency in which prices have to be supplied in the response
   // according to ISO 4217 Currency codes
-  cmp.types.v4.Currency currency = 1;
+  cmp.types.v4.Currency currency = 1 [(buf.validate.field).required = true];
 
   // Requested language setting for descriptions in the response according to ISO
   // 639-1 Language codes
@@ -48,7 +48,9 @@ message SearchParameters {
 
   // Filters for the search. Various provider and product specific filters can be
   // provided here in agreed name/value pairs.
-  repeated cmp.types.v4.Filter filters = 9;
+  repeated cmp.types.v4.Filter filters = 9 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Free-text field to provide more detials for better offer personalization. This
   // field can be provided in combination with a Geo location or as stand-alone.
@@ -82,13 +84,13 @@ message SearchParameters {
 // This message type is used in every search request to contain the request metadata
 message SearchRequestMetadata {
   // Request unique identifier
-  cmp.types.v4.UUID request_id = 1 [(buf.validate.field).required = true]; // FIXME: Required right?
+  cmp.types.v4.UUID request_id = 1 [(buf.validate.field).required = true];
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
   string external_session_id = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 100
+    max_bytes: 512
   }];
 }
 
@@ -96,36 +98,42 @@ message SearchRequestMetadata {
 message SearchResponseMetadata {
   // Search_id to be used in the Validation Request. This must be a UUID according
   // to RFC 4122
-  cmp.types.v4.UUID search_id = 1 [(buf.validate.field).required = true]; // FIXME: Required right?
+  cmp.types.v4.UUID search_id = 1 [(buf.validate.field).required = true];
 
   // Context for Inventory system concepts that need to be included in a search response,
   // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
   // serialized combination of these codes.
   string context = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 100
+    max_bytes: 512
   }];
+
+  // FIXME: Do we need these errors and warnings here? We already have similar in the header msg
 
   // Errors encountered in the generation of the response. Standardized error list
   // to be created.
-  repeated string errors = 3;
+  repeated string errors = 3 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Warnings encountered in the generation of the response. This section might include
   // information about fields not processed due to incompatibilities with the
   // inventory system
-  repeated string warnings = 4;
+  repeated string warnings = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Supplier code from the Inventory System for this search response.
   string supplier_code = 5 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 100
+    max_bytes: 512
   }];
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
   string external_session_id = 6 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 100
+    max_bytes: 512
   }];
 }
 

@@ -12,10 +12,16 @@ import "cmp/types/v4/contact_info.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/company.proto.dot.svg)
 message Company {
   // Short name of the partner. Ex: Chain4Travel
-  string short_name = 1 [(buf.validate.field).string.min_len = 1];
+  string short_name = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // Legal name of the partner. Ex: Chain4Travel AG
-  string legal_name = 2 [(buf.validate.field).string.min_len = 1]; // FIXME: check length
+  string legal_name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }]; // FIXME: check length
 
   // Contact Info
   cmp.types.v4.ContactInfo contact_info = 3;

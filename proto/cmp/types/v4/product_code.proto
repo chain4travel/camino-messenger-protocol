@@ -26,9 +26,11 @@ message ProductCode {
   // license fees directly with the respective organizations
   string code = 1 [(buf.validate.field).string = {
     min_len: 0 // FIXME: Is this field required?
-    max_len: 100
+    max_bytes: 512
   }];
-  int32 number = 2; // FIXME: Is this field required? gt: 0?
+
+  int32 number = 2 [(buf.validate.field).int32 = {gte: 0}];
+
   cmp.types.v4.ProductCodeType type = 3 [(buf.validate.field).enum.defined_only = true];
 }
 
@@ -55,6 +57,10 @@ message SupplierProductCode {
   // different services, it is safe to assume the product codes will be different, the product
   // name will be different and the descriptions and amenities as well in the ProductList and
   // ProductInfo messages.
-  string supplier_code = 1;
-  int32 supplier_number = 2;
+  string supplier_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  int32 supplier_number = 2 [(buf.validate.field).int32 = {gte: 0}];
 }

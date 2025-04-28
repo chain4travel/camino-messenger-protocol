@@ -29,14 +29,17 @@ message Coordinates {
 
 // Geo Circle
 message GeoCircle {
-  cmp.types.v4.Coordinates center = 1;
-  cmp.types.v4.Length radius = 2;
+  cmp.types.v4.Coordinates center = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Length radius = 2 [(buf.validate.field).required = true];
 }
 
 // Geo Polygon
 message GeoPolygon {
   // GPS points of the polygon
-  repeated cmp.types.v4.Coordinates points = 1 [(buf.validate.field).repeated.min_items = 3]; // At least 3 points for a polygon
+  repeated cmp.types.v4.Coordinates points = 1 [(buf.validate.field).repeated = {
+    min_items: 3
+    max_items: 100 // Default max items
+  }]; // At least 3 points for a polygon
 }
 
 // Geo Tree
@@ -45,9 +48,14 @@ message GeoPolygon {
 // and would require mapping for every connection. If possible use generic concepts,
 // so that implementations can easily be reused among suppliers.
 message GeoTree {
-  cmp.types.v2.Country country = 1; // FIXME: required?
-  string region = 2;
-  string city_or_resort = 3;
+  cmp.types.v2.Country country = 1 [(buf.validate.field).enum = {
+    /* Only allow defined traveller types */
+    defined_only: true
+    /* Do not allow UNSPECIFIED */
+    not_in: [0]
+  }];
+  string region = 2 [(buf.validate.field).string.max_bytes = 512];
+  string city_or_resort = 3 [(buf.validate.field).string.max_bytes = 512];
 }
 
 // Location Code
@@ -58,7 +66,9 @@ message GeoTree {
 message LocationCode {
   string code = 1 [(buf.validate.field).string = {
     min_len: 3 // FIXME: check, is it high or low?
+    max_bytes: 512
   }];
+
   cmp.types.v4.LocationCodeType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]

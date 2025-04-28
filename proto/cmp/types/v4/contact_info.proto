@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.types.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/address.proto";
 import "cmp/types/v4/email.proto";
 import "cmp/types/v4/link.proto";
@@ -14,14 +15,22 @@ import "cmp/types/v4/phone.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.svg)
 message ContactInfo {
   // Address
-  repeated cmp.types.v4.Address address = 1;
+  repeated cmp.types.v4.Address address = 1 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Phones
-  repeated cmp.types.v4.Phone phones = 2;
+  repeated cmp.types.v4.Phone phones = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Emails
-  repeated cmp.types.v4.Email emails = 3;
+  repeated cmp.types.v4.Email emails = 3 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Websites
-  repeated cmp.types.v4.Link links = 4;
+  repeated cmp.types.v4.Link links = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
