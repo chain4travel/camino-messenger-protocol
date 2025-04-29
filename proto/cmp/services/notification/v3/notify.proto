@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.notification.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v4/evm_address.proto";
 import "cmp/types/v4/evm_transaction.proto";
@@ -32,7 +33,7 @@ service NotificationService {
 message TokenBought {
   uint64 token_id = 1;
   cmp.types.v4.EVMTransactionID tx_id = 2;
-  cmp.types.v4.UUID mint_id = 3;
+  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
 // Related on-chain event:
@@ -43,7 +44,7 @@ message TokenBought {
 message TokenExpired {
   uint64 token_id = 1;
   cmp.types.v4.EVMTransactionID tx_id = 2;
-  cmp.types.v4.UUID mint_id = 3;
+  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
 // Related on-chain events:

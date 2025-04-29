@@ -3,6 +3,7 @@ syntax = "proto3";
 // ### Ping Message
 package cmp.services.ping.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/common.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -11,10 +12,10 @@ import "google/protobuf/timestamp.proto";
 // stored of each hop.
 message PingRequest {
   // Message Header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Ping message
-  string ping_message = 2;
+  string ping_message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping request
   //
@@ -26,10 +27,10 @@ message PingRequest {
 
 message PingResponse {
   // Message Header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Ping message
-  string ping_message = 2;
+  string ping_message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping response
   //
