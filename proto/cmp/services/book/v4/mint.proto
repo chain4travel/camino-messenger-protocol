@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.book.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/evm_address.proto";
@@ -15,28 +16,34 @@ import "google/protobuf/timestamp.proto";
 
 message MintRequest {
   // Message header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID validation_id = 2;
 
-  string external_session_id = 3;
+  string external_session_id = 3 [(buf.validate.field).string.max_bytes = 512];
 
   cmp.types.v1.Language language = 4;
 
-  string market = 5;
+  string market = 5 [(buf.validate.field).string.max_bytes = 512];
 
-  string booking_reference = 6;
+  string booking_reference = 6 [(buf.validate.field).string.max_bytes = 512];
 
-  repeated cmp.types.v4.ExtensiveTraveller travellers = 7;
+  repeated cmp.types.v4.ExtensiveTraveller travellers = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // The comments field is meant to pass noncommittal remarks entered by the
   // end-consumer about the service reservation,  like "non-smoking room please",
   // "top floor room please".
-  string comment = 8;
+  string comment = 8 [(buf.validate.field).string.max_bytes = 512];
 
   // Public keys that will be used to encrypt the private booking data
-  repeated cmp.types.v4.PublicKey public_keys = 9;
+  repeated cmp.types.v4.PublicKey public_keys = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Buyer's address. Only this address should be allowed to buy the `BookingToken`
   // on chain.
@@ -48,7 +55,7 @@ message MintRequest {
 
 message MintResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID mint_id = 2;
@@ -56,7 +63,7 @@ message MintResponse {
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID validation_id = 3;
 
-  string provider_booking_reference = 4;
+  string provider_booking_reference = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Timestamp of the booking in the inventory system of the supplier.
   //
@@ -76,7 +83,7 @@ message MintResponse {
   // URI of the token that represents the booking of the service. This should be
   // populated by the Supplier partner plugin. It is up to the supplier to decide
   // what kind of storage (IPFS, HTTP, ...) to use here.
-  string booking_token_uri = 8;
+  string booking_token_uri = 8 [(buf.validate.field).string.uri = true];
 
   // Mint transaction ID that will be populated by the supplier bot after the
   // `BookingToken` is minted on chain.
