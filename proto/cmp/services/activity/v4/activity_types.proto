@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.activity.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/delivery.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/redemption.proto";
@@ -25,7 +26,7 @@ message Activity {
   // Context for Inventory system concepts that need to be included in an info
   // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
   // etc. or a serialized combination of these codes.
-  string context = 1;
+  string context = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
@@ -37,7 +38,7 @@ message Activity {
 
   // An identifier for external sessions, aiding in tracking and continuity across
   // sessions.
-  string external_session_id = 3;
+  string external_session_id = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // External Product codes for the result. These can be of different types
   cmp.types.v4.ProductCode product_code = 4;
@@ -48,14 +49,14 @@ message Activity {
   // product like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga". Code
   // and description match the information provided in the ProductList and
   // ProductInfo message. These are in general also supplier specific.
-  string unit_code = 5;
+  string unit_code = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Service codes for the result
   //
   // Several different packages could be included like "Windsurfing" with or without
   // "Wetsuit". Code and description match the information provided in the
   // ProductInfo message These are in general also supplier specific.
-  string service_code = 6;
+  string service_code = 6 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v4.Bookability bookability = 7;
@@ -77,9 +78,9 @@ message PickupDropoffEvent {
   // where possible, so that the integration is suitable for more than one partner.
   //
   // Ex: "AESPMI43NU",
-  string location_code = 1;
+  string location_code = 1 [(buf.validate.field).string.max_bytes = 512];
   // Ex: "Sunny Beach Hotel",
-  string location_name = 2;
+  string location_name = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // True if this pickup location is selected for the activity
   //
@@ -91,7 +92,7 @@ message PickupDropoffEvent {
   bool pickup_indicator = 3;
 
   // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
-  string other_info = 4;
+  string other_info = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Datetime of the pickup dropoff event as Unix timestamp
   //
@@ -110,53 +111,80 @@ message ActivityExtendedInfo {
   cmp.services.activity.v4.Activity activity = 1;
 
   // Available Units
-  repeated cmp.services.activity.v4.ActivityUnit units = 2;
+  repeated cmp.services.activity.v4.ActivityUnit units = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Available Services
-  repeated cmp.services.activity.v4.ActivityService services = 3;
+  repeated cmp.services.activity.v4.ActivityService services = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Transfer Zone(s) in which participants of the activity can be used for pick-up
   // and drop-off
-  repeated cmp.services.activity.v4.TransferZone zones = 4;
+  repeated cmp.services.activity.v4.TransferZone zones = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Descriptions with different languages
-  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 5;
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Coordinates of where the activity takes place
   cmp.services.activity.v4.ActivityLocation location = 6;
 
   // Activity Features
-  repeated cmp.services.activity.v4.ActivityFeature features = 7;
+  repeated cmp.services.activity.v4.ActivityFeature features = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Tags
-  repeated cmp.services.activity.v4.ActivityTag tags = 8;
+  repeated cmp.services.activity.v4.ActivityTag tags = 8 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Languages
-  repeated cmp.types.v1.Language languages = 9;
+  repeated cmp.types.v1.Language languages = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Contact Info; Address, Email, Phone, Urls
   cmp.types.v4.ContactInfo contact_info = 10;
 
   // Images
-  repeated cmp.types.v4.Image images = 11;
+  repeated cmp.types.v4.Image images = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Videos
-  repeated cmp.types.v4.Video videos = 12;
+  repeated cmp.types.v4.Video videos = 12 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Supplier code from the Inventory System for this activity response.
-  string supplier_unit_code = 13;
+  string supplier_unit_code = 13 [(buf.validate.field).string.max_bytes = 512];
 
   // Activity Category Code
-  string category_code = 14;
+  string category_code = 14 [(buf.validate.field).string.max_bytes = 512];
 
   // Category name which describes the category_code
-  string category_name = 15;
+  string category_name = 15 [(buf.validate.field).string.max_bytes = 512];
 
   // Type Code
-  string type_code = 16;
+  string type_code = 16 [(buf.validate.field).string.max_bytes = 512];
 
   // Type name which describes type_code
-  string type_name = 17;
+  string type_name = 17 [(buf.validate.field).string.max_bytes = 512];
 
   // Supplier Product codes for the result
   // These must match the supplier codes provided in the ProductList and
@@ -164,7 +192,7 @@ message ActivityExtendedInfo {
   cmp.types.v4.SupplierProductCode supplier_code = 18;
 
   // Supplier Name
-  string supplier_code_name = 19;
+  string supplier_code_name = 19 [(buf.validate.field).string.max_bytes = 512];
 
   // Duration range (min, max) of the activity in minutes
   cmp.types.v4.DurationRange duration_range = 20;
@@ -185,16 +213,25 @@ message ActivityExtendedInfo {
   bool availability_required = 25;
 
   // Availability Type
-  string availability_type = 26;
+  string availability_type = 26 [(buf.validate.field).string.max_bytes = 512];
 
   // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
-  repeated cmp.types.v1.DeliveryFormat delivery_formats = 27;
+  repeated cmp.types.v1.DeliveryFormat delivery_formats = 27 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Delivery Methods; such as Email, SMS, Post, ... etc
-  repeated cmp.types.v1.DeliveryMethod delivery_methods = 28;
+  repeated cmp.types.v1.DeliveryMethod delivery_methods = 28 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Redemption method
-  repeated cmp.types.v1.RedemptionMethod redemption_methods = 29;
+  repeated cmp.types.v1.RedemptionMethod redemption_methods = 29 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // The unit  gives us a choice of the different options that are available in an
@@ -205,13 +242,13 @@ message ActivityUnit {
   cmp.types.v4.DateTimeRange schedule = 1;
 
   // Unit Code
-  string code = 2;
+  string code = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Unit Name
-  string name = 3;
+  string name = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Unit Description
-  string description = 4;
+  string description = 4 [(buf.validate.field).string.max_bytes = 512];
 }
 
 // Services can be selected like do we go to the activity by ourselves or is a
@@ -219,38 +256,53 @@ message ActivityUnit {
 // alcoholic drinks included?
 message ActivityService {
   // Service Code
-  string code = 1;
+  string code = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Service Name
-  string name = 2;
+  string name = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Service Description
-  string description = 3;
+  string description = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Included items in the activity service
-  repeated string included = 4;
+  repeated string included = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
 
   // Excluded items in the activity service
-  repeated string excluded = 5;
+  repeated string excluded = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
 }
 
 message TransferZone {
   // Zone Code used in transfer operations
-  string code = 1;
+  string code = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Geo tree type, represented by Country, Region, and City_or_Resort.
   cmp.types.v4.GeoTree geo_tree = 2;
 
   // pick-up and drop-off information about location and time
-  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 3;
+  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message ActivityFeature {
   // Feature description
-  string description = 1;
+  string description = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Feature Code
-  string code = 2;
+  string code = 2 [(buf.validate.field).string.max_bytes = 512];
 }
 
 message ActivityTag {
@@ -261,8 +313,8 @@ message ActivityTag {
   int32 id = 2;
 
   // Name
-  string name = 3;
+  string name = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Slug; giving an informal name to the tag
-  string slug = 4;
+  string slug = 4 [(buf.validate.field).string.max_bytes = 512];
 }

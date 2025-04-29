@@ -37,6 +37,7 @@ syntax = "proto3";
 // just like the Transport service. This package is **WIP**.
 package cmp.services.activity.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/activity/v4/search_parameters_types.proto";
 import "cmp/services/activity/v4/search_result_types.proto";
 import "cmp/types/v4/common.proto";
@@ -49,7 +50,7 @@ import "cmp/types/v4/traveller.proto";
 message ActivitySearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address.
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
   cmp.types.v4.SearchRequestMetadata metadata = 2;
@@ -70,7 +71,10 @@ message ActivitySearchRequest {
   cmp.types.v4.TravelPeriod travel_period = 5;
 
   // Travellers
-  repeated cmp.types.v4.BasicTraveller travellers = 6;
+  repeated cmp.types.v4.BasicTraveller travellers = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100 // FIXME: Valid for travellers?
+  }];
 
   // For search, set only one of the fields at once. Source location indicates the
   // customer’s position at the start of the service. Typical value would be the
@@ -129,7 +133,7 @@ message ActivitySearchRequest {
 message ActivitySearchResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
   //
@@ -144,7 +148,10 @@ message ActivitySearchResponse {
   // The traveller_id is specified in each result and the ids are detailed with
   // basic traveller data only once in the top-level search response to avoid
   // repetition.
-  repeated cmp.types.v4.BasicTraveller travellers = 4;
+  repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100 // FIXME: valid for travellers?
+  }];
 }
 
 // Activity Search Service

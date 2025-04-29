@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.activity.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
@@ -16,7 +17,7 @@ import "cmp/types/v4/price_type.proto";
 message ActivitySearchResult {
   // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
-  int32 result_id = 1;
+  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
 
   // Activity basic info
   cmp.services.activity.v4.Activity info = 2;
@@ -28,13 +29,16 @@ message ActivitySearchResult {
   cmp.services.activity.v4.ActivityLocation location = 4;
 
   // Pickup Dropoff
-  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 5;
+  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Min participants
-  int32 min_participants = 6;
+  int32 min_participants = 6 [(buf.validate.field).int32 = {gte: 0}];
 
   // Max participants
-  int32 max_participants = 7;
+  int32 max_participants = 7 [(buf.validate.field).int32 = {gte: 0}];
 
   // Price with value and currency code
   cmp.types.v4.Price price = 8;
