@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.info.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v1/travel_type.proto";
 import "cmp/types/v2/country.proto";
@@ -23,7 +24,7 @@ service CountryEntryRequirementsService {
 
 message CountryEntryRequirementsRequest {
   // Message header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Departure country
   cmp.types.v2.Country departure = 2;
@@ -47,7 +48,10 @@ message CountryEntryRequirementsRequest {
   cmp.types.v4.DateTimeRange datetime_range = 8;
 
   // Languages requested
-  repeated cmp.types.v1.Language languages = 9;
+  repeated cmp.types.v1.Language languages = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   bool exclude_categories = 10;
 
@@ -56,45 +60,66 @@ message CountryEntryRequirementsRequest {
   // There is not yet any categorization standard and conclusively filters are
   // supplier specific and the filter type should be "FILTER_TYPE_PROVIDER_CODE"
   // Examples:
-  repeated cmp.types.v4.Filter filters = 12;
+  repeated cmp.types.v4.Filter filters = 12 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message CountryEntryRequirementsResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID response_id = 2;
 
   // Categories
-  repeated cmp.services.info.v3.CountryEntryRequirementCategory categories = 3;
+  repeated cmp.services.info.v3.CountryEntryRequirementCategory categories = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Items
-  repeated cmp.services.info.v3.CountryEntryRequirementItem items = 4;
+  repeated cmp.services.info.v3.CountryEntryRequirementItem items = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Types
 
 message CountryEntryRequirementCategory {
   // Category key.
-  string key = 1;
+  string key = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // List of localized names
-  repeated cmp.types.v4.LocalizedString names = 2;
+  repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Items
-  repeated cmp.services.info.v3.CountryEntryRequirementItem items = 3;
+  repeated cmp.services.info.v3.CountryEntryRequirementItem items = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Sub categories
-  repeated cmp.services.info.v3.CountryEntryRequirementCategory sub_categories = 4;
+  repeated cmp.services.info.v3.CountryEntryRequirementCategory sub_categories = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message CountryEntryRequirementItem {
   // Item type key.  FIXME: Can this field be an enum?
-  string key = 1;
+  string key = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Language specific names and descriptions
-  repeated cmp.services.info.v3.LocalizedItemInfo info = 2;
+  repeated cmp.services.info.v3.LocalizedItemInfo info = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Status of the item. An item specifies an action or requirement which should be
   // done/provided or rather not. This is expressed with "true" and "false".
@@ -115,8 +140,8 @@ message CountryEntryRequirementItem {
 }
 
 message LocalizedItemInfo {
-  string name = 1;
-  string description = 2;
+  string name = 1 [(buf.validate.field).string.max_bytes = 512];
+  string description = 2 [(buf.validate.field).string.max_bytes = 512];
   cmp.types.v1.Language language = 3;
 }
 
