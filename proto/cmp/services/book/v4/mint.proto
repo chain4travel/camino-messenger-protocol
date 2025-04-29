@@ -51,6 +51,11 @@ message MintRequest {
 
   // This field is only relevant for off chain virtual credit card payments.
   cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 11;
+
+  // Expected BookingToken price. This price should be used by the bot to verify
+  // that the CMAccount of the distributor has enough funds to buy the minted
+  // BookingToken.
+  cmp.types.v4.Price expected_price = 12;
 }
 
 message MintResponse {
