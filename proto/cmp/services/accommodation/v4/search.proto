@@ -12,10 +12,10 @@ syntax = "proto3";
 // This package is a **WIP**.
 package cmp.services.accommodation.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v4/search_query_types.proto";
 import "cmp/services/accommodation/v4/search_result_types.proto";
 import "cmp/types/v4/common.proto";
-import "buf/validate/validate.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/traveller.proto";
 
