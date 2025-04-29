@@ -15,22 +15,14 @@ import "cmp/types/v4/phone.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.svg)
 message ContactInfo {
   // Address
-  repeated cmp.types.v4.Address address = 1 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
+  repeated cmp.types.v4.Address address = 1 [(buf.validate.field).repeated = {max_items: 25}];
 
   // Phones
-  repeated cmp.types.v4.Phone phones = 2 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
+  repeated cmp.types.v4.Phone phones = 2 [(buf.validate.field).repeated = {max_items: 25}];
 
   // Emails
-  repeated cmp.types.v4.Email emails = 3 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
+  repeated cmp.types.v4.Email emails = 3 [(buf.validate.field).repeated = {max_items: 25}];
 
   // Websites
-  repeated cmp.types.v4.Link links = 4 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
+  repeated cmp.types.v4.Link links = 4 [(buf.validate.field).repeated = {max_items: 25}];
 }

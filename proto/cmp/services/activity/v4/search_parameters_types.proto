@@ -27,14 +27,14 @@ message ActivitySearchParameters {
   // ProductInfo messages
   repeated cmp.types.v4.SupplierProductCode supplier_codes = 2 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 500
   }];
 
   // Specify one or more product codes to be included in the search response
   // These can be of different types
   repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 500
   }];
 
   // Specify one or more unit IDs to be included in the search response

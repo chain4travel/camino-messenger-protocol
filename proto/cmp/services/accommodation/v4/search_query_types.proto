@@ -22,7 +22,7 @@ message AccommodationSearchQuery {
   // Travellers
   repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 15
   }];
 
   // Total number of rooms / holiday homes

@@ -43,6 +43,7 @@ message Header {
   // for messaging. This will help transparency and troubleshooting when issues
   // arise. For example in case one partner uses bot v9.0.0 and the other partner
   // uses bot v10.0.0, which are incompatible.
+  // FIXME: Explain partner plugin to use default header and version
   cmp.types.v4.Version version = 1 [(buf.validate.field).required = true];
 
   // End-user wallet ID for personalization purposes
@@ -81,9 +82,7 @@ message ResponseHeader {
   }];
 
   // Alert for more detailed information about the response
-  repeated cmp.types.v4.Alert alerts = 3 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
+  repeated cmp.types.v4.Alert alerts = 3 [(buf.validate.field).repeated = {max_items: 25}];
 }
 
 message Alert {

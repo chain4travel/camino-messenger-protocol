@@ -23,7 +23,7 @@ message InsuranceSearchParameters {
   // case one or more specific policies are requested.
   repeated cmp.types.v4.ProductCode product_codes = 1 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 500
   }];
 
   // Insurances can also be requested by type, in case not a specific policy is
@@ -53,7 +53,7 @@ message InsuranceSearchParameters {
   // Travellers
   repeated cmp.types.v4.BasicTraveller travellers = 9 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 15
   }];
 
   // Loyalty Program

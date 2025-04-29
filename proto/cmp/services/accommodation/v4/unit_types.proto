@@ -24,7 +24,10 @@ import "cmp/types/v4/travel_period.proto";
 message Unit {
   // Unit Type. Used to distinguish between hotel rooms and holiday homes.
   // Ex: `UnitType.UNIT_TYPE_ROOM`
-  cmp.services.accommodation.v4.UnitType type = 1;
+  cmp.services.accommodation.v4.UnitType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
   // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
@@ -50,13 +53,13 @@ message Unit {
   // the search response repeated travellers field
   repeated int32 traveller_ids = 6 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 15
   }];
 
   // Beds
   repeated cmp.types.v4.Bed beds = 7 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 10
   }];
 
   // Price in detail with breakdowns

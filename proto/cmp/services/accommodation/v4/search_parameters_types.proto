@@ -59,12 +59,12 @@ message AccommodationSearchParameters {
   // Here a list of property codes would be used that could be of different types
   repeated cmp.types.v4.ProductCode product_codes = 9 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 500
   }];
 
   // Or a list of provider codes would be used
   repeated cmp.types.v4.SupplierProductCode supplier_codes = 10 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 500
   }];
 }

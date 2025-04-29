@@ -19,6 +19,6 @@ message CreditCard {
 
   int32 cvc = 3 [(buf.validate.field).int32 = {
     gte: 0
-    lte: 999 // FIXME: check
+    lte: 9999 // FIXME: check
   }];
 }

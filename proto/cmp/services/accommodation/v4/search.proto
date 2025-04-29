@@ -77,7 +77,7 @@ message AccommodationSearchRequest {
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
-  cmp.types.v4.SearchRequestMetadata metadata = 2;
+  cmp.types.v4.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
   // only the cheapest or all options.
@@ -88,7 +88,10 @@ message AccommodationSearchRequest {
 
   // This field represents a list of search queries that can be used to create
   // multiroom multi location searches.
-  repeated cmp.services.accommodation.v4.AccommodationSearchQuery queries = 4;
+  repeated cmp.services.accommodation.v4.AccommodationSearchQuery queries = 4 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 10
+  }];
 }
 
 // The `Accommodation Search Response` message type facilitates the response for
@@ -104,13 +107,19 @@ message AccommodationSearchResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
-  cmp.types.v4.SearchResponseMetadata metadata = 2;
+  cmp.types.v4.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, like property,
-  repeated cmp.services.accommodation.v4.AccommodationSearchResult results = 3;
+  repeated cmp.services.accommodation.v4.AccommodationSearchResult results = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10000
+  }];
 
   // Global definition of the travellers for all results to be used via the traveller_id each unit.
-  repeated cmp.types.v4.BasicTraveller travellers = 4;
+  repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 15
+  }];
 }
 
 // Service definition for Accommodation search

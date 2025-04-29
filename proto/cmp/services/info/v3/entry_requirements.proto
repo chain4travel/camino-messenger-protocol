@@ -71,7 +71,7 @@ message CountryEntryRequirementsResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
-  cmp.types.v4.UUID response_id = 2;
+  cmp.types.v4.UUID response_id = 2 [(buf.validate.field).required = true];
 
   // Categories
   repeated cmp.services.info.v3.CountryEntryRequirementCategory categories = 3 [(buf.validate.field).repeated = {
@@ -82,7 +82,7 @@ message CountryEntryRequirementsResponse {
   // Items
   repeated cmp.services.info.v3.CountryEntryRequirementItem items = 4 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 10000
   }];
 }
 

@@ -53,13 +53,13 @@ message ActivitySearchRequest {
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
-  cmp.types.v4.SearchRequestMetadata metadata = 2;
+  cmp.types.v4.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Generic search parameters
   //
   // Ex: Inclusion of OnRequest options, inclusion of only the cheapest or all
   // options, setting the market, language, currency, sorting and filters etc.
-  cmp.types.v4.SearchParameters search_parameters_generic = 3;
+  cmp.types.v4.SearchParameters search_parameters_generic = 3 [(buf.validate.field).required = true];
 
   // Activity specific search parameters
   //
@@ -73,7 +73,7 @@ message ActivitySearchRequest {
   // Travellers
   repeated cmp.types.v4.BasicTraveller travellers = 6 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100 // FIXME: Valid for travellers?
+    max_items: 15
   }];
 
   // For search, set only one of the fields at once. Source location indicates the
@@ -139,18 +139,21 @@ message ActivitySearchResponse {
   //
   // The most important field is the search_id, which is a UUID that needs to be
   // carried through to the validate request.
-  cmp.types.v4.SearchResponseMetadata metadata = 2;
+  cmp.types.v4.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, each identified by a result_id
   // that needs to be carried through to the validate request.
-  repeated cmp.services.activity.v4.ActivitySearchResult results = 3;
+  repeated cmp.services.activity.v4.ActivitySearchResult results = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10000
+  }];
 
   // The traveller_id is specified in each result and the ids are detailed with
   // basic traveller data only once in the top-level search response to avoid
   // repetition.
   repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100 // FIXME: valid for travellers?
+    max_items: 15
   }];
 }
 

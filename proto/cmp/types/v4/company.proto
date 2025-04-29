@@ -21,7 +21,7 @@ message Company {
   string legal_name = 2 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
-  }]; // FIXME: check length
+  }];
 
   // Contact Info
   cmp.types.v4.ContactInfo contact_info = 3;
