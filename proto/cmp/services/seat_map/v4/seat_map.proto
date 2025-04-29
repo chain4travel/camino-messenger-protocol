@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.seat_map.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/seat_map.proto";
@@ -13,16 +14,19 @@ message SeatMapRequest {
   // Request header
   //
   // Header contains information about the request
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique identifier for the seat map
   //
   // This is the map ID that is received in the search results and also from the
   // product info responses.
-  string map_id = 2;
+  string map_id = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Requested Languages
-  repeated cmp.types.v1.Language languages = 3;
+  repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Response for seat map request
@@ -32,7 +36,7 @@ message SeatMapResponse {
   // Response header
   //
   // Header contains information about the response
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Seat map data
   //

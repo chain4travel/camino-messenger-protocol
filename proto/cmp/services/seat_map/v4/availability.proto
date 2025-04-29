@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.seat_map.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/seat_map.proto";
@@ -13,16 +14,18 @@ message SeatMapAvailabilityRequest {
   // Message header
   //
   // Header contains information about the request
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Required. The identifier of the seat map.
   oneof identifier {
+    option (buf.validate.oneof).required = true; // One must be provided
+
     // Mint Identifier
     //
     // Example: For flights which book before seat selection. In this case, the
     // buyer already have a `mint_id` because the service is already booked (minted
     // on-chain).
-    string mint_id = 2;
+    string mint_id = 2 [(buf.validate.field).string.max_bytes = 512];
 
     // Search result identifier with `search_id` & `result_id`
     //
@@ -39,7 +42,7 @@ message SeatMapAvailabilityResponse {
   // Message header
   //
   // Header contains information about the response
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Required. Seat map availability data.
   cmp.types.v4.SeatMapInventory seat_map = 2;
