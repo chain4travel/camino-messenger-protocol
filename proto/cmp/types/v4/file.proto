@@ -16,7 +16,10 @@ message File {
   }];
 
   // URL
-  string url = 2 [(buf.validate.field).string.uri = true]; // FIXME: Do we need max bytes?
+  string uri = 2 [(buf.validate.field).string = {
+    uri: true
+    max_bytes: 2048
+  }];
 
   // Last modification time
   //
@@ -36,6 +39,9 @@ message File {
 
   // File checksum
   cmp.types.v4.Checksum checksum = 7;
+
+  // Category
+  string category = 8 [(buf.validate.field).string.max_bytes = 512];
 }
 
 message Image {
@@ -47,12 +53,6 @@ message Image {
 
   // Height
   int32 height = 3 [(buf.validate.field).int32 = {gte: 0}];
-
-  // Category
-  string category = 6 [(buf.validate.field).string.max_bytes = 512];
-
-  // Image type
-  cmp.types.v4.ImageFormat format = 7 [(buf.validate.field).enum.defined_only = true];
 }
 
 message Video {
@@ -72,43 +72,6 @@ message Video {
   // Ex: "16:9"
   int32 width = 5 [(buf.validate.field).int32 = {gte: 0}];
   int32 height = 6 [(buf.validate.field).int32 = {gte: 0}];
-
-  // Container format. Ex: "MP4"
-  cmp.types.v4.VideoFormat format = 7 [(buf.validate.field).enum.defined_only = true];
-
-  // Category
-  string category = 8 [(buf.validate.field).string.max_bytes = 512];
-}
-
-// Image formats
-enum ImageFormat {
-  IMAGE_FORMAT_UNSPECIFIED = 0;
-  IMAGE_FORMAT_JPEG = 1; // JPEG or JPG
-  IMAGE_FORMAT_PNG = 2;
-  IMAGE_FORMAT_GIF = 3;
-  IMAGE_FORMAT_BMP = 4;
-  IMAGE_FORMAT_TIFF = 5;
-  IMAGE_FORMAT_SVG = 6;
-  IMAGE_FORMAT_EPS = 7;
-  IMAGE_FORMAT_PDF = 8;
-  IMAGE_FORMAT_PSD = 9;
-  IMAGE_FORMAT_AI = 10; // Adobe Illustrator’s native format
-  IMAGE_FORMAT_WEBP = 11;
-  IMAGE_FORMAT_HEIF = 12; // heif or heic
-}
-
-// Video formats
-enum VideoFormat {
-  VIDEO_FORMAT_UNSPECIFIED = 0;
-  VIDEO_FORMAT_MP4 = 1; // MPEG-4
-  VIDEO_FORMAT_MKV = 2; // Matroska
-  VIDEO_FORMAT_MOV = 3; // QuickTime
-  VIDEO_FORMAT_AVI = 4; // Audio Video Interleave
-  VIDEO_FORMAT_FLV = 5; // Flash Video
-  VIDEO_FORMAT_WEBM = 6; // WebM
-  VIDEO_FORMAT_WMV = 7; // Windows Media Video
-  VIDEO_FORMAT_M4V = 8; // iTunes Video
-  VIDEO_FORMAT_MPEG = 9; // MPEG Video (sometimes also expressed as mpg)
 }
 
 // Codec formats
@@ -200,38 +163,84 @@ enum MIMEType {
   MIME_TYPE_AAC = 74;
 }
 
-// File Checksum
 message Checksum {
   // Hash algorithm
   cmp.types.v4.HashAlgorithm hash_algorithm = 1 [(buf.validate.field).enum = {
-    not_in: [0]
     defined_only: true
+    not_in: [0]
   }];
 
-  // Hash content
-  string hash_content = 2 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
+  // Hash content in binary format
+  bytes hash_binary = 2 [(buf.validate.field).bytes = {
+    min_len: 16 // Minimum for MD5 (128 bits = 16 bytes)
+    max_len: 64 // Maximum for SHA-512 (512 bits = 64 bytes)
   }];
 }
 
 // Hash algorithms
 enum HashAlgorithm {
   HASH_ALGORITHM_UNSPECIFIED = 0;
-  HASH_ALGORITHM_OTHER = 1;
+
+  // BLAKE2B - High-performance cryptographic hash function
+  HASH_ALGORITHM_BLAKE2B = 1;
+
+  // Legacy/deprecated - No longer considered secure for cryptographic purposes
   HASH_ALGORITHM_MD5 = 2;
+
+  // Legacy/deprecated - No longer considered secure for cryptographic purposes
   HASH_ALGORITHM_SHA0 = 3;
+
+  // Legacy/deprecated - No longer considered secure for cryptographic purposes
   HASH_ALGORITHM_SHA1 = 4;
-  HASH_ALGORITHM_SHA224 = 5;
-  HASH_ALGORITHM_SHA256 = 6;
-  HASH_ALGORITHM_SHA384 = 7;
-  HASH_ALGORITHM_SHA512 = 8;
-  HASH_ALGORITHM_SHA512224 = 9;
-  HASH_ALGORITHM_SHA512256 = 10;
-  HASH_ALGORITHM_SHA3224 = 11;
-  HASH_ALGORITHM_SHA3256 = 12;
-  HASH_ALGORITHM_SHA3384 = 13;
-  HASH_ALGORITHM_SHA3512 = 14;
-  HASH_ALGORITHM_SHAKE128 = 15;
-  HASH_ALGORITHM_SHAKE256 = 16;
+
+  // SHA-2 family hash functions
+  HASH_ALGORITHM_SHA_224 = 5;
+  HASH_ALGORITHM_SHA_256 = 6;
+  HASH_ALGORITHM_SHA_384 = 7;
+  HASH_ALGORITHM_SHA_512 = 8;
+  HASH_ALGORITHM_SHA_512_224 = 9;
+  HASH_ALGORITHM_SHA_512_256 = 10;
+
+  // SHA-3 family hash functions
+  HASH_ALGORITHM_SHA3_224 = 11;
+  HASH_ALGORITHM_SHA3_256 = 12;
+  HASH_ALGORITHM_SHA3_384 = 13;
+  HASH_ALGORITHM_SHA3_512 = 14;
+
+  // SHA-3 derived extendable-output functions (XOFs)
+  HASH_ALGORITHM_SHAKE_128 = 15;
+  HASH_ALGORITHM_SHAKE_256 = 16;
+
+  // BLAKE2S - Optimized for 32-bit platforms
+  HASH_ALGORITHM_BLAKE2S = 17;
+
+  // BLAKE3 - Modern high-performance hash
+  HASH_ALGORITHM_BLAKE3 = 18;
+
+  // RIPEMD-160 - Used in some blockchain implementations
+  HASH_ALGORITHM_RIPEMD_160 = 19;
+
+  // Whirlpool - ISO standardized hash function
+  HASH_ALGORITHM_WHIRLPOOL = 20;
+
+  // SM3 - Chinese cryptographic standard
+  HASH_ALGORITHM_SM3 = 21;
+
+  // Keccak variants - Original Keccak, distinct from finalized SHA-3
+  HASH_ALGORITHM_KECCAK_224 = 22;
+  HASH_ALGORITHM_KECCAK_256 = 23;
+  HASH_ALGORITHM_KECCAK_384 = 24;
+  HASH_ALGORITHM_KECCAK_512 = 25;
+
+  // Fast Syndrome Based hash function
+  HASH_ALGORITHM_FSB = 26;
+
+  // JH hash function (SHA-3 finalist)
+  HASH_ALGORITHM_JH = 27;
+
+  // Grøstl hash function (SHA-3 finalist)
+  HASH_ALGORITHM_GROESTL = 28;
+
+  // Skein hash function (SHA-3 finalist)
+  HASH_ALGORITHM_SKEIN = 29;
 }

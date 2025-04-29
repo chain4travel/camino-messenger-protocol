@@ -12,7 +12,10 @@ import "cmp/types/v1/language.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/description.proto.dot.svg)
 message LocalizedDescriptionSet {
   // Language
-  cmp.types.v1.Language language = 1 [(buf.validate.field).required = true];
+  cmp.types.v1.Language language = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Description set
   repeated cmp.types.v4.Description descriptions = 2 [(buf.validate.field).repeated = {
@@ -31,6 +34,6 @@ message Description {
   // Description text
   string text = 2 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 1000 // FIXME: Is this enough for descriptions?
+    max_len: 5000
   }];
 }

@@ -10,7 +10,7 @@ import "buf/validate/validate.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/duration.proto.dot.svg)
 message Duration {
-  int32 minutes = 1 [(buf.validate.field).int32 = {gt: 0}]; // FIXME: Does negative duration makes sense for anything?
+  int32 minutes = 1 [(buf.validate.field).int32 = {gte: 0}];
 }
 
 // Duration range message that includes minimum and maximum duration.

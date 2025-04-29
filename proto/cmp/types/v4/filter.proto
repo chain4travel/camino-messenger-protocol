@@ -12,38 +12,29 @@ import "buf/validate/validate.proto";
 message Filter {
   // Filters can be based on a type of a specific code standard or codes agreed
   // between provider and distributor in which case the type can be set to
-  // "provider"
+  // "provider" filters have a code, a type and a value. filters for business class,
+  // first class or economy flights can be set using filters and IATA codelist
+  // filters for private, shuttle, speedyshuttle can be based on GlobalTypes or OTA
+  // codelist filters for 1st or 2nd class train can be based UIC codes or OTA
+  // codelist filters can also be set for provider specific codes. However, that
+  // makes the implementation provider specific which undermines the "connect once,
+  // connect to many" replication idea
   //
-  //
-  // filters have a code, a type and a value. filters for business class, first
-  // class or economy flights can be set using filters and IATA codelist filters for
-  // private, shuttle, speedyshuttle can be based on GlobalTypes or OTA codelist
-  // filters for 1st or 2nd class train can be based UIC codes or OTA codelist
-  // filters can also be set for provider specific codes. However, that makes the
-  // implementation provider specific which undermines the "connect once, connect to
-  // many" replication idea
-  //
-  // Conclusively we recommend to filter using standards. It is much better to filter
-  // for seaview or seaside rooms using for example DRV global types supported by many
-  // providers of the Camino Network, than to implement specific logics per provider,
-  // using their unique codes
+  // Conclusively we recommend to filter using standards. It is much better to
+  // filter for seaview or seaside rooms using for example DRV global types
+  // supported by many providers of the Camino Network, than to implement specific
+  // logics per provider, using their unique codes
   string code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  // Description of the filter code.
-  string description = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512 // FIXME: Is it enough for a desc here?
-  }];
-
   // A filter type can be set to for example "DRV GlobalTypes", "IATA codes", "UIC
   // codes", "ACRISS codes".
-  cmp.types.v4.FilterType type = 3 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.FilterType type = 2 [(buf.validate.field).enum.defined_only = true];
 
   // Adding a filter value like for example "star_rating=5" or "row_number=1".
-  string value = 4 [(buf.validate.field).string.max_bytes = 512];
+  string value = 3 [(buf.validate.field).string.max_bytes = 512];
 }
 
 // Filter Type
