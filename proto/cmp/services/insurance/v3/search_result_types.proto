@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.insurance.v3;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/price.proto";
 
@@ -14,19 +15,22 @@ import "cmp/types/v4/price.proto";
 message InsuranceSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
-  int32 result_id = 1;
+  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
 
   // This field represents the query ID associated with the search result.
-  int32 query_id = 2;
+  int32 query_id = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Policies for this search result
-  repeated cmp.services.insurance.v3.PolicyCodes policies = 3;
+  repeated cmp.services.insurance.v3.PolicyCodes policies = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // ## Total price in detail, with breakdowns
   cmp.types.v4.PriceDetail total_price_detail = 4;
 
   // Freetext remarks without any functionality
-  string remarks = 5;
+  string remarks = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v4.Bookability bookability = 6;
@@ -34,11 +38,11 @@ message InsuranceSearchResult {
 
 message PolicyCodes {
   // Product Code
-  string product_code = 1;
+  string product_code = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Unit Code
-  string unit_code = 2;
+  string unit_code = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Service Code
-  string service_code = 3;
+  string service_code = 3 [(buf.validate.field).string.max_bytes = 512];
 }
