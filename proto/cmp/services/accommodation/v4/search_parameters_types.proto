@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/meal_plan.proto";
 import "cmp/types/v4/product_code.proto";
@@ -18,7 +19,7 @@ message AccommodationSearchParameters {
   //
   // This "one of" field enforces only one of the fields below. They all share
   // memory, setting one will remove the others.
-  oneof geo_location {
+  oneof geo_location { // FIXME: required?
     // A list of location codes or just one code.
     cmp.types.v4.LocationCodes location_codes = 1;
 
@@ -36,19 +37,34 @@ message AccommodationSearchParameters {
   }
 
   // Mealplan codes
-  repeated cmp.types.v4.MealPlan meal_plan_codes = 6;
+  repeated cmp.types.v4.MealPlan meal_plan_codes = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Rate plans
-  repeated cmp.types.v4.RatePlan rate_plans = 7;
+  repeated cmp.types.v4.RatePlan rate_plans = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Rate Rules
   // To be used when searching for specific rates like refundable or resellable offers
-  repeated cmp.types.v4.RateRule rate_rules = 8;
+  repeated cmp.types.v4.RateRule rate_rules = 8 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Product code list
   // Here a list of property codes would be used that could be of different types
-  repeated cmp.types.v4.ProductCode product_codes = 9;
+  repeated cmp.types.v4.ProductCode product_codes = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Or a list of provider codes would be used
-  repeated cmp.types.v4.SupplierProductCode supplier_codes = 10;
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 10 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v4/unit_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/cancel_policy.proto";
@@ -17,25 +18,31 @@ import "cmp/types/v4/rate.proto";
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
-  int32 result_id = 1;
+  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
 
   // This field represents the query ID associated with the search result.
-  int32 query_id = 2;
+  int32 query_id = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Units for this search result
-  repeated cmp.services.accommodation.v4.Unit units = 3;
+  repeated cmp.services.accommodation.v4.Unit units = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // ## Total price in detail, with breakdowns
   cmp.types.v4.PriceDetail total_price_detail = 4;
 
   // The RateRule specifies whether a search result is non-refundable or not
-  repeated cmp.types.v4.RateRule rate_rules = 5;
+  repeated cmp.types.v4.RateRule rate_rules = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // The cancellation conditions related to an option
   cmp.types.v4.CancelPolicy cancel_policy = 6;
 
   // Freetext remarks without any functionality
-  string remarks = 7;
+  string remarks = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v4.Bookability bookability = 8;

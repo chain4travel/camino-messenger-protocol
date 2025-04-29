@@ -15,6 +15,7 @@ package cmp.services.accommodation.v4;
 import "cmp/services/accommodation/v4/search_query_types.proto";
 import "cmp/services/accommodation/v4/search_result_types.proto";
 import "cmp/types/v4/common.proto";
+import "buf/validate/validate.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/traveller.proto";
 
@@ -73,7 +74,7 @@ import "cmp/types/v4/traveller.proto";
 message AccommodationSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
   cmp.types.v4.SearchRequestMetadata metadata = 2;
@@ -100,7 +101,7 @@ message AccommodationSearchRequest {
 message AccommodationSearchResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
   cmp.types.v4.SearchResponseMetadata metadata = 2;

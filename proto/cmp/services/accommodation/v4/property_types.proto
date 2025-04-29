@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.accommodation.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v1/product_status.proto";
 import "cmp/types/v4/amenity.proto";
 import "cmp/types/v4/bed.proto";
@@ -33,13 +34,16 @@ message Property {
   cmp.types.v4.SupplierProductCode supplier_code = 2;
 
   // Product code which can be of different types
-  repeated cmp.types.v4.ProductCode product_codes = 3;
+  repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Ex: "Beach Hotel Alanya"
-  string name = 4;
+  string name = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Ex: "Hilton"
-  string chain = 5;
+  string chain = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Ex: CATEGORY_RATING_4_5
   cmp.services.accommodation.v4.CategoryRating category_rating = 6;
@@ -58,7 +62,13 @@ message Property {
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
-  repeated string airports = 11;
+  repeated string airports = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_len: 4} /* FIXME: check */
+    }
+  }];
 }
 
 enum CategoryRating {
@@ -97,25 +107,46 @@ message PropertyExtendedInfo {
   cmp.services.accommodation.v4.Property property = 1;
 
   // Images
-  repeated cmp.types.v4.Image images = 2;
+  repeated cmp.types.v4.Image images = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Videos
-  repeated cmp.types.v4.Video videos = 3;
+  repeated cmp.types.v4.Video videos = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Segmentation classification
-  repeated string classifications = 4;
+  repeated string classifications = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
 
   // Property descriptions
-  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 5;
+  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Room descriptions
-  repeated cmp.types.v4.LocalizedDescriptionSet localized_room_descriptions = 6;
+  repeated cmp.types.v4.LocalizedDescriptionSet localized_room_descriptions = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Payment type. Ex: "MERCHANT"
-  string payment_type = 7;
+  string payment_type = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Rooms
-  repeated cmp.services.accommodation.v4.Room rooms = 8;
+  repeated cmp.services.accommodation.v4.Room rooms = 8 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message Room {
@@ -124,60 +155,85 @@ message Room {
   // in the ProductList and the ProductInfo messages, so that the static data like room
   // amenities, descriptions, images etc. can be married to the dynamic price and
   // availability data for display to the end user.
-  string supplier_code = 1;
+  string supplier_code = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Room name. In case of hotel a standardized room name is often derived from
   // room code structures. Example: "superior sea view room".
   // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
   // "Bathroom" when specific descriptions for each room are available.
-  string supplier_name = 2;
+  string supplier_name = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Original room name as assigned by the hotel. In case of specifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
   // For holiday homes specific room names if available can be given.
-  string original_name = 3;
+  string original_name = 3 [(buf.validate.field).string.max_bytes = 512];
 
-  repeated cmp.types.v4.Image images = 4;
-  repeated cmp.types.v4.Video videos = 5;
+  repeated cmp.types.v4.Image images = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  repeated cmp.types.v4.Video videos = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Room descriptions
-  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 6;
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Meal plan (Board code)
-  repeated cmp.types.v4.MealPlan meal_plans = 7;
+  repeated cmp.types.v4.MealPlan meal_plans = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Beds
-  repeated cmp.types.v4.Bed beds = 8;
+  repeated cmp.types.v4.Bed beds = 8 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Occupancy
   cmp.services.accommodation.v4.Occupancy total_occupancy = 9;
 
   // Services
-  repeated cmp.types.v4.ServiceFact services = 10;
+  repeated cmp.types.v4.ServiceFact services = 10 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Amenities
-  repeated cmp.types.v4.Amenity amenities = 11;
+  repeated cmp.types.v4.Amenity amenities = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message Occupancy {
   // Min guests
-  int32 min_guests = 1;
+  int32 min_guests = 1 [(buf.validate.field).int32 = {gte: 0}];
 
   // Max guests
-  int32 max_guests = 2;
+  int32 max_guests = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Standard occupancy
-  int32 standard_occupancy = 3;
+  int32 standard_occupancy = 3 [(buf.validate.field).int32 = {gte: 0}];
 
   // Full payers
-  int32 full_payers = 4;
+  int32 full_payers = 4 [(buf.validate.field).int32 = {gte: 0}];
 
   // If infants are counted in total guests or not
   bool infant_counted_in_total_guests = 5;
 
   // Occupancy options
-  repeated cmp.services.accommodation.v4.OccupancyOption occupancy_options = 6;
+  repeated cmp.services.accommodation.v4.OccupancyOption occupancy_options = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 message OccupancyOption {
@@ -185,14 +241,14 @@ message OccupancyOption {
   cmp.types.v4.TravellerType guest_type = 1;
 
   // Min guests
-  int32 min = 2;
+  int32 min = 2 [(buf.validate.field).int32 = {gte: 0}];
 
   // Max guests
-  int32 max = 3;
+  int32 max = 3 [(buf.validate.field).int32 = {gte: 0}];
 
   // Min age
-  int32 min_age = 4;
+  int32 min_age = 4 [(buf.validate.field).int32 = {gte: 0}];
 
   // Max age
-  int32 max_age = 5;
+  int32 max_age = 5 [(buf.validate.field).int32 = {gte: 0}];
 }
