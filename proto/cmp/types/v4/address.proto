@@ -22,6 +22,33 @@ message Address {
     max_bytes: 512
   }];
   cmp.types.v4.GeoTree geo_tree = 5 [(buf.validate.field).required = true];
+
+  cmp.types.v4.AddressType type = 6 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  string description = 7 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
 }
 
-// TODO1: add rule to ALL strings as max 512 bytes
+enum AddressType {
+  ADDRESS_TYPE_UNSPECIFIED = 0;
+  ADDRESS_TYPE_OTHER = 1; // For addresses that don't fit into other categories
+  ADDRESS_TYPE_BILLING = 2; // Billing address for invoices and payments
+  ADDRESS_TYPE_SHIPPING = 3; // Shipping address for deliveries
+  ADDRESS_TYPE_BUSINESS = 4; // Business or company address
+  ADDRESS_TYPE_RESIDENTIAL = 5; // Residential or home address
+  ADDRESS_TYPE_MAILING = 6; // Mailing address for correspondence
+  ADDRESS_TYPE_PHYSICAL = 7; // Physical location address
+  ADDRESS_TYPE_BRANCH = 8; // Branch or satellite location
+  ADDRESS_TYPE_HEADQUARTERS = 9; // Headquarters or main office location
+  ADDRESS_TYPE_PICKUP = 10; // Pickup point address
+  ADDRESS_TYPE_DELIVERY = 11; // Delivery-only address
+  ADDRESS_TYPE_EVENT = 12; // Event venue address
+  ADDRESS_TYPE_TEMPORARY = 13; // Temporary address
+  ADDRESS_TYPE_SEASONAL = 14; // Seasonal address
+  ADDRESS_TYPE_LEGAL = 15; // Legal registered address
+}
