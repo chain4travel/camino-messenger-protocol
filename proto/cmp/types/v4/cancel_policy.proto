@@ -62,5 +62,7 @@ message CancelPenalty {
   string description = 3 [(buf.validate.field).string = {max_bytes: 512}];
 
   // For which rateplan the penalty is valid.
-  repeated string valid_for_rate_plans = 4; // FIXME: check if this is required
+  repeated string valid_for_rate_plans = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }]; // FIXME: check if this is required
 }

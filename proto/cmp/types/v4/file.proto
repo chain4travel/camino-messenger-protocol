@@ -209,7 +209,10 @@ message Checksum {
   }];
 
   // Hash content
-  string hash_content = 2 [(buf.validate.field).string.min_len = 1];
+  string hash_content = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 }
 
 // Hash algorithms

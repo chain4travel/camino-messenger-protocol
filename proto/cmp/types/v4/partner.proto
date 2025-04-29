@@ -49,16 +49,22 @@ message Partner {
 
   // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
   // then means that on-chain payment is supported.
-  repeated cmp.types.v4.TokenCurrency on_chain_currencies = 5;
+  repeated cmp.types.v4.TokenCurrency on_chain_currencies = 5 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Off chain payment support
   bool off_chain_payment_supported = 6;
 
   // Supported services
-  repeated cmp.types.v4.PartnerService services = 7;
+  repeated cmp.types.v4.PartnerService services = 7 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Partner addresses of the messenger bots
-  repeated cmp.types.v1.WalletAddress addresses = 8;
+  repeated cmp.types.v1.WalletAddress addresses = 8 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Partner's consortium member wallet address. This address should be the one who
   // creates the entry in Partner Configuration on the chain.
@@ -107,7 +113,9 @@ message PartnerService {
   // This field should be a serialized proto message of `CustomBundledPrice` type.
   // The field's scalar type is `bytes` on purpose, so it can be encrypted if it's
   // desired.
-  repeated bytes custom_bundled_prices = 6;
+  repeated bytes custom_bundled_prices = 6 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 }
 
 // Custom Bundle Price
