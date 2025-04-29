@@ -2,13 +2,14 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/evm_transaction.proto";
 import "cmp/types/v4/price.proto";
 
 message FinalizeCancellationRequest {
   // The request header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Booking token ID this request is for
   uint64 token_id = 2;
@@ -19,7 +20,7 @@ message FinalizeCancellationRequest {
 
 message FinalizeCancellationResponse {
   // The response header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for the cancellation proposal finalization. This
   // transaction proves the finalization of the cancellation proposal on-chain.

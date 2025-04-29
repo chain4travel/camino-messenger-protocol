@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/services/cancellation/v1/reason.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/price.proto";
@@ -20,7 +21,7 @@ service CheckCancellationService {
 
 message CheckCancellationRequest {
   // The request header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // The token id of the booking to be cancelled
   uint64 token_id = 2;
@@ -34,7 +35,7 @@ message CheckCancellationRequest {
 
 message CheckCancellationResponse {
   // The response header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // The token id of the booking to be cancelled
   uint64 token_id = 2;
@@ -43,7 +44,7 @@ message CheckCancellationResponse {
   cmp.types.v4.Price refund_amount = 3;
 
   // The policy id applied
-  string policy_id_applied = 4;
+  string policy_id_applied = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the cancellation check
   cmp.services.cancellation.v2.CancellationCheckStatus status = 5;
