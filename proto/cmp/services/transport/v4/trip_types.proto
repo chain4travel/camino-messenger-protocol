@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.transport.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/types/v4/baggage.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/location.proto";
@@ -33,7 +34,10 @@ message TripExtended {
   // Trip segments are the legs offered. Here we use extended segments type.
   //
   // Departure and Arrival dates and times can be derived from the first and last segments
-  repeated cmp.services.transport.v4.SegmentExtended segments = 4;
+  repeated cmp.services.transport.v4.SegmentExtended segments = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // A whole trip from the first segment till the last one with basic information.
@@ -46,7 +50,10 @@ message TripBasic {
   // Trip segments are the legs offered
   //
   // Departure and Arrival dates and times can be derived from the first and last segments
-  repeated cmp.services.transport.v4.Segment segments = 2;
+  repeated cmp.services.transport.v4.Segment segments = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
@@ -67,44 +74,47 @@ message SegmentExtended {
   // flight: "Y", "J", "F".
   // train: "1st", "2nd" or "S", "C", "P"
   // transfer: "S", "P", "VIP", "SS"
-  string service_type_code = 2;
+  string service_type_code = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Service type description examples:
   // flight: "Economy Class", "Business Class", "First Class"
   // train: "First Class", "Second Class" or "standard", "comfort", and "premium",..
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
-  string service_type_description = 3;
+  string service_type_description = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Included, optional or compulsory services for this segment or leg. Just a code and
   // description can be included if it is a package (seat, priority, large carry-on).
   // or a price detail can be included for optionally pre-ordered meals for example.
-  repeated cmp.types.v4.ServiceFact services = 4;
+  repeated cmp.types.v4.ServiceFact services = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Min PAX
   //
   // Ex: `1`
-  int32 min_pax = 5;
+  int32 min_pax = 5 [(buf.validate.field).int32 = {gte: 0}];
 
   // Max PAX
   //
   // Ex: `3`
-  int32 max_pax = 6;
+  int32 max_pax = 6 [(buf.validate.field).int32 = {gte: 0}];
 }
 
 message Segment {
   // Segment ID
   // Ex: "SEG1234"
-  string segment_id = 1;
+  string segment_id = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Provider Code Ex: "EW" for Eurowings in case of a flight. DB for Deutsche Bahn
   // in case of train. HT for Holiday Taxi or MTS for MTS in case of a transfer.
-  string provider_code = 2;
+  string provider_code = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Retailer Code, replacing Marketing carrier The example would be where Iberia is
   // selling an Iberia Express flight. So in this example the retailer_code for
   // Iberia would be "IB" and the provider_code for Iberia Express would be "I2".
   // Similar "interline" or "code share" operation may exist in rail and transfer.
-  string retailer_code = 3;
+  string retailer_code = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Sub supplier code, replacing Operating carrier or identifying sub contracted
   // services provided by other suppliers.
@@ -112,7 +122,7 @@ message Segment {
   // DB could be selling an international train trip operated by the Dutch Nederlands
   // Spoorwegen (NS) or the French SNCF. Holiday Taxis could be selling a transfer
   // that is operated by Transunion.
-  string sub_supplier_code = 4;
+  string sub_supplier_code = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Product Code and Number
   //
@@ -160,6 +170,8 @@ message TransitEvent {
 // Represents a departure or arrival event's location
 message TransitEventLocation {
   oneof location {
+    option (buf.validate.oneof).required = true; // One must be provided
+
     // A location code.
     cmp.types.v4.LocationCode location_code = 1;
 

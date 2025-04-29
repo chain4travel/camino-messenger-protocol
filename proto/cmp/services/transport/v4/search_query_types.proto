@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.transport.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/transport/v4/search_parameters_types.proto";
 import "cmp/types/v4/date.proto";
 import "cmp/types/v4/location.proto";
@@ -20,13 +21,19 @@ import "cmp/types/v4/traveller.proto";
 // Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/search_query_types.proto.dot.svg)
 message TransportSearchQuery {
   // ID
-  int32 query_id = 1;
+  int32 query_id = 1 [(buf.validate.field).int32 = {gte: 0}];
 
   // Global definition of the travellers for all requests to be used via the traveller_id
-  repeated cmp.types.v4.BasicTraveller travellers = 2;
+  repeated cmp.types.v4.BasicTraveller travellers = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Trips
-  repeated cmp.services.transport.v4.QueryTrip trips = 3;
+  repeated cmp.services.transport.v4.QueryTrip trips = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Version of `Trip` object in `trip_types.prot` for search request's queries. It
@@ -56,6 +63,8 @@ message QueryTransitEvent {
 // Represents a departure or arrival event's location
 message QueryTransitEventLocation {
   oneof location {
+    option (buf.validate.oneof).required = true; // One must be provided
+
     // A list of location codes or just one code.
     cmp.types.v4.LocationCodes location_codes = 1;
 

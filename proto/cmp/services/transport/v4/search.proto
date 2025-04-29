@@ -11,6 +11,7 @@ syntax = "proto3";
 // This package is a WIP.
 package cmp.services.transport.v4;
 
+import "buf/validate/validate.proto";
 import "cmp/services/transport/v4/search_query_types.proto";
 import "cmp/services/transport/v4/search_result_types.proto";
 import "cmp/types/v1/content_source.proto";
@@ -22,7 +23,7 @@ import "cmp/types/v4/traveller.proto";
 message TransportSearchRequest {
   // Message header. Contains API version, message info string and end-user wallet
   // address
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Search request metadata
   cmp.types.v4.SearchRequestMetadata metadata = 2;
@@ -34,16 +35,19 @@ message TransportSearchRequest {
   cmp.types.v4.SearchParameters search_parameters = 3;
 
   // Multiple search queries for this search request
-  repeated cmp.services.transport.v4.TransportSearchQuery queries = 4;
+  repeated cmp.services.transport.v4.TransportSearchQuery queries = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Remarks
-  string remarks = 5;
+  string remarks = 5 [(buf.validate.field).string.max_bytes = 512];
 }
 
 message TransportSearchResponse {
   // Message header. Contains API version, message info string and end-user wallet
   // address
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search response metadata
   cmp.types.v4.SearchResponseMetadata metadata = 2;
@@ -53,13 +57,22 @@ message TransportSearchResponse {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated cmp.types.v1.ContentSourceType content_source_types = 3;
+  repeated cmp.types.v1.ContentSourceType content_source_types = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Transit search results
-  repeated cmp.services.transport.v4.TransportSearchResult results = 4;
+  repeated cmp.services.transport.v4.TransportSearchResult results = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Global definition of the travellers for all results to be used via the traveller_id
-  repeated cmp.types.v4.BasicTraveller travellers = 5;
+  repeated cmp.types.v4.BasicTraveller travellers = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Transport Search Service definition.
