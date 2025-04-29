@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.claim.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/services/claim/v2/claim_types.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/price.proto";
@@ -9,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 
 message ClaimSettlementDecisionRequest {
   // Message header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Only respond with the products that are new, modified or deactivated after this
   // timestamp.
@@ -26,10 +27,10 @@ message ClaimSettlementDecisionRequest {
   cmp.services.claim.v2.ClaimStatus status = 4;
 
   // TODO: Is this reference applied for Acceptance and Rejection ?
-  string decision_reference = 5;
+  string decision_reference = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // More info about decision such as rejection reason.
-  string decision_detail = 6;
+  string decision_detail = 6 [(buf.validate.field).string.max_bytes = 512];
 
   // Pay-out transaction
   cmp.services.claim.v2.PayOutTransaction payout_transaction = 7;
@@ -42,7 +43,7 @@ message ClaimSettlementDecisionRequest {
 
 message ClaimSettlementDecisionResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
   cmp.services.claim.v2.ClaimMessageResponse claim_message_response = 2;

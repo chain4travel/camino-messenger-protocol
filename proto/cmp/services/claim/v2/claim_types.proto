@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cmp.services.claim.v2;
 
+import "buf/validate/validate.proto";
 import "cmp/services/insurance/v3/search_result_types.proto";
 import "cmp/types/v4/company.proto";
 import "cmp/types/v4/date.proto";
@@ -24,28 +25,43 @@ message ClaimForm {
   cmp.services.claim.v2.PolicyInfo policy_info = 2;
 
   // Dates of services
-  repeated cmp.types.v4.Date dates = 3;
+  repeated cmp.types.v4.Date dates = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Services to claim
-  repeated cmp.services.claim.v2.ClaimableService services_to_claim = 4;
+  repeated cmp.services.claim.v2.ClaimableService services_to_claim = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Additional documents
-  repeated cmp.services.claim.v2.ClaimDocument additional_documents = 5;
+  repeated cmp.services.claim.v2.ClaimDocument additional_documents = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Additional info
-  repeated cmp.services.claim.v2.ClaimAdditionalInfo additional_info = 6;
+  repeated cmp.services.claim.v2.ClaimAdditionalInfo additional_info = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Service to claim
 message ClaimableService {
   // Service description
-  string service_description = 1;
+  string service_description = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Amount to be claimed
   cmp.types.v4.Price charge_amount = 2;
 
   // Documents supporting the claim
-  repeated cmp.services.claim.v2.ClaimDocument documents = 3;
+  repeated cmp.services.claim.v2.ClaimDocument documents = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // CancellationConfirmed is a boolean indicating that the Partner certifies
   // that the insured booking is cancelled in case of CFAR insurance.
@@ -66,7 +82,7 @@ message ClaimDocument {
 // Additonal info
 message ClaimAdditionalInfo {
   // Info string. More information regarding the claim/accident to be added here
-  string info = 1;
+  string info = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Condition related to the claim
   cmp.services.claim.v2.ClaimCondition condition = 2;
@@ -139,10 +155,10 @@ message PolicyInfo {
   // Payment method: wallet address or the IBAN of the claim issuer for pay-out
   oneof payment_method {
     // Wallet address for on-chain payment
-    string wallet_address = 4;
+    string wallet_address = 4 [(buf.validate.field).string.max_bytes = 512];
 
     // IBAN for off-chain payment
-    string iban = 5;
+    string iban = 5 [(buf.validate.field).string.max_bytes = 512];
   }
 
   // Insurance Company
@@ -155,7 +171,7 @@ message PolicyInfo {
 // Claim more info requested
 message ClaimInfoRequested {
   // Service description
-  string service_description = 1;
+  string service_description = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Claim service amount
   cmp.types.v4.Price charge_amount = 2;
@@ -166,13 +182,13 @@ message ClaimInfoRequested {
 
 message ClaimId {
   // Submission ID from the TO or OTA to trace this claim
-  string submission_id = 1;
+  string submission_id = 1 [(buf.validate.field).string.max_bytes = 512];
 
   // Processing ID from insurance supplier
-  string processing_id = 2;
+  string processing_id = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Carrier ID from insurance carrier
-  string carrier_id = 3;
+  string carrier_id = 3 [(buf.validate.field).string.max_bytes = 512];
 }
 
 message ClaimMessageResponse {
