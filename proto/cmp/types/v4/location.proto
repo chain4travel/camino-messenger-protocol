@@ -65,14 +65,14 @@ message GeoTree {
 // unique.
 message LocationCode {
   string code = 1 [(buf.validate.field).string = {
-    min_len: 3 // FIXME: check, is it high or low?
+    min_len: 1
     max_bytes: 512
   }];
 
   cmp.types.v4.LocationCodeType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
-  }]; // FIXME: Should UNSPECIFIED be allowed?
+  }];
 }
 
 // Represents a list of `LocationCode` message type. We need to encapsulate repeated

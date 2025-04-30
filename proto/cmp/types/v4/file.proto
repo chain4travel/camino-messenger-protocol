@@ -15,7 +15,7 @@ message File {
     max_bytes: 512
   }];
 
-  // URL
+  // URI
   string uri = 2 [(buf.validate.field).string = {
     uri: true
     max_bytes: 2048
@@ -181,50 +181,38 @@ message Checksum {
 enum HashAlgorithm {
   HASH_ALGORITHM_UNSPECIFIED = 0;
 
-  // BLAKE2B - High-performance cryptographic hash function
-  HASH_ALGORITHM_BLAKE2B = 1;
-
   // Legacy/deprecated - No longer considered secure for cryptographic purposes
-  HASH_ALGORITHM_MD5 = 2;
-
-  // Legacy/deprecated - No longer considered secure for cryptographic purposes
-  HASH_ALGORITHM_SHA0 = 3;
-
-  // Legacy/deprecated - No longer considered secure for cryptographic purposes
-  HASH_ALGORITHM_SHA1 = 4;
+  HASH_ALGORITHM_MD5 = 1;
+  HASH_ALGORITHM_SHA0 = 2;
+  HASH_ALGORITHM_SHA1 = 3;
 
   // SHA-2 family hash functions
-  HASH_ALGORITHM_SHA_224 = 5;
-  HASH_ALGORITHM_SHA_256 = 6;
-  HASH_ALGORITHM_SHA_384 = 7;
-  HASH_ALGORITHM_SHA_512 = 8;
-  HASH_ALGORITHM_SHA_512_224 = 9;
-  HASH_ALGORITHM_SHA_512_256 = 10;
+  HASH_ALGORITHM_SHA_224 = 4;
+  HASH_ALGORITHM_SHA_256 = 5;
+  HASH_ALGORITHM_SHA_384 = 6;
+  HASH_ALGORITHM_SHA_512 = 7;
+  HASH_ALGORITHM_SHA_512_224 = 8;
+  HASH_ALGORITHM_SHA_512_256 = 9;
 
   // SHA-3 family hash functions
-  HASH_ALGORITHM_SHA3_224 = 11;
-  HASH_ALGORITHM_SHA3_256 = 12;
-  HASH_ALGORITHM_SHA3_384 = 13;
-  HASH_ALGORITHM_SHA3_512 = 14;
+  HASH_ALGORITHM_SHA3_224 = 10;
+  HASH_ALGORITHM_SHA3_256 = 11;
+  HASH_ALGORITHM_SHA3_384 = 12;
+  HASH_ALGORITHM_SHA3_512 = 13;
 
   // SHA-3 derived extendable-output functions (XOFs)
-  HASH_ALGORITHM_SHAKE_128 = 15;
-  HASH_ALGORITHM_SHAKE_256 = 16;
+  HASH_ALGORITHM_SHAKE_128 = 14;
+  HASH_ALGORITHM_SHAKE_256 = 15;
 
-  // BLAKE2S - Optimized for 32-bit platforms
-  HASH_ALGORITHM_BLAKE2S = 17;
+  // BLAKE family - High-performance cryptographic hash functions
+  HASH_ALGORITHM_BLAKE2B = 16; // Optimized for 64-bit platforms
+  HASH_ALGORITHM_BLAKE2S = 17; // Optimized for 32-bit platforms
+  HASH_ALGORITHM_BLAKE3 = 18; // Modern high-performance hash
 
-  // BLAKE3 - Modern high-performance hash
-  HASH_ALGORITHM_BLAKE3 = 18;
-
-  // RIPEMD-160 - Used in some blockchain implementations
-  HASH_ALGORITHM_RIPEMD_160 = 19;
-
-  // Whirlpool - ISO standardized hash function
-  HASH_ALGORITHM_WHIRLPOOL = 20;
-
-  // SM3 - Chinese cryptographic standard
-  HASH_ALGORITHM_SM3 = 21;
+  // Other standardized hash functions
+  HASH_ALGORITHM_RIPEMD_160 = 19; // Used in some blockchain implementations
+  HASH_ALGORITHM_WHIRLPOOL = 20; // ISO standardized hash function
+  HASH_ALGORITHM_SM3 = 21; // Chinese cryptographic standard
 
   // Keccak variants - Original Keccak, distinct from finalized SHA-3
   HASH_ALGORITHM_KECCAK_224 = 22;
@@ -232,15 +220,9 @@ enum HashAlgorithm {
   HASH_ALGORITHM_KECCAK_384 = 24;
   HASH_ALGORITHM_KECCAK_512 = 25;
 
-  // Fast Syndrome Based hash function
-  HASH_ALGORITHM_FSB = 26;
-
-  // JH hash function (SHA-3 finalist)
-  HASH_ALGORITHM_JH = 27;
-
-  // Grøstl hash function (SHA-3 finalist)
-  HASH_ALGORITHM_GROESTL = 28;
-
-  // Skein hash function (SHA-3 finalist)
-  HASH_ALGORITHM_SKEIN = 29;
+  // SHA-3 competition finalists
+  HASH_ALGORITHM_FSB = 26; // Fast Syndrome Based hash function
+  HASH_ALGORITHM_JH = 27; // JH hash function
+  HASH_ALGORITHM_GROESTL = 28; // Grøstl hash function
+  HASH_ALGORITHM_SKEIN = 29; // Skein hash function
 }

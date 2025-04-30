@@ -18,11 +18,10 @@ message AdditionalPaymentInfo {
 // Payment Types
 enum PaymentType {
   PAYMENT_TYPE_UNSPECIFIED = 0;
-  PAYMENT_TYPE_OTHER = 1;
-  PAYMENT_TYPE_BANK_TRANSFER = 2;
-  PAYMENT_TYPE_CREDIT_CARD = 3;
-  PAYMENT_TYPE_PAYPAL = 4;
-  PAYMENT_TYPE_CRYPTO_CARD = 5;
+  PAYMENT_TYPE_BANK_TRANSFER = 1;
+  PAYMENT_TYPE_CREDIT_CARD = 2;
+  PAYMENT_TYPE_PAYPAL = 3;
+  PAYMENT_TYPE_CRYPTO_CARD = 4;
 }
 
 message OffChainPayment {
@@ -33,8 +32,16 @@ message OffChainPayment {
   }];
 
   // Payment Type. It can be Bank transfer, Credit card, ... etc
-  cmp.types.v4.PaymentType payment_type = 2 [(buf.validate.field).enum = {
-    defined_only: true
-    not_in: [0]
+  cmp.types.v4.PaymentType payment_type = 2 [(buf.validate.field).enum = {defined_only: true}];
+
+  string description = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
   }];
+
+  option (buf.validate.message).cel = {
+    id: "payment_type_unspecified_requires_description"
+    message: "Description must not be empty when payment type is UNSPECIFIED"
+    expression: "this.payment_type != 0 || size(this.description) > 0"
+  };
 }

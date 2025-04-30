@@ -24,7 +24,7 @@ message LoyaltyProgram {
 
   // Official name of the loyalty program that might be required to map
   string name = 3 [(buf.validate.field).string = {
-    min_len: 0 // FIXME: Is it required?
+    min_len: 0
     max_bytes: 512
   }];
 

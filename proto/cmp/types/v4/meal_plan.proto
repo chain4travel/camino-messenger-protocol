@@ -23,7 +23,7 @@ message MealPlan {
   // Ex: "All Inclusive"
   string description = 2 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 2000 // FIXME: Is this enough for descriptions of meal plans?
+    max_bytes: 512
   }];
 }
 
@@ -44,5 +44,5 @@ enum MealPlanCode {
   MEAL_PLAN_CODE_RO = 12; // Room Only
   MEAL_PLAN_CODE_DB = 13; // Dinner Buffet
   MEAL_PLAN_CODE_SC = 14; // Self Catering
-  MEAL_PLAN_CODE_AP = 15; // Acording to Programme*
+  MEAL_PLAN_CODE_AP = 15; // According to Program
 }
