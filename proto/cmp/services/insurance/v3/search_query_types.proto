@@ -7,9 +7,11 @@ import "cmp/services/insurance/v3/search_parameters_types.proto";
 
 message InsuranceSearchQuery {
   // Integer query ID, unique per search request
-  int32 query_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 query_id = 1;
 
   // Insurance specific search parameters Ex: Specific search parameters like
   // insured booking, nationality, blockchain, ... etc
-  cmp.services.insurance.v3.InsuranceSearchParameters search_parameters_insurance = 2;
+  //
+  // FIXME: This field should be required, otherwise it becomes an empty query, does it make sense?
+  cmp.services.insurance.v3.InsuranceSearchParameters search_parameters_insurance = 2 [(buf.validate.field).required = true];
 }

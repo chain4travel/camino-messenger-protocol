@@ -17,7 +17,7 @@ import "cmp/types/v4/price_type.proto";
 message ActivitySearchResult {
   // Option ID for the search option. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
-  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 result_id = 1;
 
   // Activity basic info
   cmp.services.activity.v4.Activity info = 2;
@@ -35,10 +35,10 @@ message ActivitySearchResult {
   }];
 
   // Min participants
-  int32 min_participants = 6 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 min_participants = 6;
 
   // Max participants
-  int32 max_participants = 7 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max_participants = 7;
 
   // Price with value and currency code
   cmp.types.v4.Price price = 8;

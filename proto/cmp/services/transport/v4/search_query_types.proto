@@ -21,7 +21,7 @@ import "cmp/types/v4/traveller.proto";
 // Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/search_query_types.proto.dot.svg)
 message TransportSearchQuery {
   // ID
-  int32 query_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 query_id = 1;
 
   // Global definition of the travellers for all requests to be used via the traveller_id
   repeated cmp.types.v4.BasicTraveller travellers = 2 [(buf.validate.field).repeated = {

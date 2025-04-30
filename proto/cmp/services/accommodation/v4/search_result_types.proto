@@ -18,10 +18,10 @@ import "cmp/types/v4/rate.proto";
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
-  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 result_id = 1;
 
   // This field represents the query ID associated with the search result.
-  int32 query_id = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 query_id = 2;
 
   // Units for this search result
   repeated cmp.services.accommodation.v4.Unit units = 3 [(buf.validate.field).repeated = {

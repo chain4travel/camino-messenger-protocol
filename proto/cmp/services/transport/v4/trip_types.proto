@@ -93,12 +93,12 @@ message SegmentExtended {
   // Min PAX
   //
   // Ex: `1`
-  int32 min_pax = 5 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 min_pax = 5;
 
   // Max PAX
   //
   // Ex: `3`
-  int32 max_pax = 6 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max_pax = 6;
 }
 
 message Segment {

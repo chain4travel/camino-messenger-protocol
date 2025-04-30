@@ -48,7 +48,7 @@ message TransportSearchParameters {
   // The maximum number of segments a trip might be containing, if only a direct
   // flight, transfer, or train journey the maximum number of segments is set to
   // one.
-  int32 max_segments = 8 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max_segments = 8;
 
   // Minimum departure time of the trip
   cmp.types.v1.Time trip_min_departure_time = 9;

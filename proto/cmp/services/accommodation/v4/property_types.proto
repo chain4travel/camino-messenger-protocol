@@ -215,16 +215,16 @@ message Room {
 
 message Occupancy {
   // Min guests
-  int32 min_guests = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 min_guests = 1;
 
   // Max guests
-  int32 max_guests = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max_guests = 2;
 
   // Standard occupancy
-  int32 standard_occupancy = 3 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 standard_occupancy = 3;
 
   // Full payers
-  int32 full_payers = 4 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 full_payers = 4;
 
   // If infants are counted in total guests or not
   bool infant_counted_in_total_guests = 5;
@@ -241,14 +241,14 @@ message OccupancyOption {
   cmp.types.v4.TravellerType guest_type = 1;
 
   // Min guests
-  int32 min = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 min = 2;
 
   // Max guests
-  int32 max = 3 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max = 3;
 
   // Min age
-  int32 min_age = 4 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 min_age = 4;
 
   // Max age
-  int32 max_age = 5 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 max_age = 5;
 }

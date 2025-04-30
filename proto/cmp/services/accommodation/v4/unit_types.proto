@@ -90,7 +90,7 @@ message Unit {
   }];
 
   // Number of remaining units at the time of calculation
-  int32 remaining_units = 14 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 remaining_units = 14;
 
   // Property code which can be of different types
   cmp.types.v4.ProductCode property_code = 15;

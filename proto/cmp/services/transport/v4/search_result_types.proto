@@ -19,10 +19,10 @@ import "cmp/types/v4/rate.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/search_result_types.proto.dot.svg)
 message TransportSearchResult {
   // Unique result ID
-  int32 result_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 result_id = 1;
 
   // Query ID is the id of the query this result is generated for
-  int32 query_id = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 query_id = 2;
 
   // Offer ID.
   //

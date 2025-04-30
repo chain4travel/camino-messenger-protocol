@@ -10,7 +10,7 @@ import "cmp/types/v4/traveller.proto";
 
 message AccommodationSearchQuery {
   // Integer query ID, unique per search request
-  int32 query_id = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 query_id = 1;
 
   // Accommodation specific search parameters Ex: Specific search parameters like
   // geo location, meal plan, rate plan and rate rules.
@@ -26,7 +26,7 @@ message AccommodationSearchQuery {
   }];
 
   // Total number of rooms / holiday homes
-  int32 unit_count = 5 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 unit_count = 5;
 
   // Type of the unit, like room or holiday home
   cmp.services.accommodation.v4.UnitType unit_type = 6;
