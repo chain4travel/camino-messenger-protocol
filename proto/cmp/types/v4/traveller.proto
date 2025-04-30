@@ -22,9 +22,7 @@ message BasicTraveller {
   // response also returns these references.
   // The traveller_id is specified in each unit and only detailed once in the search response
   // repeated travellers field
-  int32 traveller_id = 1 [(buf.validate.field).int32 = {
-    gte: 0 // Ensure traveller_id is non-negative
-  }];
+  uint32 traveller_id = 1;
 
   // Traveller type from enum below
   cmp.types.v4.TravellerType type = 2 [(buf.validate.field).enum = {
@@ -62,9 +60,7 @@ enum TravellerType {
 message ExtensiveTraveller {
   // Guest number. The lowest number is the lead-pax. This ID is also used for
   // referencing services linked to specific participants, such as baggage.
-  int32 traveller_id = 1 [(buf.validate.field).int32 = {
-    gte: 0 // Ensure traveller_id is non-negative
-  }];
+  uint32 traveller_id = 1;
 
   // Gender, as defined by the enum below.
   cmp.types.v4.GenderType gender = 2 [(buf.validate.field).enum.defined_only = true]; // Only allow defined genders, including UNSPECIFIED.

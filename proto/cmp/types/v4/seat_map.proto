@@ -69,7 +69,7 @@ message Section {
     cmp.types.v4.SeatList seat_list = 3;
 
     // Total number of seats in this section as an integer.
-    google.protobuf.Int32Value total_seats = 4 [(buf.validate.field).int32 = {gte: 1}]; // TODO: Check if this rule makes it impossible to select seat_list from this oneof.
+    google.protobuf.Int32Value seat_count = 4 [(buf.validate.field).int32 = {gte: 1}]; // TODO: Check if this rule makes it impossible to select seat_list from this oneof.
   }
 
   // Image that provides a visual representation of the section's layout, which can

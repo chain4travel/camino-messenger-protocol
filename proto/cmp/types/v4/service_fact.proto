@@ -65,10 +65,10 @@ message ServiceFact {
   // priority boarding, which also allows for a larger carry-on bag.
   repeated cmp.types.v4.ServiceFact details = 6 [(buf.validate.field).repeated = {max_items: 100}];
 
-  // the count of the number of services. In case the service requires specification
+  // The count of the number of services. In case the service requires specification
   // of the number or frequency of the products that will be included. For example
   // "bouquet of roses, qty=24" or "baggage qty=2".
-  int32 quantity = 7 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 quantity = 7;
 }
 
 enum ServiceAvailabilityType {

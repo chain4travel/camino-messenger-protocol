@@ -54,15 +54,15 @@ message Header {
 message Version {
   // API Version, major version which can have breaking changes (semantic
   // versioning)
-  int32 major = 1 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 major = 1;
 
   // API Version, minor version has backwards compatible new features (semantic
   // versioning)
-  int32 minor = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 minor = 2;
 
   // API Version, patch version small improvements and bugfixes (semantic
   // versioning)
-  int32 patch = 3 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 patch = 3;
 }
 
 message RequestHeader {

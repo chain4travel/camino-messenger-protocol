@@ -17,8 +17,7 @@ message CreditCard {
 
   cmp.types.v4.Date expiration_date = 2 [(buf.validate.field).required = true];
 
-  int32 cvc = 3 [(buf.validate.field).int32 = {
-    gte: 0
+  uint32 cvc = 3 [(buf.validate.field).uint32 = {
     lte: 9999 // FIXME: check
   }];
 }

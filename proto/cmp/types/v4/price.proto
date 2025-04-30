@@ -91,7 +91,7 @@ message Price {
     max_len: 78 // Max digits for uint256
   }];
 
-  int32 decimals = 2 [(buf.validate.field).int32.gte = 0];
+  uint32 decimals = 2;
 
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }

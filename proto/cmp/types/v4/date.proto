@@ -10,17 +10,14 @@ import "buf/validate/validate.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/date.proto.dot.svg)
 message Date {
-  int32 year = 1 [(buf.validate.field).int32 = {
-    gte: 0
-    lte: 9999
-  }];
+  uint32 year = 1 [(buf.validate.field).uint32 = {lte: 9999}];
 
-  int32 month = 2 [(buf.validate.field).int32 = {
+  uint32 month = 2 [(buf.validate.field).uint32 = {
     gte: 1
     lte: 12
   }];
 
-  int32 day = 3 [(buf.validate.field).int32 = {
+  uint32 day = 3 [(buf.validate.field).uint32 = {
     gte: 1
     lte: 31
   }];

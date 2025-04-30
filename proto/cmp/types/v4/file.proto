@@ -49,10 +49,10 @@ message Image {
   cmp.types.v4.File file = 1 [(buf.validate.field).required = true];
 
   // Width
-  int32 width = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 width = 2;
 
   // Height
-  int32 height = 3 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 height = 3;
 }
 
 message Video {
@@ -63,15 +63,15 @@ message Video {
   cmp.types.v4.Codec codec = 2 [(buf.validate.field).enum.defined_only = true];
 
   // Bitrate in kbps
-  int32 bitrate = 3 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 bitrate = 3;
 
   // Framerate
-  int32 framerate = 4 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 framerate = 4;
 
   // Width and height are specified in pixels. Aspect ratio can be derived from that
   // Ex: "16:9"
-  int32 width = 5 [(buf.validate.field).int32 = {gte: 0}];
-  int32 height = 6 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 width = 5;
+  uint32 height = 6;
 }
 
 // Codec formats

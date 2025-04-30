@@ -33,7 +33,7 @@ message Baggage {
   // traveller ID to specify the various types of baggage for each of participants
   // of a trip. If there is just a total of different types of baggage, then it is
   // the total for the booking and not specific to each participant.
-  int32 traveller_id = 5 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 traveller_id = 5;
 }
 
 // Baggage type ENUM type

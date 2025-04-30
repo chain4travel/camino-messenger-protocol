@@ -29,7 +29,7 @@ message ProductCode {
     max_bytes: 512
   }];
 
-  int32 number = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 number = 2;
 
   cmp.types.v4.ProductCodeType type = 3 [(buf.validate.field).enum.defined_only = true];
 }
@@ -62,5 +62,5 @@ message SupplierProductCode {
     max_bytes: 512
   }];
 
-  int32 supplier_number = 2 [(buf.validate.field).int32 = {gte: 0}];
+  uint32 supplier_number = 2;
 }
