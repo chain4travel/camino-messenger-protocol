@@ -6,7 +6,6 @@ import "buf/validate/validate.proto";
 import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
-import "cmp/types/v4/price_types.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
