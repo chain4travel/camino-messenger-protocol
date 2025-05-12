@@ -26,10 +26,11 @@ message InsuranceSearchResult {
     max_items: 100
   }];
 
-  // ## Total price in detail, with breakdowns
-  cmp.types.v4.PriceDetail total_price_detail = 4;
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  cmp.types.v4.TotalPrice total_price = 4;
 
-  // Freetext remarks without any functionality
+  // Free text remarks without any functionality
   string remarks = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not

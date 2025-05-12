@@ -29,8 +29,9 @@ message AccommodationSearchResult {
     max_items: 100
   }];
 
-  // ## Total price in detail, with breakdowns
-  cmp.types.v4.PriceDetail total_price_detail = 4;
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  cmp.types.v4.TotalPrice total_price = 4;
 
   // The RateRule specifies whether a search result is non-refundable or not
   repeated cmp.types.v4.RateRule rate_rules = 5 [(buf.validate.field).repeated = {
@@ -41,7 +42,7 @@ message AccommodationSearchResult {
   // The cancellation conditions related to an option
   cmp.types.v4.CancelPolicy cancel_policy = 6;
 
-  // Freetext remarks without any functionality
+  // Free text remarks without any functionality
   string remarks = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not

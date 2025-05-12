@@ -48,8 +48,9 @@ message TransportSearchResult {
     max_items: 100
   }];
 
-  // Total Price
-  cmp.types.v4.PriceDetail total_price = 6;
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  cmp.types.v4.TotalPrice total_price = 6;
 
   // Rate Rules
   repeated cmp.types.v4.RateRule rate_rules = 7 [(buf.validate.field).repeated = {

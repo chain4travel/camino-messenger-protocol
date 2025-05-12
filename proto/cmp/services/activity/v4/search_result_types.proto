@@ -40,10 +40,7 @@ message ActivitySearchResult {
   // Max participants
   uint32 max_participants = 7;
 
-  // Price with value and currency code
-  cmp.types.v4.Price price = 8; // TODO: change to PriceDetail, name consistently with other services.
-
-  // Pricing type
-  // Ex: "PerPerson", "PerGroup"
-  cmp.types.v4.ChargeType charge_type = 9;
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  cmp.types.v4.TotalPrice total_price = 8;
 }

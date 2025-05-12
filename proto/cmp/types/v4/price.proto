@@ -21,7 +21,11 @@ message PriceDetail {
   // Principle price element
   cmp.types.v4.Price price = 1 [(buf.validate.field).required = true];
 
-  cmp.types.v4.ChargeType charge_type = 2 [(buf.validate.field).required = true];
+  // The ChargeType defines whether a price is per person, per group or per unit.
+  cmp.types.v4.ChargeType charge_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
