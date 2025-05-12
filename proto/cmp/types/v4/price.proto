@@ -51,50 +51,72 @@ message PriceDetail {
   }];
 }
 
-// ### Simple Price type message Price
+// ### Price
 //
-// Value of the price, this should be an integer converted to string.
+// Represents a monetary value with arbitrary precision using a string-based integer
+// representation. This design supports both traditional fiat currencies and
+// cryptocurrencies that may require high precision decimal handling.
 //
-// This field is a string intentionally. Because the currency can be a crypto
-// currency, we need a reliable way to represent big integers as most of the crypto
-// currencies have 18 decimals precision.
+// The price is expressed as: actual_value = value / 10^decimals
 //
-// Definition of the price message: The combination of "value" and "decimals" fields
-// express always the value of the currency, not of the fraction of the currency [
-// ETH not wei, CAM and not aCAM, BTC and not Satoshi, EUR not EUR-Cents ] Be aware
-// that partners should not do rounding with crypto currencies.
+// ## Key Principles
 //
-// Example implementations: off-chain payment of 100 € or 100 $: value=10000
-// decimals=2 iso_currency=EUR or USD
+// 1. **Always represent the main currency unit**, not fractions:
+//    - Use EUR (not euro-cents), BTC (not satoshis), ETH (not wei)
+//    - Example: €1.23 is stored as value="123", decimals=2
 //
-// On-chain payment of 100.65 EURSH value=10065 decimals=2 contract_address=0x...
-//  this currency has 5 decimals on Columbus and conclusively to create the
-//  transaction value, 10065 must be divided by 10^2 = 100.65 EURSH and created in
-//  its smallest fraction by multiplying  100.65 EURSH * 10^5 => 10065000 (example
-//  conversion to bigint without losing accuracy: bigint(10065) * 10^(5-2))
+// 2. **String-based value prevents precision loss**:
+//    - Essential for cryptocurrencies with 18+ decimal places
+//    - Avoids floating-point rounding errors
+//    - Supports values up to uint256 range
 //
-// On-chain payment of 0.0065 BTC value=65 decimals=4 contract_address=0x... Using
-//  the contract address, we get the decimals decimals and the currency name or
-//  abbreviation: 8 decimals & WBTC Because we see 4 decimals specified in the
-//  message we divide 65 by 10^4 == 0.0065 WBTC (for showing in the front-end UIs)
+// 3. **Flexible decimal precision**:
+//    - Accommodates different currency requirements
+//    - Fiat currencies typically use 2 decimals
+//    - Cryptocurrencies may use 6-18 decimals
 //
-//  This currency has 8 decimals on-chain and conclusively to use the value of
-//  0.0065 for on-chain operations must be converted to big integer as bigint(65) *
-//  10^(8-4) == 650000
+// ## Implementation Examples
 //
-// On-chain payment of 1 nCAM value=1 decimals=9 this currency has denominator 18 on
-//  Columbus and conclusively to mint the value of 1 nCam must be divided by 10^9 =
-//  0.000000001 CAM and minted in its smallest fraction by multiplying 0.000000001 *
-//  10^18 => 1000000000 aCAM
+// ### Fiat Currency
+// ```
+// €100.50 → value="10050", decimals=2
+// $0.99 → value="99", decimals=2
+// ```
+//
+// ### Cryptocurrency Display
+// ```
+// 0.0065 BTC → value="65", decimals=4 (for UI display)
+// 1.5 ETH → value="15", decimals=1
+// ```
+//
+// ### Blockchain Operations
+// For on-chain transactions, convert to the blockchain's native precision:
+// ```
+// Display: 0.0065 WBTC (value="65", decimals=4)
+// On-chain: 650000 (multiply by 10^(8-4) for 8-decimal blockchain)
+// ```
+//
+// ## Important Notes
+//
+// - Never round cryptocurrency values - use exact decimal arithmetic
+// - The decimals field specifies how many decimal places are represented
+// - For blockchain operations, additional conversion may be needed to match
+//   the on-chain decimal precision
 message Price {
+  // The price value as a string representation of an integer.
+  // To get the actual value: actual_value = value / 10^decimals
+  // Example: value="12345" with decimals=2 represents 123.45
   string value = 1 [(buf.validate.field).string = {
     pattern: "^[0-9]+$"
     min_len: 1
     max_len: 78 // Max digits for uint256
   }];
 
+  // Number of decimal places represented in the value.
+  // Example: decimals=2 means the value should be divided by 100
   uint32 decimals = 2;
 
+  // The currency specification (fiat or cryptocurrency)
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }
 
