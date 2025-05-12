@@ -11,41 +11,46 @@ import "buf/validate/validate.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/phone.proto.dot.svg)
 message Phone {
   string number = 1 [(buf.validate.field).string = {
-    min_len: 1 // FIXME: better validation?
-    max_len: 100
+    // E.164 format without extensions
+    pattern: "^\\+[1-9]\\d{1,14}$"
+    min_len: 8 // Smallest valid country code + number
+    max_len: 15 // E.164 standard limit
   }];
 
-  cmp.types.v4.PhoneType type = 2 [(buf.validate.field).enum = {
-    defined_only: true
-    not_in: [0]
-    // FIXME: Should we do this ^^^? People can still select OTHER from the enum (if
-    // it's there) but why not use UNSPECIFIED as "other"? Is there any value in
-    // having "other" on wire?
+  string extension = 2 [(buf.validate.field).string = {
+    pattern: "^[0-9]{1,10}$" // Numeric extensions up to 10 digits
   }];
 
-  string description = 3 [(buf.validate.field).string = {
+  cmp.types.v4.PhoneType type = 3 [(buf.validate.field).enum = {defined_only: true}];
+
+  string description = 4 [(buf.validate.field).string = {
     min_len: 0
     max_bytes: 512
   }];
+
+  option (buf.validate.message).cel = {
+    id: "description_required_when_type_unspecified"
+    message: "description is required when type is UNSPECIFIED"
+    expression: "this.type != cmp.types.v4.PhoneType.PHONE_TYPE_UNSPECIFIED || size(this.description.trim()) > 0"
+  };
 }
 
 enum PhoneType {
   PHONE_TYPE_UNSPECIFIED = 0;
-  PHONE_TYPE_OTHER = 1; // For phone numbers that don't fit into other categories.
-  PHONE_TYPE_RECEPTION = 2; // For accommodation properties like hotels.
-  PHONE_TYPE_BOOKING = 3; // Booking-related inquiries.
-  PHONE_TYPE_SUPPORT = 4; // Customer support and service.
-  PHONE_TYPE_INQUIRIES = 5; // General inquiries.
-  PHONE_TYPE_TRANSPORT_SERVICE = 6; // Transport services, like taxi or shuttle services.
-  PHONE_TYPE_RENTAL_SERVICE = 7; // Car rental service numbers.
-  PHONE_TYPE_ACTIVITY_COORDINATOR = 8; // Coordinators for activities or events.
-  PHONE_TYPE_BILLING = 9; // Billing and payment inquiries.
-  PHONE_TYPE_EMERGENCY = 10; // Emergency contact numbers.
-  PHONE_TYPE_FAX = 11; // Fax numbers.
-  PHONE_TYPE_MOBILE = 12; // Mobile phone numbers.
-  PHONE_TYPE_HOME = 13; // Home phone numbers.
-  PHONE_TYPE_BUSINESS = 14; // Business or office phone numbers.
-  PHONE_TYPE_TOLL_FREE = 15; // Toll-free numbers.
-  PHONE_TYPE_HOTLINE = 16; // Hotlines, for specialized support or services.
-  PHONE_TYPE_WORK = 17; // Work phone numbers.
+  PHONE_TYPE_RECEPTION = 1; // For accommodation properties like hotels.
+  PHONE_TYPE_BOOKING = 2; // Booking-related inquiries.
+  PHONE_TYPE_SUPPORT = 3; // Customer support and service.
+  PHONE_TYPE_INQUIRIES = 4; // General inquiries.
+  PHONE_TYPE_TRANSPORT_SERVICE = 5; // Transport services, like taxi or shuttle services.
+  PHONE_TYPE_RENTAL_SERVICE = 6; // Car rental service numbers.
+  PHONE_TYPE_ACTIVITY_COORDINATOR = 7; // Coordinators for activities or events.
+  PHONE_TYPE_BILLING = 8; // Billing and payment inquiries.
+  PHONE_TYPE_EMERGENCY = 9; // Emergency contact numbers.
+  PHONE_TYPE_FAX = 10; // Fax numbers.
+  PHONE_TYPE_MOBILE = 11; // Mobile phone numbers.
+  PHONE_TYPE_HOME = 12; // Home phone numbers.
+  PHONE_TYPE_BUSINESS = 13; // Business or office phone numbers.
+  PHONE_TYPE_TOLL_FREE = 14; // Toll-free numbers.
+  PHONE_TYPE_HOTLINE = 15; // Hotlines, for specialized support or services.
+  PHONE_TYPE_WORK = 16; // Work phone numbers.
 }
