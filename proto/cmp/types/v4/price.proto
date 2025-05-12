@@ -4,7 +4,7 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/currency.proto";
-import "cmp/types/v4/price_type.proto";
+import "cmp/types/v4/price_types.proto";
 
 // ### PriceDetail
 //
@@ -21,12 +21,14 @@ message PriceDetail {
   // Principle price element
   cmp.types.v4.Price price = 1 [(buf.validate.field).required = true];
 
+  cmp.types.v4.ChargeType charge_type = 2 [(buf.validate.field).required = true];
+
   // Identification whether the price must be respected towards the end-user
   // and the product or service cannot be offered for a lower price.
-  bool binding = 2;
+  bool binding = 3;
 
   // Description of the product or service this price(element) is valid for.
-  string description = 3 [(buf.validate.field).string = {
+  string description = 4 [(buf.validate.field).string = {
     min_len: 0
     max_bytes: 512
   }];
@@ -35,15 +37,15 @@ message PriceDetail {
   // included in the price. If set to True, it means that this PriceDetail is only
   // payable locally. For example local tourism tax that you pay at the reception of
   // a hotel. Intended to be used in the breakdown.
-  bool locally_payable = 4;
+  bool locally_payable = 5;
 
   // Type of price breakdown. This is meant to be used in price breakdown
   // definitions, when we want to specify the different elements of how a total
   // price was computed.
-  cmp.types.v4.PriceBreakdownType type = 5;
+  cmp.types.v4.PriceBreakdownType type = 6;
 
   // We can use a single PriceDetail to represent a price breakdown.
-  repeated cmp.types.v4.PriceDetail breakdowns = 6 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.PriceDetail breakdowns = 7 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -94,4 +96,26 @@ message Price {
   uint32 decimals = 2;
 
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
+}
+
+// ### TotalPrice
+//
+// Represents the complete pricing information for a product or service, including
+// both the total price value and an optional breakdown of price components.
+//
+// The value field contains the final, computed total price. When a breakdown is
+// provided, it should accurately decompose the total price into its constituent
+// parts (e.g., base price, taxes, fees, discounts).
+//
+// Example: A hotel booking total of €150 might break down into:
+// - Base rate: €120
+// - Tourism tax: €20
+// - Service charge: €10
+message TotalPrice {
+  // The final calculated total price for the product or service
+  cmp.types.v4.Price value = 1;
+
+  // Optional itemized breakdown showing how the total price was calculated.
+  // Each PriceDetail in the breakdown can have further nested breakdowns.
+  repeated cmp.types.v4.PriceDetail breakdown = 2;
 }
