@@ -13,6 +13,28 @@ def ensure_directory_exists(directory):
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 
+class Colors:
+	RESET = '\033[0m'
+	BOLD = '\033[1m'
+	PURPLE = '\033[35m'
+	GREEN = '\033[32m'
+
+def print_dependency_graph(dep_dict):
+	print("==========================")
+	print(" Reverse Dependency Graph")
+	print("==========================")
+	for file, deps in dep_dict.items():
+		# Print the main file with a specific color and emoji
+		print(f"{Colors.GREEN}📄 {Colors.BOLD}{file}{Colors.RESET}")
+		
+		if deps:
+			for dep in deps:
+				# Print dependencies with indentation, different color and emoji
+				print(f"   ➡️{Colors.PURPLE} {dep}{Colors.RESET}")
+		else:
+			print(f"	{Colors.RESET}No dependencies")
+		print()  # Add an empty line for better readability
+
 def extract_proto_definitions(proto_file_path):
 	"""
 	Extracts message and enum names from a .proto file.
@@ -84,6 +106,7 @@ def extract_command_line_args():
 	# Add the --print-graph and --fix flags
 	parser.add_argument('--print-graph', action='store_true', help="Enable graph printing ")
 	parser.add_argument('--fix', action='store_true', help="Enable fix mode which will try to fix the dependencies")
+	parser.add_argument('--debug', action='store_true', help="Enable debug mode which will print debug information")
 
 	# Parse the arguments
 	args = parser.parse_args()
@@ -91,8 +114,13 @@ def extract_command_line_args():
 	# Extract the values of the flags and file content
 	print_graph = args.print_graph
 	fix = args.fix
+	debug = args.debug
 
-	return print_graph, fix
+	if debug:
+		print("Debug mode enabled")
+		print(f"Arguments: {args}")
+
+	return print_graph, fix, debug
 
 def find_latest_version(old_file, recent_files):
 	match = file_pattern.match(old_file)
@@ -108,9 +136,12 @@ def find_latest_version(old_file, recent_files):
 	return False
 
 # Function to return all the latest protobuf files 
-def find_latest_proto_files(directory):
+def find_proto_files(directory):
 	# Dictionary to store the latest version of each file
 	latest_files = {}
+
+	# array of all the proto files
+	proto_files = []
 
 	# Regular expression to match files with pattern "prefix/version/filename.proto"
 
@@ -132,6 +163,9 @@ def find_latest_proto_files(directory):
 						print(f"⛔ [FATAL] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
 						sys.exit(3)
 
+					# Add the file to the list of proto files
+					proto_files.append(full_path.removeprefix(directory))
+
 					# Create a key for the file using prefix and filename
 					key = (prefix, filename)
 
@@ -140,7 +174,7 @@ def find_latest_proto_files(directory):
 						latest_files[key] = (full_path, version_number)
 
 	# Return only the file paths, ignoring the version numbers
-	return [file_info[0].removeprefix(directory) for file_info in latest_files.values()]
+	return proto_files, [file_info[0].removeprefix(directory) for file_info in latest_files.values()]
 
 # Function to extract includes from a protobuf file
 def extract_proto_includes(proto_file_path):
@@ -159,9 +193,12 @@ def extract_proto_includes(proto_file_path):
 				# Extract the filename from the matched line
 				includes.append(match.group(1))
 
+	if debug:
+		print(f"🔍 Found includes in {proto_file_path}: {includes}")
+
 	return includes
 
-print_graph, fix = extract_command_line_args()
+print_graph, fix, debug = extract_command_line_args()
 fixed_new_version_files = []
 directory_path = "proto/"
 
@@ -170,71 +207,72 @@ def default_run():
 	fix_needed = {}
 
 	# First we get all the latest proto files
-	latest_proto_files = find_latest_proto_files(directory_path)
+	all_proto_files, latest_proto_files = find_proto_files(directory_path)
+
+	if debug:
+		print("🔍 Found the following proto files:")
+		for proto_file in all_proto_files:
+			if proto_file in latest_proto_files:
+				print(f"  ➡️ {Colors.GREEN}{proto_file}{Colors.RESET}")
+			else:
+				print(f"  ➡️ {Colors.PURPLE}{proto_file}{Colors.RESET}")
 
 	included_by = {}
+	included_by_latest = {}
 
 	# Then build up a dependency graph with a dict: { key: <protobuf file> value: [ included by ] }
-	for latest_file in latest_proto_files:
-		includes = extract_proto_includes(directory_path + latest_file)
+	for proto_file in all_proto_files:
+		if debug:
+			print(f"🔍 Checking the file {proto_file} for includes")
+		includes = extract_proto_includes(directory_path + proto_file)
 		for include in includes:
+			if debug:
+				print(f"  ➡️ Processing include: {include}")
 			if include.startswith("cmp/"): # we're only interested in our includes
 				if include not in included_by:
-					included_by[include] = [ latest_file ]
+					included_by[include] = [ proto_file ]
 				else:
-					included_by[include].append(latest_file)
-	
-				if include not in latest_proto_files:
-					print(f"❌ ERROR: The include '{include}' in '{latest_file}' is not the latest version!")
-	
-					if latest_file not in fix_needed:
-						fix_needed[latest_file] = [ include ]
+					included_by[include].append(proto_file)
+
+				if proto_file in latest_proto_files:
+					if include not in included_by_latest:
+						included_by_latest[include] = [ proto_file ]
 					else:
-						fix_needed[latest_file].append(include)
+						included_by_latest[include].append(proto_file)
+	
+				if proto_file in latest_proto_files and include not in latest_proto_files:
+					print(f"❌ ERROR: The include '{include}' in '{proto_file}' is not the latest version!")
+	
+					if proto_file not in fix_needed:
+						fix_needed[proto_file] = [ include ]
+					else:
+						fix_needed[proto_file].append(include)
 	
 					global_error = True
 
 	# Now we have a nice dependency graph-like list to check
 	# Let's see whether one of the cmp/type proto files is currently not included anywhere
-	for latest_file in latest_proto_files:
-		if latest_file.startswith("cmp/types/") and latest_file not in included_by:
-			print(f"❌ ERROR: The type file '{latest_file}' is never included anywhere!")
-			global_error = True
+	for latest_proto_file in latest_proto_files:
+		if debug:
+			print(f"🔍 Checking the file {latest_proto_file} for includes")
+		if latest_proto_file.startswith("cmp/types/") and latest_proto_file not in included_by_latest:
+			print(f"⚠️ WARNING: The type file '{latest_proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
+			if latest_proto_file not in included_by:
+				print(f"❌ ERROR: The type file '{latest_proto_file}' is never included anywhere in the proto files!")
+				global_error = True
 	
 	if global_error == True:
 		print("❌ [FAIL] There were errors found while doing the dependency check!")
 	else:
 		print("✅ [PASS] Dependency check successful!")
 
-	return (global_error, latest_proto_files, fix_needed, included_by)
+	return (global_error, latest_proto_files, fix_needed, included_by_latest)
 
 
 print("🔍 Checking dependencies")
 global_error, latest_proto_files, fix_needed, include_graph = default_run()
 
 ## Print of dependency graph if --print-graph is passed:
-class Colors:
-	RESET = '\033[0m'
-	BOLD = '\033[1m'
-	PURPLE = '\033[35m'
-	GREEN = '\033[32m'
-
-def print_dependency_graph(dep_dict):
-	print("==========================")
-	print(" Reverse Dependency Graph")
-	print("==========================")
-	for file, deps in dep_dict.items():
-		# Print the main file with a specific color and emoji
-		print(f"{Colors.GREEN}📄 {Colors.BOLD}{file}{Colors.RESET}")
-		
-		if deps:
-			for dep in deps:
-				# Print dependencies with indentation, different color and emoji
-				print(f"   ➡️{Colors.PURPLE} {dep}{Colors.RESET}")
-		else:
-			print(f"	{Colors.RESET}No dependencies")
-		print()  # Add an empty line for better readability
-
 if print_graph:
 	if global_error == True:
 		print("❌ [FAIL] Won't print the graph as there were errors found while doing the dependency check!")
