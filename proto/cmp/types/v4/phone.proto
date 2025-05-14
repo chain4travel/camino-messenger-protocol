@@ -12,11 +12,10 @@ import "buf/validate/validate.proto";
 message Phone {
   string number = 1 [(buf.validate.field).string = {
     // E.164 format without extensions
-    pattern: "^\\+[1-9]\\d{1,14}$"
-    min_len: 8 // Smallest valid country code + number
-    max_len: 15 // E.164 standard limit
+    pattern: "^\\+[1-9]\\d{7,14}$"
   }];
 
+  // TODO: Explain what an extension is
   string extension = 2 [(buf.validate.field).string = {
     pattern: "^[0-9]{1,10}$" // Numeric extensions up to 10 digits
   }];

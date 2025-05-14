@@ -12,7 +12,7 @@ import "buf/validate/validate.proto";
 message RateRule {
   // RateRule
   //
-  // The eneumeration for RateRuleType is meant for uniformed and standardized display.
+  // The enumeration for RateRuleType is meant for uniformed and standardized display.
   cmp.types.v4.RateRuleType rate_type = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]

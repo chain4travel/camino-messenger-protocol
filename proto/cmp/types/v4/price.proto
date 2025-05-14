@@ -110,11 +110,7 @@ message Price {
   // The price value as a string representation of an integer.
   // To get the actual value: actual_value = value / 10^decimals
   // Example: value="12345" with decimals=2 represents 123.45
-  string value = 1 [(buf.validate.field).string = {
-    pattern: "^[0-9]+$"
-    min_len: 1
-    max_len: 78 // Max digits for uint256
-  }];
+  string value = 1 [(buf.validate.field).string = {pattern: "^-?[0-9]{1,78}$"}];
 
   // Number of decimal places represented in the value.
   // Example: decimals=2 means the value should be divided by 100
@@ -139,9 +135,9 @@ message Price {
 // - Service charge: €10
 message TotalPrice {
   // The final calculated total price for the product or service
-  cmp.types.v4.Price value = 1;
+  cmp.types.v4.Price value = 1; // TODO: required, should never be negative
 
   // Optional itemized breakdown showing how the total price was calculated.
   // Each PriceDetail in the breakdown can have further nested breakdowns.
-  repeated cmp.types.v4.PriceDetail breakdown = 2;
+  repeated cmp.types.v4.PriceDetail breakdown = 2; // TODO: default limit
 }
