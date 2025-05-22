@@ -4,29 +4,29 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
+// TODO: Refine the messages use code instead of reference, type and code should be mandatory
+
 // Rate Rule
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/rate.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/rate.proto.dot.svg)
 message RateRule {
-  // RateRule
-  //
-  // The enumeration for RateRuleType is meant for uniformed and standardized display.
-  cmp.types.v4.RateRuleType rate_type = 1 [(buf.validate.field).enum = {
+  // Rate rule code
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // RateRuleType is meant for uniformed and standardized display.
+  cmp.types.v4.RateRuleType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
   // Rate description and reference. In case of enrichment additional description of the rate type.
   // Please omit if covered with the RateRuleType.
-  string rate_description = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512
-  }];
-
-  // TODO: Explain the purpose of this field
-  string rate_reference = 3 [(buf.validate.field).string = {
+  string description = 3 [(buf.validate.field).string = {
     min_len: 0
     max_bytes: 512
   }];
@@ -42,32 +42,33 @@ enum RateRuleType {
 }
 
 // Rate plan message type. Contains `rate_plan` and `rate_plan_description` fields
-// as strings. The enumeration for RatePlanType is meant for uniformed and
+// as strings. The enumeration for RatePlanType is meant for consistent and
 // standardized display.
 message RatePlan {
-  // Rate plan
-  //
-  // Supplier Rateplan code
-  string rate_plan_code = 1 [(buf.validate.field).string = {
+  // Rate plan code
+  string code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  // Rateplan type standardization
-  cmp.types.v4.RatePlanType rate_plan_type = 2 [(buf.validate.field).enum = {
+  // Rate plan type standardization
+  cmp.types.v4.RatePlanType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
-  // Rateplan description. In case of enrichment additional description of the rate plan.
+  // Rate plan description. In case of enrichment additional description of the rate plan.
   //
   // Ex: "Package Rate". Please omit if covered with the RatePlanType.
-  string rate_plan_description = 3 [(buf.validate.field).string = {
+  string description = 3 [(buf.validate.field).string = {
     min_len: 0
     max_bytes: 512
   }];
 }
 
+// Rate Plan Type
+//
+// The enumeration for RatePlanType is meant for consistent and standardized display.
 enum RatePlanType {
   RATE_PLAN_TYPE_UNSPECIFIED = 0;
   RATE_PLAN_TYPE_ASSOCIATION = 1;

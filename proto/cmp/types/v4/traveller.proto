@@ -32,11 +32,12 @@ message BasicTraveller {
     not_in: [0]
   }];
 
-  // Birthdate
+  // Birthdate is optional for adults. But some suppliers may require it and return
+  // an error if it is missing.
   cmp.types.v4.Date birthdate = 3;
 
   // The country code for the nationality of the traveller.
-  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME: Is this required?
+  cmp.types.v2.Country nationality = 4 [(buf.validate.field).required = true]; // FIXME @SAM: Is this required?
 
   // Message validations
   option (buf.validate.message) = {
@@ -77,9 +78,12 @@ message ExtensiveTraveller {
   // as in "Julio Iglesias de la Cueva" and "Enrique Iglesias Preysler". To handle
   // these variations, multiple entries are allowed. Systems with a fixed number of
   // fields may use the first entry for one component and the second entry for the other.
+  //
   // For example for full name "John Roger Stephens Legend":
   //    first_names: ["John",  "Roger"]
   //    surnames: ["Stephens", "Legend"]
+  //
+  // FIXME @SAM: Should we make these simpler by removing repeated?
   repeated string first_names = 3 [(buf.validate.field).repeated = {
     min_items: 1 // At least one first name is required
     max_items: 10
@@ -87,7 +91,6 @@ message ExtensiveTraveller {
       string: {
         min_len: 1 // Name must not be empty
         max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
       }
     }
   }];
@@ -99,13 +102,14 @@ message ExtensiveTraveller {
       string: {
         min_len: 1 // Name must not be empty
         max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
       }
     }
   }];
 
+  // This is not required by the protocol but it might be required by some suppliers.
   cmp.types.v4.ContactInfo contact_info = 5;
 
+  // This is not required by the protocol but it might be required by some suppliers.
   repeated cmp.types.v4.Document documents = 6 [(buf.validate.field).repeated = {
     max_items: 100 // Default max items
   }];
@@ -120,8 +124,9 @@ enum GenderType {
   GENDER_TYPE_AGENDER = 4;
 }
 
-// FIXME: We should check the usage of TravellerExtraInfo & ExtensiveTraveller. We
+// FIXME @SAM: We should check the usage of TravellerExtraInfo & ExtensiveTraveller. We
 // have a lot of repeated fields. Do we need these both?
+// TODO: We should move this message type (and maybe update it somehow) to the insurance service
 
 // Extra info about the traveller or someone related
 message TravellerExtraInfo {
@@ -136,7 +141,6 @@ message TravellerExtraInfo {
       string: {
         min_len: 1 // Name must not be empty
         max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
       }
     }
   }];
@@ -149,7 +153,6 @@ message TravellerExtraInfo {
       string: {
         min_len: 1 // Name must not be empty
         max_len: 50 // Reasonable maximum length for a name
-        pattern: "^[\\p{L}\\s\\-\\']+$" // Allow all Unicode letters, spaces, hyphens and apostrophes
       }
     }
   }];

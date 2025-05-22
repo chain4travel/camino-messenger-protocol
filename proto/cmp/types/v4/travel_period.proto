@@ -31,7 +31,7 @@ message TravelPeriod {
   //
   // Setting the boolean to true means that the period between start and end date
   // should be more than the Length of Stay.
-  bool flexible = 3;
+  bool flexible = 3; // FIXME: Do we need this? (Defining LOS implies "flexible = true")
 
   // Setting the length of the trip in case of a flexible search.
   //
@@ -40,9 +40,7 @@ message TravelPeriod {
   // Ex: start date = 1 April, End date is 30 June, stay would be for 7 to 10 nights.
   //
   // The arrival and departure must fall between start and end-date.
-  int32 los_from_nights = 4 [(buf.validate.field).int32 = {gt: 0}]; // FIXME: Required?
-
-  int32 los_to_nights = 5 [(buf.validate.field).int32 = {gt: 0}];
+  cmp.types.v4.LengthOfStay los = 4;
 
   // By adding a DayOfWeek restriction, the number of results can be reduced to the
   // specific arrival days in the interest of the end-customer who for example only
@@ -50,5 +48,11 @@ message TravelPeriod {
   // travelling during weekdays.
   //
   // A bitmask is being used to express the DOW or DOWs.
-  cmp.types.v4.DayOfWeek dow = 6;
+  cmp.types.v4.DayOfWeek dow = 5;
+}
+
+message LengthOfStay {
+  uint32 from = 1 [(buf.validate.field).uint32 = {gt: 0}];
+  uint32 to = 2 [(buf.validate.field).uint32 = {gt: 0}];
+  // TODO: it must be greater than or equal to los_from_nights
 }

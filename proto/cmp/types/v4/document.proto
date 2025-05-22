@@ -12,13 +12,18 @@ import "buf/validate/validate.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/document.proto.dot.svg)
 message Document {
-  // TODO: Explain the purpose of this field
-  string document_number = 1 [(buf.validate.field).string = {
+  // Example: Passport number, Driver's license number, etc.
+  string number = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  cmp.types.v4.DocumentType document_type = 2 [(buf.validate.field).enum = {defined_only: true}];
+  // FIXME: Do we need expiration date here?
+
+  cmp.types.v4.DocumentType type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 }
 
 enum DocumentType {

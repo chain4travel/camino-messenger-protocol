@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "buf/validate/validate.proto";
+
+// Sorting type and order
+//
+// This is being used in requests to specify the sorting required in the response.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/sorting.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/sorting.proto.dot.svg)
+message Sorting {
+  cmp.types.v4.SortingType sorting_type = 1 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.types.v4.SortingOrder sorting_order = 2 [(buf.validate.field).enum = {defined_only: true}];
+
+  // Validation to ensure both fields are defined together
+  option (buf.validate.message).cel = {
+    id: "sorting_fields_together"
+    message: "If sorting_type is defined, sorting_order must also be defined (and vice versa)"
+    expression: "(this.sorting_type == 0) == (this.sorting_order == 0)"
+  };
+}
+
+// Sorting type. If this field is not set (UNSPECIFIED) the supplier defines the
+// sorting type.
+enum SortingType {
+  SORTING_TYPE_UNSPECIFIED = 0;
+  SORTING_TYPE_PRICE = 1;
+  SORTING_TYPE_POPULARITY = 2;
+  SORTING_TYPE_DISTANCE = 3;
+  SORTING_TYPE_RATING = 4;
+  SORTING_TYPE_EMISSION = 5;
+}
+
+// Sorting order
+enum SortingOrder {
+  SORTING_ORDER_UNSPECIFIED = 0;
+  SORTING_ORDER_ASCENDING = 1;
+  SORTING_ORDER_DESCENDING = 2;
+}

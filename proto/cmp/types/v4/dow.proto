@@ -31,7 +31,7 @@ import "buf/validate/validate.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/dow.proto.dot.svg)
 message DayOfWeek {
-  int32 dow = 1 [(buf.validate.field).int32 = {
+  uint32 dow = 1 [(buf.validate.field).uint32 = {
     gt: 0 // Cannot be negative or zero
     lte: 127 // Maximum valid value (2^7 - 1)
   }];
