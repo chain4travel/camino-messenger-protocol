@@ -5,10 +5,10 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v1/content_source.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v1/sorting.proto";
 import "cmp/types/v2/country.proto";
 import "cmp/types/v4/currency.proto";
 import "cmp/types/v4/filter.proto";
+import "cmp/types/v4/sorting.proto";
 import "cmp/types/v4/uuid.proto";
 
 // Search parameters for the search requests
@@ -54,7 +54,7 @@ message SearchParameters {
 
   // Specify the sorting required in the response. If this is not set, the supplier
   // defines the sorting type and order.
-  cmp.types.v1.Sorting sorting = 8;
+  cmp.types.v4.Sorting sorting = 8;
 
   // Filters for the search. Various provider and product specific filters can be
   // provided here in agreed name/value pairs.
