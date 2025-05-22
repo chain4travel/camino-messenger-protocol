@@ -81,7 +81,7 @@ function check_added_file {
 		return
 	fi
 
-	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
+	GIT_PAGER=cat git diff --color=always --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
 		echo "❓ No change detected! (weird?)"
 	fi
@@ -96,7 +96,7 @@ function check_modified_file {
 	echo -e "🔧 Detected modified file: ${PURPLE}$FILE${NC}" 
 	echo -e "🔃 Comparing against ${PURPLE}$ORIGIN/$OTHER_FILE${NC}"
 
-	GIT_PAGER=cat git diff --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
+	GIT_PAGER=cat git diff --color=always --exit-code origin/$ORIGIN:$OTHER_FILE $FILE
 	if [[ "$?" == "0" ]] ; then
 		echo "❓ No change detected! (weird?)"
 	fi
@@ -104,7 +104,7 @@ function check_modified_file {
 	# Check here if the file has any structure modifications, if yes return
 	# some value != 0 for an automated script to fail if we detect any modifications
 	# against the c4t branch	
-	diff --color=always -w -B - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g") < <(cat $FILE | sed -e "s#//.*##g") > /dev/null
+	diff -w -B - <(git show origin/$ORIGIN:$OTHER_FILE | sed -e "s#//.*##g") < <(cat $FILE | sed -e "s#//.*##g") > /dev/null
 	if [[ "$?" != "0" ]] ; then
 		echo -e "❌ ${RED}[FAIL] ERROR${NC}: Structural change detected in already existing file: ${PURPLE}$FILE${NC}"
 		ERROR_FILES+=("$FILE")
