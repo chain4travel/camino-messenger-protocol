@@ -6,48 +6,91 @@ import "buf/validate/validate.proto";
 import "cmp/types/v4/date.proto";
 import "cmp/types/v4/dow.proto";
 
-// Travel Period
+// TravelPeriod defines a span of time for travel.
+//
+// It accommodates both exact periods (defined by start_date and end_date)
+// and flexible periods (where start_date and end_date form a window for a
+// trip of a duration specified by `los`).
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.svg)
 message TravelPeriod {
-  // Start date of a trip for messages where no Date/Time is required
-  // (datetime_range.proto) when the travelling starts. Most trips will be for an
-  // exact start and end date.
+  option (buf.validate.message).cel = {
+    id: "end_date_after_or_on_start_date"
+    expression: "(this.end_date.year * uint(10000) + this.end_date.month * uint(100) + this.end_date.day) >= (this.start_date.year * uint(10000) + this.start_date.month * uint(100) + this.start_date.day)"
+    message: "TravelPeriod end_date must be on or after start_date."
+  };
+
+  // Defines the start date of the travel period.
+  //
+  // - If `los` (length of stay) is not set, this is the exact, inclusive start
+  //   date of the trip.
+  // - If `los` is set, this is the earliest possible, inclusive start date for
+  //   a trip of the specified duration.
+  //
+  // This field represents a calendar date without a time component.
   cmp.types.v4.Date start_date = 1 [(buf.validate.field).required = true];
 
-  // End date of a trip for messages where no Date/Time is required
-  // (datetime_range.proto) when the travelling ends. The end date is different when
-  // the trip is a one-way from point A to B compared to when the trip is a
-  // fortnight holiday and the customers return home on the end date.
+  // Defines the end date of the travel period.
+  //
+  // - If `los` (length of stay) is not set, this is the exact, inclusive end
+  //   date of the trip.
+  // - If `los` is set, this is the latest possible, inclusive end date for a
+  //   trip of the specified duration.
+  //
+  // It is validated to ensure it is on or after `start_date`.
   cmp.types.v4.Date end_date = 2 [(buf.validate.field).required = true];
 
-  // Setting the length of the trip in case of a flexible search. Flexible in this
-  // context means that if "los" is provided the start_date and end_date is a range
-  // that the los length should fit into.
+  // Optional. Specifies the desired length of stay (in nights) for flexible travel
+  // searches.
   //
-  // Ex: start date = 1 April, End date is 30 June, stay would be for 7 to 7 nights.
+  // If `los` is provided, `start_date` and `end_date` define an overall window. The
+  // actual trip, lasting `los.from` to `los.to` nights, must occur entirely within
+  // this window (i.e., the calculated start of the stay must be >= `start_date` and
+  // the calculated end of the stay must be <= `end_date`).
   //
-  // Ex: start date = 1 April, End date is 30 June, stay would be for 7 to 10
-  // nights.
+  // If `los` is not provided, the trip duration is implicitly defined by
+  // `start_date` and `end_date`.
   //
-  // The arrival and departure must fall between start and end-date. If you exceed
-  // this supplier might return an error.
+  // Examples of flexible search with `los`:
+  // - `start_date` = 1 April, `end_date` = 30 June, `los` = {from: 7, to: 7} (A
+  //   7-night trip. The trip must start on or after 1 April and end on or before 30
+  //   June).
+  // - `start_date` = 1 April, `end_date` = 30 June, `los` = {from: 7, to: 10} (A
+  //   trip of 7 to 10 nights. The trip must start on or after 1 April and end on or
+  //   before 30 June).
   cmp.types.v4.LengthOfStay los = 3;
 
-  // By adding a DayOfWeek restriction, the number of results can be reduced to the
-  // specific arrival days in the interest of the end-customer who for example only
-  // can travel during weekends or at the contrary desires to avoid the crowds by
-  // travelling during weekdays.
+  // Optional. Restricts the start day of the travel to specific days of the
+  // week. This is useful for filtering results, e.g., for weekend-only
+  // departures or to avoid peak travel days.
   //
-  // A bit mask is being used to express the DOW or DOWs.
+  // Uses a bitmask representation from `cmp.types.v4.DayOfWeek`.
+  // If `los` is specified, this `dow` restriction applies to the potential
+  // start dates of the flexible trip within the `start_date`/`end_date` window.
   cmp.types.v4.DayOfWeek dow = 4;
 }
 
-// FIXME: Refine: Length of Stay is nights
+// LengthOfStay defines a duration for a trip, measured in nights.
+// It can specify an exact number of nights or a range (minimum to maximum).
 message LengthOfStay {
+  option (buf.validate.message).cel = {
+    id: "los_to_ge_from"
+    expression: "this.to >= this.from"
+    message: "LengthOfStay 'to' (maximum nights) must be greater than or equal to 'from' (minimum nights)."
+  };
+
+  // The minimum duration of the stay in nights.
+  //
+  // Must be greater than 0.
   uint32 from = 1 [(buf.validate.field).uint32 = {gt: 0}];
+
+  // The maximum duration of the stay in nights.
+  //
+  // Must be greater than 0.
+  //
+  // Must also be greater than or equal to 'from' (this is enforced by a
+  // message-level validation rule).
   uint32 to = 2 [(buf.validate.field).uint32 = {gt: 0}];
-  // FIXME: "to" must be greater than or equal to "from"
 }
