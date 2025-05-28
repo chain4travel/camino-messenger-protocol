@@ -67,5 +67,5 @@ message CancelPenalty {
     items: {
       string: {max_bytes: 512}
     }
-  }]; // FIXME: check if this is required
+  }];
 }

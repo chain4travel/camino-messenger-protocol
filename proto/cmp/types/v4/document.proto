@@ -3,8 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-
-// FIXME: Review naming of the message
+import "cmp/types/v4/date.proto";
 
 // Document type to be used in various messages
 //
@@ -13,17 +12,43 @@ import "buf/validate/validate.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/document.proto.dot.svg)
 message Document {
   // Example: Passport number, Driver's license number, etc.
+  // The specific format or validation rules for the number may depend on the
+  // document `type`.
   string number = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  // FIXME: Do we need expiration date here?
-
+  // The type of the document being provided.
   cmp.types.v4.DocumentType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
+
+  // Optional. The expiration date of the document.
+  //
+  // For many document types, such as passports, visas, driver's licenses,
+  // national ID cards, and permanent resident cards, an expiration date is
+  // an intrinsic and often mandatory piece of information. While this field is
+  // optional at the schema level to accommodate document types that do not
+  // expire (e.g., Redress Number, some forms of Naturalization Certificates),
+  // it **should be provided if the document type inherently has an expiration
+  // date.**
+  //
+  // For active documents used for travel or identification, this date should
+  // typically be in the future.
+  //
+  // **Impact of Omission:** Failing to provide an expiration date for a
+  // document that requires one (e.g., a passport for international travel)
+  // can lead to rejection by authorities, airlines, or other entities
+  // relying on this information for validity checks.
+  //
+  // **Recommendation:** It is strongly advised that application logic enforces
+  // the presence and validity (e.g., not in the distant past if for current use)
+  // of `expiration_date` based on the document `type`. For example, if `type`
+  // is `DOCUMENT_TYPE_PASSPORT`, `expiration_date` should be considered
+  // mandatory by the application.
+  cmp.types.v4.Date expiration_date = 3;
 }
 
 enum DocumentType {

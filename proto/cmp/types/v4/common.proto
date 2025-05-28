@@ -8,6 +8,7 @@ syntax = "proto3";
 // and "a message is absent". All fields (which are not messages) inside a present
 // message are automatically filled with the default values like empty string or in
 // case of an enum/integer value: 0.
+//
 // With that in mind all enums are defined as **0=Unspecified** as this is a default
 // value similar to "field was not given at all". So ultimately one can not distinguish
 // between "someone has deliberately filled the field with the default value 0" or
@@ -33,7 +34,7 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v4/evm_address.proto";
 
-// ### CM Message Header
+// CM Message Header
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/common.proto.dot.xs.svg)
 //
@@ -43,7 +44,13 @@ message Header {
   // for messaging. This will help transparency and troubleshooting when issues
   // arise. For example in case one partner uses bot v9.0.0 and the other partner
   // uses bot v10.0.0, which are incompatible.
-  // FIXME: Explain partner plugin to use default header and version
+  //
+  // FIXME: Explain partner plugin to use default (empty, zero value) header and
+  // version
+  //
+  // This field is required, but it's the bot's version number. The partner plugin
+  // that talks to the bot should just create an empty Version message and pass it
+  // here.
   cmp.types.v4.Version version = 1 [(buf.validate.field).required = true];
 
   // End-user wallet ID for personalization purposes
@@ -72,7 +79,8 @@ message RequestHeader {
 message ResponseHeader {
   cmp.types.v4.Header base_header = 1 [(buf.validate.field).required = true];
 
-  // Status of the response, success or failure
+  // Status of the response, success or failure.Alert
+  //
   // THIS FIELD IS MANDATORY
   cmp.types.v4.StatusType status = 2 [(buf.validate.field).enum = {
     // Only allow defined types

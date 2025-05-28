@@ -11,8 +11,6 @@ import "buf/validate/validate.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/link.proto.dot.svg)
 message Link {
   // Link type
-  //
-  // Ex: "LG" or "TC" FIXME: Examples wrong?
   cmp.types.v4.LinkType type = 1 [(buf.validate.field).enum.defined_only = true];
 
   // Link description
