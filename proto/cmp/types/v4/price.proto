@@ -6,8 +6,6 @@ import "buf/validate/validate.proto";
 import "cmp/types/v4/currency.proto";
 import "cmp/types/v4/price_types.proto";
 
-// ### PriceDetail
-//
 // This message consists of the value as a Price object and additional fields as
 // binding, concept, and breakdown.
 //
@@ -55,8 +53,6 @@ message PriceDetail {
   }];
 }
 
-// ### Price
-//
 // Represents a monetary value with arbitrary precision using a string-based integer
 // representation. This design supports both traditional fiat currencies and
 // cryptocurrencies that may require high precision decimal handling.
@@ -120,8 +116,6 @@ message Price {
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }
 
-// ### TotalPrice
-//
 // Represents the complete pricing information for a product or service, including
 // both the total price value and an optional breakdown of price components.
 //

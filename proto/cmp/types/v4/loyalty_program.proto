@@ -5,6 +5,8 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v4/link.proto";
 
+// FIXME: Improve comments for this and other proto files below this.
+
 // Loyalty Program
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/loyalty_program.proto.dot.xs.svg)

@@ -6,40 +6,51 @@ import "buf/validate/validate.proto";
 import "cmp/types/v2/country.proto";
 import "cmp/types/v4/measurement.proto";
 
-// ### Coordinate
+// Represents geographic coordinates, specified by latitude and longitude.
 //
-// Represents a geographic location
+// These coordinates define a single point on the Earth's surface.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/location.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/location.proto.dot.svg)
 message Coordinates {
-  // The latitude in degrees. It must be in the range [-90.0, +90.0].
+  // The latitude, in degrees. Must be between -90.0 and +90.0.
   double latitude = 1 [(buf.validate.field).double = {
     gte: -90.0
     lte: 90.0
   }];
 
-  // The longitude in degrees. It must be in the range [-180.0, +180.0].
+  // The longitude, in degrees. Must be between -180.0 and +180.0.
   double longitude = 2 [(buf.validate.field).double = {
     gte: -180.0
     lte: 180.0
   }];
 }
 
-// Geo Circle
+// Represents a geographic area defined by a circle.
+//
+// This is useful for searching or specifying locations within a certain distance
+// from a central point.
 message GeoCircle {
+  // The central point of the circle.
   cmp.types.v4.Coordinates center = 1 [(buf.validate.field).required = true];
+
+  // The radius of the circle.
   cmp.types.v4.Length radius = 2 [(buf.validate.field).required = true];
 }
 
-// Geo Polygon
+// Represents a geographic area defined by a polygon.
+//
+// This is useful for specifying complex or irregular areas on a map.
 message GeoPolygon {
-  // GPS points of the polygon
+  // A list of geographic points defining the vertices of the polygon.
+  // The points should typically be ordered sequentially to define the polygon's
+  // boundary. The polygon is implicitly closed.
+  // Must contain at least 3 points to form a valid polygon.
   repeated cmp.types.v4.Coordinates points = 1 [(buf.validate.field).repeated = {
     min_items: 3
-    max_items: 100 // Default max items
-  }]; // At least 3 points for a polygon
+    max_items: 100
+  }];
 }
 
 // Geo Tree
@@ -58,11 +69,10 @@ message GeoTree {
   string city_or_resort = 3 [(buf.validate.field).string.max_bytes = 512];
 }
 
-// Location Code
+// Represents a location identified by a specific code and code type.
 //
-// Location codes can be generic across multiple suppliers that support standardized
-// code types. However, using provider specific codes makes an implementation more
-// unique.
+// Location codes can be standardized (like IATA airport codes) or specific to
+// a particular provider or system.
 message LocationCode {
   string code = 1 [(buf.validate.field).string = {
     min_len: 1
@@ -75,11 +85,11 @@ message LocationCode {
   }];
 }
 
-// Represents a list of `LocationCode` message type. We need to encapsulate repeated
-// field here because repeated fields can not be used in `oneof` fields.
+// A wrapper message containing a list of `LocationCode` messages.
 //
-// Protobuf `oneof` field type does not support repeated member fields. To get the
-// same functionality we need to wrap the needed message type with another message.
+// This wrapper is primarily used to allow a list of `LocationCode` messages to be
+// included as a member of a `oneof` field, which does not natively support repeated
+// fields.
 message LocationCodes {
   repeated cmp.types.v4.LocationCode codes = 1 [(buf.validate.field).repeated = {
     min_items: 1

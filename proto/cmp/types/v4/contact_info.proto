@@ -8,21 +8,36 @@ import "cmp/types/v4/email.proto";
 import "cmp/types/v4/link.proto";
 import "cmp/types/v4/phone.proto";
 
-// Contact Info for general use.
+// ContactInfo provides a comprehensive set of contact details for an individual
+// or an organization. It can include multiple physical addresses, phone numbers,
+// email addresses, and web links.
+//
+// This message is designed for general use wherever contact information is needed.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.svg)
 message ContactInfo {
-  // Address
+  // Optional. A list of physical or postal addresses.
+  //
+  // Allows for multiple addresses, such as a primary business address,
+  // mailing address, or different office locations.
   repeated cmp.types.v4.Address address = 1 [(buf.validate.field).repeated = {max_items: 25}];
 
-  // Phones
+  // Optional. A list of phone numbers.
+  //
+  // Can include various types of phone numbers like mobile, work, fax, etc.
   repeated cmp.types.v4.Phone phones = 2 [(buf.validate.field).repeated = {max_items: 25}];
 
-  // Emails
+  // Optional. A list of email addresses.
+  //
+  // Allows for multiple email addresses, such as primary contact, support, or
+  // departmental emails.
   repeated cmp.types.v4.Email emails = 3 [(buf.validate.field).repeated = {max_items: 25}];
 
-  // Websites
+  // Optional. A list of relevant web links or URLs.
+  //
+  // Can include links to official websites, social media profiles, or other online
+  // resources.
   repeated cmp.types.v4.Link links = 4 [(buf.validate.field).repeated = {max_items: 25}];
 }

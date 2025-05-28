@@ -5,12 +5,18 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 
+// Represents a single string value localized for a specific language.
+//
+// This message is used to provide textual content, such as names or short labels,
+// that need to be displayed in multiple languages.
 message LocalizedString {
+  // The actual text content of the string.
   string text = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
+  // The language of the text content.
   cmp.types.v1.Language language = 2 [(buf.validate.field).enum = {
     defined_only: true /* Only allow defined enum values */
     not_in: [0] /* Exclude unspecified value */

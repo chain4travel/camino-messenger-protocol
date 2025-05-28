@@ -4,17 +4,28 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
-// Time duration in minutes
+// Represents a period of time expressed in minutes.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/duration.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/duration.proto.dot.svg)
 message Duration {
+  // The duration specified in minutes.
+  // Must be a non-negative value.
   uint32 minutes = 1;
 }
 
-// Duration range message that includes minimum and maximum duration.
+// Represents a range for a duration, defined by a minimum and a maximum value.
+//
+// This is useful for specifying flexible durations, for example, an activity
+// that lasts between 60 and 90 minutes.
 message DurationRange {
+  option (buf.validate.message).cel = {
+    id: "duration_range.max_ge_min"
+    expression: "this.max_duration.minutes >= this.min_duration.minutes"
+    message: "Maximum duration must be greater than or equal to minimum duration."
+  };
+
   cmp.types.v4.Duration min_duration = 1 [(buf.validate.field).required = true];
   cmp.types.v4.Duration max_duration = 2 [(buf.validate.field).required = true];
 }

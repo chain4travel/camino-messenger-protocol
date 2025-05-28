@@ -6,18 +6,32 @@ import "buf/validate/validate.proto";
 import "cmp/types/v4/token.proto";
 import "google/protobuf/empty.proto";
 
-// See extensive explanation at Price in price.proto
+// Specifies the currency for a monetary value, which can be a standard
+// ISO fiat currency, a specific token-based currency (e.g., a cryptocurrency),
+// or the platform's native token.
+//
+// This message is used in conjunction with a numerical amount (e.g., in a Price
+// message) to fully define a monetary value. Exactly one type of currency must
+// be specified.
+//
+// For more info check the `Price` message type.
 message Currency {
+  // Defines the type of currency being used.
   oneof currency {
     option (buf.validate.oneof).required = true; // at least one field is required
 
+    // A standard fiat currency, represented by IsoCurrency enum (ISO 4217).
     cmp.types.v4.IsoCurrency iso_currency = 1 [(buf.validate.field).enum = {
       defined_only: true
       not_in: [0]
     }];
 
+    // A specific token-based currency, such as a cryptocurrency
     cmp.types.v4.TokenCurrency token_currency = 2;
 
+    // Indicates that the currency is the platform's native blockchain token.
+    // The specific native token is implicitly understood by the context of the
+    // platform or network where this message is used.
     google.protobuf.Empty native_token = 3;
   }
 }

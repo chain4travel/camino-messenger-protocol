@@ -4,19 +4,28 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
-// Date message that includes year, month and day as integers.
+// Represents a calendar date, specified by year, month, and day.
+//
+// This message is used for scenarios where only the date component is needed,
+// without time or timezone information.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/date.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/date.proto.dot.svg)
 message Date {
+  // The year of the date. For example, 2025.
   uint32 year = 1 [(buf.validate.field).uint32 = {lte: 9999}];
 
+  // The month of the year, from 1 (January) to 12 (December).
   uint32 month = 2 [(buf.validate.field).uint32 = {
     gte: 1
     lte: 12
   }];
 
+  // The day of the month, from 1 to 31.
+  //
+  // The validity of the day for a given month and year (e.g., ensuring February
+  // doesn't have 30 days) should be handled by application logic.
   uint32 day = 3 [(buf.validate.field).uint32 = {
     gte: 1
     lte: 31

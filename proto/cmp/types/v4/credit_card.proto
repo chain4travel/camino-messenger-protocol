@@ -17,11 +17,13 @@ import "cmp/types/v4/date.proto";
 //   authorization.
 message CreditCard {
   // The primary account number (PAN) of the credit card.
+  //
   // It is stored as a string to:
   //   1. Preserve leading zeros, which some card numbers might have.
   //   2. Ensure a normalized format without spaces or dashes. For example,
   //      a card number like "1234-5678-9876-5432" should be stored as
   //      "1234567898765432" in this field.
+  //
   // The validation pattern `^[0-9]{12,19}$` enforces that the number consists
   // of 12 to 19 digits, covering the typical length range for major card brands.
   // Application-level Luhn algorithm validation is recommended for enhanced
@@ -31,11 +33,13 @@ message CreditCard {
   // The expiration date of the credit card. This field is required.
   // The `cmp.types.v4.Date` message includes year, month, and day components.
   // For credit card expiration, typically only the month and year are relevant.
+  //
   // When populating this field:
   //   - The `year` and `month` should correspond to the card's expiration.
   //   - The `day` component can be set to the last day of the expiration month
   //     or a fixed conventional day (e.g., the 1st), as the exact day is
   //     usually not printed on cards and not used in validation.
+  //
   // Application logic should validate that this date is not in the past at the
   // time of processing.
   cmp.types.v4.Date expiration_date = 2 [(buf.validate.field).required = true];
@@ -45,6 +49,7 @@ message CreditCard {
   // This is the 3 or 4-digit security code typically found on the signature
   // strip on the back of the card (e.g., Visa, Mastercard) or on the front
   // (e.g., American Express).
+  //
   // The validation pattern `^[0-9]{3,4}$` enforces 3 or 4 digits.
   //
   // CRITICAL SECURITY WARNING:

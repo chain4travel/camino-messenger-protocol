@@ -5,21 +5,29 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
-// Date range message that includes start and end datetime as timestamps.
+// Represents a specific period of time defined by a start and an end date-time.
+//
+// This message uses precise timestamps, making it suitable for scenarios
+// requiring exact date and time boundaries, including timezone considerations
+// inherent in the `google.protobuf.Timestamp` type (which represents UTC).
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/datetime_range.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/datetime_range.proto.dot.svg)
 message DateTimeRange {
+  // The inclusive start date and time of the range.
   //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
+  // This timestamp can be used for both off-chain and on-chain operations.
+  // When used for on-chain operations, typically only the seconds component of
+  // the timestamp is relevant, and any nanosecond precision might be ignored or
+  // truncated by the blockchain.
   google.protobuf.Timestamp start_datetime = 1 [(buf.validate.field).required = true];
 
+  // The inclusive end date and time of the range.
+  // It is expected that `end_datetime` is later than or equal to `start_datetime`.
   //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
+  // Similar to `start_datetime`, this timestamp can be used for both off-chain
+  // and on-chain operations. For on-chain use, nanosecond precision may not be
+  // supported, with only the seconds component being considered.
   google.protobuf.Timestamp end_datetime = 2 [(buf.validate.field).required = true];
 }

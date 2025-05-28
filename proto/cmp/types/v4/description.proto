@@ -5,33 +5,44 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v1/language.proto";
 
-// Localized description set for a given language
+// LocalizedDescriptionSet represents a collection of descriptions for a specific
+// language.
+//
+// This allows for providing textual descriptions about various aspects of
+// an entity (like a product, service, or location) in different languages.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/description.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/description.proto.dot.svg)
 message LocalizedDescriptionSet {
-  // Language
+  // The language for which this set of descriptions is provided.
   cmp.types.v1.Language language = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
-  // Description set
+  // A list of individual descriptions for the specified language.
+  //
+  // Each description can have a category and the actual text. Must contain at least
+  // one description.
   repeated cmp.types.v4.Description descriptions = 2 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
 }
 
+// Represents a single descriptive text entry, optionally categorized.
+// This is used as part of a `LocalizedDescriptionSet`.
 message Description {
-  // Category of the description like "General", "Amenities".
+  // Optional. A category label for the description, helping to group related
+  // description texts. Examples: "General Information", "Included Amenities",
+  // "Cancellation Policy".
   string category = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  // Description text
+  // The actual descriptive text.
   string text = 2 [(buf.validate.field).string = {
     min_len: 1
     max_len: 5000
