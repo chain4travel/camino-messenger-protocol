@@ -235,55 +235,86 @@ message SeatAttribute {
   int32 value = 3;
 }
 
-// Enumerates the types of areas that can be defined within a seat map. This is used
-// for specifying the shape of regions in bitmap images.
+// Enumerates the geometric shapes used to define clickable regions for seats
+// in a bitmap image seat map (see `BitmapSeatLocation`).
+// These types generally correspond to the `shape` attribute of an HTML `<area>` tag.
 enum AreaType {
-  AREA_TYPE_UNSPECIFIED = 0;
-  AREA_TYPE_RECTANGLE = 1;
-  AREA_TYPE_CIRCLE = 2;
-  AREA_TYPE_POLYGON = 3;
+  AREA_TYPE_UNSPECIFIED = 0; // Default, should not be used (enforced by validation).
+  AREA_TYPE_RECTANGLE = 1; // A rectangular area.
+  AREA_TYPE_CIRCLE = 2; // A circular area.
+  AREA_TYPE_POLYGON = 3; // A polygonal area (defined by a set of vertices).
 }
 
-// Defines the location of a seat within a bitmap image seat map. This information
-// is generally used with the HTML `area` tag to specify clickable regions.
+// Defines the location of a seat as a clickable area within a bitmap image
+// (e.g., PNG, JPG) seat map. This information is typically used to generate
+// HTML `<area>` tags for an image map, making regions of the image interactive.
 message BitmapSeatLocation {
-  // The type of area defining the seat location, such as rectangle, circle, or polygon.
+  // Specifies the geometric shape of the seat's clickable area (e.g., rectangle,
+  // circle, polygon). This determines how the `coordinates` field is interpreted.
+  // Must be a defined `AreaType` other than `AREA_TYPE_UNSPECIFIED`.
   cmp.types.v4.AreaType type = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
-  // Coordinates defining the area. The format of the coordinates depends on the
-  // area type (e.g., top-left (x1,y1) and bottom-right (x2,y2) corners for a
-  // rectangle: `<area shape="rect" coords="x1,y1,x2,y2"`).
+  // A list of integer coordinates defining the shape of the seat area on the
+  // bitmap image. The interpretation of these coordinates depends on the `type`
+  // field and generally corresponds to the `coords` attribute of an HTML `<area>`
+  // tag.
+  //
+  // Examples based on `AreaType`:
+  // - `AREA_TYPE_RECTANGLE`: Expects 4 coordinates: `[x1, y1, x2, y2]`,
+  //   representing the top-left (x1,y1) and bottom-right (x2,y2) corners.
+  //   HTML equivalent: `<area shape="rect" coords="x1,y1,x2,y2">`
+  // - `AREA_TYPE_CIRCLE`: Expects 3 coordinates: `[centerX, centerY, radius]`.
+  //   HTML equivalent: `<area shape="circle" coords="centerX,centerY,radius">`
+  // - `AREA_TYPE_POLYGON`: Expects at least 6 coordinates (for a triangle):
+  //   `[x1, y1, x2, y2, x3, y3, ..., xN, yN]`, representing the vertices of
+  //   the polygon. The polygon is automatically closed by connecting the last
+  //   point to the first if not explicitly done.
+  //   HTML equivalent: `<area shape="poly" coords="x1,y1,x2,y2,...,xN,yN">`
+  //
+  // The `min_items: 3` validation is minimum for circle areas; however, the
+  // actual minimum number of coordinates depends on the `type`:
+  //   - Rectangle: 4 coordinates
+  //   - Circle: 3 coordinates
+  //   - Polygon: 6 coordinates (for a minimal triangle)
+  // `max_items` limits the complexity, e.g., for very detailed polygons.
   repeated int32 coordinates = 2 [(buf.validate.field).repeated = {
-    min_items: 1
-    max_items: 100 // Default max items
-  }]; // FIXME: We need more examples above!
+    min_items: 3 // Actual minimum depends on AreaType (e.g., 3 for circle).
+    max_items: 100 // Limits complexity of polygons.
+  }];
 }
 
-// Defines the location of a seat within an SVG (vector) seat map. This is typically
-// used for labeling elements within the SVG.
+// Defines the location or identifier of a seat within an SVG (Scalable Vector
+// Graphics) seat map. This is typically used to reference a specific element
+// (e.g., by its ID or a custom attribute) within the SVG document that
+// represents the seat.
 message VectorSeatLocation {
-  // Label for the seat location in the SVG, e.g., "section-TERRACE-26-34-2-label".
+  // The identifier (e.g., an ID, class name, or custom data attribute value)
+  // of the SVG element representing the seat. This label is used to
+  // programmatically find and interact with the seat's representation in the SVG.
+  // Example: "seat-A1", "section-TERRACE-row-26-seat-34", "path1234".
   string label = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 }
 
-// Represents the location of a seat within a seat map, which can be defined using
-// either a vector (SVG) or bitmap format. This message encapsulates both types of
-// seat location definitions.
+// Represents the location of a single seat within a seat map.
+// A seat's location can be defined either for a vector-based (SVG) map
+// or a raster/bitmap image map. Exactly one type of location must be provided.
 message SeatLocation {
-  // One of the possible seat location types: vector (SVG) or bitmap.
+  // Defines the seat location using one of the supported map formats.
+  // This field is mandatory; either `vector` or `bitmap` must be set.
   oneof location {
     option (buf.validate.oneof).required = true;
 
-    // Vector-based seat location, used for SVG maps.
+    // Location details for a seat in an SVG (vector) seat map.
     cmp.types.v4.VectorSeatLocation vector = 1;
 
-    // Bitmap-based seat location, used for HTML image maps.
+    // Location details for a seat in a bitmap image seat map (e.g., PNG, JPG),
+    // typically used with HTML image maps.
     cmp.types.v4.BitmapSeatLocation bitmap = 2;
   }
 }
