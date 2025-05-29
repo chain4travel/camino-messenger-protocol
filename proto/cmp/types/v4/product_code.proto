@@ -63,5 +63,5 @@ message SupplierProductCode {
 
   uint32 supplier_number = 2;
 
-  // TODO: One of the field of code or number should be specified.
+  // FIXME: One of the field of code or number should be specified.
 }

@@ -18,13 +18,20 @@ message AccommodationProductInfoRequest {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp modified_after = 2;
+  google.protobuf.Timestamp modified_after = 2; // FIXME: Does this makes sense when we have supplier code list?
 
   // Languages
-  repeated cmp.types.v1.Language languages = 3;
+  repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 10
+    unique: true
+  }];
 
   // Property codes
-  repeated cmp.types.v4.SupplierProductCode supplier_codes = 4;
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 4 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
 }
 
 message AccommodationProductInfoResponse {
@@ -32,7 +39,10 @@ message AccommodationProductInfoResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Properties
-  repeated cmp.services.accommodation.v4.PropertyExtendedInfo properties = 2;
+  repeated cmp.services.accommodation.v4.PropertyExtendedInfo properties = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100 // Default max items
+  }];
 }
 
 // Accommodation product info service definition

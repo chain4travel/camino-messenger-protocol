@@ -28,19 +28,22 @@ message Property {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp last_modified = 1;
+  google.protobuf.Timestamp last_modified = 1 [(buf.validate.field).required = true];
 
   // Supplier product Code
-  cmp.types.v4.SupplierProductCode supplier_code = 2;
+  cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
 
   // Product code which can be of different types
   repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 500
   }];
 
   // Ex: "Beach Hotel Alanya"
-  string name = 4 [(buf.validate.field).string.max_bytes = 512];
+  string name = 4 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // Ex: "Hilton"
   string chain = 5 [(buf.validate.field).string.max_bytes = 512];
@@ -55,18 +58,19 @@ message Property {
   cmp.types.v4.ContactInfo contact_info = 8;
 
   // Location coordinate
-  cmp.types.v4.Coordinates coordinates = 9;
+  cmp.types.v4.Coordinates coordinates = 9 [(buf.validate.field).required = true];
 
   // Status of the property
-  cmp.types.v1.ProductStatus status = 10;
+  cmp.types.v1.ProductStatus status = 10 [(buf.validate.field).required = true];
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
+  // FIXME: Have another msg type for airports
   repeated string airports = 11 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
     items: {
-      string: {max_len: 4} /* FIXME: check */
+      string: {max_len: 4}
     }
   }];
 }

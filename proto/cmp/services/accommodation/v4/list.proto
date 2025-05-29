@@ -37,4 +37,6 @@ message AccommodationProductListResponse {
 service AccommodationProductListService {
   // Returns product list for accommodation (properties)
   rpc AccommodationProductList(AccommodationProductListRequest) returns (AccommodationProductListResponse);
+
+  // TODO: NEW PR: add AccommodationProductShortList (New Service)
 }
