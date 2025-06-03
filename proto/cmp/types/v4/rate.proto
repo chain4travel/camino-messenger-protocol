@@ -19,6 +19,7 @@ message RateRule {
   }];
 
   // RateRuleType is meant for uniformed and standardized display.
+  // FIXME: add comment that this should be consistent with cancel policy
   cmp.types.v4.RateRuleType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
