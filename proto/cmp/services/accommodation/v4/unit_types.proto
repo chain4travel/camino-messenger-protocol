@@ -33,7 +33,10 @@ message Unit {
   // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
   // the static data like room amenities, descriptions, images etc. can be married to the
   // dynamic price and availability data for display to the end user.
-  string supplier_room_code = 2 [(buf.validate.field).string.max_bytes = 512];
+  string supplier_room_code = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // Room name. In case of enrichment additional name of the unit code.
   // In theory, this field should never be included as it is already available in
@@ -47,12 +50,12 @@ message Unit {
   string original_room_name = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Travel period
-  cmp.types.v4.TravelPeriod travel_period = 5;
+  cmp.types.v4.TravelPeriod travel_period = 5 [(buf.validate.field).required = true];
 
   // Traveller_id is a list of travellers related to this unit. The details can be found in
   // the search response repeated travellers field
   repeated int32 traveller_ids = 6 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 15
   }];
 
@@ -80,14 +83,11 @@ message Unit {
   // Rate Rule
   cmp.types.v4.RateRule rate_rule = 12;
 
-  // This is a list so that various policies can be expressed.
+  // The cancellation conditions
   //
   // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
   // arrival z€
-  repeated cmp.types.v4.CancelPolicy cancel_policies = 13 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
+  cmp.types.v4.CancelPolicy cancel_policy = 13;
 
   // Number of remaining units at the time of calculation
   uint32 remaining_units = 14;
@@ -96,11 +96,10 @@ message Unit {
   cmp.types.v4.ProductCode property_code = 15;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
-  cmp.types.v4.SupplierProductCode supplier_code = 16;
+  cmp.types.v4.SupplierProductCode supplier_code = 16 [(buf.validate.field).required = true];
 
-  // Remarks
-  // Non structural aspects related to the unit a supplier wants to include in the search
-  // response
+  // Non structural aspects related to the unit a supplier wants to include
+  // in the search response. For display purposes only.
   string remarks = 17 [(buf.validate.field).string.max_bytes = 512];
 }
 

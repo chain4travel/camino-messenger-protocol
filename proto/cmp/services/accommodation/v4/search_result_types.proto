@@ -18,6 +18,9 @@ import "cmp/types/v4/rate.proto";
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
+  //
+  // Must be unique within a response. This is used as identifier for validation in
+  // the next step of the booking.
   uint32 result_id = 1;
 
   // This field represents the query ID associated with the search result.
@@ -25,13 +28,13 @@ message AccommodationSearchResult {
 
   // Units for this search result
   repeated cmp.services.accommodation.v4.Unit units = 3 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 100
   }];
 
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 4;
+  cmp.types.v4.TotalPrice total_price = 4 [(buf.validate.field).required = true];
 
   // The RateRule specifies whether a search result is non-refundable or not
   repeated cmp.types.v4.RateRule rate_rules = 5 [(buf.validate.field).repeated = {
@@ -40,11 +43,12 @@ message AccommodationSearchResult {
   }];
 
   // The cancellation conditions related to an option
-  cmp.types.v4.CancelPolicy cancel_policy = 6;
+  cmp.types.v4.CancelPolicy cancel_policy = 6 [(buf.validate.field).required = true];
 
-  // Free text remarks without any functionality
+  // Free text remarks without any functionality. Only for display purposes. Should
+  // be in the requested language.
   string remarks = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v4.Bookability bookability = 8;
+  cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
 }

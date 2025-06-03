@@ -50,12 +50,14 @@ message Property {
 
   // Ex: CATEGORY_RATING_4_5
   cmp.services.accommodation.v4.CategoryRating category_rating = 6;
+  // FIXME: If this is given, the units should be given also
 
   // Ex: CATEGORY_UNIT_PALMS
   cmp.services.accommodation.v4.CategoryUnit category_unit = 7;
 
   // Contact Info: phone, address, email, links
   cmp.types.v4.ContactInfo contact_info = 8;
+  // FIXME: make at least contact_info.address required
 
   // Location coordinate
   cmp.types.v4.Coordinates coordinates = 9 [(buf.validate.field).required = true];
@@ -68,7 +70,7 @@ message Property {
   // FIXME: Have another msg type for airports
   repeated string airports = 11 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100
+    max_items: 10
     items: {
       string: {max_len: 4}
     }
@@ -108,7 +110,7 @@ enum CategoryUnit {
 // This message type contains extended info about a property
 message PropertyExtendedInfo {
   // Property
-  cmp.services.accommodation.v4.Property property = 1;
+  cmp.services.accommodation.v4.Property property = 1 [(buf.validate.field).required = true];
 
   // Images
   repeated cmp.types.v4.Image images = 2 [(buf.validate.field).repeated = {
@@ -123,6 +125,8 @@ message PropertyExtendedInfo {
   }];
 
   // Segmentation classification
+  //
+  // TODO: Improve (multiple enums like location type, guest type, etc)
   repeated string classifications = 4 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -144,11 +148,13 @@ message PropertyExtendedInfo {
   }];
 
   // Payment type. Ex: "MERCHANT"
+  //
+  // TODO: Reevaluate & make this an enum if needed
   string payment_type = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Rooms
   repeated cmp.services.accommodation.v4.Room rooms = 8 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 100
   }];
 }
@@ -159,7 +165,10 @@ message Room {
   // in the ProductList and the ProductInfo messages, so that the static data like room
   // amenities, descriptions, images etc. can be married to the dynamic price and
   // availability data for display to the end user.
-  string supplier_code = 1 [(buf.validate.field).string.max_bytes = 512];
+  string supplier_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // Room name. In case of hotel a standardized room name is often derived from
   // room code structures. Example: "superior sea view room".
@@ -219,40 +228,43 @@ message Room {
 
 message Occupancy {
   // Min guests
-  uint32 min_guests = 1;
+  uint32 min_guests = 1; // FIXME: bigger than zero
 
   // Max guests
-  uint32 max_guests = 2;
+  uint32 max_guests = 2; // FIXME: bigger than zero, bigger or equal to min
 
   // Standard occupancy
-  uint32 standard_occupancy = 3;
-
-  // Full payers
-  uint32 full_payers = 4;
+  uint32 standard_occupancy = 3; // FIXME: if bigger than zero, then it should be between min and max
 
   // If infants are counted in total guests or not
-  bool infant_counted_in_total_guests = 5;
+  bool infant_counted_in_total_guests = 4;
 
   // Occupancy options
-  repeated cmp.services.accommodation.v4.OccupancyOption occupancy_options = 6 [(buf.validate.field).repeated = {
+  repeated cmp.services.accommodation.v4.OccupancyOption occupancy_options = 5 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 }
 
+// TODO: Explain this type
 message OccupancyOption {
   // Guest type like adult, child, infant.
-  cmp.types.v4.TravellerType guest_type = 1;
+  cmp.types.v4.TravellerType guest_type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // Min guests
   uint32 min = 2;
 
   // Max guests
-  uint32 max = 3;
+  uint32 max = 3; // FIXME: bigger than zero
 
   // Min age
   uint32 min_age = 4;
 
   // Max age
-  uint32 max_age = 5;
+  uint32 max_age = 5; // FIXME: if type is not ADULT than bigger than zero
+
+  // FIXME: max must be bigger than or equal than min for both
 }
