@@ -10,6 +10,10 @@ import "cmp/types/v4/product_code.proto";
 
 // These are Activity specific search parameters
 //
+// ## Supplier-Specific Requirements
+// While all fields in this message are optional at the message level, each supplier
+// may define their own minimum set of required filter parameters.
+//
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/search_parameters_types.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v2/search_parameters_types.proto.dot.svg)
@@ -75,4 +79,6 @@ message ActivitySearchParameters {
   // search response
   cmp.types.v4.Price min_price = 8;
   cmp.types.v4.Price max_price = 9;
+
+  // FIXME: max should not be lower then min for both above
 }

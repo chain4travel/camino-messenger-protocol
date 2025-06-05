@@ -41,51 +41,6 @@ message Activity {
   string service_code = 3 [(buf.validate.field).string.max_bytes = 512];
 }
 
-message ActivityLocation {
-  // Ex: Ctra. de la Porrassa, s/n, Magaluf, ES 07181 in structured fields
-  cmp.types.v4.Address address = 1;
-
-  // Geo Tree. Country, region, city_or_resort
-  cmp.types.v4.GeoTree geo_tree = 2;
-
-  // Coordinate
-  cmp.types.v4.Coordinates coordinates = 3;
-
-  // At least one location field must be provided
-  option (buf.validate.message).cel = {
-    id: "at_least_one_location_required"
-    message: "At least one of address, geo_tree, or coordinates must be provided"
-    expression: "has(this.address) || has(this.geo_tree) || has(this.coordinates)"
-  };
-}
-
-message PickupDropoffEvent {
-  // Supplier specific pick-up code. Avoid using this and use a more generic concept
-  // where possible, so that the integration is suitable for more than one partner.
-  //
-  // Ex: "AESPMI43NU",
-  string location_code = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
-  }];
-
-  // Ex: "Sunny Beach Hotel",
-  string location_name = 2 [(buf.validate.field).string.max_bytes = 512];
-
-  // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
-  string other_info = 3 [(buf.validate.field).string.max_bytes = 512];
-
-  // Datetime of the pickup dropoff event as Unix timestamp
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
-  google.protobuf.Timestamp date_time = 4 [(buf.validate.field).required = true];
-
-  // Longitude and Latitude of the location
-  cmp.types.v4.Coordinates coordinates = 5;
-}
-
 // Activity static info
 message ActivityExtendedInfo {
   // Supplier Product codes for the result. These must match the supplier codes
@@ -132,10 +87,8 @@ message ActivityExtendedInfo {
     max_items: 100
   }];
 
-  // FIXME: cont review here
-
-  // Languages
-  repeated cmp.types.v1.Language languages = 9 [(buf.validate.field).repeated = {
+  // Languages in which the activity is available
+  repeated cmp.types.v1.Language spoken_languages = 9 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -155,59 +108,58 @@ message ActivityExtendedInfo {
     max_items: 100
   }];
 
-  // Supplier code from the Inventory System for this activity response.
-  string supplier_unit_code = 13 [(buf.validate.field).string.max_bytes = 512];
-
   // Activity Category Code
-  string category_code = 14 [(buf.validate.field).string.max_bytes = 512];
+  string category_code = 13 [(buf.validate.field).string.max_bytes = 512];
 
   // Category name which describes the category_code
-  string category_name = 15 [(buf.validate.field).string.max_bytes = 512];
+  string category_name = 14 [(buf.validate.field).string.max_bytes = 512];
 
   // Type Code
-  string type_code = 16 [(buf.validate.field).string.max_bytes = 512];
+  string type_code = 15 [(buf.validate.field).string.max_bytes = 512];
 
   // Type name which describes type_code
-  string type_name = 17 [(buf.validate.field).string.max_bytes = 512];
-
-  // Supplier Name
-  string supplier_code_name = 18 [(buf.validate.field).string.max_bytes = 512];
+  string type_name = 16 [(buf.validate.field).string.max_bytes = 512];
 
   // Duration range (min, max) of the activity in minutes
-  cmp.types.v4.DurationRange duration_range = 19;
+  cmp.types.v4.DurationRange duration_range = 17;
 
   // Time given for confirmation before the offer expires
-  cmp.types.v4.Duration max_confirmation_duration = 20;
+  cmp.types.v4.Duration max_confirmation_duration = 18;
 
   // Allow Free Sale
-  bool allow_free_sale = 21;
+  bool allow_free_sale = 19;
 
   // The ability to confirm instantly
-  bool instant_confirmation = 22;
+  bool instant_confirmation = 20;
 
   // Can be delivered instantly
-  bool instant_delivery = 23;
+  bool instant_delivery = 21;
 
   // Check availability
-  bool availability_required = 24;
+  bool availability_required = 22;
 
   // Availability Type
-  string availability_type = 25 [(buf.validate.field).string.max_bytes = 512];
+  // FIXME: Explain what this is used for. Can this be an enum?
+  string availability_type = 23 [(buf.validate.field).string.max_bytes = 512];
+
+  // TODO: Combine delivery format and methods into one message, so they are linked one to one.
+
+  // FIXME: Remove other from the enums below.
 
   // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
-  repeated cmp.types.v1.DeliveryFormat delivery_formats = 26 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.DeliveryFormat delivery_formats = 24 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Delivery Methods; such as Email, SMS, Post, ... etc
-  repeated cmp.types.v1.DeliveryMethod delivery_methods = 27 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.DeliveryMethod delivery_methods = 25 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Redemption method
-  repeated cmp.types.v1.RedemptionMethod redemption_methods = 28 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.RedemptionMethod redemption_methods = 26 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -215,7 +167,7 @@ message ActivityExtendedInfo {
   // Context for Inventory system concepts that need to be included in an info
   // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
   // etc. or a serialized combination of these codes.
-  string context = 29 [(buf.validate.field).string.max_bytes = 512];
+  string context = 27 [(buf.validate.field).string.max_bytes = 512];
 
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
@@ -223,21 +175,64 @@ message ActivityExtendedInfo {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp last_modified = 30;
-
-  // FIXME: Explain better: min participants can be 5 for a jeep safari
-  // activity and max participants can be 10. (it does not happen if below 5)
-  // Updated: Are the comments below correct?
+  google.protobuf.Timestamp last_modified = 28;
 
   // Minimum number of participants required for the activity to proceed.
   // Ex: A jeep safari might require at least 5 participants to operate,
-  // meaning the activity will be cancelled if fewer than 5 people book it.
-  uint32 min_participants = 31;
+  // meaning the activity might be cancelled if fewer than 5 people book it.
+  uint32 min_participants = 29;
 
   // Maximum number of participants allowed for the activity.
   // Ex: The same jeep safari might have a maximum capacity of 10 participants
   // due to vehicle size limitations or safety regulations.
-  uint32 max_participants = 32;
+  uint32 max_participants = 30;
+
+  // FIXME: max can not be smaller then min if set (non zero)
+}
+
+message ActivityLocation {
+  // Ex: Ctra. de la Porrassa, s/n, Magaluf, ES 07181 in structured fields
+  cmp.types.v4.Address address = 1;
+
+  // Geo Tree. Country, region, city_or_resort
+  cmp.types.v4.GeoTree geo_tree = 2;
+
+  // Coordinate
+  cmp.types.v4.Coordinates coordinates = 3;
+
+  // At least one location field must be provided
+  option (buf.validate.message).cel = {
+    id: "at_least_one_location_required"
+    message: "At least one of address, geo_tree, or coordinates must be provided"
+    expression: "has(this.address) || has(this.geo_tree) || has(this.coordinates)"
+  };
+}
+
+message PickupDropoffEvent {
+  // Supplier specific pick-up code. Avoid using this and use a more generic concept
+  // where possible, so that the integration is suitable for more than one partner.
+  //
+  // Ex: "AESPMI43NU",
+  string location_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Ex: "Sunny Beach Hotel",
+  string location_name = 2 [(buf.validate.field).string.max_bytes = 512];
+
+  // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
+  string other_info = 3 [(buf.validate.field).string.max_bytes = 512];
+
+  // Datetime of the pickup dropoff event as Unix timestamp
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp date_time = 4 [(buf.validate.field).required = true];
+
+  // Longitude and Latitude of the location
+  cmp.types.v4.Coordinates coordinates = 5;
 }
 
 // The unit  gives us a choice of the different options that are available in an
@@ -249,7 +244,12 @@ message ActivityUnit {
   cmp.types.v4.DateTimeRange schedule = 1;
 
   // Unit Code
-  string code = 2 [(buf.validate.field).string.max_bytes = 512];
+  string code = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // TODO: Should name and description be multi-lingual?
 
   // Unit Name
   string name = 3 [(buf.validate.field).string.max_bytes = 512];
@@ -263,7 +263,12 @@ message ActivityUnit {
 // alcoholic drinks included?
 message ActivityService {
   // Service Code
-  string code = 1 [(buf.validate.field).string.max_bytes = 512];
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // TODO: Should name and description be multi-lingual?
 
   // Service Name
   string name = 2 [(buf.validate.field).string.max_bytes = 512];

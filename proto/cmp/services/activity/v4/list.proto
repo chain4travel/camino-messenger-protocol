@@ -3,8 +3,8 @@ syntax = "proto3";
 package cmp.services.activity.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v4/common.proto";
+import "cmp/types/v4/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 message ActivityProductListRequest {
@@ -23,8 +23,8 @@ message ActivityProductListResponse {
   // Message header
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Product list: Activities
-  repeated cmp.services.activity.v4.Activity activities = 2;
+  // List of supplier codes of activities
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 2;
 }
 
 // This service is used to get a product list for activities.
