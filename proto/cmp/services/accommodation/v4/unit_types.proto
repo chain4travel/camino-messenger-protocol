@@ -93,6 +93,8 @@ message Unit {
   uint32 remaining_units = 14;
 
   // Property code which can be of different types
+  //
+  // FIXME: Should this be repeated? A unit can have multiple different property codes.
   cmp.types.v4.ProductCode property_code = 15;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search

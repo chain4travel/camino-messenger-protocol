@@ -68,11 +68,11 @@ message ActivitySearchRequest {
   cmp.services.activity.v4.ActivitySearchParameters search_parameters_activity = 4;
 
   // Travel period
-  cmp.types.v4.TravelPeriod travel_period = 5;
+  cmp.types.v4.TravelPeriod travel_period = 5 [(buf.validate.field).required = true];
 
   // Travellers
   repeated cmp.types.v4.BasicTraveller travellers = 6 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 15
   }];
 
@@ -148,11 +148,9 @@ message ActivitySearchResponse {
     max_items: 10000
   }];
 
-  // The traveller_id is specified in each result and the ids are detailed with
-  // basic traveller data only once in the top-level search response to avoid
-  // repetition.
+  // Repeated travellers from the request. Used for validating the response.
   repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 15
   }];
 }

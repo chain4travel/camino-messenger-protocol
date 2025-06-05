@@ -4,6 +4,7 @@ package cmp.services.activity.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/services/activity/v4/activity_types.proto";
+import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
 
@@ -14,17 +15,19 @@ import "cmp/types/v4/price.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v3/search_result_types.proto.dot.svg)
 message ActivitySearchResult {
-  // Option ID for the search option. This is an increasing number starting at 0 and
-  // increasing by 1 for every search result.
+  // This is an increasing number starting at 0 and increasing by 1 for every search
+  // result.
   uint32 result_id = 1;
 
   // Activity basic info
-  cmp.services.activity.v4.Activity info = 2;
+  cmp.services.activity.v4.Activity info = 2 [(buf.validate.field).required = true];
 
   // Schedule
+  // FIXME: Explain this
   cmp.types.v4.DateTimeRange schedule = 3;
 
   // Activity location
+  // FIXME: Remove? It's already in the extended info.
   cmp.services.activity.v4.ActivityLocation location = 4;
 
   // Pickup Dropoff
@@ -33,13 +36,10 @@ message ActivitySearchResult {
     max_items: 100
   }];
 
-  // Min participants
-  uint32 min_participants = 6;
-
-  // Max participants
-  uint32 max_participants = 7;
-
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 8;
+  cmp.types.v4.TotalPrice total_price = 8 [(buf.validate.field).required = true];
+
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v4.Bookability bookability = 9 [(buf.validate.field).required = true];
 }
