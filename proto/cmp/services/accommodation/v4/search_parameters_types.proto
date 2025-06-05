@@ -11,11 +11,14 @@ import "cmp/types/v4/rate.proto";
 // This type is used in search requests for parameters like location, meal plan
 // codes etc.
 //
-// TODO: Explain that suppliers can define their minimum set of filter parameters required
+// ## Supplier-Specific Requirements
+// While all fields in this message are optional at the message level, each supplier
+// may define their own minimum set of required filter parameters.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
+// [Open Message
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
 message AccommodationSearchParameters {
   // Geo Location for search, set only one of the fields at once.
   //

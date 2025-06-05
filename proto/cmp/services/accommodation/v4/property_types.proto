@@ -50,14 +50,12 @@ message Property {
 
   // Ex: CATEGORY_RATING_4_5
   cmp.services.accommodation.v4.CategoryRating category_rating = 6;
-  // FIXME: If this is given, the units should be given also
 
   // Ex: CATEGORY_UNIT_PALMS
   cmp.services.accommodation.v4.CategoryUnit category_unit = 7;
 
   // Contact Info: phone, address, email, links
-  cmp.types.v4.ContactInfo contact_info = 8;
-  // FIXME: make at least contact_info.address required
+  cmp.types.v4.ContactInfo contact_info = 8 [(buf.validate.field).required = true];
 
   // Location coordinate
   cmp.types.v4.Coordinates coordinates = 9 [(buf.validate.field).required = true];
@@ -75,6 +73,20 @@ message Property {
       string: {max_len: 4}
     }
   }];
+
+  // If category_rating is provided, category_unit must also be provided
+  option (buf.validate.message).cel = {
+    id: "category_rating_unit_dependency"
+    message: "If category_rating is provided, category_unit must also be provided"
+    expression: "this.category_rating == 0 || this.category_unit != 0"
+  };
+
+  // Property contact_info must have at least one address
+  option (buf.validate.message).cel = {
+    id: "contact_info_address_required"
+    message: "Property contact_info must have at least one address"
+    expression: "size(this.contact_info.address) > 0"
+  };
 }
 
 enum CategoryRating {
@@ -228,13 +240,13 @@ message Room {
 
 message Occupancy {
   // Min guests
-  uint32 min_guests = 1; // FIXME: bigger than zero
+  uint32 min_guests = 1 [(buf.validate.field).uint32 = {gt: 0}];
 
   // Max guests
-  uint32 max_guests = 2; // FIXME: bigger than zero, bigger or equal to min
+  uint32 max_guests = 2 [(buf.validate.field).uint32 = {gt: 0}];
 
   // Standard occupancy
-  uint32 standard_occupancy = 3; // FIXME: if bigger than zero, then it should be between min and max
+  uint32 standard_occupancy = 3;
 
   // If infants are counted in total guests or not
   bool infant_counted_in_total_guests = 4;
@@ -244,6 +256,20 @@ message Occupancy {
     min_items: 0
     max_items: 100
   }];
+
+  // Max guests must be greater than or equal to min guests
+  option (buf.validate.message).cel = {
+    id: "max_guests_gte_min_guests"
+    message: "max_guests must be greater than or equal to min_guests"
+    expression: "this.max_guests >= this.min_guests"
+  };
+
+  // Standard occupancy must be between min guests and max guests if provided (if it's zero then it's not provided)
+  option (buf.validate.message).cel = {
+    id: "standard_occupancy_range"
+    message: "If standard_occupancy is provided (> 0), it must be between min_guests and max_guests"
+    expression: "this.standard_occupancy == uint(0) || (this.standard_occupancy >= this.min_guests && this.standard_occupancy <= this.max_guests)"
+  };
 }
 
 // TODO: Explain this type
@@ -258,13 +284,33 @@ message OccupancyOption {
   uint32 min = 2;
 
   // Max guests
-  uint32 max = 3; // FIXME: bigger than zero
+  uint32 max = 3 [(buf.validate.field).uint32 = {gt: 0}];
 
   // Min age
   uint32 min_age = 4;
 
   // Max age
-  uint32 max_age = 5; // FIXME: if type is not ADULT than bigger than zero
+  uint32 max_age = 5;
 
-  // FIXME: max must be bigger than or equal than min for both
+  // Max guests must be greater than or equal to min guests
+  option (buf.validate.message).cel = {
+    id: "max_guests_gte_min_guests"
+    message: "max must be greater than or equal to min"
+    expression: "this.max >= this.min"
+  };
+
+  // Max age must be greater than or equal to min age
+  option (buf.validate.message).cel = {
+    id: "max_age_gte_min_age"
+    message: "max_age must be greater than or equal to min_age"
+    expression: "this.max_age >= this.min_age"
+  };
+
+  // If guest_type is not ADULT, max_age must be greater than zero
+  // FIXME: Shouldn't there be a min_age rule also (for seniors for example)?
+  option (buf.validate.message).cel = {
+    id: "max_age_required_for_non_adults"
+    message: "If guest_type is not ADULT, max_age must be greater than zero"
+    expression: "this.guest_type == 1 || this.max_age > 0"
+  };
 }
