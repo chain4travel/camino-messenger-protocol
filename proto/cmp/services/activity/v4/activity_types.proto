@@ -51,7 +51,12 @@ message ActivityLocation {
   // Coordinate
   cmp.types.v4.Coordinates coordinates = 3;
 
-  // FIXME: at least one of them is required
+  // At least one location field must be provided
+  option (buf.validate.message).cel = {
+    id: "at_least_one_location_required"
+    message: "At least one of address, geo_tree, or coordinates must be provided"
+    expression: "has(this.address) || has(this.geo_tree) || has(this.coordinates)"
+  };
 }
 
 message PickupDropoffEvent {
@@ -222,11 +227,16 @@ message ActivityExtendedInfo {
 
   // FIXME: Explain better: min participants can be 5 for a jeep safari
   // activity and max participants can be 10. (it does not happen if below 5)
+  // Updated: Are the comments below correct?
 
-  // Min participants
+  // Minimum number of participants required for the activity to proceed.
+  // Ex: A jeep safari might require at least 5 participants to operate,
+  // meaning the activity will be cancelled if fewer than 5 people book it.
   uint32 min_participants = 31;
 
-  // Max participants
+  // Maximum number of participants allowed for the activity.
+  // Ex: The same jeep safari might have a maximum capacity of 10 participants
+  // due to vehicle size limitations or safety regulations.
   uint32 max_participants = 32;
 }
 
@@ -234,7 +244,7 @@ message ActivityExtendedInfo {
 // activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
 // jeep safari. A ticket to a specific section of a stadium.
 message ActivityUnit {
-  //Schedule
+  // Schedule
   // FIXME: Should this be here? This is used in extended info (static info)
   cmp.types.v4.DateTimeRange schedule = 1;
 
