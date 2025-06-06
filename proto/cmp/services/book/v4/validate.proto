@@ -11,49 +11,56 @@ import "cmp/types/v4/uuid.proto";
 
 message ValidationRequest {
   // Message header
-  cmp.types.v4.RequestHeader header = 1;
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Validation object
-  cmp.services.book.v4.ValidationObject validation_object = 2;
+  cmp.services.book.v4.ValidationObject validation_object = 2 [(buf.validate.field).required = true];
 }
 
 message ValidationResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1;
+  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique validation ID. This must be a UUID according to RFC 4122
-  cmp.types.v4.UUID validation_id = 2;
+  cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
   // Validation object
-  cmp.services.book.v4.ValidationObject validation_object = 3;
+  cmp.services.book.v4.ValidationObject validation_object = 3 [(buf.validate.field).required = true];
 
   // Price details for the validated product
-  cmp.types.v4.PriceDetail price_detail = 4;
+  cmp.types.v4.PriceDetail price_detail = 4 [(buf.validate.field).required = true];
 }
 
 // Additional layer to allow for selecting seats in different segments.
 message SeatSelection {
-  // Segment ID for the seat selection
-  // e.g. flight segment, concert segment
-  // necessary as the seat map id may be the same for different segments
-  string segment_id = 1 [(buf.validate.field).string.max_bytes = 512];
+  // Segment ID for the seat selection. For example a flight segment, necessary as
+  // the seat map id may be the same for different segments.
+  string segment_id = 1 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
 
   // Seat selection based on the segment
-  cmp.types.v4.SeatMapInventory seat_map_inventory = 2;
+  cmp.types.v4.SeatMapInventory seat_map_inventory = 2 [(buf.validate.field).required = true];
 }
 
 // Additional layer to allow for selecting optional service facts
 // in different segments.
 message ServiceFactSelection {
-  // Segment ID for the service fact selection
-  // e.g. flight segment, concert segment
-  // necessary as the service fact id may be the same for different segments.
-  // In case no segments are present like for accommodation this field is empty.
-  string segment_id = 1 [(buf.validate.field).string.max_bytes = 512];
+  // Segment ID for the service fact selection. For example a flight segment,
+  // necessary as the service fact id may be the same for different segments. In
+  // case no segments are present like for accommodation this field is empty.
+  string segment_id = 1 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
 
   // Service fact code selection based on the segment.
   // This needs to be the `code` of the `ServiceFact` message.
-  string service_fact_code = 2 [(buf.validate.field).string.max_bytes = 512];
+  string service_fact_code = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 }
 
 // Validation message that represents a single offer
@@ -63,13 +70,13 @@ message ServiceFactSelection {
 // and therefore needs to be reflected in the `price_detail` of the `ValidationResponse`.
 message ValidationObject {
   // Search result identifier with `search_id` & `result_id`
-  cmp.types.v4.SearchIdentifier search_identifier = 1;
+  cmp.types.v4.SearchIdentifier search_identifier = 1 [(buf.validate.field).required = true];
 
   // Optional seat selection for the validation.
   // Only applicable for products with (selectable) seats.
   repeated cmp.services.book.v4.SeatSelection seat_selections = 2 [(buf.validate.field).repeated = {
     min_items: 0
-    max_items: 100 // FIXME: valid for seat selections?
+    max_items: 1000
   }];
 
   // Optional service fact selection for the validation.

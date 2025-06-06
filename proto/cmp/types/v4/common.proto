@@ -57,6 +57,8 @@ message Header {
   // can be used for personalization, user identification, or linking activities to
   // a specific user account on a blockchain-based system.
   cmp.types.v4.EVMAddress end_user_wallet_address = 2;
+
+  // FIXME: move external session id here from other messages
 }
 
 // Version represents a semantic version (Major.Minor.Patch).

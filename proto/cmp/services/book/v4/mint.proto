@@ -19,18 +19,20 @@ message MintRequest {
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
-  cmp.types.v4.UUID validation_id = 2;
+  cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
   string external_session_id = 3 [(buf.validate.field).string.max_bytes = 512];
 
+  // FIXME: Do we need this here in the mint request? It's already specified in the search.
   cmp.types.v1.Language language = 4;
 
+  // FIXME: Do we need this here in the mint request? It's already specified in the search.
   string market = 5 [(buf.validate.field).string.max_bytes = 512];
 
   string booking_reference = 6 [(buf.validate.field).string.max_bytes = 512];
 
   repeated cmp.types.v4.ExtensiveTraveller travellers = 7 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 100
   }];
 
@@ -40,6 +42,7 @@ message MintRequest {
   string comment = 8 [(buf.validate.field).string.max_bytes = 512];
 
   // Public keys that will be used to encrypt the private booking data
+  // TODO: When we implement the private booking data, we need to set min_items to 1.
   repeated cmp.types.v4.PublicKey public_keys = 9 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -47,7 +50,7 @@ message MintRequest {
 
   // Buyer's address. Only this address should be allowed to buy the `BookingToken`
   // on chain.
-  cmp.types.v4.EVMAddress buyer_address = 10;
+  cmp.types.v4.EVMAddress buyer_address = 10 [(buf.validate.field).required = true];
 
   // This field is only relevant for off chain virtual credit card payments.
   cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 11;
@@ -55,7 +58,7 @@ message MintRequest {
   // Expected BookingToken price. This price should be used by the bot to verify
   // that the CMAccount of the distributor has enough funds to buy the minted
   // BookingToken.
-  cmp.types.v4.Price expected_price = 12;
+  cmp.types.v4.Price expected_price = 12 [(buf.validate.field).required = true];
 }
 
 message MintResponse {
@@ -63,23 +66,24 @@ message MintResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
-  cmp.types.v4.UUID mint_id = 2;
+  cmp.types.v4.UUID mint_id = 2 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
-  cmp.types.v4.UUID validation_id = 3;
+  cmp.types.v4.UUID validation_id = 3 [(buf.validate.field).required = true];
 
-  string provider_booking_reference = 4 [(buf.validate.field).string.max_bytes = 512];
+  // FIXME: Should we move this into private booking data?
+  string supplier_booking_reference = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Timestamp of the booking in the inventory system of the supplier.
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp provider_booking_timestamp = 5;
+  google.protobuf.Timestamp supplier_booking_timestamp = 5;
 
   // Price of the `BookingToken`. This field is meant to be populated by the
   // supplier plugin and used by the supplier bot while minting the `BookingToken`.
-  cmp.types.v4.Price price = 6;
+  cmp.types.v4.Price price = 6 [(buf.validate.field).required = true];
 
   // ID of the token that represents the booking of the service. This will be
   // populated by the supplier bot after the `BookingToken` is minted on chain.
@@ -100,7 +104,7 @@ message MintResponse {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp buyable_until = 10;
+  google.protobuf.Timestamp buyable_until = 10 [(buf.validate.field).required = true];
 
   // Transaction ID of the buy operation. This field is populated by the distributor
   // (buyer) bot after the buy operation and passed to the distributor middleware
