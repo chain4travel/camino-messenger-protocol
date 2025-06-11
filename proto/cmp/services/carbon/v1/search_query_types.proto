@@ -16,10 +16,10 @@ message CarbonSearchQuery {
   // geo location, meal plan, rate plan and rate rules.
   cmp.services.carbon.v1.CarbonSearchParameters search_parameters_carbon = 2;
 
-  repeated AccommodationCarbonSearchQuery accommodation = 3;
-  repeated ActivityCarbonSearchQuery activity = 4;
-  repeated TransportCarbonSearchQuery transport = 5;
-  repeated CarRentalCarbonSearchQuery car_rental = 6;
+  repeated cmp.services.carbon.v1.AccommodationCarbonSearchQuery accommodation = 3;
+  repeated cmp.services.carbon.v1.ActivityCarbonSearchQuery activity = 4;
+  repeated cmp.services.carbon.v1.TransportCarbonSearchQuery transport = 5;
+  repeated cmp.services.carbon.v1.CarRentalCarbonSearchQuery car_rental = 6;
 }
 
 message TransportCarbonSearchQuery {
