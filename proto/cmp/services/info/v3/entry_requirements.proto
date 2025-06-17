@@ -76,6 +76,8 @@ message CountryEntryRequirementsRequest {
     }
   }];
 
+  // FIXME: Improve docs for booleans here. Which items/categories they include or exclude.
+
   bool exclude_categories = 10;
 
   bool include_items = 11;
@@ -115,7 +117,10 @@ message CountryEntryRequirementsResponse {
 
 message CountryEntryRequirementCategory {
   // Category key.
-  string key = 1 [(buf.validate.field).string.max_bytes = 512];
+  string key = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // List of localized names
   repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
@@ -138,7 +143,10 @@ message CountryEntryRequirementCategory {
 
 message CountryEntryRequirementItem {
   // Item type key.  FIXME: Can this field be an enum?
-  string key = 1 [(buf.validate.field).string.max_bytes = 512];
+  string key = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // Language specific names and descriptions
   repeated cmp.services.info.v3.LocalizedItemInfo info = 2 [(buf.validate.field).repeated = {
@@ -154,7 +162,7 @@ message CountryEntryRequirementItem {
   // Visa required for stay, status=false
   // Entry forms required, status=false
   // Additional information, status=undefined
-  cmp.services.info.v3.ItemStatus status = 3;
+  cmp.services.info.v3.ItemStatus status = 3 [(buf.validate.field).enum = {defined_only: true}];
 
   // Significant update date
   //
@@ -166,8 +174,13 @@ message CountryEntryRequirementItem {
 
 message LocalizedItemInfo {
   string name = 1 [(buf.validate.field).string.max_bytes = 512];
+
   string description = 2 [(buf.validate.field).string.max_bytes = 512];
-  cmp.types.v1.Language language = 3;
+
+  cmp.types.v1.Language language = 3 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 }
 
 // Status identifies whether an item should be done/provided or rather not. In case
