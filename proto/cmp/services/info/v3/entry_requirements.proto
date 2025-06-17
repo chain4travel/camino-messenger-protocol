@@ -27,35 +27,60 @@ message CountryEntryRequirementsRequest {
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Departure country
-  cmp.types.v2.Country departure = 2;
+  cmp.types.v2.Country departure = 2 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 
   // Destination country
-  cmp.types.v2.Country destination = 3;
+  cmp.types.v2.Country destination = 3 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 
   // Citizenship
-  cmp.types.v2.Country citizenship = 4;
+  cmp.types.v2.Country citizenship = 4 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 
   // Residence
-  cmp.types.v2.Country residence = 5;
+  cmp.types.v2.Country residence = 5 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 
   // Transit country
-  cmp.types.v2.Country transit = 6;
+  cmp.types.v2.Country transit = 6 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED
+  }];
 
   // Travel type, ex: business or tourism
-  cmp.types.v1.TravelType travel_type = 7;
+  cmp.types.v1.TravelType travel_type = 7 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED
+  }];
 
   // Date time range, start and end dates of visit, as timestamp.
-  cmp.types.v4.DateTimeRange datetime_range = 8;
+  cmp.types.v4.DateTimeRange datetime_range = 8 [(buf.validate.field).required = true];
 
   // Languages requested
   repeated cmp.types.v1.Language languages = 9 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 100
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
   }];
 
   bool exclude_categories = 10;
 
   bool include_items = 11;
+
+  // FIXME: Filter to an enum?
 
   // There is not yet any categorization standard and conclusively filters are
   // supplier specific and the filter type should be "FILTER_TYPE_PROVIDER_CODE"
