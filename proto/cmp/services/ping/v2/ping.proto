@@ -15,14 +15,14 @@ message PingRequest {
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Ping message
-  string ping_message = 2 [(buf.validate.field).string.max_bytes = 512];
+  string message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping request
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp timestamp = 3;
+  google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
 }
 
 message PingResponse {
@@ -30,14 +30,14 @@ message PingResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Ping message
-  string ping_message = 2 [(buf.validate.field).string.max_bytes = 512];
+  string message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping response
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp timestamp = 3;
+  google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
 }
 
 // The Ping Service definition

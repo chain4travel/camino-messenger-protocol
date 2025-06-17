@@ -19,6 +19,9 @@ import "google/protobuf/timestamp.proto";
 message CancelPolicy {
   // The search result is refundable or not (at least one cancellation penalty exists
   // that provides a (partial) refund.
+  //
+  // FIXME: This boolean is not really required as it does have a cancel policy if the
+  // message is included. Refactor the message to remove it.
   bool refundable = 1;
 
   // The "free cancellation upto" identifier specifies the exact DateTime upto when
@@ -27,6 +30,8 @@ message CancelPolicy {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
+  //
+  // FIXME: Refine this as this can also be defined using the cancel penalties below.
   google.protobuf.Timestamp free_cancellation_upto = 2;
 
   // Full cancellation policies can be complex and extensive. Inclusion in search

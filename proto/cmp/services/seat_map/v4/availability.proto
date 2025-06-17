@@ -6,6 +6,7 @@ import "buf/validate/validate.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v4/uuid.proto";
 
 // Request for seat map availability data
 //
@@ -25,12 +26,12 @@ message SeatMapAvailabilityRequest {
     // Example: For flights which book before seat selection. In this case, the
     // buyer already have a `mint_id` because the service is already booked (minted
     // on-chain).
-    string mint_id = 2 [(buf.validate.field).string.max_bytes = 512];
+    cmp.types.v4.UUID mint_id = 2;
 
     // Search result identifier with `search_id` & `result_id`
     //
     // Example: For requesting seat availability for search results. In this case,
-    // booking has not happended yet.
+    // booking has not happened yet.
     cmp.types.v4.SearchIdentifier search_identifier = 3;
   }
 }

@@ -32,7 +32,7 @@ service NotificationService {
 // ```
 message TokenBought {
   uint64 token_id = 1;
-  cmp.types.v4.EVMTransactionID tx_id = 2;
+  cmp.types.v4.EVMTransactionID tx_id = 2 [(buf.validate.field).required = true];
   cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
@@ -43,7 +43,7 @@ message TokenBought {
 // ```
 message TokenExpired {
   uint64 token_id = 1;
-  cmp.types.v4.EVMTransactionID tx_id = 2;
+  cmp.types.v4.EVMTransactionID tx_id = 2 [(buf.validate.field).required = true];
   cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
@@ -75,21 +75,21 @@ message TokenExpired {
 // ```
 message CancellationPending {
   uint64 token_id = 1;
-  cmp.types.v4.EVMAddress initial_proposer = 2;
-  cmp.types.v4.EVMAddress current_proposer = 3;
+  cmp.types.v4.EVMAddress initial_proposer = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.EVMAddress current_proposer = 3 [(buf.validate.field).required = true];
   uint64 refund_amount = 4;
   bool owner_accepted = 5;
   bool supplier_accepted = 6;
   uint64 times_countered = 7;
   uint64 times_rejected = 8;
 
-  cmp.types.v4.EVMTransactionID tx_id = 9;
+  cmp.types.v4.EVMTransactionID tx_id = 9 [(buf.validate.field).required = true];
 
   // Reasons
-  cmp.services.cancellation.v1.CancellationReason cancellation_reason = 10;
-  cmp.services.cancellation.v1.RejectionReason rejection_reason = 11;
-  cmp.services.cancellation.v1.CounterReason counter_reason = 12;
-  cmp.services.cancellation.v1.WithdrawalReason withdrawal_reason = 13;
+  cmp.services.cancellation.v1.CancellationReason cancellation_reason = 10 [(buf.validate.field).enum.defined_only = true];
+  cmp.services.cancellation.v1.RejectionReason rejection_reason = 11 [(buf.validate.field).enum.defined_only = true];
+  cmp.services.cancellation.v1.CounterReason counter_reason = 12 [(buf.validate.field).enum.defined_only = true];
+  cmp.services.cancellation.v1.WithdrawalReason withdrawal_reason = 13 [(buf.validate.field).enum.defined_only = true];
 }
 
 // Related on-chain event:
@@ -99,8 +99,8 @@ message CancellationPending {
 // ```
 message CancellationWithdrawn {
   uint64 token_id = 1;
-  cmp.services.cancellation.v1.WithdrawalReason reason = 2;
-  cmp.types.v4.EVMTransactionID tx_id = 3;
+  cmp.services.cancellation.v1.WithdrawalReason reason = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.EVMTransactionID tx_id = 3 [(buf.validate.field).required = true];
 }
 
 // Related on-chain event:
@@ -110,8 +110,8 @@ message CancellationWithdrawn {
 // ```
 message CancellationRejected {
   uint64 token_id = 1;
-  cmp.services.cancellation.v1.RejectionReason reason = 2;
-  cmp.types.v4.EVMTransactionID tx_id = 3;
+  cmp.services.cancellation.v1.RejectionReason reason = 2 [(buf.validate.field).enum.defined_only = true];
+  cmp.types.v4.EVMTransactionID tx_id = 3 [(buf.validate.field).required = true];
 }
 
 // Related on-chain event:
@@ -121,5 +121,5 @@ message CancellationRejected {
 // ```
 message CancellationFinalized {
   uint64 token_id = 1;
-  cmp.types.v4.EVMTransactionID tx_id = 2;
+  cmp.types.v4.EVMTransactionID tx_id = 2 [(buf.validate.field).required = true];
 }

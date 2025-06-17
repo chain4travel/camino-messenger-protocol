@@ -18,6 +18,9 @@ import "google/protobuf/timestamp.proto";
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/change_policy.proto.dot.svg)
 message ChangePolicy {
   // the search result is changeable or not (at least one change type exists)
+  //
+  // FIXME: This boolean is not really required as it does have a change policy if the
+  // message is included. Refactor the message to remove it.
   bool change_allowed = 1;
 
   // The "free change upto" identifier specifies the exact DateTime upto when
@@ -26,7 +29,9 @@ message ChangePolicy {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp free_change_upto = 2 [(buf.validate.field).required = true];
+  //
+  // FIXME: Refine this as this can also be defined using the change types below.
+  google.protobuf.Timestamp free_change_upto = 2;
 
   // Full change policies can be complex and extensive. Inclusion in search
   // messages should be avoided because they substantially increase the message size

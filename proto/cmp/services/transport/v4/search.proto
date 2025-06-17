@@ -39,9 +39,6 @@ message TransportSearchRequest {
     min_items: 1
     max_items: 10
   }];
-
-  // Remarks
-  string remarks = 5 [(buf.validate.field).string.max_bytes = 512];
 }
 
 message TransportSearchResponse {
@@ -60,6 +57,13 @@ message TransportSearchResponse {
   repeated cmp.types.v1.ContentSourceType content_source_types = 3 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
   }];
 
   // Transit search results

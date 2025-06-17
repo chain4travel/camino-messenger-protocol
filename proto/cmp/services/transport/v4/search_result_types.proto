@@ -31,8 +31,8 @@ message TransportSearchResult {
   string offer_id = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Travellers
-  repeated int32 traveller_ids = 4 [(buf.validate.field).repeated = {
-    min_items: 0
+  repeated uint32 traveller_ids = 4 [(buf.validate.field).repeated = {
+    min_items: 1
     max_items: 100
   }];
 
@@ -44,13 +44,13 @@ message TransportSearchResult {
   // to SYD, where afer a couple of days we move on to Indonesia, Thailand, Japan,
   // Türkiye and back to Amsterdam again.
   repeated cmp.services.transport.v4.TripExtended travelling_trips = 5 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 100
   }];
 
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 6;
+  cmp.types.v4.TotalPrice total_price = 6 [(buf.validate.field).required = true];
 
   // Rate Rules
   repeated cmp.types.v4.RateRule rate_rules = 7 [(buf.validate.field).repeated = {
@@ -59,27 +59,33 @@ message TransportSearchResult {
   }];
 
   // Links
+  // FIXME: Clarify why this is needed?
   repeated cmp.types.v4.Link links = 8 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v4.Bookability bookability = 9;
+  cmp.types.v4.Bookability bookability = 9 [(buf.validate.field).required = true];
+
+  // FIXME: Do we also need validity (below) in accommodation/activity?
 
   // Validity of the search option.
   //
   // `DateTimeRange` type with `start_date` and `end_date` in which the option can
   // be booked. If the start_date is omitted, the offer can be booked until the
   // end-date.
-  cmp.types.v4.DateTimeRange validity = 10;
+  //
+  // FIXME: Clarify if datetime range is needed here or just a end_date timestamp is sufficient!
+  cmp.types.v4.DateTimeRange validity = 10 [(buf.validate.field).required = true];
 
   // Cancel Policy
-  cmp.types.v4.CancelPolicy cancel_policy = 11;
+  cmp.types.v4.CancelPolicy cancel_policy = 11 [(buf.validate.field).required = true];
 
   // Change Policy
   cmp.types.v4.ChangePolicy change_policy = 12;
 
   // Observations
+  // FIXME: Clarify what this is used for?
   string observations = 13 [(buf.validate.field).string.max_bytes = 512];
 }

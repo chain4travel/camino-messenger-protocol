@@ -59,7 +59,7 @@ message ActivitySearchRequest {
   //
   // Ex: Inclusion of OnRequest options, inclusion of only the cheapest or all
   // options, setting the market, language, currency, sorting and filters etc.
-  cmp.types.v4.SearchParameters search_parameters_generic = 3 [(buf.validate.field).required = true];
+  cmp.types.v4.SearchParameters search_parameters = 3 [(buf.validate.field).required = true];
 
   // Activity specific search parameters
   //

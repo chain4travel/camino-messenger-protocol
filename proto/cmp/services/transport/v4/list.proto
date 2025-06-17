@@ -24,10 +24,7 @@ message TransportProductListResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Trips
-  repeated cmp.services.transport.v4.TripBasic trips = 2 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
+  repeated cmp.services.transport.v4.TripBasic trips = 2;
 }
 
 // This service is used to get a product list for transportation.
