@@ -16,7 +16,10 @@ message WithdrawCancellationRequest {
   uint64 token_id = 2;
 
   // Withdrawal reason
-  cmp.services.cancellation.v1.WithdrawalReason reason = 3;
+  cmp.services.cancellation.v1.WithdrawalReason reason = 3 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 }
 
 // Response for withdrawal of an active cancellation proposal
@@ -30,5 +33,5 @@ message WithdrawCancellationResponse {
   // 1. Prove the exact time of withdrawal
   // 2. Validate the accepted refund amount
   // 3. Prevent disputes about acceptance terms
-  cmp.types.v4.EVMTransactionID transaction_id = 2;
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
 }

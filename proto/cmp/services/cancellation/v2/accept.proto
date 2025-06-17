@@ -22,7 +22,7 @@ message AcceptCancellationRequest {
   // Refund amount that must match the original cancellation proposal for on-chain
   // validation. The transaction will fail if the amounts don't match. This is used
   // to prevent front-running attacks.
-  cmp.types.v4.Price refund_amount = 3;
+  cmp.types.v4.Price refund_amount = 3 [(buf.validate.field).required = true];
 }
 
 // Response for cancellation acceptance
@@ -35,5 +35,5 @@ message AcceptCancellationResponse {
   // 1. Prove the exact time of acceptance
   // 2. Validate the accepted refund amount
   // 3. Prevent disputes about acceptance terms
-  cmp.types.v4.EVMTransactionID transaction_id = 2;
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
 }

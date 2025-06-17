@@ -16,10 +16,12 @@ message InitiateCancellationRequest {
   uint64 token_id = 2;
 
   // The amount to be refunded
-  cmp.types.v4.Price refund_amount = 3;
+  cmp.types.v4.Price refund_amount = 3 [(buf.validate.field).required = true];
 
   // The cancellation reason
-  cmp.services.cancellation.v1.CancellationReason reason = 4;
+  cmp.services.cancellation.v1.CancellationReason reason = 4 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }];
 }
 
 message InitiateCancellationResponse {
@@ -33,5 +35,5 @@ message InitiateCancellationResponse {
   // 1. Prove the exact time of initiation of the cancellation proposal
   // 2. Validate the refund amount
   // 3. Prevent disputes about the cancellation terms
-  cmp.types.v4.EVMTransactionID transaction_id = 2;
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
 }
