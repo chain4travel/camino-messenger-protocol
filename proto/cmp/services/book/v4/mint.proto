@@ -21,6 +21,7 @@ message MintRequest {
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
+  // FIXME: Move this into the header section
   string external_session_id = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // FIXME: Do we need this here in the mint request? It's already specified in the search.

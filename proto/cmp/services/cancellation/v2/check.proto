@@ -19,6 +19,8 @@ service CheckCancellationService {
   rpc CheckCancellation(CheckCancellationRequest) returns (CheckCancellationResponse);
 }
 
+// FIXME: Improve docs here
+
 message CheckCancellationRequest {
   // The request header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
@@ -30,7 +32,9 @@ message CheckCancellationRequest {
   cmp.types.v4.Price refund_amount = 3;
 
   // Cancellation reason
-  cmp.services.cancellation.v1.CancellationReason reason = 4;
+  cmp.services.cancellation.v1.CancellationReason reason = 4 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }];
 }
 
 message CheckCancellationResponse {
@@ -41,19 +45,24 @@ message CheckCancellationResponse {
   uint64 token_id = 2;
 
   // The amount to be refunded
-  cmp.types.v4.Price refund_amount = 3;
+  cmp.types.v4.Price refund_amount = 3 [(buf.validate.field).required = true];
 
-  // The policy id applied
+  // If the policy id is defined in the supplier system it should be returned here
   string policy_id_applied = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the cancellation check
-  cmp.services.cancellation.v2.CancellationCheckStatus status = 5;
+  cmp.services.cancellation.v2.CancellationCheckStatus status = 5 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
 
   // Rejection reason
-  cmp.services.cancellation.v1.RejectionReason rejection_reason = 6;
+  cmp.services.cancellation.v1.RejectionReason rejection_reason = 6 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }]; // FIXME: When status is REJECT this field is required to be non-zero
 
-  // Cancellation check timestamp
-  google.protobuf.Timestamp timestamp = 7;
+  // Cancellation check timestamp of the verification inside of the supplier system
+  google.protobuf.Timestamp timestamp = 7 [(buf.validate.field).required = true];
 }
 
 enum CancellationCheckStatus {
