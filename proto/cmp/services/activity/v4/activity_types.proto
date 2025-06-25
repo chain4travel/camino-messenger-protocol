@@ -187,7 +187,13 @@ message ActivityExtendedInfo {
   // due to vehicle size limitations or safety regulations.
   uint32 max_participants = 30;
 
-  // FIXME: max can not be smaller then min if set (non zero)
+  option (buf.validate.message) = {
+    cel: {
+      id: "max_participants_not_less_than_min"
+      message: "max_participants cannot be smaller than min_participants when both are set"
+      expression: "this.max_participants == 0u || this.max_participants >= this.min_participants"
+    }
+  };
 }
 
 message ActivityLocation {
