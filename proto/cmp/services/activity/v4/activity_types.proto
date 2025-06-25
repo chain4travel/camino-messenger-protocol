@@ -3,17 +3,17 @@ syntax = "proto3";
 package cmp.services.activity.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/delivery.proto";
 import "cmp/types/v1/language.proto";
-import "cmp/types/v1/redemption.proto";
 import "cmp/types/v4/address.proto";
 import "cmp/types/v4/contact_info.proto";
 import "cmp/types/v4/datetime_range.proto";
+import "cmp/types/v4/delivery.proto";
 import "cmp/types/v4/description.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/file.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/redemption.proto";
 import "google/protobuf/timestamp.proto";
 
 // Activity
@@ -142,24 +142,20 @@ message ActivityExtendedInfo {
   // FIXME: Explain what this is used for. Can this be an enum?
   string availability_type = 23 [(buf.validate.field).string.max_bytes = 512];
 
-  // TODO: Combine delivery format and methods into one message, so they are linked one to one.
+  // TODO: Combine delivery format and methods into one message, so they are linked
+  // one to one.
 
-  // FIXME: Remove other from the enums below.
-
-  // Delivery Formats; such as QR Code, NFT, Ticket, ... etc
-  repeated cmp.types.v1.DeliveryFormat delivery_formats = 24 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
-
-  // Delivery Methods; such as Email, SMS, Post, ... etc
-  repeated cmp.types.v1.DeliveryMethod delivery_methods = 25 [(buf.validate.field).repeated = {
+  // Delivery types for the activity.
+  //
+  // Formats; such as QR Code, NFT, Ticket, ... etc
+  // Methods; such as Email, SMS, Post, ... etc
+  repeated cmp.types.v4.Delivery delivery_types = 24 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Redemption method
-  repeated cmp.types.v1.RedemptionMethod redemption_methods = 26 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.RedemptionMethod redemption_methods = 25 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -167,7 +163,7 @@ message ActivityExtendedInfo {
   // Context for Inventory system concepts that need to be included in an info
   // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
   // etc. or a serialized combination of these codes.
-  string context = 27 [(buf.validate.field).string.max_bytes = 512];
+  string context = 26 [(buf.validate.field).string.max_bytes = 512];
 
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
@@ -175,17 +171,17 @@ message ActivityExtendedInfo {
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
-  google.protobuf.Timestamp last_modified = 28;
+  google.protobuf.Timestamp last_modified = 27;
 
   // Minimum number of participants required for the activity to proceed.
   // Ex: A jeep safari might require at least 5 participants to operate,
   // meaning the activity might be cancelled if fewer than 5 people book it.
-  uint32 min_participants = 29;
+  uint32 min_participants = 28;
 
   // Maximum number of participants allowed for the activity.
   // Ex: The same jeep safari might have a maximum capacity of 10 participants
   // due to vehicle size limitations or safety regulations.
-  uint32 max_participants = 30;
+  uint32 max_participants = 29;
 
   option (buf.validate.message) = {
     cel: {

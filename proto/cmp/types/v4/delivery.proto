@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "buf/validate/validate.proto";
+
+// Delivery Formats and Methods
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.svg)
+message Delivery {
+  cmp.types.v4.DeliveryFormat format = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.types.v4.DeliveryMethod method = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum DeliveryFormat {
+  DELIVERY_FORMAT_UNSPECIFIED = 0;
+  DELIVERY_FORMAT_NFT = 1;
+  DELIVERY_FORMAT_QRCODE = 2;
+  DELIVERY_FORMAT_BARCODE = 3;
+  DELIVERY_FORMAT_PDF = 4;
+}
+
+enum DeliveryMethod {
+  DELIVERY_METHOD_UNSPECIFIED = 0;
+  DELIVERY_METHOD_API = 1;
+  DELIVERY_METHOD_EMAIL = 2;
+  DELIVERY_METHOD_SMS = 3;
+  DELIVERY_METHOD_WHATSAPP = 4;
+  DELIVERY_METHOD_POST = 5;
+}
