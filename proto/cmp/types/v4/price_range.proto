@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/price.proto";
+
+// Represents a range for a price, defined by a minimum and a maximum value.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/price_range.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/price_range.proto.dot.svg)
+message PriceRange {
+  cmp.types.v4.Price min = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Price max = 2 [(buf.validate.field).required = true];
+
+  option (buf.validate.message) = {
+    cel: {
+      id: "same_currency_required"
+      message: "min and max prices must use the same currency"
+      expression: "this.min.currency == this.max.currency"
+    }
+  };
+}

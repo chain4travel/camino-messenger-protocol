@@ -22,12 +22,10 @@ message Duration {
 message DurationRange {
   option (buf.validate.message).cel = {
     id: "duration_range.max_ge_min"
-    expression: "this.max_duration.minutes >= this.min_duration.minutes"
+    expression: "this.max.minutes >= this.min.minutes"
     message: "Maximum duration must be greater than or equal to minimum duration."
   };
 
-  // FIXME: shorten the field names
-
-  cmp.types.v4.Duration min_duration = 1 [(buf.validate.field).required = true];
-  cmp.types.v4.Duration max_duration = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.Duration min = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.Duration max = 2 [(buf.validate.field).required = true];
 }
