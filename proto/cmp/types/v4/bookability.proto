@@ -23,10 +23,18 @@ message Bookability {
   cmp.types.v4.Time confirmation_time = 2;
 
   option (buf.validate.message) = {
+    // confirmation_time must NOT be present when AVAILABLE
     cel: {
       id: "bookability.no_confirmation_time_when_available"
       message: "confirmation_time must NOT be provided when bookable status is AVAILABLE"
-      expression: "this.type == 1 ? has(this.confirmation_time) : false"
+      expression: "this.type == 1 ? !has(this.confirmation_time) : true"
+    }
+
+    // confirmation_time MUST be present when ON_REQUEST
+    cel: {
+      id: "bookability.confirmation_time_required_when_on_request"
+      message: "confirmation_time must be provided when bookable status is ON_REQUEST"
+      expression: "this.type == 2 ? has(this.confirmation_time) : true"
     }
   };
 }
