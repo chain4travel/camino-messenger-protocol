@@ -242,10 +242,12 @@ message TravellerExtraInfo {
   }];
 
   // Relationship with the traveller
-  cmp.services.claim.v2.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true]; // FIXME: Check, is unspecified allowed?
+  // FIXME: Check if unspecified allowed?
+  cmp.services.claim.v2.TravellerRelationship relationship_to_traveller = 4 [(buf.validate.field).enum.defined_only = true];
 }
 
 // Traveller relationship
+// FIXME: Is it OK to have OTHER here?
 enum TravellerRelationship {
   TRAVELLER_RELATIONSHIP_UNSPECIFIED = 0;
   TRAVELLER_RELATIONSHIP_OTHER = 1;
