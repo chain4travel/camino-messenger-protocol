@@ -26,6 +26,8 @@ message DurationRange {
     message: "Maximum duration must be greater than or equal to minimum duration."
   };
 
+  // FIXME: shorten the field names
+
   cmp.types.v4.Duration min_duration = 1 [(buf.validate.field).required = true];
   cmp.types.v4.Duration max_duration = 2 [(buf.validate.field).required = true];
 }

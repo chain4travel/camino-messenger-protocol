@@ -59,9 +59,9 @@ message SupplierProductCode {
   // different services, it is safe to assume the product codes will be different, the product
   // name will be different and the descriptions and amenities as well in the ProductList and
   // ProductInfo messages.
-  string supplier_code = 1 [(buf.validate.field).string = {max_bytes: 64}];
+  string code = 1 [(buf.validate.field).string = {max_bytes: 64}];
 
-  uint32 supplier_number = 2;
+  uint32 number = 2;
 
   // FIXME: One of the field of code or number should be specified.
 }
