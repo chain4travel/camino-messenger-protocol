@@ -80,7 +80,7 @@ message SearchParameters {
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
   repeated cmp.types.v1.ContentSourceType content_source_types = 11 [(buf.validate.field).repeated = {
-    unique: true // TODO: do this to all enum lists
+    unique: true
     items: {
       enum: {
         defined_only: true
