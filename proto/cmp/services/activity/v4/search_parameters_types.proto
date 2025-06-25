@@ -66,13 +66,11 @@ message ActivitySearchParameters {
     }
   }];
 
-  // Duration
-  //
-  // Specifies the minimum and maximum duration of an activity to be included in the
+  // The minimum and maximum duration of an activity to be included in the
   // search response
   cmp.types.v4.DurationRange duration_range = 6;
 
-  // Specifies the minimum and maximum price of an activity to be included in the
+  // The minimum and maximum price of an activity to be included in the
   // search response
-  cmp.types.v4.PriceRange min_price = 7;
+  cmp.types.v4.PriceRange price_range = 7;
 }

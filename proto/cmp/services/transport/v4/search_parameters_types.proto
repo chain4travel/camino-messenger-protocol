@@ -4,7 +4,7 @@ package cmp.services.transport.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/duration.proto";
-import "cmp/types/v4/price.proto";
+import "cmp/types/v4/price_range.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/time.proto";
 
@@ -29,36 +29,31 @@ message TransportSearchParameters {
     max_items: 100
   }];
 
-  // The minimum duration of a transport to be included in the search response
-  cmp.types.v4.Duration min_duration = 3;
-
-  // The maximum duration of a transport to be included in the search response
-  cmp.types.v4.Duration max_duration = 4;
+  // The minimum and maximum duration of a transport to be included in the search
+  // response
+  cmp.types.v4.DurationRange duration_range = 3;
 
   // The minimum price of a transport to be included in the search response
-  cmp.types.v4.Price min_price = 5;
-
-  // The maximum price of a transport to be included in the search response
-  cmp.types.v4.Price max_price = 6;
+  cmp.types.v4.PriceRange price_range = 4;
 
   // One or more brand codes or distribution channels for which assigned product is
   // to be included in the search response
-  repeated string brand_codes = 7;
+  repeated string brand_codes = 6;
 
   // The maximum number of segments a trip might be containing, if only a direct
   // flight, transfer, or train journey the maximum number of segments is set to
   // one.
-  uint32 max_segments = 8;
+  uint32 max_segments = 7;
 
   // Minimum departure time of the trip
-  cmp.types.v4.Time trip_min_departure_time = 9;
+  cmp.types.v4.Time trip_min_departure_time = 8;
 
   // Maximum departure time of the trip
-  cmp.types.v4.Time trip_max_departure_time = 10;
+  cmp.types.v4.Time trip_max_departure_time = 9;
 
   // Minimum arrival time of the trip
-  cmp.types.v4.Time trip_min_arrival_time = 11;
+  cmp.types.v4.Time trip_min_arrival_time = 10;
 
   // Maximum arrival time of the trip
-  cmp.types.v4.Time trip_max_arrival_time = 12;
+  cmp.types.v4.Time trip_max_arrival_time = 11;
 }
