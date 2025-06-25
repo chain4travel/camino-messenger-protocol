@@ -142,9 +142,6 @@ message ActivityExtendedInfo {
   // FIXME: Explain what this is used for. Can this be an enum?
   string availability_type = 23 [(buf.validate.field).string.max_bytes = 512];
 
-  // TODO: Combine delivery format and methods into one message, so they are linked
-  // one to one.
-
   // Delivery types for the activity.
   //
   // Formats; such as QR Code, NFT, Ticket, ... etc
