@@ -59,10 +59,18 @@ message CheckCancellationResponse {
   // Rejection reason
   cmp.services.cancellation.v1.RejectionReason rejection_reason = 6 [(buf.validate.field).enum = {
     defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
-  }]; // FIXME: When status is REJECT this field is required to be non-zero
+  }];
 
   // Cancellation check timestamp of the verification inside of the supplier system
   google.protobuf.Timestamp timestamp = 7 [(buf.validate.field).required = true];
+
+  option (buf.validate.message) = {
+    cel: {
+      id: "rejection_reason_required_when_reject"
+      message: "rejection_reason must be specified (non-zero) when status is REJECT"
+      expression: "this.status != 3 || this.rejection_reason != 0"
+    }
+  };
 }
 
 enum CancellationCheckStatus {
