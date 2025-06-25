@@ -3,10 +3,10 @@ syntax = "proto3";
 package cmp.services.transport.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/time.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/time.proto";
 
 // Transport Search Parameters
 //
@@ -51,14 +51,14 @@ message TransportSearchParameters {
   uint32 max_segments = 8;
 
   // Minimum departure time of the trip
-  cmp.types.v1.Time trip_min_departure_time = 9;
+  cmp.types.v4.Time trip_min_departure_time = 9;
 
   // Maximum departure time of the trip
-  cmp.types.v1.Time trip_max_departure_time = 10;
+  cmp.types.v4.Time trip_max_departure_time = 10;
 
   // Minimum arrival time of the trip
-  cmp.types.v1.Time trip_min_arrival_time = 11;
+  cmp.types.v4.Time trip_min_arrival_time = 11;
 
   // Maximum arrival time of the trip
-  cmp.types.v1.Time trip_max_arrival_time = 12;
+  cmp.types.v4.Time trip_max_arrival_time = 12;
 }

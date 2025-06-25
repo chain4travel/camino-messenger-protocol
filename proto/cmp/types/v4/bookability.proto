@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/time.proto";
+import "cmp/types/v4/time.proto";
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/bookability.proto.dot.xs.svg)
 //
@@ -20,7 +20,7 @@ message Bookability {
   // the supplier. The supplier is to confirm the on-request booking with that
   // specified time. If confirmation id not provided, the booking is to be
   // considered "rejected".
-  cmp.types.v1.Time confirmation_time = 2;
+  cmp.types.v4.Time confirmation_time = 2;
 
   option (buf.validate.message) = {
     cel: {

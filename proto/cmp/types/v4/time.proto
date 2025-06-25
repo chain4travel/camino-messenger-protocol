@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "buf/validate/validate.proto";
+
+// Time represents a time of day in 24-hour format.
+// This message is used to store and transmit time information
+// without date components, suitable for scheduling, timestamps,
+// or time-based operations.
+//
+// Example usage:
+//   Time morning_meeting = Time{hours: 9, minutes: 30};  // 9:30 AM
+//   Time end_of_day = Time{hours: 17, minutes: 0};       // 5:00 PM
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/time.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/time.proto.dot.svg)
+message Time {
+  // Hours component in 24-hour format
+  // Valid range: 0-23 (0 = midnight, 12 = noon, 23 = 11 PM)
+  uint32 hours = 1 [(buf.validate.field).uint32 = {lte: 23}];
+
+  // Minutes component
+  // Valid range: 0-59
+  uint32 minutes = 2 [(buf.validate.field).uint32 = {lte: 59}];
+}
