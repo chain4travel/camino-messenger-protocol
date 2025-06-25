@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/types/v4/evm_address.proto";
 import "cmp/types/v4/link.proto";
 
 // FIXME: Improve comments for this and other proto files below this.
@@ -18,7 +19,7 @@ message LoyaltyProgram {
     option (buf.validate.oneof).required = true;
 
     // Smart Contract address of a loyalty program
-    string contract_address = 1 [(buf.validate.field).string.max_bytes = 512];
+    cmp.types.v4.EVMAddress contract_address = 1;
 
     // Off-chain loyalty program
     cmp.types.v4.OffChainLoyaltyProgram off_chain_loyalty = 2;
