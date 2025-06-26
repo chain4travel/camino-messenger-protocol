@@ -33,7 +33,12 @@ message ProductCode {
     not_in: [0]
   }];
 
-  // TODO: One of the field of code or number should be specified.
+  // Validation rule: At least one of code or number must be specified
+  option (buf.validate.message).cel = {
+    id: "product_code_required"
+    message: "At least one of 'code' or 'number' must be specified"
+    expression: "this.code != '' || this.number > 0"
+  };
 }
 
 // Product Code type
@@ -63,5 +68,10 @@ message SupplierProductCode {
 
   uint32 number = 2;
 
-  // FIXME: One of the field of code or number should be specified.
+  // Validation rule: At least one of code or number must be specified
+  option (buf.validate.message).cel = {
+    id: "supplier_product_code_required"
+    message: "At least one of 'code' or 'number' must be specified"
+    expression: "this.code != '' || this.number > 0"
+  };
 }

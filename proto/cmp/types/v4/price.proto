@@ -129,9 +129,16 @@ message Price {
 // - Service charge: €10
 message TotalPrice {
   // The final calculated total price for the product or service
-  cmp.types.v4.Price value = 1; // TODO: required, should never be negative
+  cmp.types.v4.Price value = 1 [(buf.validate.field).required = true];
 
   // Optional itemized breakdown showing how the total price was calculated.
   // Each PriceDetail in the breakdown can have further nested breakdowns.
   repeated cmp.types.v4.PriceDetail breakdown = 2; // TODO: default limit
+
+  // Validation rule: Ensure the price value is not negative
+  option (buf.validate.message).cel = {
+    id: "total_price_non_negative"
+    message: "Total price value must not be negative"
+    expression: "!this.value.value.startsWith('-')"
+  };
 }
