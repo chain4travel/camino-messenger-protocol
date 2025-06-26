@@ -22,7 +22,7 @@ message ContactInfo {
   //
   // Allows for multiple addresses, such as a primary business address,
   // mailing address, or different office locations.
-  repeated cmp.types.v4.Address address = 1 [(buf.validate.field).repeated = {max_items: 25}];
+  repeated cmp.types.v4.Address addresses = 1 [(buf.validate.field).repeated = {max_items: 25}];
 
   // Optional. A list of phone numbers.
   //

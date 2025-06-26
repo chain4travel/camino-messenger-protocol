@@ -85,7 +85,7 @@ message Property {
   option (buf.validate.message).cel = {
     id: "contact_info_address_required"
     message: "Property contact_info must have at least one address"
-    expression: "size(this.contact_info.address) > 0"
+    expression: "size(this.contact_info.addresses) > 0"
   };
 }
 
