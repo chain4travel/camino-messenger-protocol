@@ -24,7 +24,7 @@ message TransportSearchParameters {
   // Specify one or more supplier codes to be included in the search response
   // These must match the supplier codes provided in the ProductList and
   // ProductInfo messages
-  repeated cmp.types.v4.SupplierProductCode supplier_code_codes = 2 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
