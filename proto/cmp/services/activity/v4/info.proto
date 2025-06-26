@@ -21,8 +21,8 @@ message ActivityProductInfoRequest {
   // will be ignored.
   google.protobuf.Timestamp modified_after = 2; // FIXME: Does this makes sense when we have supplier code list?
 
-  // Languages to be included in the response for descriptions. Null means all
-  // available languages.
+  // Languages to be included in the response for descriptions. Minimum of 1
+  // language is required.
   repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 10
