@@ -44,7 +44,7 @@ message BasicTraveller {
     cel: {
       id: "non_adult_requires_birthdate"
       message: "Birthdate is required when traveller type is **not** ADULT"
-      expression: "this.type != 1 ? has(this.birthdate) : true"
+      expression: "this.type != cmp.types.v4.TravellerType.TRAVELLER_TYPE_ADULT ? has(this.birthdate) : true"
     }
   };
 }

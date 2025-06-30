@@ -106,7 +106,7 @@ message CheckCancellationResponse {
     cel: {
       id: "rejection_reason_required_when_reject"
       message: "rejection_reason must be specified (non-zero) when status is REJECT"
-      expression: "this.status != 3 || this.rejection_reason != 0"
+      expression: "this.status != cmp.services.cancellation.v2.CancellationCheckStatus.CANCELLATION_CHECK_STATUS_REJECT || this.rejection_reason != 0"
     }
   };
 }

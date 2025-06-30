@@ -18,7 +18,7 @@ import "cmp/types/v4/dow.proto";
 message TravelPeriod {
   option (buf.validate.message).cel = {
     id: "end_date_after_or_on_start_date"
-    expression: "(this.end_date.year * uint(10000) + this.end_date.month * uint(100) + this.end_date.day) >= (this.start_date.year * uint(10000) + this.start_date.month * uint(100) + this.start_date.day)"
+    expression: "(this.end_date.year * 10000u + this.end_date.month * 100u + this.end_date.day) >= (this.start_date.year * 10000u + this.start_date.month * 100u + this.start_date.day)"
     message: "TravelPeriod end_date must be on or after start_date."
   };
 

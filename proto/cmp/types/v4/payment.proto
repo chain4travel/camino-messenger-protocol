@@ -42,6 +42,6 @@ message OffChainPayment {
   option (buf.validate.message).cel = {
     id: "payment_type_unspecified_requires_description"
     message: "Description must not be empty when payment type is UNSPECIFIED"
-    expression: "this.payment_type != 0 || size(this.description) > 0"
+    expression: "this.payment_type != cmp.types.v4.PaymentType.PAYMENT_TYPE_UNSPECIFIED || size(this.description) > 0"
   };
 }

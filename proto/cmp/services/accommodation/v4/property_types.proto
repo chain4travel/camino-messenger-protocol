@@ -78,7 +78,7 @@ message Property {
   option (buf.validate.message).cel = {
     id: "category_rating_unit_dependency"
     message: "If category_rating is provided, category_unit must also be provided"
-    expression: "this.category_rating == 0 || this.category_unit != 0"
+    expression: "this.category_rating == cmp.services.accommodation.v4.CategoryRating.CATEGORY_RATING_UNSPECIFIED || this.category_unit != cmp.services.accommodation.v4.CategoryUnit.CATEGORY_UNIT_UNSPECIFIED"
   };
 
   // Property contact_info must have at least one address
@@ -268,7 +268,7 @@ message Occupancy {
   option (buf.validate.message).cel = {
     id: "standard_occupancy_range"
     message: "If standard_occupancy is provided (> 0), it must be between min_guests and max_guests"
-    expression: "this.standard_occupancy == uint(0) || (this.standard_occupancy >= this.min_guests && this.standard_occupancy <= this.max_guests)"
+    expression: "this.standard_occupancy == 0u || (this.standard_occupancy >= this.min_guests && this.standard_occupancy <= this.max_guests)"
   };
 }
 
@@ -311,6 +311,6 @@ message OccupancyOption {
   option (buf.validate.message).cel = {
     id: "max_age_required_for_non_adults"
     message: "If guest_type is not ADULT, max_age must be greater than zero"
-    expression: "this.guest_type == 1 || this.max_age > 0"
+    expression: "this.guest_type == cmp.types.v4.TravellerType.TRAVELLER_TYPE_ADULT || this.max_age > 0"
   };
 }

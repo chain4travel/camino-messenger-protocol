@@ -19,7 +19,7 @@ message Sorting {
   option (buf.validate.message).cel = {
     id: "sorting_fields_together"
     message: "If sorting_type is defined, sorting_order must also be defined (and vice versa)"
-    expression: "(this.sorting_type == 0) == (this.sorting_order == 0)"
+    expression: "(this.sorting_type == cmp.types.v4.SortingType.SORTING_TYPE_UNSPECIFIED) == (this.sorting_order == cmp.types.v4.SortingOrder.SORTING_ORDER_UNSPECIFIED)"
   };
 }
 
