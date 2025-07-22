@@ -54,7 +54,7 @@ message Unit {
 
   // Traveller_id is a list of travellers related to this unit. The details can be found in
   // the search response repeated travellers field
-  repeated int32 traveller_ids = 6 [(buf.validate.field).repeated = {
+  repeated uint32 traveller_ids = 6 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 15
   }];
