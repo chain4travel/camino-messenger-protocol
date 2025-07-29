@@ -34,7 +34,7 @@ message File {
   // MIME Type
   cmp.types.v4.MIMEType type = 5 [(buf.validate.field).enum.defined_only = true];
 
-  // File size
+  // File size in bytes
   uint64 size = 6;
 
   // File checksum
@@ -48,10 +48,10 @@ message Image {
   // file
   cmp.types.v4.File file = 1 [(buf.validate.field).required = true];
 
-  // Width
+  // Width in pixels
   uint32 width = 2;
 
-  // Height
+  // Height in pixels
   uint32 height = 3;
 }
 
@@ -62,14 +62,14 @@ message Video {
   // Codec of video
   cmp.types.v4.Codec codec = 2 [(buf.validate.field).enum.defined_only = true];
 
-  // Bitrate in kbps
+  // Bitrate in Kbps (kilobits per second). Example: 500
   uint32 bitrate = 3;
 
-  // Framerate
+  // Framerate in FPS (frames per second). Example: 30
   uint32 framerate = 4;
 
   // Width and height are specified in pixels. Aspect ratio can be derived from that
-  // Ex: "16:9"
+  // Example: width: 1920, height: 1080
   uint32 width = 5;
   uint32 height = 6;
 }
