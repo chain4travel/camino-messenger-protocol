@@ -15,9 +15,13 @@ message Phone {
     pattern: "^\\+[1-9]\\d{7,14}$"
   }];
 
-  // TODO: Explain what an extension is
+  // Phone extension - additional digits dialed after connecting to the main number
+  // to reach a specific department, room, or service. Common in business
+  // environments, hotels, and organizations. For example, calling +34 971 123 456
+  // ext. 101 would dial the main number then route to extension 101 (e.g., front
+  // desk). Leave empty if no extension is needed for direct calls.
   string extension = 2 [(buf.validate.field).string = {
-    pattern: "^[0-9]{1,10}$" // Numeric extensions up to 10 digits
+    pattern: "^[0-9]{0,10}$" // Numeric extensions up to 10 digits
   }];
 
   cmp.types.v4.PhoneType type = 3 [(buf.validate.field).enum = {defined_only: true}];
