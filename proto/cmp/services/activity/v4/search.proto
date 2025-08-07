@@ -132,11 +132,8 @@ message ActivitySearchResponse {
   // address.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Search response metadata
-  //
-  // The most important field is the search_id, which is a UUID that needs to be
-  // carried through to the validate request.
-  cmp.types.v4.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
+  // Search_id to be used in subsequent requests like the "Validation Request".
+  cmp.types.v4.UUID search_id = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, each identified by a result_id
   // that needs to be carried through to the validate request.

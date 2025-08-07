@@ -42,8 +42,8 @@ message TransportSearchResponse {
   // address
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Search response metadata
-  cmp.types.v4.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
+  // Search_id to be used in subsequent requests like the "Validation Request".
+  cmp.types.v4.UUID search_id = 2 [(buf.validate.field).required = true];
 
   // Content source types for this search request.
   //

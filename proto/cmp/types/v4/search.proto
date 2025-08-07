@@ -90,35 +90,9 @@ message SearchParameters {
   }];
 }
 
-// This message type is used in every search response to contain the response metadata
-message SearchResponseMetadata {
-  // Search_id to be used in the Validation Request. This must be a UUID according
-  // to RFC 4122
-  cmp.types.v4.UUID search_id = 1 [(buf.validate.field).required = true];
-
-  // Context for Inventory system concepts that need to be included in a search response,
-  // like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID, etc. or a
-  // serialized combination of these codes.
-  //
-  // TODO: Is this needed? Clarify!
-  string context = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512
-  }];
-
-  // Supplier code from the Inventory System for this search response.
-  //
-  // TODO: Is this needed? Clarify!
-  string supplier_code = 3 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512
-  }];
-}
-
 // Search identifier
 message SearchIdentifier {
-  // Search ID that is returned in the search response message in the `metadata``
-  // (`SearchResponseMetadata`) field.
+  // Search ID that is returned in the search response message
   cmp.types.v4.UUID search_id = 1 [(buf.validate.field).required = true];
 
   // Result ID that is returned by `result_id` field of the search result
