@@ -18,6 +18,7 @@ import "cmp/types/v1/content_source.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/traveller.proto";
+import "cmp/types/v4/uuid.proto";
 
 // Transport Search Request
 message TransportSearchRequest {

@@ -22,6 +22,7 @@ import "cmp/services/insurance/v3/search_result_types.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/traveller.proto";
+import "cmp/types/v4/uuid.proto";
 
 // InsuranceSearchRequest
 //
@@ -41,15 +42,12 @@ message InsuranceSearchRequest {
   // address
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Search request metadata
-  cmp.types.v4.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
-
   // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
   // only the cheapest or all options.
   // In the search parameters multiple filters can be applied for upfront filtering
   // of the search results to for example to only include hotels that are less than
   // one kilometer from the beach, have a kids club and offer an a la carte restaurant
-  cmp.types.v4.SearchParameters search_parameters = 3 [(buf.validate.field).required = true];
+  cmp.types.v4.SearchParameters search_parameters = 2 [(buf.validate.field).required = true];
 
   // This field represents a list of search queries that can be used to create
   // a request that covers multiple bookings, travellers that have a different
@@ -63,7 +61,7 @@ message InsuranceSearchRequest {
   // Instead of adding multiple product families into multiple queries, it is
   // recommended to split them into multiple requests so that they can be
   // processed in parallel.
-  repeated cmp.services.insurance.v3.InsuranceSearchQuery queries = 4 [(buf.validate.field).repeated = {
+  repeated cmp.services.insurance.v3.InsuranceSearchQuery queries = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 10
   }];
@@ -81,8 +79,8 @@ message InsuranceSearchResponse {
   // address.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Search response metadata
-  cmp.types.v4.SearchResponseMetadata metadata = 2 [(buf.validate.field).required = true];
+  // Search_id to be used in subsequent requests like the "Validation Request".
+  cmp.types.v4.UUID search_id = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, like property,
   repeated cmp.services.insurance.v3.InsuranceSearchResult results = 3 [(buf.validate.field).repeated = {

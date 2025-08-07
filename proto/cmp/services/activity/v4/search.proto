@@ -45,6 +45,7 @@ import "cmp/types/v4/location.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/travel_period.proto";
 import "cmp/types/v4/traveller.proto";
+import "cmp/types/v4/uuid.proto";
 
 // Search request for Activities
 message ActivitySearchRequest {
