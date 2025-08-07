@@ -90,19 +90,6 @@ message SearchParameters {
   }];
 }
 
-// This message type is used in every search request to contain the request metadata
-message SearchRequestMetadata {
-  // Request unique identifier
-  cmp.types.v4.UUID request_id = 1 [(buf.validate.field).required = true];
-
-  // An identifier for external sessions, aiding in tracking and continuity across
-  // sessions.
-  string external_session_id = 2 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512
-  }];
-}
-
 // This message type is used in every search response to contain the response metadata
 message SearchResponseMetadata {
   // Search_id to be used in the Validation Request. This must be a UUID according
@@ -126,9 +113,6 @@ message SearchResponseMetadata {
     min_len: 0
     max_bytes: 512
   }];
-
-  // Search request metadata that this response is generated for
-  cmp.types.v4.SearchRequestMetadata search_request_metadata = 4 [(buf.validate.field).required = true];
 }
 
 // Search identifier

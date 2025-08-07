@@ -59,7 +59,17 @@ message Header {
   // a specific user account on a blockchain-based system.
   cmp.types.v4.EVMAddress end_user_wallet_address = 2;
 
-  // FIXME: move external session id here from other messages
+  // An optional identifier for external sessions, aiding in tracking and continuity
+  // across sessions.
+  // This is specified by the initiating system (e.g., a partner plugin)
+  // and can be used to identify not only the request/response pair but also
+  // subsequent interactions related to the same business case.
+  // This field if given in the request header needs to be mirrored in the
+  // response header to maintain session context.
+  string external_session_id = 3 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
 }
 
 // Version represents a semantic version (Major.Minor.Patch).

@@ -21,18 +21,15 @@ message MintRequest {
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
-  // FIXME: Move this into the header section
-  string external_session_id = 3 [(buf.validate.field).string.max_bytes = 512];
+  // FIXME: Do we need this here in the mint request? It's already specified in the search.
+  cmp.types.v1.Language language = 3;
 
   // FIXME: Do we need this here in the mint request? It's already specified in the search.
-  cmp.types.v1.Language language = 4;
+  string market = 4 [(buf.validate.field).string.max_bytes = 512];
 
-  // FIXME: Do we need this here in the mint request? It's already specified in the search.
-  string market = 5 [(buf.validate.field).string.max_bytes = 512];
+  string booking_reference = 5 [(buf.validate.field).string.max_bytes = 512];
 
-  string booking_reference = 6 [(buf.validate.field).string.max_bytes = 512];
-
-  repeated cmp.types.v4.ExtensiveTraveller travellers = 7 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.ExtensiveTraveller travellers = 6 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
@@ -40,26 +37,26 @@ message MintRequest {
   // The comments field is meant to pass noncommittal remarks entered by the
   // end-consumer about the service reservation,  like "non-smoking room please",
   // "top floor room please".
-  string comment = 8 [(buf.validate.field).string.max_bytes = 512];
+  string comment = 7 [(buf.validate.field).string.max_bytes = 512];
 
   // Public keys that will be used to encrypt the private booking data
   // TODO: When we implement the private booking data, we need to set min_items to 1.
-  repeated cmp.types.v4.PublicKey public_keys = 9 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.PublicKey public_keys = 8 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Buyer's address. Only this address should be allowed to buy the `BookingToken`
   // on chain.
-  cmp.types.v4.EVMAddress buyer_address = 10 [(buf.validate.field).required = true];
+  cmp.types.v4.EVMAddress buyer_address = 9 [(buf.validate.field).required = true];
 
   // This field is only relevant for off chain virtual credit card payments.
-  cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 11;
+  cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 10;
 
   // Expected BookingToken price. This price should be used by the bot to verify
   // that the CMAccount of the distributor has enough funds to buy the minted
   // BookingToken.
-  cmp.types.v4.Price expected_price = 12 [(buf.validate.field).required = true];
+  cmp.types.v4.Price expected_price = 11 [(buf.validate.field).required = true];
 }
 
 message MintResponse {

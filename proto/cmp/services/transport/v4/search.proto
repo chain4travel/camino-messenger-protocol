@@ -25,17 +25,13 @@ message TransportSearchRequest {
   // address
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Search request metadata
-  cmp.types.v4.SearchRequestMetadata metadata = 2 [(buf.validate.field).required = true];
-
   // Generic search parameters
-  //
   // Ex: Inclusion of OnRequest options and inclusion of only the cheapest or all
   // options.
-  cmp.types.v4.SearchParameters search_parameters = 3 [(buf.validate.field).required = true];
+  cmp.types.v4.SearchParameters search_parameters = 2 [(buf.validate.field).required = true];
 
   // Multiple search queries for this search request
-  repeated cmp.services.transport.v4.TransportSearchQuery queries = 4 [(buf.validate.field).repeated = {
+  repeated cmp.services.transport.v4.TransportSearchQuery queries = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 10
   }];
