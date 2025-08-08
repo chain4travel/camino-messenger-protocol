@@ -8,6 +8,7 @@ import shutil
 from collections import defaultdict
 
 file_pattern = re.compile(r'^(.*)/(v\d+)/([^/]+\.proto)$')
+MAX_VERSIONS = 3
 
 def ensure_directory_exists(directory):
 	if not os.path.exists(directory):
@@ -143,6 +144,9 @@ def find_proto_files(directory):
 	# array of all the proto files
 	proto_files = []
 
+	# list of file versions for each proto file
+	file_versions = {}
+
 	# Regular expression to match files with pattern "prefix/version/filename.proto"
 
 	# Recursively walk through the directory
@@ -173,8 +177,14 @@ def find_proto_files(directory):
 					if key not in latest_files or version_number > latest_files[key][1]:
 						latest_files[key] = (full_path, version_number)
 
+					# Add the version number to the list of versions for this file
+					if key not in file_versions:
+						file_versions[key] = [version_number]
+					else:
+						file_versions[key].append(version_number)
+
 	# Return only the file paths, ignoring the version numbers
-	return proto_files, [file_info[0].removeprefix(directory) for file_info in latest_files.values()]
+	return proto_files, [file_info[0].removeprefix(directory) for file_info in latest_files.values()], file_versions
 
 # Function to extract includes from a protobuf file
 def extract_proto_includes(proto_file_path):
@@ -202,12 +212,42 @@ print_graph, fix, debug = extract_command_line_args()
 fixed_new_version_files = []
 directory_path = "proto/"
 
+def check_and_remove_old_versions(proto_file_versions):
+	local_error = False
+	for key in proto_file_versions:
+		proto_file_versions[key].sort()
+		if debug:
+			print(f"🔍 Checking the key {key} for having too many versions")
+		if not key[0].startswith("cmp/types") and len(proto_file_versions[key]) > MAX_VERSIONS:
+			if fix:
+				print(f"⚠️ WARNING: The service file '{key}' has too many versions ({len(proto_file_versions[key])}): {proto_file_versions[key]}. Trying to fix...")
+				# If we are in fix mode, we remove the oldest versions
+				# We keep the latest MAX_VERSIONS versions
+				versions_to_remove = proto_file_versions[key][:-MAX_VERSIONS]
+				print(f"🔧 Removing the following versions: {versions_to_remove}")
+				
+				for version in versions_to_remove:
+					# Construct the file path to remove
+					file_to_remove = f"{key[0]}/v{version}/{key[1]}"
+					full_path = directory_path + file_to_remove
+					if os.path.exists(full_path):
+						os.remove(full_path)
+						print(f"  🗑️ Removed: {full_path}")
+					else:
+						print(f"  ❌ ERROR: File not found for removal: {full_path}")
+						local_error = True
+			else:
+				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(proto_file_versions[key])}): {proto_file_versions[key]}.")
+				local_error = True
+	return local_error
+
+
 def default_run():
 	global_error = False
 	fix_needed = {}
 
 	# First we get all the latest proto files
-	all_proto_files, latest_proto_files = find_proto_files(directory_path)
+	all_proto_files, latest_proto_files, proto_file_versions = find_proto_files(directory_path)
 
 	if debug:
 		print("🔍 Found the following proto files:")
@@ -260,7 +300,10 @@ def default_run():
 			if latest_proto_file not in included_by:
 				print(f"❌ ERROR: The type file '{latest_proto_file}' is never included anywhere in the proto files!")
 				global_error = True
-	
+
+	if check_and_remove_old_versions(proto_file_versions) == True:
+		global_error = True
+
 	if global_error == True:
 		print("❌ [FAIL] There were errors found while doing the dependency check!")
 	else:
