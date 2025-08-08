@@ -30,13 +30,6 @@ message ServiceFact {
     max_bytes: 512
   }];
 
-  // A description of the service like "business class", "shuttle transfer", "early
-  // check-in" etc.
-  string description = 2 [(buf.validate.field).string = {
-    min_len: 3
-    max_bytes: 512
-  }];
-
   // the price and price breakdown of the service
   cmp.types.v4.PriceDetail price_detail = 3 [(buf.validate.field).required = true];
 
@@ -69,6 +62,24 @@ message ServiceFact {
   // of the number or frequency of the products that will be included. For example
   // "bouquet of roses, qty=24" or "baggage qty=2".
   uint32 quantity = 7;
+}
+
+// Static data definition of the service fact to be used in product information
+message ServiceFactDefinition {
+  // A code for the specific service, when a service is optional, this code is
+  // referenced in the validate request, so that the optional service will be added
+  // to the booking.
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // A description of the service like "business class", "shuttle transfer", "early
+  // check-in" etc.
+  repeated cmp.types.v4.LocalizedString description = 2 [(buf.validate.field).repeated = {
+	min_items: 1
+	max_items: 100
+  }];
 }
 
 enum ServiceAvailabilityType {
