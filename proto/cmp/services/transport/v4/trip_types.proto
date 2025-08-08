@@ -63,8 +63,12 @@ message TripBasic {
 
 // A segment of a trip
 message SegmentExtended {
-  // Segment Info
-  cmp.services.transport.v4.Segment info = 1 [(buf.validate.field).required = true];
+  // The unique segment ID received via the product list response. See Segment.id
+  // Ex: "SEG1234"
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
 
   // TODO: Try to standardize the service types below.
 
@@ -104,9 +108,10 @@ message SegmentExtended {
 }
 
 message Segment {
-  // Segment ID
+  // Unique identifier of this segment used as a reference from the search results
+  // to this static data definition of the segment.
   // Ex: "SEG1234"
-  string segment_id = 1 [(buf.validate.field).string = {
+  string id = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
@@ -146,19 +151,25 @@ message Segment {
   // messages
   cmp.types.v4.SupplierProductCode supplier_code = 6 [(buf.validate.field).required = true];
 
-  // Departure
+  // Departure of this segment (sometimes also called origin)
   cmp.services.transport.v4.TransitEvent departure = 7 [(buf.validate.field).required = true];
 
-  // Arrival
+  // Arrival of this segment (sometimes also called destination)
   cmp.services.transport.v4.TransitEvent arrival = 8 [(buf.validate.field).required = true];
 
-  // Segment duration in minutes
+  // The duration of this segment from departure to arrival
   cmp.types.v4.Duration duration = 9;
 
-  // Segment Distance
-  //
+  // The distance of this segment from departure to arrival
   // Ex: `Length(value=15, unit=LengthUnit.DISTANCE_UNIT_KILOMETERS)`
   cmp.types.v4.Length distance = 10;
+
+  // Definition of all static data connected to services which can be part
+  // of this segment in the search response.
+  repeated cmp.types.v4.ServiceFactDefinition services = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Represents a departure or arrival event
