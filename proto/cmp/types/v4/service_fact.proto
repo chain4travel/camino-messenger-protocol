@@ -55,9 +55,15 @@ message ServiceFact {
     not_in: [0]
   }];
 
-  // We can use a single ServiceFact to express just one service. But many services
-  // are actually a combination of several services, like the typical
-  // priority boarding, which also allows for a larger carry-on bag.
+  // We can use a single ServiceFact to express just one service.
+  // But services can actually be a combination of several services, like
+  // priority boarding, which also allows for an optional larger carry-on bag.
+  //
+  // IMPORTANT: Please be careful about this recursion as only a handful of cases
+  // are well-known combinations of different service availability types.
+  // Distributors might only implement on their end a very limited set of combinations,
+  // therefore it would be better to clarify first what the commonly used ones
+  // are before trying to express business cases which are simply not supported.
   repeated cmp.types.v4.ServiceFact details = 6 [(buf.validate.field).repeated = {max_items: 100}];
 
   // The count of the number of services. In case the service requires specification
