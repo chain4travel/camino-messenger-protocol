@@ -187,6 +187,13 @@ message ActivityExtendedInfo {
       expression: "this.max_participants == 0u || this.max_participants >= this.min_participants"
     }
   };
+
+  // In case this activity has a seat map, refer to the correct map_id, so that
+  // a SeatMap request can be made. (See SeatMap.id)
+  string seat_map_id = 30 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 64
+  }];
 }
 
 message ActivityLocation {
