@@ -166,7 +166,7 @@ message Segment {
 
   // Definition of all static data connected to services which can be part
   // of this segment in the search response.
-  repeated cmp.types.v4.ServiceFactDefinition services = 4 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.ServiceFactDefinition services = 11 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];

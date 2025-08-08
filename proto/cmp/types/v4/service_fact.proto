@@ -3,7 +3,9 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/types/v4/localized.proto";
 import "cmp/types/v4/price.proto";
+
 
 // Service fact message type
 // Service facts are smaller services that are included, can be booked optionally
