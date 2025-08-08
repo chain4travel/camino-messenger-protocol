@@ -6,7 +6,6 @@ import "buf/validate/validate.proto";
 import "cmp/types/v4/localized.proto";
 import "cmp/types/v4/price.proto";
 
-
 // Service fact message type
 // Service facts are smaller services that are included, can be booked optionally
 // or must be booked together with a main product or service. For example on Christmas
@@ -85,8 +84,8 @@ message ServiceFactDefinition {
   // A description of the service like "business class", "shuttle transfer", "early
   // check-in" etc.
   repeated cmp.types.v4.LocalizedString description = 2 [(buf.validate.field).repeated = {
-	min_items: 1
-	max_items: 100
+    min_items: 1
+    max_items: 100
   }];
 }
 

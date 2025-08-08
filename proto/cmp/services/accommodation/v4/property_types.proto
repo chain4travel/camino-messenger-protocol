@@ -225,7 +225,7 @@ message Room {
   // How many of which person types can occupy this room.
   cmp.services.accommodation.v4.Occupancy total_occupancy = 9;
 
-  // Definition of services which are possible for this room. 
+  // Definition of services which are possible for this room.
   // The actual offer may contain less services.
   repeated cmp.types.v4.ServiceFactDefinition services = 10 [(buf.validate.field).repeated = {
     min_items: 0
