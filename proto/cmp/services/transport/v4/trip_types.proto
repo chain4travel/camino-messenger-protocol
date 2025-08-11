@@ -176,6 +176,13 @@ message Segment {
     min_items: 0
     max_items: 100
   }];
+
+  // In case this segment has a seat map, refer to the correct map_id, so that
+  // a SeatMap request can be made. (See SeatMap.id)
+  string seat_map_id = 12 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 64
+  }];
 }
 
 // Represents a departure or arrival event
