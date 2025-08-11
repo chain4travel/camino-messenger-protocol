@@ -61,7 +61,10 @@ message TripBasic {
   google.protobuf.Timestamp last_modified = 3 [(buf.validate.field).required = true];
 }
 
-// A segment of a trip
+// Extended information about the segment in the search data where additional
+// fields are included to express the differences of the search results.
+// This is referencing a unique `id` (= Segment.id from the static data)
+// to provide the necessary context for the search results.
 message SegmentExtended {
   // The unique segment ID received via the product list response. See Segment.id
   // Ex: "SEG1234"
@@ -107,6 +110,9 @@ message SegmentExtended {
   uint32 max_pax = 6;
 }
 
+// Base definition of a segment for the static data (ProductInfo)
+// This info is referenced in the search results via the
+// SegmentExtended.id = Segment.id field.
 message Segment {
   // Unique identifier of this segment used as a reference from the search results
   // to this static data definition of the segment.
