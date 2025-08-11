@@ -4,6 +4,7 @@ package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/product_status.proto";
+import "cmp/types/v4/airport.proto";
 import "cmp/types/v4/amenity.proto";
 import "cmp/types/v4/bed.proto";
 import "cmp/types/v4/contact_info.proto";
@@ -65,13 +66,9 @@ message Property {
 
   // Airports
   // Ex: ["PMI", "ZRH", "AYT"]
-  // FIXME: Have another msg type for airports
-  repeated string airports = 11 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.AirportCode airports = 11 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
-    items: {
-      string: {max_len: 4}
-    }
   }];
 
   // If category_rating is provided, category_unit must also be provided

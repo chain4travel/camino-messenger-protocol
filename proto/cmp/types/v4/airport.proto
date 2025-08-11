@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+import "buf/validate/validate.proto";
+
+message AirportCode {
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 3
+    max_len: 4
+  }];
+}
