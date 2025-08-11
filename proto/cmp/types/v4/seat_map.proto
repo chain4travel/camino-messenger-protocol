@@ -9,6 +9,15 @@ import "cmp/types/v4/file.proto";
 import "cmp/types/v4/localized.proto";
 import "google/protobuf/wrappers.proto";
 
+// Unique identifier for the seat map.
+// This ID is used to reference the seat map in requests and responses.
+message SeatMapID {
+  string id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 64
+  }];
+}
+
 // Represents a basic seat with optional features and restrictions. Each seat has a
 // unique identifier and a location within a visual seat map (if provided for its
 // section). It can also have various static features and restrictions.
@@ -114,10 +123,7 @@ message Section {
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for this entire seat map (e.g., "venueName-standardLayout").
-  string id = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 64
-  }];
+  SeatMapID id = 1 [(buf.validate.field).required = true];
 
   // A list of top-level sections within the seat map. Sections can be nested.
   // A seat map must contain at least one section.

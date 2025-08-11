@@ -9,6 +9,7 @@ import "cmp/types/v4/location.proto";
 import "cmp/types/v4/measurement.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/seat_map.proto";
 import "cmp/types/v4/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -108,6 +109,12 @@ message SegmentExtended {
   //
   // Ex: `3`
   uint32 max_pax = 6;
+
+  // If this segment has a seat_map_id return the one in the context of this
+  // search result. This can then be used to request seat map availabilities.
+  // The seat_map_id must match one of the defined in the static data.
+  // See Segment.seat_map_ids
+  cmp.types.v4.SeatMapID seat_map_id = 7;
 }
 
 // Base definition of a segment for the static data (ProductInfo)
@@ -177,12 +184,15 @@ message Segment {
     max_items: 100
   }];
 
-  // In case this segment has a seat map, refer to the correct map_id, so that
-  // a SeatMap request can be made. (See SeatMap.id)
-  string seat_map_id = 12 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 64
-  }];
+  // In case this segment has a seat maps defined, refer to the correct map_ids,
+  // so that a SeatMap request can be made. (See SeatMap.id)
+  // The field is repeated because the same segment can have a multitude of
+  // different seat maps when different airplanes or busses are used.
+  // This enables distributors to get the seat maps prior to a search to cache
+  // them for only requesting seat map availabilities after each search.
+  // The seat map id for the offer when doing a search will then be
+  // one of the seat_map_ids values defined here.
+  repeated cmp.types.v4.SeatMapID seat_map_ids = 12;
 }
 
 // Represents a departure or arrival event

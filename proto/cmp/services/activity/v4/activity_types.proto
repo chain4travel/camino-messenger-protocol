@@ -14,6 +14,7 @@ import "cmp/types/v4/file.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/redemption.proto";
+import "cmp/types/v4/seat_map.proto";
 import "google/protobuf/timestamp.proto";
 
 // Activity
@@ -190,10 +191,7 @@ message ActivityExtendedInfo {
 
   // In case this activity has a seat map, refer to the correct map_id, so that
   // a SeatMap request can be made. (See SeatMap.id)
-  string seat_map_id = 30 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 64
-  }];
+  cmp.types.v4.SeatMapID seat_map_id = 30;
 }
 
 message ActivityLocation {
