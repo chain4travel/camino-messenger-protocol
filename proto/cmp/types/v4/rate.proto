@@ -17,7 +17,10 @@ message RateRule {
   }];
 
   // RateRuleType is meant for uniformed and standardized display.
-  // FIXME: add comment that this should be consistent with cancel policy
+  //
+  // This field should be consistent with cancel policy. For example, if rate rule
+  // type is NON_REFUNDABLE, then cancel policy should not define a refundable
+  // policy.
   cmp.types.v4.RateRuleType type = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
