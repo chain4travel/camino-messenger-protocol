@@ -5,7 +5,7 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 
 // Type definition for an airport code which can be:
-// * IATA for code length 3 
+// * IATA for code length 3
 // * ICAO for code length 4
 message AirportCode {
   string code = 1 [(buf.validate.field).string = {
