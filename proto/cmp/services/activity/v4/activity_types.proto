@@ -26,20 +26,20 @@ message Activity {
   // Supplier Product codes for the result.
   cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
 
-  // Unit ID for the result
-  //
-  // The purpose of this concept is to allow for different activities for one
-  // product like "Windsurfing" and "Kitesurfing" under "Salou Playa Llarga". Code
-  // and description match the information provided in the ProductList and
-  // ProductInfo message. These are in general also supplier specific.
+  // The code must match one of the defined units provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.units.code
   string unit_code = 2 [(buf.validate.field).string.max_bytes = 512];
 
-  // Service codes for the result
-  //
-  // Several different packages could be included like "Windsurfing" with or without
-  // "Wetsuit". Code and description match the information provided in the
-  // ProductInfo message These are in general also supplier specific.
+  // The code must match one of the defined units provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.services.code
   string service_code = 3 [(buf.validate.field).string.max_bytes = 512];
+
+  // Reference to the applicable seat map of this activity offer. Must match a
+  // seat_map_id which was already defined in the static data.
+  // See: ActivityExtendedInfo.seat_map_ids
+  cmp.types.v4.SeatMapID seat_map_id = 4;
 }
 
 // Activity static info
@@ -48,13 +48,16 @@ message ActivityExtendedInfo {
   // provided in the ProductList and ProductInfo messages.
   cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
 
-  // Available Units
+  // Definition of the units provided in this activity. This allows different
+  // activities for one product like "Windsurfing" and "Kitesurfing"
+  // under "Salou Playa Llarga".
   repeated cmp.services.activity.v4.ActivityUnit units = 2 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
 
-  // Available Services
+  // Definition of the services available in this activity. Several different
+  // packages could be included like "Windsurfing" with or without "Wetsuit".
   repeated cmp.services.activity.v4.ActivityService services = 3 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -189,9 +192,15 @@ message ActivityExtendedInfo {
     }
   };
 
-  // In case this activity has a seat map, refer to the correct map_id, so that
-  // a SeatMap request can be made. (See SeatMap.id)
-  cmp.types.v4.SeatMapID seat_map_id = 30;
+  // In case this activity has a seat maps defined, refer to the correct map_ids,
+  // so that a SeatMap request can be made. (See SeatMap.id)
+  // The field is repeated because the same activity could have a multitude of
+  // different seat maps when different venue configurations or busses are used.
+  // This enables distributors to get the seat maps prior to a search to cache
+  // them for only requesting seat map availabilities after each search.
+  // The seat map id for the offer when doing a search will then be
+  // one of the seat_map_ids values defined here.
+  repeated cmp.types.v4.SeatMapID seat_map_ids = 30;
 }
 
 message ActivityLocation {

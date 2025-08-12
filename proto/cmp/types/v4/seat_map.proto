@@ -18,7 +18,32 @@ message SeatMapID {
   }];
 }
 
-// Represents a basic seat with optional features and restrictions. Each seat has a
+// SeatAttributes define various characteristics and constraints of seats within a seat map.
+// They can be defined globally on the seat map level, the section level, or the individual seat level.
+// This allows a flexible and bandwidth-friendly definition of attributes.
+// The languages of the attributes must match those requested in the associated
+// `SeatMapRequest` in case they can be provided.
+message SeatAttributes {
+  // Features for display purposes (e.g., seat type, amenities like "extra legroom",
+  // "window seat").
+  repeated cmp.types.v4.LocalizedSeatAttributeSet features = 1 [(buf.validate.field).repeated = {
+    max_items: 100 // Limits the number of feature sets.
+  }];
+
+  // Restrictions for display purposes (e.g., "age limit", "accessibility requirements").
+  repeated cmp.types.v4.LocalizedSeatAttributeSet restrictions = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Limits the number of restriction sets.
+  }];
+
+  // A list of localized descriptions, providing additional details or context
+  // which do not fit into the attribute categories "features" or "restrictions"
+  // (e.g., " unobstructed view", "close to exits").
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 3 [(buf.validate.field).repeated = {
+    max_items: 100 // Limits localized description sets.
+  }];
+}
+
+// Represents a basic seat with attributes. Each seat has a
 // unique identifier and a location within a visual seat map (if provided for its
 // section). It can also have various static features and restrictions.
 message Seat {
@@ -30,24 +55,15 @@ message Seat {
     max_bytes: 64
   }];
 
-  // Optional. The location of the seat within a visual seat map image
+  // The location of the seat within a visual seat map image
   // (e.g., an SVG or bitmap image defined in the parent `Section`).
   // This is used if the section provides an `image` for seat selection.
   cmp.types.v4.SeatLocation location = 2;
 
-  // Optional. Static features associated with the seat (e.g., seat type,
-  // amenities like "extra legroom", "window seat").
-  // Provided in a localized manner.
-  repeated cmp.types.v4.LocalizedSeatAttributeSet features = 3 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits the number of feature sets.
-  }];
-
-  // Optional. Restrictions associated with the seat (e.g., "age limit",
-  // "accessibility requirements").
-  // Provided in a localized manner.
-  repeated cmp.types.v4.LocalizedSeatAttributeSet restrictions = 4 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits the number of restriction sets.
-  }];
+  // Individual seat attribute definition. Only use this for special seats
+  // inside of a section. If there are attributes which apply to all seats
+  // of a section please use the section attributes instead to save bandwidth.
+  cmp.types.v4.SeatAttributes attributes = 3;
 }
 
 // Represents a list of individual seats, typically within a section.
@@ -72,8 +88,8 @@ message Section {
     max_bytes: 64
   }];
 
-  // Optional. List of localized human-readable names for the section
-  // (e.g., "Balcony", "Orchestra").
+  // List of localized human-readable names for the section
+  // (e.g., "Balcony", "Orchestra", "First Class", "Business Class").
   repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
     max_items: 100 // Limits localized name variations.
   }];
@@ -85,28 +101,25 @@ message Section {
     option (buf.validate.oneof).required = true;
 
     // A detailed list of individual seats within this section.
-    // Use this for reserved seating areas where each seat is distinct.
+    // Use this for reserved seating areas where each seat has an identifier.
     cmp.types.v4.SeatList seat_list = 3;
 
     // The total number of allocatable spots or "seats" in this section.
     // Use this for general admission areas (e.g., standing room, unassigned
     // seating) where individual seat details are not applicable.
-    // Must be greater than 0 if specified.
     google.protobuf.Int32Value seat_count = 4 [(buf.validate.field).int32 = {gt: 0}];
   }
 
-  // Optional. A visual representation (SVG or bitmap) of this section's layout.
+  // A visual representation (SVG or bitmap) of this section's layout.
   // If provided, `Seat.location` for seats within this section will refer to
   // coordinates or labels within this image.
   cmp.types.v4.Image image = 5;
 
-  // Optional. A list of localized descriptions for this section, providing
-  // additional details or context (e.g., " unobstructed view", "close to exits").
-  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 6 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits localized description sets.
-  }];
+  // SeatAttributes which apply to all seats within this section. And also to
+  // all seats in nested sub-sections.
+  cmp.types.v4.SeatAttributes attributes = 6;
 
-  // Optional. Nested sub-sections within this section, allowing for a
+  // Nested sub-sections within this section, allowing for a
   // hierarchical layout (e.g., a "Balcony" section might contain "Row-A",
   // "Row-B" sub-sections).
   repeated cmp.types.v4.Section sections = 7 [(buf.validate.field).repeated = {
@@ -114,9 +127,10 @@ message Section {
   }];
 }
 
-// High-level representation of a seat map, defining the layout and structure
-// of seating within a venue. It comprises sections, an optional overall map
-// image, and localized descriptions.
+// Representation of a seat map structure, defining the layout and structure
+// of seating within a venue or transportation. It is defined by creating sections
+// and can have an image to be referenced by sections and seats, as well as
+// localized descriptions.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/seat_map.proto.dot.xs.svg)
 //
@@ -126,29 +140,22 @@ message SeatMap {
   SeatMapID id = 1 [(buf.validate.field).required = true];
 
   // A list of top-level sections within the seat map. Sections can be nested.
-  // A seat map must contain at least one section.
   repeated cmp.types.v4.Section sections = 2 [(buf.validate.field).repeated = {
     min_items: 1 // A seat map must have at least one section.
     max_items: 100 // Limits top-level sections.
   }];
 
-  // Optional. An image providing an overall visual representation of the entire
-  // seat map layout. This might be a venue overview.
+  // An image providing an overall visual representation of the entire
+  // seat map layout. This might be a venue overview an airplane or anything
+  // else which has a seating arrangement.
   cmp.types.v4.Image image = 3;
 
-  // Optional. A list of localized descriptions for the overall seat map.
+  // Attributes which apply to all seats within the entire seat map.
   // These might describe general venue features or seating policies.
-  // It's recommended that languages provided match those requested in any
-  // associated `SeatMapRequest`.
-  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 4 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits localized description sets.
-  }];
+  cmp.types.v4.SeatAttributes attributes = 4;
 }
 
-// FIXME: Refactor `...Inventory` message's to have better names like
-// SelectedSeatIds, SectionSelection, SeatMapSelection.
-
-// Represents a collection of seat identifiers, typically used for specifying
+// Represents a collection of seat identifiers, used for specifying
 // selected seats or checking availability of specific seats.
 message SeatInventory {
   // A list of unique seat identifiers. Must contain at least one ID.
@@ -168,7 +175,7 @@ message SeatInventory {
 
 // Represents the inventory status (e.g., available, selected) for a specific
 // section and its potential sub-sections. This is used for dynamic data like
-// seat availability or current selections.
+// seat availability or seat selections.
 message SectionInventory {
   // Unique identifier of the section this inventory pertains to.
   // This must match a `Section.id` from the corresponding `SeatMap`.
@@ -189,18 +196,17 @@ message SectionInventory {
     // The number of seats/spots in this section that are part of this inventory.
     // Used for general admission sections where individual seats are not tracked.
     // Represents, for example, remaining available spots or number of selected GA tickets.
-    // Must be greater than 0 if specified.
     google.protobuf.Int32Value seat_count = 3 [(buf.validate.field).int32 = {gt: 0}];
   }
 
-  // Optional. Inventory information for nested sub-sections within this section,
+  // Inventory information for nested sub-sections within this section,
   // allowing for a hierarchical representation of seat inventory.
   repeated cmp.types.v4.SectionInventory sections = 4 [(buf.validate.field).repeated = {
     max_items: 100 // Limits number of sub-section inventories.
   }];
 }
 
-// Represents the overall inventory status for a specific seat map.
+// Represents the inventory status or seat selection for a specific seat map.
 // This message aggregates inventory information for all relevant sections,
 // used for purposes like seat selection or displaying seat availability.
 message SeatMapInventory {
@@ -211,7 +217,6 @@ message SeatMapInventory {
   }];
 
   // A list of inventory details for the top-level sections within the seat map.
-  // Must contain inventory for at least one section.
   repeated cmp.types.v4.SectionInventory sections = 2 [(buf.validate.field).repeated = {
     min_items: 1 // Must provide inventory for at least one section.
     max_items: 100 // Limits top-level section inventories.
@@ -222,16 +227,12 @@ message SeatMapInventory {
 // specific language.
 message LocalizedSeatAttributeSet {
   // The language for which these attributes are specified.
-  // ATTENTION: This currently refers to `cmp.types.v1.Language`.
-  // Consider aligning this with a `v4` language definition if available,
-  // or ensure `v1.Language` is intentionally used and accessible.
   cmp.types.v1.Language language = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
   // The list of seat attributes for the specified language.
-  // Must contain at least one attribute.
   repeated cmp.types.v4.SeatAttribute seat_attributes = 2 [(buf.validate.field).repeated = {
     min_items: 1 // Must have at least one attribute in the set.
     max_items: 100 // Limits attributes per language.
