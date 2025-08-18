@@ -5,6 +5,7 @@ package cmp.services.accommodation.v4;
 import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v4/property_types.proto";
 import "cmp/types/v4/common.proto";
+import "cmp/types/v4/product_code.proto";
 import "google/protobuf/timestamp.proto";
 
 message AccommodationProductListRequest {
