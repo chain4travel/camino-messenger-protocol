@@ -7,8 +7,10 @@ import argparse
 import shutil
 from collections import defaultdict
 
+# Regular expression to match files with pattern "prefix/version/filename.proto"
 file_pattern = re.compile(r'^(.*)/(v\d+)/([^/]+\.proto)$')
 MAX_VERSIONS = 3
+
 
 def ensure_directory_exists(directory):
 	if not os.path.exists(directory):
@@ -19,6 +21,7 @@ class Colors:
 	BOLD = '\033[1m'
 	PURPLE = '\033[35m'
 	GREEN = '\033[32m'
+
 
 def print_dependency_graph(dep_dict):
 	print("==========================")
@@ -35,6 +38,7 @@ def print_dependency_graph(dep_dict):
 		else:
 			print(f"	{Colors.RESET}No dependencies")
 		print()  # Add an empty line for better readability
+
 
 def extract_proto_definitions(proto_file_path):
 	"""
@@ -58,6 +62,7 @@ def extract_proto_definitions(proto_file_path):
 
 	return definitions
 
+
 def search_replace_in_file(filename, search_replace):
 	print(f"📝 Running search/replace on the file {filename}")
 
@@ -76,6 +81,7 @@ def search_replace_in_file(filename, search_replace):
 	# Write the file out again
 	with open(filename, 'w') as file:
 		file.write(filedata)
+
 
 def getC4TFiles():
 	print("🔍 Getting the proto files in the c4t branch for reference")
@@ -100,6 +106,7 @@ def getC4TFiles():
 
 	return c4t_files, c4t_folders
 
+
 def extract_command_line_args():
 	# Create an ArgumentParser object
 	parser = argparse.ArgumentParser(description="Extract command line arguments")
@@ -123,6 +130,7 @@ def extract_command_line_args():
 
 	return print_graph, fix, debug
 
+
 def find_latest_version(old_file, recent_files):
 	match = file_pattern.match(old_file)
 	if match:
@@ -136,6 +144,7 @@ def find_latest_version(old_file, recent_files):
 				return prefix, version, new_version, recent_file
 	return False
 
+
 # Function to return all the latest protobuf files 
 def find_proto_files(directory):
 	# Dictionary to store the latest version of each file
@@ -144,10 +153,12 @@ def find_proto_files(directory):
 	# array of all the proto files
 	proto_files = []
 
-	# list of file versions for each proto file
-	file_versions = {}
+	# list of file versions for each proto file which has a service definition
+	service_versions = {}
 
-	# Regular expression to match files with pattern "prefix/version/filename.proto"
+	# list of all the proto files which do not contain a service definition and 
+	# are then by definition "type files"
+	type_files = []
 
 	# Recursively walk through the directory
 	for root, dirs, files in os.walk(directory):
@@ -155,6 +166,7 @@ def find_proto_files(directory):
 			if file.endswith(".proto"):
 				full_path = os.path.join(root, file)
 				relative_path = os.path.relpath(full_path, directory)
+				short_path = full_path.removeprefix(directory)
 				match = file_pattern.match(relative_path)
 
 				if match:
@@ -168,7 +180,7 @@ def find_proto_files(directory):
 						sys.exit(3)
 
 					# Add the file to the list of proto files
-					proto_files.append(full_path.removeprefix(directory))
+					proto_files.append(short_path)
 
 					# Create a key for the file using prefix and filename
 					key = (prefix, filename)
@@ -177,14 +189,18 @@ def find_proto_files(directory):
 					if key not in latest_files or version_number > latest_files[key][1]:
 						latest_files[key] = (full_path, version_number)
 
-					# Add the version number to the list of versions for this file
-					if key not in file_versions:
-						file_versions[key] = [version_number]
+					if is_service_file(full_path):
+						# Add the version number to the list of versions for this file
+						if key not in service_versions:
+							service_versions[key] = [version_number]
+						else:
+							service_versions[key].append(version_number)
 					else:
-						file_versions[key].append(version_number)
+						type_files.append(short_path)
 
 	# Return only the file paths, ignoring the version numbers
-	return proto_files, [file_info[0].removeprefix(directory) for file_info in latest_files.values()], file_versions
+	return proto_files, [file_info[0].removeprefix(directory) for file_info in latest_files.values()], service_versions, type_files
+
 
 # Function to extract includes from a protobuf file
 def extract_proto_includes(proto_file_path):
@@ -208,37 +224,103 @@ def extract_proto_includes(proto_file_path):
 
 	return includes
 
+
+# Function which checks whether a proto file contains a service definition
+def is_service_file(proto_file_path):
+	# Regular expression to match service definitions
+	service_pattern = re.compile(r'^service.*')
+
+	with open(proto_file_path, 'r') as proto_file:
+		for line in proto_file:
+			if service_pattern.match(line.strip()):
+				return True
+	return False
+
+
 print_graph, fix, debug = extract_command_line_args()
 fixed_new_version_files = []
+fixed_removed_files = []
 directory_path = "proto/"
+c4tfiles, c4tfolders = getC4TFiles()
 
-def check_and_remove_old_versions(proto_file_versions):
+
+def remove_file(file_path):
+	full_path = directory_path + file_path
+	if os.path.exists(full_path):
+		os.remove(full_path)
+		print(f"  🗑️ Removed: {full_path}")
+		return True
+	else:
+		print(f"  ❌ ERROR: File not found for removal: {full_path}")
+		return False
+
+
+def check_and_remove_old_versions(service_file_versions):
 	local_error = False
-	for key in proto_file_versions:
-		proto_file_versions[key].sort()
+	for key in service_file_versions:
+		service_file_versions[key].sort()
 		if debug:
 			print(f"🔍 Checking the key {key} for having too many versions")
-		if not key[0].startswith("cmp/types") and len(proto_file_versions[key]) > MAX_VERSIONS:
+		if len(service_file_versions[key]) > MAX_VERSIONS:
 			if fix:
-				print(f"⚠️ WARNING: The service file '{key}' has too many versions ({len(proto_file_versions[key])}): {proto_file_versions[key]}. Trying to fix...")
+				print(f"⚠️ WARNING: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}. Trying to fix...")
 				# If we are in fix mode, we remove the oldest versions
 				# We keep the latest MAX_VERSIONS versions
-				versions_to_remove = proto_file_versions[key][:-MAX_VERSIONS]
+				versions_to_remove = service_file_versions[key][:-MAX_VERSIONS]
 				print(f"🔧 Removing the following versions: {versions_to_remove}")
 				
 				for version in versions_to_remove:
 					# Construct the file path to remove
 					file_to_remove = f"{key[0]}/v{version}/{key[1]}"
-					full_path = directory_path + file_to_remove
-					if os.path.exists(full_path):
-						os.remove(full_path)
-						print(f"  🗑️ Removed: {full_path}")
+					if remove_file(file_to_remove):
+						fixed_removed_files.append(file_to_remove)
 					else:
-						print(f"  ❌ ERROR: File not found for removal: {full_path}")
 						local_error = True
 			else:
-				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(proto_file_versions[key])}): {proto_file_versions[key]}.")
+				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}.")
 				local_error = True
+	return local_error
+
+
+def record_missing_files(all_proto_files, type_files, service_versions):
+	# Checks the current branch files (all_proto_files) against the c4t branch
+	# If there are files which are in the cmp/types directory this is probably
+	# just fine. We just need to check the services whether we still have enough
+	# newer versions which justifies that old ones are removed.
+	# We also need write all the missing files into a separate file for the
+	# workflow to use this as exceptions for follow up scripts which without
+	# this will just fail.
+	local_error = False
+	missing_files = []
+	for proto_file in c4tfiles:
+		if proto_file not in all_proto_files:
+			if proto_file not in type_files and "types" not in proto_file:
+				# If it's a type file then this is just fine as type files will 
+				# be removed as a consequence of services being removed.
+				
+				# We know now that it's a service file so let's check whether
+				# we have 3 newer versions of this file left which justifies the
+				# removal of the service file.
+				match = file_pattern.match(proto_file)
+				if match:
+					prefix, version, filename = match.groups()
+					key = (prefix, filename)
+					if service_versions.get(key) is None:
+						print(f"❌ ERROR: The service file '{proto_file}' is completely unknown in the current branch. This can only happen in the edge case if a service has been completely removed, which needs to be handled manually!")
+						local_error = True
+					elif len(service_versions[key]) < MAX_VERSIONS:
+						print(f"❌ ERROR: The service file '{proto_file}' known in the current branch, but has only {len(service_versions[key])} versions left. This is not enough to justify the removal of the service file!")
+						local_error = True
+			missing_files.append(proto_file)
+
+	if local_error != True:
+		# Record the missing files in a file which can be picked up by follow
+		# up scripts in order to add these as exceptions.
+		with open("missing_files.txt", "w") as f:
+			for missing_file in missing_files:
+				f.write(f"{missing_file}\n")
+		print(f"✅ Recorded {len(missing_files)} missing files in 'missing_files.txt'. This can be used by follow up scripts to handle these files as exceptions.")
+
 	return local_error
 
 
@@ -247,7 +329,7 @@ def default_run():
 	fix_needed = {}
 
 	# First we get all the latest proto files
-	all_proto_files, latest_proto_files, proto_file_versions = find_proto_files(directory_path)
+	all_proto_files, latest_proto_files, service_versions, type_files = find_proto_files(directory_path)
 
 	if debug:
 		print("🔍 Found the following proto files:")
@@ -291,17 +373,29 @@ def default_run():
 					global_error = True
 
 	# Now we have a nice dependency graph-like list to check
-	# Let's see whether one of the cmp/type proto files is currently not included anywhere
-	for latest_proto_file in latest_proto_files:
+	# Let's see whether one of the type proto files is currently not included anywhere
+	for proto_file in type_files:
 		if debug:
-			print(f"🔍 Checking the file {latest_proto_file} for includes")
-		if latest_proto_file.startswith("cmp/types/") and latest_proto_file not in included_by_latest:
-			print(f"⚠️ WARNING: The type file '{latest_proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
-			if latest_proto_file not in included_by:
-				print(f"❌ ERROR: The type file '{latest_proto_file}' is never included anywhere in the proto files!")
+			print(f"🔍 Checking the file {proto_file} for broken/missing dependencies")
+		if proto_file not in included_by:
+			if not fix:
+				print(f"❌ ERROR: The type file '{proto_file}' is never included anywhere in the proto files!")
 				global_error = True
+			else:
+				print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
+				if remove_file(proto_file):
+					fixed_removed_files.append(proto_file)
+				else:
+					global_error = True
 
-	if check_and_remove_old_versions(proto_file_versions) == True:
+		elif proto_file in latest_proto_files and proto_file not in included_by_latest:
+			print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
+			
+
+	if check_and_remove_old_versions(service_versions) == True:
+		global_error = True
+
+	if record_missing_files(all_proto_files, type_files, service_versions) == True:
 		global_error = True
 
 	if global_error == True:
@@ -326,9 +420,7 @@ if print_graph:
 if fix:
 	# Get the proto files in the c4t branch by calling an external script
 	print()
-	print("🔧 Trying to fix the dependencies...")
-
-	c4tfiles, c4tfolders = getC4TFiles()
+	print("🔧 Trying to fix...")
 
 	max_iterations=20
 
@@ -424,15 +516,21 @@ if fix:
 		global_error, latest_proto_files, fix_needed, include_graph = default_run()
 
 		if global_error:
-			print("⌛ Dependency fix needs another iteration to fix new broken dependencies ... ")
+			print("⌛ Fix needs another iteration ... ")
 		else:
 			print("✅ Dependency fix might have succeeded. Please check the results!")
-			print()
-			print("📋 List of files which have been added by --fix.") 
-			for added_file in fixed_new_version_files:
-				print(f"  🆕 {added_file}")
-			print("⚠️  Don't forget to add the new directories/files!")
-			print()
+			if len(fixed_new_version_files) > 0 or len(fixed_removed_files) > 0:
+				print()
+				if len(fixed_new_version_files) > 0:
+					print("🆕 Added files by --fix:")
+					for added_file in fixed_new_version_files:
+						print(f"  🆕 {added_file}")
+				if len(fixed_removed_files) > 0:
+					print("🗑️ Removed files by --fix:")
+					for removed_file in fixed_removed_files:
+						print(f"  🗑️ {removed_file}")
+				print("⚠️  Don't forget to commit also the new/removed files!")
+				print()
 			break
 
 
