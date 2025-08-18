@@ -195,7 +195,7 @@ message ActivityExtendedInfo {
   // In case this activity has a seat maps defined, refer to the correct map_ids,
   // so that a SeatMap request can be made. (See SeatMap.id)
   // The field is repeated because the same activity could have a multitude of
-  // different seat maps when different venue configurations or busses are used.
+  // different seat maps when different venue configurations or vehicles (like planes, trains, busses) are used.
   // This enables distributors to get the seat maps prior to a search to cache
   // them for only requesting seat map availabilities after each search.
   // The seat map id for the offer when doing a search will then be
