@@ -11,12 +11,20 @@ message AccommodationProductListRequest {
   // Message header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Only respond with the products that are modified after this timestamp
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
+  // The "modified_after" parameter is only used in case no "ShortList" is pulled
+  // with "modified_after", already returning the modified supplier codes for every
+  // product that had an update since the date/time indicated.
   google.protobuf.Timestamp modified_after = 2;
+
+  // The supplier product codes can be used to pull more details for (new) properties
+  // that are required for mapping, after the "ShortList" was pulled with the
+  // "modified_after" parameter. This is specifically useful to avoid pulling the
+  // complete "Product Info" twice, once for mapping and once to store the multi-lingual
+  // content and imagery.
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
 }
 
 message AccommodationProductListResponse {

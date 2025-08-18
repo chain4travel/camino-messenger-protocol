@@ -3,6 +3,8 @@ syntax = "proto3";
 package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/services/accommodation/v4/property_types.proto";
+import "cmp/services/v4/property_short_list_item.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/product_code.proto";
 import "google/protobuf/timestamp.proto";
@@ -13,9 +15,8 @@ message AccommodationProductShortListRequest {
 
   // Only respond with the products that are modified after this timestamp
   //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
+  // The "modified_after" parameter is used to identify updated products from
+  // Suppliers.
   google.protobuf.Timestamp modified_after = 2;
 }
 
@@ -23,9 +24,9 @@ message AccommodationProductShortListResponse {
   // Message header
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Supplier codes for the products that are modified after the timestamp in
-  // `AccommodationProductShortListRequest`
-  repeated cmp.types.v4.SupplierProductCode supplier_codes = 2;
+  // Supplier codes  and status for the products that are modified after the timestamp
+  // in the `AccommodationProductShortListRequest`.
+  repeated cmp.services.v4.PropertyShortListItem PropertyShortListItems = 2 [(buf.validate.field).required = true];
 }
 
 // Accommodation product short list service definition. This is an alternative
