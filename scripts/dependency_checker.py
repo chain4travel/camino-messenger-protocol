@@ -262,6 +262,7 @@ def check_and_remove_old_versions(service_file_versions):
 		if debug:
 			print(f"🔍 Checking the key {key} for having too many versions")
 		if len(service_file_versions[key]) > MAX_VERSIONS:
+			local_error = True
 			if fix:
 				print(f"⚠️ WARNING: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}. Trying to fix...")
 				# If we are in fix mode, we remove the oldest versions
@@ -274,10 +275,9 @@ def check_and_remove_old_versions(service_file_versions):
 					file_to_remove = f"{key[0]}/v{version}/{key[1]}"
 					if remove_file(file_to_remove):
 						fixed_removed_files.append(file_to_remove)
-					local_error = True
 			else:
 				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}.")
-				local_error = True
+
 	return local_error
 
 
@@ -317,7 +317,7 @@ def record_missing_files(all_proto_files, type_files, service_versions):
 		# up scripts in order to add these as exceptions.
 		with open("missing_files.txt", "w") as f:
 			for missing_file in missing_files:
-				f.write(f"{missing_file}\n")
+				f.write(f"{directory_path}{missing_file}\n")
 		print(f"✅ Recorded {len(missing_files)} missing files in 'missing_files.txt'. This can be used by follow up scripts to handle these files as exceptions.")
 
 	return local_error

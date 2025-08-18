@@ -59,35 +59,6 @@ jobs:
           # Run buf format
           buf format proto --diff --exit-code
 
-  buf-breaking:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v4
-      - name: Install buf
-        run: |
-          # Installing buf
-          if [ "${{ env.buf_version }}" == "" ]; then
-            # Install latest version
-            sudo ./scripts/buf-installer.sh
-          else
-            # Install the defined version
-            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version }}
-          fi
-      - name: Buf Breaking Check
-        run: |
-          # Run buf breaking against main label on buf.build
-          buf breaking --against buf.build/chain4travel/camino-messenger-protocol
-
-  # diff check against c4t branch to catch breaking changes
-  diff-c4t:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v4
-      - name: Run diff against branch
-        run: scripts/diff_against_branch.sh
-
   # diff check against dev branch to help with the PR reviews
   diff-dev:
     name: Diff against dev to help with the PR reviews
@@ -101,18 +72,37 @@ jobs:
           echo -e "\n🛟 Note: This diff check against dev branch is for PR review purposes only."
           echo -e "🛟 Any reported differences are informational and not considered errors.\n"
 
-  # dependency check to catch if proto files were not updated correctly
-  dependency-check:
+  # Check to catch if proto files were not updated correctly
+  # This also does more in-depth checks whether there are services or type files
+  # which are not needed any more and creates a "missing_files.txt" file needed
+  # by other checks to identify justified missing files.
+  # The diff against branch script checks then against the c4t branch if there
+  # are any unjustified breaking changes.
+  sanity-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Install buf
+        run: |
+          # Installing buf
+          if [ "${{ env.buf_version }}" == "" ]; then
+            # Install latest version
+            sudo ./scripts/buf-installer.sh
+          else
+            # Install the defined version
+            sudo ./scripts/buf-installer.sh --version=${{ env.buf_version }}
+          fi
       - name: Run proto dependency check
         run: scripts/dependency_checker.py --print-graph
+      - name: Run diff against branch
+        run: scripts/diff_against_branch.sh
+      - name: Buf Breaking Check # Run buf breaking against main label on buf.build
+        run: scripts/buf-breaking.sh
 
-  # dependency check to catch if proto files were not updated correctly
+  # Check if the service tags are set correctly and create a summary for that
   analyze-service-tags:
     runs-on: ubuntu-latest
     steps:
@@ -133,7 +123,7 @@ jobs:
   # Push the draft branch to buf.build
   bsr-push-draft:
     runs-on: ubuntu-latest
-    needs: [buf-lint, buf-breaking]
+    needs: [buf-lint, sanity-checks]
     if: ${{ (github.ref == 'refs/heads/draft') || (github.ref == 'refs/heads/dev') }}
     environment: draft
     steps:
@@ -163,7 +153,7 @@ jobs:
   # Generate and upload protodot diagrams
   diagrams:
     runs-on: ubuntu-latest
-    needs: [buf-lint, buf-breaking]
+    needs: [buf-lint, sanity-checks]
     if: ${{ (github.ref == 'refs/heads/draft') || (github.ref == 'refs/heads/dev') || (github.ref == 'refs/heads/c4t') }}
     steps:
       # Setup environment

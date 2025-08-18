@@ -18,6 +18,7 @@
 
 declare -a ERROR_FILES
 ORIGIN=${1:-c4t}
+JUSTIFIED_MISSING_FILES=()
 
 # Color definition for bash output
 RED='\033[0;31m'
@@ -25,8 +26,32 @@ GREEN='\033[0;32m'
 PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
+function read_justified_missing_files {
+	if [ -f "missing_files.txt" ] ; then
+		echo "🔧 Reading justified missing files from 'missing_files.txt'"
+		while IFS= read -r line; do
+			JUSTIFIED_MISSING_FILES+=("$line")
+		done < "missing_files.txt"
+	fi
+}
+
+function is_justified_missing_file {
+	FILE=$1
+	for justified_file in "${JUSTIFIED_MISSING_FILES[@]}"; do
+		if [[ "$justified_file" == "$FILE" ]]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
 function check_filesystem_changes {
 	FILE=$1
+	if is_justified_missing_file "$FILE"; then
+		echo -e "✅ ${GREEN}[PASS] INFO${NC}: Found (justified) missing file: ${PURPLE}$FILE${NC}"
+		return
+	fi
+
 	echo -e "❌ ${RED}[FAIL] ERROR${NC}: Structural filesystem change for already existing file detected (deleted/renamed/etc)! File: $FILE"
 	ERROR_FILES+=("$FILE")
 }
@@ -116,6 +141,8 @@ function check_modified_file {
 
 echo -e "⏳ Fetching the latest changes from the origin branch: ${PURPLE}$ORIGIN${NC}"
 git fetch origin $ORIGIN > /dev/null 2>&1
+
+read_justified_missing_files
 
 echo -e "🔍 Checking for illegal filesystem changes like removing/moving existing files"
 while read FILE ; do
