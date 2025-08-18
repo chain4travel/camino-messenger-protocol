@@ -274,8 +274,7 @@ def check_and_remove_old_versions(service_file_versions):
 					file_to_remove = f"{key[0]}/v{version}/{key[1]}"
 					if remove_file(file_to_remove):
 						fixed_removed_files.append(file_to_remove)
-					else:
-						local_error = True
+					local_error = True
 			else:
 				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}.")
 				local_error = True
@@ -385,8 +384,7 @@ def default_run():
 				print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
 				if remove_file(proto_file):
 					fixed_removed_files.append(proto_file)
-				else:
-					global_error = True
+				global_error = True
 
 		elif proto_file in latest_proto_files and proto_file not in included_by_latest:
 			print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
