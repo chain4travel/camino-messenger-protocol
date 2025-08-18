@@ -5,11 +5,40 @@ syntax = "proto3";
 // The Accommodation services are used for both hotels and holiday homes, often
 // called short term rentals.
 //
-// Any search message response in the Camino Messenger Protocol only includes
-// dynamic data. Static data can be cached and kept up to data with the Product List
-// and Product Details messages.
+// Just like any search message response in the Camino Messenger Protocol, the
+// "AccommodationSearch" only includes dynamic data. Static data can be cached
+// and kept up to data with the Product List and Product Details messages.
 //
-// This package is a **WIP**.
+// The Accommodation service also has the "ShortList" service, which only returns
+// the supplier codes. It can be used without the "modified_after" parameter to
+// obtain a full list of all codes for a specific supplier, but the intention is
+// usage with the "modified_after" set, to refresh updated products and create a
+// list of new and discontinued products.
+//
+// The more extensive Accommodation Product List is meant to include all details
+// required to map a new property with more details like location, rating, to
+// which chain it belongs, address, airports, etc.
+//
+// It makes more sense to implement the "AccommodationProductShortListRequest",
+// if the response contains more properties that have been updated (i.e. when
+// periods between updates are longer). If updates are frequent and the number
+// of expected updates are small, the "AccommodationProductListRequest" can be
+// used with the "modified after" parameter.
+//
+// Both the "ShortList" and the "ProductList" service contain a status field
+// with either "activated" or "deactivated" values, so that Distributors can
+// take the properties that are no longer supplied, off-sale for the specific
+// Supplier.
+//
+// Once we have mapped the property we need to download all details. Multiple
+// languages can be specified. In case a Distributor requests an unsupported
+// language in the request, the supplier should not include that language and
+// include a warning in the response. I.e: a Distributor specifies EN, DE, FR
+// and NL, the supplier does not support NL and includes descriptions in EN, DE
+// and FR, and adding a warning "Dutch is not supported"
+//
+// Finally, the purchase process that is the same for all message types, can be
+// initiated: (Accommodation)Search, Validate, Mint and Cancel.
 package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
@@ -49,21 +78,21 @@ import "cmp/types/v4/uuid.proto";
 // a search for 1 room for 2 adults in one query and another room for two adults and a
 // child of 8 in another room in the same hotel or destination for the same dates in
 // another query in the search request. This will lead to a search response with just
-// one unit for eavery possible option available for each query_id, with many result_ids.
+// one unit for every possible option available for each query_id, with many result_ids.
 //
-// The same concept is valid for multiple homes for more than one family travelling
+// The same concept is valid for multiple homes for more than one family traveling
 // together to one park or destination.
 //
 // Road-trip or circuit example:
 // a search for one or multiple rooms or homes in queries that have sequential dates
-// and destinations. For example a trip to Las Vegas, a flight to New York and decending
+// and destinations. For example a trip to Las Vegas, a flight to New York and descending
 // the atlantic coastline to New Orleans or Orlando by car with stops in various places.
 //
 // The hostel, convention or groups example:
-// Often just 5 rooms for 10 peopleare requested or specific bed combinations like 5
+// Often just 5 rooms for 10 people are requested or specific bed combinations like 5
 // single-use rooms (for 5 travellers) and 5 double rooms (10 travellers) are requested.
 // In this case the number of rooms is specified and the total amount of travellers,
-// but no distribution of travellers per room is detailed in the request. The reponse
+// but no distribution of travellers per room is detailed in the request. The response
 // then hold multiple units for one search_id and result_id, so that if 5 rooms are
 // requested, but only 2 standard rooms are available, the requested amount can be
 // completed with a different room type (superior, seaview,..)
