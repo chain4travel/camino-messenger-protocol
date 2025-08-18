@@ -319,10 +319,13 @@ message PropertyShortListItem {
   // `AccommodationProductShortListRequest`. The suppliers codes can be used in
   // the `AccommodationProductListRequest` or in the `AccommodationProductInfoRequest`
   // for more or all details.
-  cmp.types.v4.SupplierProductCode supplier_code = 1;
+  cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
 
   // Status of the property. This is used when the "ShortList" or the "ProductList"
   // are pulled. New or modified products have "activated" and properties that are
   // no longer available from this supplier, will have the status "deactivated"
-  cmp.types.v4.ProductStatus status = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.ProductStatus status = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 }
