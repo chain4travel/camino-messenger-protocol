@@ -32,8 +32,8 @@ syntax = "proto3";
 // hybrid approach often offers the best balance.
 // This model starts with a single high-level map that shows the full venue at a
 // glance, then allows users to zoom into specific sections for finer detail,
-// using a differentS, instead of drilling down into a subsection of a
-// singleS.
+// using a different seat map, instead of drilling down into a subsection of a
+// single seat map.
 //
 // ### SeatMap Service
 //
