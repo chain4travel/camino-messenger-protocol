@@ -14,3 +14,11 @@ The Camino Messenger protocol is created together with Partners from each vertic
 Please do not hesitate to communicate your observations on this documentation like uncertainties, mistakes or missing explanations, so that we can continuously improve this documentation. Every Camino Network Partner (Validator) can also participate in official Message Type reviews to help improve the message format. Reach us through the [Discord](https://discord.com/channels/949247897688494150/1182680860797960253).
 
 For more information about the concept please visit [the Camino Messenger documentation](https://docs.camino.network/camino-messenger).
+
+## License
+
+The Camino Messenger Protocol is licensed under the terms of the [Camino Messenger License](LICENSE.md).
+
+## Data Protection
+
+Please take note of the [Camino Messenger Data Protection Guidelines](DATA_PROTECTION.md).

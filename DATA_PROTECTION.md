@@ -1,0 +1,9 @@
+# DATA PROTECTION – IMPORTANT NOTE
+
+Users, developers and other third parties are strictly and unequivocally prohibited from submitting, storing, transmitting or otherwise making available any “personal data”, as defined under the European General Data Protection Regulation (GDPR) or other applicable data protection laws, via any platform, service or component within the Camino ecosystem (including, but not limited to, Camino Messenger and the Camino Network).
+
+Neither Chain4Travel AG nor the Camino Network Foundation monitor or control these platforms, nor do they have the technical capability or obligation to modify, filter, intercept, or remove any data or content submitted, stored, or transmitted by third parties via these platforms.
+
+Any party uploading, transmitting, or making available such personal data bears full, sole, and exclusive responsibility for ensuring strict compliance with all applicable data protection laws, regulations, and any other relevant legal obligations. This party shall unconditionally indemnify, defend and hold harmless Chain4Travel AG, the Camino Network Foundation and their respective officers, directors, employees, agents, affiliates, successors and assignees from and against any and all claims, liabilities, demands, losses, damages, fines, penalties, costs and expenses (including reasonable legal fees) arising from or relating to any non-compliance.
+
+By using any platform or service within the Camino ecosystem, users explicitly acknowledge and agree that Chain4Travel AG and the Camino Network Foundation have no control over third-party content, that all blockchain transactions are irreversible and immutable, that messages transmitted through Camino Messenger may be routed through decentralised infrastructure outside their control, and that users bear sole responsibility for ensuring their use of the Camino ecosystem complies with all applicable data protection laws and regulations.
