@@ -438,10 +438,11 @@ if fix:
 			print()
 			print(f"🔨 The file '{file}' needs a fix because the following includes are wrong:")
 			for wrong_include in wrong_includes:
-				include_prefix, old_include_version, new_include_version, correct_include = find_latest_version(wrong_include, latest_proto_files)
-				if correct_include == False:
+				result = find_latest_version(wrong_include, latest_proto_files)
+				if not result: # First, capture the raw result so we don't try to unpack a "False"
 					print(f"⛔ [{Colors.RED}FATAL{Colors.RESET}] Unable to find the latest version of {wrong_include}. Exiting")
 					sys.exit(2)
+				include_prefix, old_include_version, new_include_version, correct_include = result
 					
 				print(f"    ➡  {wrong_include} ▶️ {correct_include}")
 
