@@ -22,7 +22,7 @@ message AccommodationProductShortListResponse {
   // Message header
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Supplier codes  and status for the products that are modified after the timestamp
+  // Supplier codes and status for the products that are modified after the timestamp
   // in the `AccommodationProductShortListRequest`. If there are no changes, the list
   // will be empty.
   repeated cmp.services.accommodation.v4.PropertyShortListItem property_short_list_items = 2;
