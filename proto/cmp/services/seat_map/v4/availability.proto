@@ -38,7 +38,7 @@ syntax = "proto3";
 // ### SeatMap Service
 //
 // The SeatMap service is meant to be used as a static data service in combination
-// with the SeatMapID of a search result. Multiple SeatMaps can be linked to one
+// with the SeatMapID of a product. Multiple SeatMaps can be linked to one
 // product as a one specific flight might be operated with different planes on
 // different days. However, a SeatMapID in a search result can only be one as the
 // bookable option is one specific product such as a first class coupe in a train,
