@@ -17,7 +17,7 @@ message AccommodationProductListRequest {
   // product that had an update since the date/time indicated.
   google.protobuf.Timestamp modified_after = 2;
 
-  // The supplier product codes can be used to pull more details for (new & updated) 
+  // The supplier product codes can be used to pull more details for (new & updated)
   // properties that are required for mapping, after the "ShortList" was pulled with the
   // "modified_after" parameter. This is specifically useful to avoid pulling the
   // complete "Product Info" twice, once for mapping and once to store the multi-lingual
