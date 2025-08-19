@@ -1,6 +1,7 @@
 # CAMINO MESSENGER LICENSE
 
 RESTRICTED OPEN-SOURCE LICENSE
+
 19 August 2025
 
 This Camino Messenger Licence ("License") sets out the terms and conditions agreed upon between you ("You"), either an individual or an entity, and Chain4Travel AG ("C4T"), incorporated in Zug (Switzerland) having its registered office at Dammstrasse 16, Zug, CH-6300 Switzerland, governing your use of certain open-source and available components of the Camino Messenger ("Licensed Software").
