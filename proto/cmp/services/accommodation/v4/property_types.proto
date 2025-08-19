@@ -316,7 +316,7 @@ message OccupancyOption {
 // This message is used to specify the supplier codes and their status.
 message PropertyShortListItem {
   // Supplier codes for the products that are modified after the timestamp in
-  // `AccommodationProductShortListRequest`. The suppliers codes can be used in
+  // `AccommodationProductShortListRequest`. The supplier codes can be used in
   // the `AccommodationProductListRequest` or in the `AccommodationProductInfoRequest`
   // for more or all details.
   cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
