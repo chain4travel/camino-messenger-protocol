@@ -21,6 +21,8 @@ class Colors:
 	BOLD = '\033[1m'
 	PURPLE = '\033[35m'
 	GREEN = '\033[32m'
+	YELLOW = '\033[33m'
+	RED = '\033[31m'
 
 
 def print_dependency_graph(dep_dict):
@@ -97,11 +99,11 @@ def getC4TFiles():
 			if folder not in c4t_folders:
 				c4t_folders[folder] = 1
 	except:
-		print("⛔ [FATAL] Unable to get c4t files. Exiting")
+		print(f"⛔ [{Colors.RED}FATAL{Colors.RESET}] Unable to get c4t files. Exiting")
 		sys.exit(1)
 
 	if len(c4t_files) == 0:
-		print("⛔ [FATAL] No files found in c4t branch. Exiting")
+		print(f"⛔ [{Colors.RED}FATAL{Colors.RESET}] No files found in c4t branch. Exiting")
 		sys.exit(1)
 
 	return c4t_files, c4t_folders
@@ -176,7 +178,7 @@ def find_proto_files(directory):
 					try:
 						version_number = int(version[1:])  # Strip 'v' and convert to int
 					except:
-						print(f"⛔ [FATAL] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
+						print(f"⛔ [{Colors.RED}FATAL{Colors.RESET}] Didn't we say that we'll use only v<int> as version? File does not match with pattern: {relative_path}")
 						sys.exit(3)
 
 					# Add the file to the list of proto files
@@ -251,7 +253,7 @@ def remove_file(file_path):
 		print(f"  🗑️ Removed: {full_path}")
 		return True
 	else:
-		print(f"  ❌ ERROR: File not found for removal: {full_path}")
+		print(f"  ❌ {Colors.RED}ERROR{Colors.RESET}: File not found for removal: {full_path}")
 		return False
 
 
@@ -264,7 +266,7 @@ def check_and_remove_old_versions(service_file_versions):
 		if len(service_file_versions[key]) > MAX_VERSIONS:
 			local_error = True
 			if fix:
-				print(f"⚠️ WARNING: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}. Trying to fix...")
+				print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}. Trying to fix...")
 				# If we are in fix mode, we remove the oldest versions
 				# We keep the latest MAX_VERSIONS versions
 				versions_to_remove = service_file_versions[key][:-MAX_VERSIONS]
@@ -276,7 +278,7 @@ def check_and_remove_old_versions(service_file_versions):
 					if remove_file(file_to_remove):
 						fixed_removed_files.append(file_to_remove)
 			else:
-				print(f"❌ ERROR: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}.")
+				print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The service file '{key}' has too many versions ({len(service_file_versions[key])}): {service_file_versions[key]}.")
 
 	return local_error
 
@@ -305,20 +307,24 @@ def record_missing_files(all_proto_files, type_files, service_versions):
 					prefix, version, filename = match.groups()
 					key = (prefix, filename)
 					if service_versions.get(key) is None:
-						print(f"❌ ERROR: The service file '{proto_file}' is completely unknown in the current branch. This can only happen in the edge case if a service has been completely removed, which needs to be handled manually!")
+						print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The service file '{proto_file}' is completely unknown in the current branch. This can only happen in the edge case if a service has been completely removed, which needs to be handled manually!")
 						local_error = True
 					elif len(service_versions[key]) < MAX_VERSIONS:
-						print(f"❌ ERROR: The service file '{proto_file}' known in the current branch, but has only {len(service_versions[key])} versions left. This is not enough to justify the removal of the service file!")
+						print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The service file '{proto_file}' known in the current branch, but has only {len(service_versions[key])} versions left. This is not enough to justify the removal of the service file!")
 						local_error = True
 			missing_files.append(proto_file)
 
 	if local_error != True:
-		# Record the missing files in a file which can be picked up by follow
-		# up scripts in order to add these as exceptions.
-		with open("missing_files.txt", "w") as f:
-			for missing_file in missing_files:
-				f.write(f"{directory_path}{missing_file}\n")
-		print(f"✅ Recorded {len(missing_files)} missing files in 'missing_files.txt'. This can be used by follow up scripts to handle these files as exceptions.")
+		if len(missing_files) > 0:
+			# Record the missing files in a file which can be picked up by follow
+			# up scripts in order to add these as exceptions.
+			with open("missing_files.txt", "w") as f:
+				for missing_file in missing_files:
+					f.write(f"{directory_path}{missing_file}\n")
+			
+			print(f"📝 Recorded {len(missing_files)} missing files in 'missing_files.txt'. This can be used by follow up scripts to handle these files as exceptions.")
+		else:
+			print("✅ No missing files found in the current branch compared to the c4t branch.")
 
 	return local_error
 
@@ -362,7 +368,7 @@ def default_run():
 						included_by_latest[include].append(proto_file)
 	
 				if proto_file in latest_proto_files and include not in latest_proto_files:
-					print(f"❌ ERROR: The include '{include}' in '{proto_file}' is not the latest version!")
+					print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The include '{include}' in '{proto_file}' is not the latest version!")
 	
 					if proto_file not in fix_needed:
 						fix_needed[proto_file] = [ include ]
@@ -378,16 +384,16 @@ def default_run():
 			print(f"🔍 Checking the file {proto_file} for broken/missing dependencies")
 		if proto_file not in included_by:
 			if not fix:
-				print(f"❌ ERROR: The type file '{proto_file}' is never included anywhere in the proto files!")
+				print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The type file '{proto_file}' is never included anywhere in the proto files!")
 				global_error = True
 			else:
-				print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
+				print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
 				if remove_file(proto_file):
 					fixed_removed_files.append(proto_file)
 				global_error = True
 
 		elif proto_file in latest_proto_files and proto_file not in included_by_latest:
-			print(f"⚠️ WARNING: The type file '{proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
+			print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is never included anywhere in the latest proto! This might be ok if the types file is obsolete, but please check!")
 			
 
 	if check_and_remove_old_versions(service_versions) == True:
@@ -397,9 +403,9 @@ def default_run():
 		global_error = True
 
 	if global_error == True:
-		print("❌ [FAIL] There were errors found while doing the dependency check!")
+		print(f"❌ [{Colors.RED}FAIL{Colors.RESET}] There were errors found while doing the dependency check!")
 	else:
-		print("✅ [PASS] Dependency check successful!")
+		print(f"✅ [{Colors.GREEN}PASS{Colors.RESET}] Iteration of dependency check successful!")
 
 	return (global_error, latest_proto_files, fix_needed, included_by_latest)
 
@@ -410,7 +416,7 @@ global_error, latest_proto_files, fix_needed, include_graph = default_run()
 ## Print of dependency graph if --print-graph is passed:
 if print_graph:
 	if global_error == True:
-		print("❌ [FAIL] Won't print the graph as there were errors found while doing the dependency check!")
+		print(f"❌ [{Colors.RED}FAIL{Colors.RESET}] Won't print the graph as there were errors found while doing the dependency check!")
 	else:
 		print_dependency_graph(include_graph)
 
@@ -434,7 +440,7 @@ if fix:
 			for wrong_include in wrong_includes:
 				include_prefix, old_include_version, new_include_version, correct_include = find_latest_version(wrong_include, latest_proto_files)
 				if correct_include == False:
-					print(f"⛔ [FATAL] Unable to find the latest version of {wrong_include}. Exiting")
+					print(f"⛔ [{Colors.RED}FATAL{Colors.RESET}] Unable to find the latest version of {wrong_include}. Exiting")
 					sys.exit(2)
 					
 				print(f"    ➡  {wrong_include} ▶️ {correct_include}")
@@ -527,13 +533,13 @@ if fix:
 					print("🗑️ Removed files by --fix:")
 					for removed_file in fixed_removed_files:
 						print(f"  🗑️ {removed_file}")
-				print("⚠️  Don't forget to commit also the new/removed files!")
+				print("⚠️ Don't forget to commit also the new/removed files!")
 				print()
 			break
 
 
 if global_error == True:
-	print("❌ [FAIL] Something went wrong while doing the dependency check (or fix) please see above!")
+	print(f"❌ [{Colors.RED}FAIL{Colors.RESET}] Something went wrong while doing the dependency check (or fix) please see above!")
 	sys.exit(1)
 else:
-	print("✅ [PASS] Dependency check/fix successful!")
+	print(f"✅ [{Colors.GREEN}PASS{Colors.RESET}] Dependency check/fix successful!")
