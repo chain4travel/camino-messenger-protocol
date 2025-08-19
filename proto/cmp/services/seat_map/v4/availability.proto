@@ -1,5 +1,75 @@
 syntax = "proto3";
 
+// ## SeatMap and SeatMapAvailability Services
+//
+// The SeatMap and SeatMapAvailability services are used to manage and retrieve
+// seat map information and availability for various products, such as flights,
+// trains, cruises and venues for activities like an opera, a concert or a sports
+// event.
+//
+// ### SeatMap general information
+//
+// For smaller applications, such as an airplane, a small concert hall, or an
+// intimate venue, a single, detailed seatmap is often the most practical choice.
+// In these cases, the entire seating arrangement can be presented clearly in one
+// view without overwhelming the user.
+// A unified map allows passengers or attendees to see exactly where their seat is
+// in relation to entrances, aisles, or the focal point—whether that’s a stage, a
+// screen, or the plane’s layout. Sections can still be used for example for business
+// class or economy class, but the overall map remains relatively small and easy to
+// process.
+//
+// In larger settings like stadiums or convention centers, however, a single
+// detailed map can become overly dense and hard to process due to sheer size.
+// That’s where multiple smaller seatmaps, grouped by key areas, categories or
+// products, can prove more effective.
+//
+// By focusing each map on specific zones—such as VIP, general admission, or
+// seating blocks can more quickly filter down to the type of product they’re
+// seeking.
+//
+// Still, both strategies have their strengths and trade-offs, which is why a
+// hybrid approach often offers the best balance.
+// This model starts with a single high-level map that shows the full venue at a
+// glance, then allows users to zoom into specific sections for finer detail,
+// using a different seatmap, instead of drilling down into a subsection of a
+// single seatmap.
+//
+// ### SeatMap Service
+//
+// The SeatMap service is meant to be used as a static data service in combination
+// with the SeatmapID of a search result. Multiple seatmaps can be linked to one
+// product as a one specific flight might be operated with different planes on
+// different days. However, a SeatmapID in a search result can only be one as the
+// bookable option is one specific product such as a first class coupe in a train,
+// or the VIP area of a concert.
+//
+// The Seatmap is stored in the distribution system and downloaded only once from
+// the supplier for a multitude of displays on the distribution side.
+//
+// The SeatMapRequest requires a SeatMapID, which should be provided in the ProductInfo
+// message for each product and should be downloaded once the product is firstly
+// taken on-sale or when the product description id updated. It is multilingual for
+// the seat amenities and features.
+//
+// A section can contain features and amenities, valid for all seats in that section.
+// And a section holds either a SeatMapList detailing all seats or just a count of
+// "seats", often used for unallocated sections like a standing area at a concert.
+// Sections can be nested as many times as required and each section has its own image.
+//
+// ### SeatMapAvailability Service
+//
+// The SeatMapAvailability service is used to retrieve the availability of seats based
+// on either the Search result_id or the Mint ID. This indicates a specific product for
+// a specific date and time, such as a flight or a concert. Conclusively the supplier
+// knows what seatmapID to use and the availability of each seat (in case of a section
+// with a SeatMapList) or how many seats are available in an unallocated section.
+//
+// For allocated sections, the SeatMapAvailability service returns a list of all
+// available seats. Missing seats are already booked or reserved.
+// The SeatMapAvailabilityResponse also allows nested sections, which can be used in
+// case multiple sub sections each have their own SeatMapList.
+
 package cmp.services.seat_map.v4;
 
 import "buf/validate/validate.proto";
