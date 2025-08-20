@@ -17,54 +17,94 @@ import "cmp/types/v4/service_fact.proto";
 import "cmp/types/v4/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
-// Represents property info for an accommodation product
+// Represents a basic set of property info for an accommodation product.
+// This message is used to convey essential details about a property without
+// including all the potentially extensive information found in the full
+// property info message.
+// Essentially it provides a summary of the most important details that are
+// likely to be needed for initial decision-making whether this property shall
+// be used by the distributor.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.svg)
 message Property {
-  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
-  // last updated
+  // Timestamp of the last modification date of **any** of the property info.
+  // This not only includes the fields which are part of this message but rather
+  // if any information has been updated. It might also be that for instance
+  // only images have been changed which are not part of this message.
   //
   // Timestamps may be used for both off-chain and on-chain operations.
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
   google.protobuf.Timestamp last_modified = 1 [(buf.validate.field).required = true];
 
-  // Supplier product Code
+  // The supplier specific product code used to identify the property in every
+  // context. This code is essential to link back to the the static data when
+  // search results are received which only contain the supplier_code.
   cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
 
-  // Product code which can be of different types
+  // Additional product codes, which also identify the property but usually
+  // from external mapping providers. Especially useful in the context of
+  // receiving properties from different suppliers to identify whether
+  // they are the same property as the supplier specific codes will be different.
   repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 500
   }];
 
+  // The name of the property in the native language of the property location
   // Ex: "Beach Hotel Alanya"
+  // TODO @SamJaarsma: Should this be a localized string? A hotel could have multiple names in different languages.
+  // Especially in regions with multiple official languages or asian regions where they might have the local language
+  // and an english name for the hotel for foreign travellers?
   string name = 4 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
+  // Identifier of the property chain. Usually used for hotel chains.
+  // Might be used by a distributor for instance to decide whether they want to
+  // include specific chain hotels into their inventory.
   // Ex: "Hilton"
   string chain = 5 [(buf.validate.field).string.max_bytes = 512];
 
+  // TODO @SamJaarsma: Can a property have multiple categories at the same time?
+  // Something like a 5 Star Hotel with a 4 Palm rating?
+  // If yes we need to think about how to represent this in the data model.
+
+  // Certain properties can have a (more or less standardized) category rating.
+  // Especially for hotels this is an indication of their quality and service level.
+  // Please note that category ratings can vary between different regions and
+  // organizations, and may not always be directly comparable.
   // Ex: CATEGORY_RATING_4_5
   cmp.services.accommodation.v4.CategoryRating category_rating = 6;
 
+  // There are different rating systems. This field is to define which rating
+  // system is being used for the `category_rating` field.
   // Ex: CATEGORY_UNIT_PALMS
   cmp.services.accommodation.v4.CategoryUnit category_unit = 7;
 
-  // Contact Info: phone, address, email, links
+  // Information about how to contact this property.
   cmp.types.v4.ContactInfo contact_info = 8 [(buf.validate.field).required = true];
 
-  // Location coordinate
+  // Specific coordinates of this property. Not only useful to show this on a
+  // map but also essential for searches based on geo-coordinates like geo-circle
+  // or polygon searches.
   cmp.types.v4.Coordinates coordinates = 9 [(buf.validate.field).required = true];
 
-  // Status of the property
+  // The general status of this property. Only active properties can be taken
+  // into account for further processing and will only be returned in search
+  // results. Deactivated properties can be still included in the static data
+  // but this state is reserved for properties which are about to be listed
+  // or are about to be completely removed soon.
   cmp.types.v4.ProductStatus status = 10 [(buf.validate.field).required = true];
 
-  // Airports
+  // List of the airports in the vicinity of the property.
+  // The list should only include airports which have a reasonable distance
+  // and/or travel time to the property.
+  // Usually the airports are used both as a filter criteria for the distributor
+  // and to decide which flights / transfers to search for a specific property.
   // Ex: ["PMI", "ZRH", "AYT"]
   repeated cmp.types.v4.AirportCode airports = 11 [(buf.validate.field).repeated = {
     min_items: 0
@@ -116,24 +156,36 @@ enum CategoryUnit {
   CATEGORY_UNIT_PALMS = 2;
 }
 
-// This message type contains extended info about a property
+// Represents a more detailed set of property info for an accommodation product.
+// This message is used to convey detailed information about a property without
+// Essentially it provides every important detail for displaying the property
+// to a customer.
+// As this info can potentially become big depending on the property, it is
+// intentionally split from the basic information found in the `Property` message
+// to allow a process where this is only retrieved in case the distributor is
+// actually interested in this level of detail.
 message PropertyExtendedInfo {
-  // Property
+  // Basic property information usually used for mapping / decision-making
   cmp.services.accommodation.v4.Property property = 1 [(buf.validate.field).required = true];
 
-  // Images
+  // General images of the property. Please note that the room images shall not
+  // be included here as they're part of the room information.
   repeated cmp.types.v4.Image images = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // Videos
+  // General videos of the property. Please note that the room videos shall not
+  // be included here as they're part of the room information.
   repeated cmp.types.v4.Video videos = 3 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // Segmentation classification
+  // A general classification of the property in various aspects.
+  // Can be used by a distributor to better understand the property and its
+  // intended target audience and to potentially provide filter options to
+  // show (or exclude) certain types of properties.
   //
   // TODO: Improve (multiple enums like location type, guest type, etc)
   repeated string classifications = 4 [(buf.validate.field).repeated = {
@@ -144,12 +196,15 @@ message PropertyExtendedInfo {
     }
   }];
 
-  // Property descriptions
+  // General description of the property. Please note that room descriptions
+  // shall not be included here as they're part of the room information.
   repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 5 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
+  // TODO @SamJaarsma: Why to we have room descriptions on this level when they're
+  // already part of the Room message? Should we remove this field?
   // Room descriptions
   repeated cmp.types.v4.LocalizedDescriptionSet localized_room_descriptions = 6 [(buf.validate.field).repeated = {
     min_items: 0
@@ -161,19 +216,25 @@ message PropertyExtendedInfo {
   // TODO: Reevaluate & make this an enum if needed
   string payment_type = 7 [(buf.validate.field).string.max_bytes = 512];
 
-  // Rooms
+  // Definition of the individual rooms (or room types).
   repeated cmp.services.accommodation.v4.Room rooms = 8 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
 }
 
+// Definition of a room (or room type). In case of Hotels this is usually
+// a specific room type (e.g. "Deluxe Room", "Suite", etc.) while for
+// holiday homes it describes the individual rooms which are part of the property
+// like "Bed Room", "Living Room", "Kitchen", etc.
 message Room {
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
   // often no room codes are used. This code must explicitly match the supplier_room_code
   // in the ProductList and the ProductInfo messages, so that the static data like room
-  // amenities, descriptions, images etc. can be married to the dynamic price and
+  // amenities, descriptions, images etc. can be matched to the dynamic price and
   // availability data for display to the end user.
+  // TODO @SamJaarsma: If holiday homes often have no room codes then how can we
+  // enforce a minimum length of the supplier code here?
   string supplier_code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
@@ -191,17 +252,19 @@ message Room {
   // For holiday homes specific room names if available can be given.
   string original_name = 3 [(buf.validate.field).string.max_bytes = 512];
 
+  // Similar to a property a room can (and should have) have individual images.
   repeated cmp.types.v4.Image images = 4 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
+  // If there are videos available for the individual rooms they can be added here.
   repeated cmp.types.v4.Video videos = 5 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // localized description of the room for display purposes.
+  // Description of the room for display purposes.
   repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -220,6 +283,10 @@ message Room {
   }];
 
   // How many of which person types can occupy this room.
+  // TODO @SamJaarsma: How is the occupancy of a holiday home specified if we
+  // only have occupancies of individual rooms? In theory each bedroom could have
+  // an occupancy and then the distributor needs to sum that up to a total
+  // occupancy of the holiday home.
   cmp.services.accommodation.v4.Occupancy total_occupancy = 9;
 
   // Definition of services which are possible for this room.
@@ -236,20 +303,32 @@ message Room {
   }];
 }
 
+// Occupancy definition of a room defining the constrains depending on the room type.
 message Occupancy {
-  // Min guests
+  // The minimum amount of guests which can occupy this room.
+  // If `occupancy_options` are given this value must match the sum of the `min`
+  // field of all options.
+  // One exception to take into account is when `infant_counted_in_total_guests`
+  // is true and infants are given in the `occupancy_options` field.
   uint32 min_guests = 1 [(buf.validate.field).uint32 = {gt: 0}];
 
-  // Max guests
+  // The maximum amount of guests which can occupy this room.
+  // If `occupancy_options` are given this value must match the sum of the `max`
+  // field of all options.
+  // One exception to take into account is when `infant_counted_in_total_guests`
+  // is true and infants are given in the `occupancy_options` field.
   uint32 max_guests = 2 [(buf.validate.field).uint32 = {gt: 0}];
 
   // Standard occupancy
+  // TODO @SamJaarsma: What is a standard occupancy supposed to mean?
   uint32 standard_occupancy = 3;
 
-  // If infants are counted in total guests or not
+  // Flag to specify whether infants are counted in total guests or not
   bool infant_counted_in_total_guests = 4;
 
-  // Occupancy options
+  // Individual occupancy options which when given must match with the constrains
+  // of the occupancy. With this certain guest types and age ranges can be
+  // defined for the guests. For more information see the message description.
   repeated cmp.services.accommodation.v4.OccupancyOption occupancy_options = 5 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -270,7 +349,8 @@ message Occupancy {
   };
 }
 
-// TODO: Explain this type
+// An occupancy option defines constrains based on specific guest types
+// within a specific age range.
 message OccupancyOption {
   // Guest type like adult, child, infant.
   cmp.types.v4.TravellerType guest_type = 1 [(buf.validate.field).enum = {
@@ -278,16 +358,16 @@ message OccupancyOption {
     not_in: [0]
   }];
 
-  // Min guests
+  // Minimum amount of guests of the specified `guest_type`
   uint32 min = 2;
 
-  // Max guests
+  // Maximum amount of guests of the specified `guest_type`
   uint32 max = 3 [(buf.validate.field).uint32 = {gt: 0}];
 
-  // Min age
+  // The minimum age of the specified `guest_type`
   uint32 min_age = 4;
 
-  // Max age
+  // The maximum age of the specified `guest_type`
   uint32 max_age = 5;
 
   // Max guests must be greater than or equal to min guests
@@ -305,7 +385,6 @@ message OccupancyOption {
   };
 
   // If guest_type is not ADULT, max_age must be greater than zero
-  // FIXME: Shouldn't there be a min_age rule also (for seniors for example)?
   option (buf.validate.message).cel = {
     id: "max_age_required_for_non_adults"
     message: "If guest_type is not ADULT, max_age must be greater than zero"
@@ -323,7 +402,10 @@ message PropertyShortListItem {
 
   // Status of the property. This is used when the "ShortList" or the "ProductList"
   // are pulled. New or modified products have "activated" and properties that are
-  // no longer available from this supplier, will have the status "deactivated"
+  // no longer available from this supplier, will have the status "deactivated".
+  // In case a property has the status "deactivated" no search results will be
+  // returned for that property and a ProductInfo request might not return any
+  // details.
   cmp.types.v4.ProductStatus status = 2 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]

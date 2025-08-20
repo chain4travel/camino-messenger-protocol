@@ -102,8 +102,7 @@ import "cmp/types/v4/uuid.proto";
 // to different travellers.
 //
 message AccommodationSearchRequest {
-  // Message header. Contains API version, message info string and end-user wallet
-  // address
+  // Common header which is used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
@@ -129,20 +128,20 @@ message AccommodationSearchRequest {
 // included. A simple "free cancellation upto" can be set or full cancellation
 // policies can be included.
 message AccommodationSearchResponse {
-  // Message header. Contains API version, message info string and end user wallet
-  // address.
+  // Common response header used in every response.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search_id to be used in subsequent requests like the "Validation Request".
   cmp.types.v4.UUID search_id = 2 [(buf.validate.field).required = true];
 
-  // Unique combinations of bookable search results, like property,
+  // Unique combinations of bookable search results
   repeated cmp.services.accommodation.v4.AccommodationSearchResult results = 3 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10000
   }];
 
-  // Global definition of the travellers for all results to be used via the traveller_id each unit.
+  // Global definition of the travellers for all results to be used via the
+  // traveller_id in each unit.
   repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 15

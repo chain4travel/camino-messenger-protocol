@@ -49,7 +49,9 @@ message Unit {
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
   string original_room_name = 4 [(buf.validate.field).string.max_bytes = 512];
 
-  // Travel period
+  // The travel period this unit is available. Please note that this refers
+  // to the actual start and end times of the stay in the property and does not
+  // include potential travel times for transfer/transportation.
   cmp.types.v4.TravelPeriod travel_period = 5 [(buf.validate.field).required = true];
 
   // Traveller_id is a list of travellers related to this unit. The details can be found in
@@ -59,7 +61,7 @@ message Unit {
     max_items: 15
   }];
 
-  // Beds
+  // Definition of the types and counts of beds in the unit
   repeated cmp.types.v4.Bed beds = 7 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
@@ -74,13 +76,14 @@ message Unit {
     max_items: 100
   }];
 
-  // Mealplan code
-  cmp.types.v4.MealPlan meal_plan_code = 10;
+  // Meal plan for this unit (also known as board code).
+  // Specified in the room static data `Room.meal_plans`
+  cmp.types.v4.MealPlan meal_plan = 10;
 
-  // Rate plan
+  // The rate plan which applies to this unit
   cmp.types.v4.RatePlan rate_plan = 11;
 
-  // Rate Rule
+  // The rate rule which applies to this unit
   cmp.types.v4.RateRule rate_rule = 12;
 
   // The cancellation conditions

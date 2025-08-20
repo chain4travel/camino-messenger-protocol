@@ -20,10 +20,7 @@ import "cmp/types/v4/rate.proto";
 // [Open Message
 // Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
 message AccommodationSearchParameters {
-  // Geo Location for search, set only one of the fields at once.
-  //
-  // This "one of" field enforces only one of the fields below. They all share
-  // memory, setting one will remove the others.
+  // The geo location used for the search.
   oneof geo_location {
     // A list of location codes or just one code.
     cmp.types.v4.LocationCodes location_codes = 1;
@@ -41,13 +38,18 @@ message AccommodationSearchParameters {
     cmp.types.v4.GeoPolygon location_geo_polygon = 5;
   }
 
-  // Mealplan codes
+  // Meal plans for rooms (also known as board codes).
+  // Specified in the room static data `Room.meal_plans`
   repeated cmp.types.v4.MealPlan meal_plan_codes = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Rate plans
+  // TODO @SamJaarsma: As of now rate plans are not part of the static data.
+  // With that in mind the distributor has no to filter on specific rate plans
+  // as the rate plan codes are unknown to them.
+  // That would be a different story if there were only enums to choose from.
   repeated cmp.types.v4.RatePlan rate_plans = 7 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -55,19 +57,24 @@ message AccommodationSearchParameters {
 
   // Rate Rules
   // To be used when searching for specific rates like refundable or resellable offers
+  // TODO @SamJaarsma: Same applies here as with rate plans. It's not part of
+  // the static data and it contains codes.
+  // With that in mind the distributor has no to filter on specific rate plans
+  // as the rate plan codes are unknown to them.
   repeated cmp.types.v4.RateRule rate_rules = 8 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // Product code list
-  // Here a list of property codes would be used that could be of different types
+  // A list of product codes as defined in the static data.
+  // See `Property.product_codes`
   repeated cmp.types.v4.ProductCode product_codes = 9 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 500
   }];
 
-  // Or a list of provider codes would be used
+  // A list of supplier specific product codes as defined in the static data.
+  // See `Property.supplier_code`
   repeated cmp.types.v4.SupplierProductCode supplier_codes = 10 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 500

@@ -7,8 +7,9 @@ import "cmp/services/accommodation/v4/property_types.proto";
 import "cmp/types/v4/common.proto";
 import "google/protobuf/timestamp.proto";
 
+// Request a list of modified accommodations.
 message AccommodationProductShortListRequest {
-  // Message header
+  // Common request header used in every request.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Only respond with the products that are modified after this timestamp
@@ -18,8 +19,9 @@ message AccommodationProductShortListRequest {
   google.protobuf.Timestamp modified_after = 2;
 }
 
+// Respond a list of modified accommodations.
 message AccommodationProductShortListResponse {
-  // Message header
+  // Common response header used in every response.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Supplier codes and status for the products that are modified after the timestamp

@@ -7,38 +7,44 @@ import "cmp/services/accommodation/v4/property_types.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/product_code.proto";
-import "google/protobuf/timestamp.proto";
 
+// Request detailed (static) information about accommodations.
 message AccommodationProductInfoRequest {
-  // Message header
+  // Common request header used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Only respond with the products that are modified after this timestamp
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
-  google.protobuf.Timestamp modified_after = 2; // FIXME: Does this makes sense when we have supplier code list?
-
-  // Languages
-  repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
+  // For static data it's always necessary to specify the languages expected in
+  // the results. Every distributor has a certain target audience and knows
+  // which languages they are providing to their customers. Therefore, in order
+  // to reduce the amount of unnecessary languages returned they need to be
+  // specified here. Additionally if a supplier is unable to provide a certain
+  // requested language they should return a warning in the response unless
+  // all requested languages are unavailable, which would lead to an error.
+  repeated cmp.types.v1.Language languages = 2 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 10
     unique: true
   }];
 
-  // Property codes
-  repeated cmp.types.v4.SupplierProductCode supplier_codes = 4 [(buf.validate.field).repeated = {
+  // Supplier specific product codes of the properties received via product
+  // (short) list responses.
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100 // Default max items
   }];
 }
 
+// Respond detailed (static) information about accommodations.
 message AccommodationProductInfoResponse {
-  // Message header
+  // Common response header used in every response.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Product list: Properties
+  // The list of properties which should match the requested supplier codes.
+  // In case the supplier is unable to return all requested properties, it should
+  // return a warning in the response. This can happen if a property is no longer
+  // a valid product. In this case the property should have been already de-listed
+  // in the (short) list response by providing the status "DEACTIVATED".
+  // See PropertyShortListItem.status / Property.status for more details.
   repeated cmp.services.accommodation.v4.PropertyExtendedInfo properties = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100 // Default max items
@@ -46,6 +52,15 @@ message AccommodationProductInfoResponse {
 }
 
 // Accommodation product info service definition
+//
+// This type of information is typically called static data and is not expected
+// to change frequently.
+// Usually the distributor requests this information in advance to get all the
+// necessary information about products they have already decided to take into
+// account for selling and store them in an inventory system.
+// Requesting this on-demand after receiving search results would result in a
+// more complex and potentially slower process, as the distributor would need
+// to gather all the necessary information at that time.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/info.proto.dot.xs.svg)
 //

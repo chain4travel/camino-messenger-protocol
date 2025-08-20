@@ -85,29 +85,33 @@ message Version {
   uint32 patch = 3;
 }
 
-// RequestHeader wraps the base Header for request messages.
+// RequestHeader wraps the common base header and includes response-specific info.
 message RequestHeader {
   // The base header information common to all CMP messages.
   cmp.types.v4.Header base_header = 1 [(buf.validate.field).required = true];
 }
 
-// ResponseHeader wraps the base Header and includes response-specific status and
-// alerts.
+// ResponseHeader wraps the common base header and includes response-specific info.
 message ResponseHeader {
   // The base header information common to all CMP messages.
   cmp.types.v4.Header base_header = 1 [(buf.validate.field).required = true];
 
   // Overall status of the response (e.g., success or failure).
-  // This field is mandatory and must be one of the defined `StatusType` values,
-  // excluding `STATUS_TYPE_UNSPECIFIED`.
+  // An indication of failure is only applicable in case the requested operation
+  // can't be executed. For instance if the input is invalid.
+  // If all inputs are valid and the operation itself was successful but returned
+  // no results, this is still a successful operation and must still be
+  // considered successful in this context.
+  // In this case an alert may be included indicating what lead to the
+  // result being empty.
   cmp.types.v4.StatusType status = 2 [(buf.validate.field).enum = {
     defined_only: true // Ensures only defined enum values are used.
     not_in: [0] /* Disallows STATUS_TYPE_UNSPECIFIED. */
   }];
 
-  // Optional. A list of alerts providing more detailed information about the
+  // A list of alerts providing more detailed information about the
   // response, such as informational messages, warnings, or specific errors.
-  // Limited to a maximum of 25 alerts per response.
+  // In case of a failure, alerts must provide insights into the issue.
   repeated cmp.types.v4.Alert alerts = 3 [(buf.validate.field).repeated = {max_items: 25}];
 }
 
