@@ -15,15 +15,18 @@ syntax = "proto3";
 // usage with the "modified_after" set, to refresh updated products and create a
 // list of new and discontinued products.
 //
+// The workflow to onboard and update properties is as follows:
+// * The list of new/updated properties is received via the ShortList request.
+// * The products which are not yet mapped by the distributor can be obtained via
+//   the ProductList request.
+// * The products which are already mapped and needs to be updated in the
+//   distributor system shall be requested via the ProductInfo request
+//
 // The more extensive Accommodation Product List is meant to include all details
 // required to map a new property with more details like location, rating, to
 // which chain it belongs, address, airports, etc.
-//
-// It makes more sense to implement the "AccommodationProductShortListRequest",
-// if the response contains more properties that have been updated (i.e. when
-// periods between updates are longer). If updates are frequent and the number
-// of expected updates are small, the "AccommodationProductListRequest" can be
-// used with the "modified after" parameter.
+// This is being used to decide whether or not this product shall become a
+// property sold by the distributor.
 //
 // Both the "ShortList" and the "ProductList" service contain a status field
 // with either "activated" or "deactivated" values, so that Distributors can
@@ -35,7 +38,7 @@ syntax = "proto3";
 // language in the request, the supplier should not include that language and
 // include a warning in the response. I.e: a Distributor specifies EN, DE, FR
 // and NL, the supplier does not support NL and includes descriptions in EN, DE
-// and FR, and adding a warning "Dutch is not supported"
+// and FR, and adding a warning that "NL" is not supported.
 //
 // Finally, the purchase process that is the same for all message types, can be
 // initiated: (Accommodation)Search, Validate, Mint and Cancel.

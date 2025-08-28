@@ -58,6 +58,8 @@ message AccommodationProductInfoResponse {
 // Usually the distributor requests this information in advance to get all the
 // necessary information about products they have already decided to take into
 // account for selling and store them in an inventory system.
+// Often the same property can be delivered from multiple suppliers and content
+// needs to be consolidated, which is not a real-time process.
 // Requesting this on-demand after receiving search results would result in a
 // more complex and potentially slower process, as the distributor would need
 // to gather all the necessary information at that time.

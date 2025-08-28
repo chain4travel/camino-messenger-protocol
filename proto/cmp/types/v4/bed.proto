@@ -20,7 +20,45 @@ message Bed {
 
 enum BedType {
   BED_TYPE_UNSPECIFIED = 0;
+
+  // Standard Sizes
   BED_TYPE_SINGLE = 1;
-  BED_TYPE_DOUBLE = 2;
-  BED_TYPE_KING = 3;
+  BED_TYPE_TWIN = 2;
+  BED_TYPE_TWIN_XL = 3;
+  BED_TYPE_DOUBLE = 4;
+  BED_TYPE_FULL = 5;
+  BED_TYPE_QUEEN = 6;
+  BED_TYPE_KING = 7;
+  BED_TYPE_CALIFORNIA_KING = 8;
+
+  // Child & Infant Beds
+  BED_TYPE_CRIB = 9;
+  BED_TYPE_TODDLER_BED = 10;
+  BED_TYPE_COT = 11;
+
+  // Convertible & Temporary Beds
+  BED_TYPE_ROLLAWAY = 12;
+  BED_TYPE_SOFA_BED = 13;
+  BED_TYPE_MURPHY_BED = 14;
+  BED_TYPE_TRUNDLE_BED = 15;
+  BED_TYPE_DAY_BED = 16;
+  BED_TYPE_FUTON = 17;
+  BED_TYPE_WATER_BED = 18;
+  BED_TYPE_AIR_BED = 19;
+
+  // Multi-Level & Space-Saving Beds
+  BED_TYPE_BUNK_BED = 20;
+  BED_TYPE_LOFT_BED = 21;
+  BED_TYPE_STORAGE_BED = 22;
+
+  // Cultural & Regional Beds
+  BED_TYPE_TATAMI_MAT = 23;
+  BED_TYPE_HAMMOCK = 24;
+  BED_TYPE_KANG = 25;
+  BED_TYPE_CHARPAI = 26;
+  BED_TYPE_PALLET_BED = 27;
+  BED_TYPE_CAPSULE_BED = 28;
+
+  // Specialty Beds
+  BED_TYPE_ADJUSTABLE_BED = 29;
 }

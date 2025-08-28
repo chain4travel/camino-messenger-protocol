@@ -55,9 +55,6 @@ message Property {
 
   // The name of the property in the native language of the property location
   // Ex: "Beach Hotel Alanya"
-  // TODO @SamJaarsma: Should this be a localized string? A hotel could have multiple names in different languages.
-  // Especially in regions with multiple official languages or asian regions where they might have the local language
-  // and an english name for the hotel for foreign travellers?
   string name = 4 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
@@ -69,19 +66,16 @@ message Property {
   // Ex: "Hilton"
   string chain = 5 [(buf.validate.field).string.max_bytes = 512];
 
-  // TODO @SamJaarsma: Can a property have multiple categories at the same time?
-  // Something like a 5 Star Hotel with a 4 Palm rating?
-  // If yes we need to think about how to represent this in the data model.
-
-  // Certain properties can have a (more or less standardized) category rating.
+  // Certain properties can have a category rating. The officially obtained rating
+  // should be used here.
   // Especially for hotels this is an indication of their quality and service level.
   // Please note that category ratings can vary between different regions and
-  // organizations, and may not always be directly comparable.
   // Ex: CATEGORY_RATING_4_5
   cmp.services.accommodation.v4.CategoryRating category_rating = 6;
 
-  // There are different rating systems. This field is to define which rating
-  // system is being used for the `category_rating` field.
+  // There are different rating systems for different types of properties.
+  // This field is to define which rating system is being used for the
+  // `category_rating` field.
   // Ex: CATEGORY_UNIT_PALMS
   cmp.services.accommodation.v4.CategoryUnit category_unit = 7;
 
@@ -203,21 +197,13 @@ message PropertyExtendedInfo {
     max_items: 100
   }];
 
-  // TODO @SamJaarsma: Why to we have room descriptions on this level when they're
-  // already part of the Room message? Should we remove this field?
-  // Room descriptions
-  repeated cmp.types.v4.LocalizedDescriptionSet localized_room_descriptions = 6 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
-
   // Payment type. Ex: "MERCHANT"
   //
   // TODO: Reevaluate & make this an enum if needed
-  string payment_type = 7 [(buf.validate.field).string.max_bytes = 512];
+  string payment_type = 6 [(buf.validate.field).string.max_bytes = 512];
 
   // Definition of the individual rooms (or room types).
-  repeated cmp.services.accommodation.v4.Room rooms = 8 [(buf.validate.field).repeated = {
+  repeated cmp.services.accommodation.v4.Room rooms = 7 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
@@ -228,13 +214,14 @@ message PropertyExtendedInfo {
 // holiday homes it describes the individual rooms which are part of the property
 // like "Bed Room", "Living Room", "Kitchen", etc.
 message Room {
-  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". For holiday homes
-  // often no room codes are used. This code must explicitly match the supplier_room_code
-  // in the ProductList and the ProductInfo messages, so that the static data like room
-  // amenities, descriptions, images etc. can be matched to the dynamic price and
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must
+  // explicitly match the supplier_room_code in the ProductList and the
+  // ProductInfo messages, so that the static data like room  amenities,
+  // descriptions, images etc. can be matched to the dynamic price and
   // availability data for display to the end user.
-  // TODO @SamJaarsma: If holiday homes often have no room codes then how can we
-  // enforce a minimum length of the supplier code here?
+  // Even though it's unusual for holiday homes to have a unique identifier for
+  // their rooms it's still needed in this context to be able to match the room
+  // between search results and static data.
   string supplier_code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
@@ -249,6 +236,8 @@ message Room {
   // Original room name as assigned by the hotel. In case of specifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  // For hotel(chain) specific room names can be given for frequent guests
+  // (i.e. Royale Governor Suite Oceanfront).
   // For holiday homes specific room names if available can be given.
   string original_name = 3 [(buf.validate.field).string.max_bytes = 512];
 
@@ -283,10 +272,9 @@ message Room {
   }];
 
   // How many of which person types can occupy this room.
-  // TODO @SamJaarsma: How is the occupancy of a holiday home specified if we
-  // only have occupancies of individual rooms? In theory each bedroom could have
-  // an occupancy and then the distributor needs to sum that up to a total
-  // occupancy of the holiday home.
+  // For holiday homes the individual bedrooms need to be considered. The
+  // distributor then needs to sum up the individual room occupancies to
+  // get the total occupancy of the holiday home.
   cmp.services.accommodation.v4.Occupancy total_occupancy = 9;
 
   // Definition of services which are possible for this room.
