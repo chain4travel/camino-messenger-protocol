@@ -43,17 +43,16 @@ message AccommodationProductListResponse {
 // accommodation products without the need for detailed information retrieval.
 // This is particularly useful for distributors who want to get a sense of the
 // available inventory at a glance for deciding whether they want to use this
-// property at all. If yes then it makes sense to get further information with
-// the AccommodationProductInfoService.
+// property at all. The AccommodationProductList provides more information than
+// the AccommodationProductShortList to identify and map the property. If the
+// property is approved, then it makes sense to get further information with the
+// AccommodationProductInfoService.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/list.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/list.proto.dot.svg)
 //
 /// @custom:cmp-service type:product routing:p2p on-chain:false
-// property at all. The AccommodationProductList provides more information than the
-// AccommodationProductShortList to identify and map the property. If the property is approved,
-// then it makes sense to get further information with the AccommodationProductInfoService.
 service AccommodationProductListService {
   // Returns product list for accommodation (properties)
   rpc AccommodationProductList(AccommodationProductListRequest) returns (AccommodationProductListResponse);
