@@ -45,22 +45,16 @@ message AccommodationSearchParameters {
     max_items: 100
   }];
 
-  // Rate plans
-  // TODO @SamJaarsma: As of now rate plans are not part of the static data.
-  // With that in mind the distributor has no to filter on specific rate plans
-  // as the rate plan codes are unknown to them.
-  // That would be a different story if there were only enums to choose from.
+  // Rate plans and their meaning are often exchanged once partners initiate
+  // a collaboration. These codes are sporadically updated/amended and are usually
+  // (treated as) unique for the supplier.
   repeated cmp.types.v4.RatePlan rate_plans = 7 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // Rate Rules
-  // To be used when searching for specific rates like refundable or resellable offers
-  // TODO @SamJaarsma: Same applies here as with rate plans. It's not part of
-  // the static data and it contains codes.
-  // With that in mind the distributor has no to filter on specific rate plans
-  // as the rate plan codes are unknown to them.
+  // For rate rules the same applies as for `rate_plans`. This is something which
+  // needs to be synchronized by the involved parties.
   repeated cmp.types.v4.RateRule rate_rules = 8 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
