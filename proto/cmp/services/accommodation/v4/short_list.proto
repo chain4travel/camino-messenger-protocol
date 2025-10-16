@@ -10,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 // Request a list of modified accommodations.
 message AccommodationProductShortListRequest {
   // Common request header used in every request.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Only respond with the products that are modified after this timestamp
   //
