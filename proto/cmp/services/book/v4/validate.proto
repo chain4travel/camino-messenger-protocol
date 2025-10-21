@@ -10,25 +10,33 @@ import "cmp/types/v4/seat_map.proto";
 import "cmp/types/v4/uuid.proto";
 
 message ValidationRequest {
-  // Message header
+  // Common header which is used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Validation object
+  // The object to be validated with this request.
+  // This describes the product or service to be validated resulting from a previous search.
   cmp.services.book.v4.ValidationObject validation_object = 2 [(buf.validate.field).required = true];
 }
 
 message ValidationResponse {
-  // Message header
+  // Common header which is used in every response.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Unique validation ID. This must be a UUID according to RFC 4122
+  // Unique validation ID which can be used in the subsequent mint request.
   cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
-  // Validation object
+  // The object which has been validated in this response.
+  // This describes the product or service to be validated resulting from a previous search.
+  // It must always match the one in the request, a different one must be treated as an error.
   cmp.services.book.v4.ValidationObject validation_object = 3 [(buf.validate.field).required = true];
 
-  // Price details for the validated product
-  cmp.types.v4.PriceDetail price_detail = 4 [(buf.validate.field).required = true];
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  // This could differ from the original total price in the search result due to
+  // a price difference which might be acceptable by the requesting party.
+  // Additionally any selected optional services like seat selections or service fact selections
+  // must be reflected in this total price and the optional breakdown.
+  cmp.types.v4.TotalPrice total_price = 4 [(buf.validate.field).required = true];
 }
 
 // Additional layer to allow for selecting seats in different segments.
@@ -69,7 +77,7 @@ message ServiceFactSelection {
 // for seats and service facts which can add additional costs to the offer
 // and therefore needs to be reflected in the `price_detail` of the `ValidationResponse`.
 message ValidationObject {
-  // Search result identifier with `search_id` & `result_id`
+  // Search result identifier which uniquely identifies a certain search and a result in that search.
   cmp.types.v4.SearchIdentifier search_identifier = 1 [(buf.validate.field).required = true];
 
   // Optional seat selection for the validation.

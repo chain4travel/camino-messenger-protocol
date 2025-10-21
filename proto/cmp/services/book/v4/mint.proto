@@ -15,10 +15,10 @@ import "cmp/types/v4/uuid.proto";
 import "google/protobuf/timestamp.proto";
 
 message MintRequest {
-  // Message header
+  // Common header which is used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // This must be a UUID according to RFC 4122
+  // The validation ID obtained from the ValidationResponse.
   cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
   // FIXME: Do we need this here in the mint request? It's already specified in the search.
@@ -27,8 +27,13 @@ message MintRequest {
   // FIXME: Do we need this here in the mint request? It's already specified in the search.
   string market = 4 [(buf.validate.field).string.max_bytes = 512];
 
+  // Optional booking reference provided by the buyer system to identify
+  // the booking.
   string booking_reference = 5 [(buf.validate.field).string.max_bytes = 512];
 
+  // Up until this point no identifying traveller information has been
+  // provided. This must be provided here to allow for minting the booking
+  // token with the traveller details.
   repeated cmp.types.v4.ExtensiveTraveller travellers = 6 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
@@ -60,13 +65,13 @@ message MintRequest {
 }
 
 message MintResponse {
-  // Message header
+  // Common header which is used in every response.
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // This must be a UUID according to RFC 4122
+  // Unique mint ID for the minting operation.
   cmp.types.v4.UUID mint_id = 2 [(buf.validate.field).required = true];
 
-  // This must be a UUID according to RFC 4122
+  // The validation ID obtained from the ValidationResponse.
   cmp.types.v4.UUID validation_id = 3 [(buf.validate.field).required = true];
 
   // FIXME: Should we move this into private booking data?
