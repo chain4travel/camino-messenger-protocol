@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.services.book.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/evm_address.proto";
 import "cmp/types/v4/evm_transaction.proto";
@@ -21,20 +20,14 @@ message MintRequest {
   // The validation ID obtained from the ValidationResponse.
   cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
 
-  // FIXME: Do we need this here in the mint request? It's already specified in the search.
-  cmp.types.v1.Language language = 3;
-
-  // FIXME: Do we need this here in the mint request? It's already specified in the search.
-  string market = 4 [(buf.validate.field).string.max_bytes = 512];
-
   // Optional booking reference provided by the buyer system to identify
   // the booking.
-  string booking_reference = 5 [(buf.validate.field).string.max_bytes = 512];
+  string booking_reference = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Up until this point no identifying traveller information has been
   // provided. This must be provided here to allow for minting the booking
   // token with the traveller details.
-  repeated cmp.types.v4.ExtensiveTraveller travellers = 6 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.ExtensiveTraveller travellers = 4 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100
   }];
@@ -42,26 +35,26 @@ message MintRequest {
   // The comments field is meant to pass noncommittal remarks entered by the
   // end-consumer about the service reservation,  like "non-smoking room please",
   // "top floor room please".
-  string comment = 7 [(buf.validate.field).string.max_bytes = 512];
+  string comment = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Public keys that will be used to encrypt the private booking data
   // TODO: When we implement the private booking data, we need to set min_items to 1.
-  repeated cmp.types.v4.PublicKey public_keys = 8 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.PublicKey public_keys = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Buyer's address. Only this address should be allowed to buy the `BookingToken`
   // on chain.
-  cmp.types.v4.EVMAddress buyer_address = 9 [(buf.validate.field).required = true];
+  cmp.types.v4.EVMAddress buyer_address = 7 [(buf.validate.field).required = true];
 
   // This field is only relevant for off chain virtual credit card payments.
-  cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 10;
+  cmp.types.v4.AdditionalPaymentInfo additional_payment_info = 8;
 
   // Expected BookingToken price. This price should be used by the bot to verify
   // that the CMAccount of the distributor has enough funds to buy the minted
   // BookingToken.
-  cmp.types.v4.Price expected_price = 11 [(buf.validate.field).required = true];
+  cmp.types.v4.Price expected_price = 9 [(buf.validate.field).required = true];
 }
 
 message MintResponse {
@@ -74,7 +67,7 @@ message MintResponse {
   // The validation ID obtained from the ValidationResponse.
   cmp.types.v4.UUID validation_id = 3 [(buf.validate.field).required = true];
 
-  // FIXME: Should we move this into private booking data?
+  // Supplier specific booking reference from the supplier's inventory system.
   string supplier_booking_reference = 4 [(buf.validate.field).string.max_bytes = 512];
 
   // Timestamp of the booking in the inventory system of the supplier.
