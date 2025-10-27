@@ -3,8 +3,8 @@ syntax = "proto3";
 package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/services/accommodation/v4/property_types.proto";
 import "cmp/services/accommodation/v4/search_parameters_types.proto";
-import "cmp/services/accommodation/v4/unit_types.proto";
 import "cmp/types/v4/travel_period.proto";
 import "cmp/types/v4/traveller.proto";
 
@@ -42,8 +42,8 @@ message AccommodationSearchQuery {
   // Total number of rooms / holiday homes
   uint32 unit_count = 5;
 
-  // Type of the unit, like room or holiday home
-  cmp.services.accommodation.v4.UnitType unit_type = 6 [(buf.validate.field).enum = {
+  // Type of the property, like hotel or holiday home
+  cmp.services.accommodation.v4.PropertyType property_type = 6 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];

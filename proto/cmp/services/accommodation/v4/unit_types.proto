@@ -22,18 +22,11 @@ import "cmp/types/v4/travel_period.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/unit_types.proto.dot.svg)
 message Unit {
-  // Unit Type. Used to distinguish between hotel rooms and holiday homes.
-  // Ex: `UnitType.UNIT_TYPE_ROOM`
-  cmp.services.accommodation.v4.UnitType type = 1 [(buf.validate.field).enum = {
-    defined_only: true
-    not_in: [0]
-  }];
-
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
   // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
   // the static data like room amenities, descriptions, images etc. can be married to the
   // dynamic price and availability data for display to the end user.
-  string supplier_room_code = 2 [(buf.validate.field).string = {
+  string supplier_room_code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
@@ -42,74 +35,68 @@ message Unit {
   // In theory, this field should never be included as it is already available in
   // the static data. However, some providers prefer to be specific to avoid room
   // mapping issues. Ex: "Double Standard Room"
-  string supplier_room_name = 3 [(buf.validate.field).string.max_bytes = 512];
+  string supplier_room_name = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Original room name as assigned by the hotel. In case of spefifically designated room
   // names by chains and both the chain and the customer wants to adhere to them.
   // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
-  string original_room_name = 4 [(buf.validate.field).string.max_bytes = 512];
+  string original_room_name = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // The travel period this unit is available. Please note that this refers
   // to the actual start and end times of the stay in the property and does not
   // include potential travel times for transfer/transportation.
-  cmp.types.v4.TravelPeriod travel_period = 5 [(buf.validate.field).required = true];
+  cmp.types.v4.TravelPeriod travel_period = 4 [(buf.validate.field).required = true];
 
   // Traveller_id is a list of travellers related to this unit. The details can be found in
   // the search response repeated travellers field
-  repeated uint32 traveller_ids = 6 [(buf.validate.field).repeated = {
+  repeated uint32 traveller_ids = 5 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 15
   }];
 
   // Definition of the types and counts of beds in the unit
-  repeated cmp.types.v4.Bed beds = 7 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Bed beds = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
   }];
 
   // Price in detail with breakdowns
-  cmp.types.v4.PriceDetail price_detail = 8;
+  cmp.types.v4.PriceDetail price_detail = 7;
 
   // Included, compulsory and optional services available
-  repeated cmp.types.v4.ServiceFact services = 9 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.ServiceFact services = 8 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Meal plan for this unit (also known as board code).
   // Specified in the room static data `Room.meal_plans`
-  cmp.types.v4.MealPlan meal_plan = 10;
+  cmp.types.v4.MealPlan meal_plan = 9;
 
   // The rate plan which applies to this unit
-  cmp.types.v4.RatePlan rate_plan = 11;
+  cmp.types.v4.RatePlan rate_plan = 10;
 
   // The rate rule which applies to this unit
-  cmp.types.v4.RateRule rate_rule = 12;
+  cmp.types.v4.RateRule rate_rule = 11;
 
   // The cancellation conditions
   //
   // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
   // arrival z€
-  cmp.types.v4.CancelPolicy cancel_policy = 13;
+  cmp.types.v4.CancelPolicy cancel_policy = 12;
 
   // Number of remaining units at the time of calculation
-  uint32 remaining_units = 14;
+  uint32 remaining_units = 13;
 
   // Property code which can be of different types
   //
   // FIXME: Should this be repeated? A unit can have multiple different property codes.
-  cmp.types.v4.ProductCode property_code = 15;
+  cmp.types.v4.ProductCode property_code = 14;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
-  cmp.types.v4.SupplierProductCode supplier_code = 16 [(buf.validate.field).required = true];
+  cmp.types.v4.SupplierProductCode supplier_code = 15 [(buf.validate.field).required = true];
 
   // Non structural aspects related to the unit a supplier wants to include
   // in the search response. For display purposes only.
-  string remarks = 17 [(buf.validate.field).string.max_bytes = 512];
-}
-
-enum UnitType {
-  UNIT_TYPE_UNSPECIFIED = 0;
-  UNIT_TYPE_ROOM = 1;
-  UNIT_TYPE_HOLIDAY_HOME = 2;
+  string remarks = 16 [(buf.validate.field).string.max_bytes = 512];
 }
