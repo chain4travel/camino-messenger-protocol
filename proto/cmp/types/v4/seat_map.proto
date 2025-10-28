@@ -75,6 +75,16 @@ message SeatList {
   }];
 }
 
+// Nested sub-sections within a section, allowing for a
+// hierarchical layout (e.g., a "Balcony" section might contain "Row-A",
+// "Row-B" sub-sections).
+message SubSections {
+  repeated cmp.types.v4.Section sections = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Limits number of sub-sections.
+  }];
+}
+
 // A Section represents a distinct, named area within a venue's seat map.
 // Examples: a block of rows in a theater, a specific standing area, a seating
 // tier in a stadium, or a cabin class in an airplane. Sections can be nested
@@ -108,23 +118,19 @@ message Section {
     // Use this for general admission areas (e.g., standing room, unassigned
     // seating) where individual seat details are not applicable.
     google.protobuf.Int32Value seat_count = 4 [(buf.validate.field).int32 = {gt: 0}];
+
+    // Subsection to allow hierarchical section definitions.
+    cmp.types.v4.SubSections subsections = 5;
   }
 
   // A visual representation (SVG or bitmap) of this section's layout.
   // If provided, `Seat.location` for seats within this section will refer to
   // coordinates or labels within this image.
-  cmp.types.v4.Image image = 5;
+  cmp.types.v4.Image image = 6;
 
   // SeatAttributes which apply to all seats within this section. And also to
   // all seats in nested sub-sections.
-  cmp.types.v4.SeatAttributes attributes = 6;
-
-  // Nested sub-sections within this section, allowing for a
-  // hierarchical layout (e.g., a "Balcony" section might contain "Row-A",
-  // "Row-B" sub-sections).
-  repeated cmp.types.v4.Section sections = 7 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits number of sub-sections.
-  }];
+  cmp.types.v4.SeatAttributes attributes = 7;
 }
 
 // Representation of a seat map structure, defining the layout and structure
@@ -173,6 +179,15 @@ message SeatInventory {
   }];
 }
 
+// Nested sub-sections within a section, allowing for a
+// hierarchical representation of seat inventory.
+message SubSectionsInventory {
+  repeated cmp.types.v4.SectionInventory sections = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Limits number of sub-section inventories.
+  }];
+}
+
 // Represents the inventory status (e.g., available, selected) for a specific
 // section and its potential sub-sections. This is used for dynamic data like
 // seat availability or seat selections.
@@ -185,7 +200,6 @@ message SectionInventory {
   }];
 
   // Defines how seat inventory information for this section is provided.
-  // One of these must be specified.
   oneof seat_info {
     option (buf.validate.oneof).required = true;
 
@@ -197,13 +211,10 @@ message SectionInventory {
     // Used for general admission sections where individual seats are not tracked.
     // Represents, for example, remaining available spots or number of selected GA tickets.
     google.protobuf.Int32Value seat_count = 3 [(buf.validate.field).int32 = {gt: 0}];
-  }
 
-  // Inventory information for nested sub-sections within this section,
-  // allowing for a hierarchical representation of seat inventory.
-  repeated cmp.types.v4.SectionInventory sections = 4 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits number of sub-section inventories.
-  }];
+    // Sub-section inventory to allow hierarchical section inventory definitions.
+    cmp.types.v4.SubSectionsInventory subsections = 4;
+  }
 }
 
 // Represents the inventory status or seat selection for a specific seat map.
