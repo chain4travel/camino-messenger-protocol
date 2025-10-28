@@ -207,7 +207,7 @@ message ActivityExtendedInfo {
   // receiving activities from different suppliers to identify whether
   // they are the same as the supplier specific codes will be different.
   repeated cmp.types.v4.ProductCode product_codes = 31 [(buf.validate.field).repeated = {
-    min_items: 1
+    min_items: 0
     max_items: 500
   }];
 }
