@@ -267,26 +267,18 @@ message ActivityService {
     max_bytes: 512
   }];
 
-  // TODO: Should name and description be multi-lingual?
+  repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
-  // Service Name
-  string name = 2 [(buf.validate.field).string.max_bytes = 512];
-
-  // Service Description
-  string description = 3 [(buf.validate.field).string.max_bytes = 512];
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
   // Included items in the activity service
   repeated string included = 4 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-    items: {
-      string: {max_bytes: 512}
-    }
-  }];
-
-  // Excluded items in the activity service
-  // FIXME: Should we keep this?
-  repeated string excluded = 5 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
     items: {
