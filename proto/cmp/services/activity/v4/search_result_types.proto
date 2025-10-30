@@ -5,8 +5,9 @@ package cmp.services.activity.v4;
 import "buf/validate/validate.proto";
 import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v4/bookability.proto";
-import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
+import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/seat_map.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.
@@ -19,27 +20,36 @@ message ActivitySearchResult {
   // result.
   uint32 result_id = 1;
 
-  // Activity basic info
-  cmp.services.activity.v4.Activity info = 2 [(buf.validate.field).required = true];
+  // Supplier Product codes for the result.
+  cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
 
-  // Schedule
-  // FIXME: Explain this
-  cmp.types.v4.DateTimeRange schedule = 3;
+  // The code must match one of the defined units provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.units.code
+  string unit_code = 3 [(buf.validate.field).string.max_bytes = 512];
 
-  // Activity location
-  // FIXME: Remove? It's already in the extended info.
-  cmp.services.activity.v4.ActivityLocation location = 4;
+  // The code must match one of the defined units provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.services.code
+  string service_code = 4 [(buf.validate.field).string.max_bytes = 512];
+
+  // Reference to the applicable seat map of this activity offer. Must match a
+  // seat_map_id which was already defined in the static data.
+  // See: ActivityExtendedInfo.seat_map_ids
+  cmp.types.v4.SeatMapID seat_map_id = 5;
 
   // Pickup Dropoff
-  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 5 [(buf.validate.field).repeated = {
+  // FIXME: Why do we need this here? The zone is already defined in the static data and not used at all anywhere else.
+  // We need to clarify this
+  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 8 [(buf.validate.field).required = true];
+  cmp.types.v4.TotalPrice total_price = 7 [(buf.validate.field).required = true];
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v4.Bookability bookability = 9 [(buf.validate.field).required = true];
+  cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
 }

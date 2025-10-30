@@ -11,36 +11,12 @@ import "cmp/types/v4/delivery.proto";
 import "cmp/types/v4/description.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/file.proto";
+import "cmp/types/v4/localized.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/redemption.proto";
 import "cmp/types/v4/seat_map.proto";
 import "google/protobuf/timestamp.proto";
-
-// Activity
-//
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v3/activity_types.proto.dot.xs.svg)
-//
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v3/activity_types.proto.dot.svg)
-message Activity {
-  // Supplier Product codes for the result.
-  cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
-
-  // The code must match one of the defined units provided in the ProductList
-  // and ProductInfo message.
-  // See: ActivityExtendedInfo.units.code
-  string unit_code = 2 [(buf.validate.field).string.max_bytes = 512];
-
-  // The code must match one of the defined units provided in the ProductList
-  // and ProductInfo message.
-  // See: ActivityExtendedInfo.services.code
-  string service_code = 3 [(buf.validate.field).string.max_bytes = 512];
-
-  // Reference to the applicable seat map of this activity offer. Must match a
-  // seat_map_id which was already defined in the static data.
-  // See: ActivityExtendedInfo.seat_map_ids
-  cmp.types.v4.SeatMapID seat_map_id = 4;
-}
 
 // Activity static info
 message ActivityExtendedInfo {
@@ -257,27 +233,28 @@ message PickupDropoffEvent {
   cmp.types.v4.Coordinates coordinates = 5;
 }
 
-// The unit  gives us a choice of the different options that are available in an
+// The unit gives us a choice of the different options that are available in an
 // activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
 // jeep safari. A ticket to a specific section of a stadium.
 message ActivityUnit {
-  // Schedule
-  // FIXME: Should this be here? This is used in extended info (static info)
-  cmp.types.v4.DateTimeRange schedule = 1;
-
-  // Unit Code
-  string code = 2 [(buf.validate.field).string = {
+  // Unique identifier of a unit inside of an activity
+  string code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
 
-  // TODO: Should name and description be multi-lingual?
+  // Schedule of this particular unit with one defined start and end
+  cmp.types.v4.DateTimeRange schedule = 2;
 
-  // Unit Name
-  string name = 3 [(buf.validate.field).string.max_bytes = 512];
+  repeated cmp.types.v4.LocalizedString names = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 
-  // Unit Description
-  string description = 4 [(buf.validate.field).string.max_bytes = 512];
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Services can be selected like do we go to the activity by ourselves or is a
