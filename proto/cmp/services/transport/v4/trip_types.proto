@@ -149,20 +149,26 @@ message Segment {
   // that is operated by Transunion.
   string sub_supplier_code = 4 [(buf.validate.field).string.max_bytes = 512];
 
-  // Product Code and Number
-  //
-  // For flights we use the IATA or ICAO airline code in the code field and the
-  // flight number in the number field.
-  //
-  // For train some operators use a combination of a code and a number like
-  // Eurostar, but others just use a code or a number (SNCF).
-  //
-  // Transfers are often identified by just a product code servicing an area.
-  cmp.types.v4.ProductCode product_code = 5;
+  // For products which are globally identified by external providers like IATA,
+  // ICAO for flights, or other global identification systems the product_code
+  // is used. In case the product is only identified by a supplier specific code,
+  // the supplier_code field is used.
+  oneof product_identifier {
+    option (buf.validate.oneof).required = true; // One must be provided
+    // Product Code and Number
+    //
+    // For flights we use the IATA or ICAO airline code in the code field and the
+    // flight number in the number field.
+    //
+    // For train some operators use a combination of a code and a number like
+    // Eurostar, but others just use a code or a number (SNCF).
+    //
+    // Transfers are often identified by just a product code servicing an area.
+    cmp.types.v4.ProductCode product_code = 5;
 
-  // Supplier specific code, matching the supplier code in ProductList and ProductInfo
-  // messages
-  cmp.types.v4.SupplierProductCode supplier_code = 6 [(buf.validate.field).required = true];
+    // Supplier specific code, matching the supplier code in ProductListResponse
+    cmp.types.v4.SupplierProductCode supplier_code = 6;
+  }
 
   // Departure of this segment (sometimes also called origin)
   cmp.services.transport.v4.TransitEvent departure = 7 [(buf.validate.field).required = true];
