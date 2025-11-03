@@ -121,13 +121,13 @@ message ActivityExtendedInfo {
   // The category of this activity according to the defined enum
   cmp.services.activity.v4.ActivityCategory category = 12 [(buf.validate.field).enum = {defined_only: true}];
 
-  // Category name which describes the category
+  // Category name which describes the `category`
   string category_name = 13 [(buf.validate.field).string.max_bytes = 512];
 
   // The type of this activity according to the defined enum
   cmp.services.activity.v4.ActivityType type = 14 [(buf.validate.field).enum = {defined_only: true}];
 
-  // Type name which describes type_code
+  // Type name which describes `type`
   string type_name = 15 [(buf.validate.field).string.max_bytes = 512];
 
   // Duration range (min, max) of the activity in minutes
