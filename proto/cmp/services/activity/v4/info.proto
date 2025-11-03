@@ -7,30 +7,21 @@ import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/product_code.proto";
-import "google/protobuf/timestamp.proto";
 
 message ActivityProductInfoRequest {
   // Message header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Only respond with the products that are new, modified or deactivated after this
-  // timestamp.
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
-  google.protobuf.Timestamp modified_after = 2; // FIXME: Does this makes sense when we have supplier code list?
-
   // Languages to be included in the response for descriptions. Minimum of 1
   // language is required.
-  repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.Language languages = 2 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 10
     unique: true
   }];
 
   // Activity codes
-  repeated cmp.types.v4.SupplierProductCode supplier_codes = 4 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100 // Default max items
   }];

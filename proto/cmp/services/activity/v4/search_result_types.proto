@@ -3,7 +3,6 @@ syntax = "proto3";
 package cmp.services.activity.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/services/activity/v4/activity_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";
@@ -38,10 +37,9 @@ message ActivitySearchResult {
   // See: ActivityExtendedInfo.seat_map_ids
   cmp.types.v4.SeatMapID seat_map_id = 5;
 
-  // Pickup Dropoff
-  // FIXME: Why do we need this here? The zone is already defined in the static data and not used at all anywhere else.
-  // We need to clarify this
-  repeated cmp.services.activity.v4.PickupDropoffEvent pickup_dropoff_events = 6 [(buf.validate.field).repeated = {
+  // Identifiers of the transfer zones applicable for this search result.
+  // Meaning that every PickupDropoffEvent in these zones is valid for this result.
+  repeated string zone_codes = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
