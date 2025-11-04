@@ -4,6 +4,11 @@ package cmp.services.insurance.v1;
 
 import "cmp/services/insurance/v1/search_parameters_types.proto";
 
+// Insurance Search Query
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_query_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v1/search_query_types.proto.dot.svg)
 message InsuranceSearchQuery {
   // Integer query ID, unique per search request
   int32 query_id = 1;

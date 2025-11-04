@@ -9,9 +9,9 @@ import "cmp/types/v4/price.proto";
 // This type represents a search result and is used in the
 // `InsuranceSearchResponse` message.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v2/search_result_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v3/search_result_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v2/search_result_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v3/search_result_types.proto.dot.svg)
 message InsuranceSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
