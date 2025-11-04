@@ -11,6 +11,10 @@ import "cmp/types/v4/traveller.proto";
 // Represents a search query for accommodations.
 // Please note that multiple of these can be given in a single request and must
 // be treated completely individual.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_query_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_query_types.proto.dot.svg)
 message AccommodationSearchQuery {
   // Integer query ID. This must be unique per search request.
   uint32 query_id = 1;

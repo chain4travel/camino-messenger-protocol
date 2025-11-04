@@ -15,10 +15,9 @@ import "cmp/types/v4/rate.proto";
 // While all fields in this message are optional at the message level, each supplier
 // may define their own minimum set of required filter parameters.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_parameters_types.proto.dot.xs.svg)
 //
-// [Open Message
-// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v2/search_parameters_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_parameters_types.proto.dot.svg)
 message AccommodationSearchParameters {
   // The geo location used for the search.
   oneof geo_location {
