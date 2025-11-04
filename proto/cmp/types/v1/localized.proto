@@ -4,6 +4,11 @@ package cmp.types.v1;
 
 import "cmp/types/v1/language.proto";
 
+// Localized string definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/localized.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/localized.proto.dot.svg)
 message LocalizedString {
   string text = 1;
   cmp.types.v1.Language language = 2;

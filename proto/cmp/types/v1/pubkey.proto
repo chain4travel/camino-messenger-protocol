@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+// Public Key definitions
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/pubkey.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/pubkey.proto.dot.svg)
 message PublicKey {
   string key = 1;
 }

@@ -7,6 +7,10 @@ import "buf/validate/validate.proto";
 // Type definition for an airport code which can be:
 // * IATA for code length 3
 // * ICAO for code length 4
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/airport.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/airport.proto.dot.svg)
 message AirportCode {
   string code = 1 [(buf.validate.field).string = {
     min_len: 3

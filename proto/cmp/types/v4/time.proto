@@ -13,9 +13,9 @@ import "buf/validate/validate.proto";
 //   Time morning_meeting = Time{hours: 9, minutes: 30};  // 9:30 AM
 //   Time end_of_day = Time{hours: 17, minutes: 0};       // 5:00 PM
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/time.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/time.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/time.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/time.proto.dot.svg)
 message Time {
   // Hours component in 24-hour format
   // Valid range: 0-23 (0 = midnight, 12 = noon, 23 = 11 PM)

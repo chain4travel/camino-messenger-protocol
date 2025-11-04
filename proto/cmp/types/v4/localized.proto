@@ -9,6 +9,10 @@ import "cmp/types/v1/language.proto";
 //
 // This message is used to provide textual content, such as names or short labels,
 // that need to be displayed in multiple languages.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/localized.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/localized.proto.dot.svg)
 message LocalizedString {
   // The actual text content of the string.
   string text = 1 [(buf.validate.field).string = {

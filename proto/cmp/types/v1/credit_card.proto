@@ -4,6 +4,11 @@ package cmp.types.v1;
 
 import "cmp/types/v1/date.proto";
 
+// Credit card definition
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/credit_card.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/credit_card.proto.dot.svg)
 message CreditCard {
   // A creditcard should be stored as a string to facilitate cards that have leading
   // zeros, but also to allow for spaces or dashes for readability, like for example

@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package cmp.types.v1;
 
+// Travel Type definitions
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_type.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_type.proto.dot.svg)
 enum TravelType {
   TRAVEL_TYPE_UNSPECIFIED = 0;
   TRAVEL_TYPE_LEISURE = 1;

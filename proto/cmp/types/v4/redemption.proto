@@ -4,9 +4,9 @@ package cmp.types.v4;
 
 // Redemption Methods
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/redemption.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/redemption.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/redemption.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/redemption.proto.dot.svg)
 enum RedemptionMethod {
   REDEMPTION_METHOD_UNSPECIFIED = 0;
   REDEMPTION_METHOD_DIGITAL = 1;

@@ -7,6 +7,10 @@ import "buf/validate/validate.proto";
 // Address type that represents an EVM address in hex format
 //
 // Example: "0x1234567890abcdef1234567890abcdef12345678"
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/evm_address.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/evm_address.proto.dot.svg)
 message EVMAddress {
   string address = 1 [(buf.validate.field).string = {
     pattern: "^0x[0-9a-fA-F]{40}$" // 0x followed by exactly 40 hex characters

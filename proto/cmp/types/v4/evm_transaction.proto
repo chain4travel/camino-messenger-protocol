@@ -7,6 +7,10 @@ import "buf/validate/validate.proto";
 // This represents an EVM transaction ID in hex format
 //
 // Example: "0xeb8d83e82ff50b27ab9287cd84e1b55a39b30377e68203fb74837aa35c489924"
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/evm_transaction.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/evm_transaction.proto.dot.svg)
 message EVMTransactionID {
   string hash = 1 [(buf.validate.field).string = {
     pattern: "^0x[0-9a-fA-F]{64}$" // Starts with 0x followed by 64 hex characters

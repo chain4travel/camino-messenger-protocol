@@ -15,6 +15,10 @@ import "cmp/types/v4/date.proto";
 //   strong encryption, tokenization).
 // - The CVC (Card Verification Code) **MUST NEVER BE STORED** after transaction
 //   authorization.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/credit_card.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/credit_card.proto.dot.svg)
 message CreditCard {
   // The primary account number (PAN) of the credit card.
   //

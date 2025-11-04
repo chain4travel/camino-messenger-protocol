@@ -14,9 +14,9 @@ import "cmp/types/v4/phone.proto";
 //
 // This message is designed for general use wherever contact information is needed.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/contact_info.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v2/contact_info.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/contact_info.proto.dot.svg)
 message ContactInfo {
   // Optional. A list of physical or postal addresses.
   //

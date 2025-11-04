@@ -4,6 +4,11 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 
+// Public Key definitions
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/pubkey.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/pubkey.proto.dot.svg)
 message PublicKey {
   string key = 1 [(buf.validate.field).string = {
     min_len: 32

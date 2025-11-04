@@ -12,9 +12,9 @@ import "cmp/types/v4/dow.proto";
 // and flexible periods (where start_date and end_date form a window for a
 // trip of a duration specified by `los`).
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/travel_period.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/travel_period.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/travel_period.proto.dot.svg)
 message TravelPeriod {
   option (buf.validate.message).cel = {
     id: "end_date_after_or_on_start_date"

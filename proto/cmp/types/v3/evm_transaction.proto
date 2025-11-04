@@ -5,6 +5,10 @@ package cmp.types.v3;
 // This represents an EVM transaction ID in hex format
 //
 // Example: "0xeb8d83e82ff50b27ab9287cd84e1b55a39b30377e68203fb74837aa35c489924"
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/evm_transaction.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v3/evm_transaction.proto.dot.svg)
 message EVMTransactionID {
   string hash = 1;
 }

@@ -6,9 +6,9 @@ import "buf/validate/validate.proto";
 
 // Delivery Formats and Methods
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/delivery.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v1/delivery.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/delivery.proto.dot.svg)
 message Delivery {
   cmp.types.v4.DeliveryFormat format = 1 [(buf.validate.field).enum = {
     defined_only: true
