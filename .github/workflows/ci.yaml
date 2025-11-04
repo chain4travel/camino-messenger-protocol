@@ -103,6 +103,8 @@ jobs:
         run: scripts/diff_against_branch.sh
       - name: Buf Breaking Check # Run buf breaking against main label on buf.build
         run: scripts/buf-breaking.sh
+      - name: Verify diagrams
+        run: scripts/verify_diagram_links.sh
 
   # Check if the service tags are set correctly and create a summary for that
   analyze-service-tags:
