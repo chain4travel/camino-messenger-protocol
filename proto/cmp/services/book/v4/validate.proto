@@ -95,9 +95,9 @@ message ValidationObject {
   }];
 }
 
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v3/validate.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v4/validate.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v3/validate.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v4/validate.proto.dot.svg)
 //
 /// @custom:cmp-service type:product routing:p2p on-chain:false
 service ValidationService {
