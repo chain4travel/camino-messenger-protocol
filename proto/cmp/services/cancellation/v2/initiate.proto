@@ -8,6 +8,11 @@ import "cmp/types/v4/common.proto";
 import "cmp/types/v4/evm_transaction.proto";
 import "cmp/types/v4/price.proto";
 
+// Request for initiation of a cancellation proposal
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/initiate.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/initiate.proto.dot.svg)
 message InitiateCancellationRequest {
   // The request header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];

@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package cmp.services.cancellation.v1;
 
+// Cancellation Reasons
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/reason.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/reason.proto.dot.svg)
 enum CancellationReason {
   // Default unspecified value
   CANCELLATION_REASON_UNSPECIFIED = 0;

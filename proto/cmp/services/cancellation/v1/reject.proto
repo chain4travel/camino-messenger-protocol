@@ -7,6 +7,10 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v3/evm_transaction.proto";
 
 // Request for cancellation rejection
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/reject.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/reject.proto.dot.svg)
 message RejectCancellationRequest {
   // Request Header
   cmp.types.v1.RequestHeader header = 1;

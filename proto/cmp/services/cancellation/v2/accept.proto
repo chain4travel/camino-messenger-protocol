@@ -9,9 +9,9 @@ import "cmp/types/v4/price.proto";
 
 // Request for cancellation acceptance
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/accept.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/accept.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/accept.proto.dot.svg)
 message AcceptCancellationRequest {
   // Request header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];

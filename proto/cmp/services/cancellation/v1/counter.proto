@@ -8,6 +8,10 @@ import "cmp/types/v3/evm_transaction.proto";
 import "cmp/types/v3/price.proto";
 
 // Request for countering a cancellation
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/counter.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v1/counter.proto.dot.svg)
 message CounterCancellationRequest {
   // Request header
   cmp.types.v1.RequestHeader header = 1;

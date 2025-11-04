@@ -8,6 +8,10 @@ import "cmp/types/v4/common.proto";
 import "cmp/types/v4/evm_transaction.proto";
 
 // Request for withdrawal of an active cancellation proposal
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/withdraw.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v2/withdraw.proto.dot.svg)
 message WithdrawCancellationRequest {
   // Request header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
