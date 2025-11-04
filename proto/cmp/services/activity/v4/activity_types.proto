@@ -19,6 +19,12 @@ import "cmp/types/v4/redemption.proto";
 import "cmp/types/v4/seat_map.proto";
 import "google/protobuf/timestamp.proto";
 
+// Activity
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v4/activity_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v4/activity_types.proto.dot.svg)
+
 message ActivityInfo {
   // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
   // last updated
@@ -177,8 +183,7 @@ message ActivityExtendedInfo {
   uint32 min_participants = 26;
 
   // Maximum number of participants allowed for the activity.
-  // Ex: The same je// Supplier Product codes for the result. These must match the supplier codes
-  // provided in the ProductList and ProductInfo messages.ep safari might have a maximum capacity of 10 participants
+  // Ex: The same jeep safari might have a maximum capacity of 10 participants
   // due to vehicle size limitations or safety regulations.
   uint32 max_participants = 27;
 
