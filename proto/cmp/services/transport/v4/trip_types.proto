@@ -15,9 +15,9 @@ import "google/protobuf/timestamp.proto";
 
 // This message type represents a one way trip, either travelling or returning.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/trip_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/trip_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v3/trip_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/trip_types.proto.dot.svg)
 message TripExtended {
   // Trip supplier code
   cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
