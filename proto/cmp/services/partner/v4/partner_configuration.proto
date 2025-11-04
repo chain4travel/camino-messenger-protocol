@@ -33,9 +33,9 @@ message GetPartnerConfigurationResponse {
 
 // Get Partner Configuration Service
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v2/partner_configuration.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v4/partner_configuration.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v2/partner_configuration.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/partner/v4/partner_configuration.proto.dot.svg)
 //
 /// @custom:cmp-service type:product routing:local on-chain:true
 service GetPartnerConfigurationService {
