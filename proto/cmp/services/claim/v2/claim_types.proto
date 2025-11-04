@@ -14,9 +14,9 @@ import "cmp/types/v4/traveller.proto";
 
 // ClaimForm
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v2/claim_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v2/claim_types.proto.dot.svg)
 message ClaimForm {
   // Insured person or someone related who has the accident
   cmp.services.claim.v2.TravellerExtraInfo affected_person = 1;

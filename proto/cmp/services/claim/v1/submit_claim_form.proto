@@ -5,6 +5,11 @@ package cmp.services.claim.v1;
 import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 
+// Request to submit a claim form
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/submit_claim_form.proto.dot.svg)
 message ClaimSubmitFormRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;

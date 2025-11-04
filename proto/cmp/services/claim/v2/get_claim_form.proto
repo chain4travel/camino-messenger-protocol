@@ -7,6 +7,11 @@ import "cmp/services/claim/v2/claim_types.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v4/common.proto";
 
+// Request to get a claim form
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v2/get_claim_form.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v2/get_claim_form.proto.dot.svg)
 message ClaimGetFormRequest {
   // Message header
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];

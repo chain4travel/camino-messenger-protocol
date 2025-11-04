@@ -7,6 +7,11 @@ import "cmp/types/v1/common.proto";
 import "cmp/types/v3/price.proto";
 import "google/protobuf/timestamp.proto";
 
+// Request to submit a claim settlement decision
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_decision.proto.dot.svg)
 message ClaimSettlementDecisionRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;

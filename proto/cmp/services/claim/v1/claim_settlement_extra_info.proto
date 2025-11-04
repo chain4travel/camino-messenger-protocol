@@ -6,6 +6,11 @@ import "cmp/services/claim/v1/claim_types.proto";
 import "cmp/types/v1/common.proto";
 import "google/protobuf/timestamp.proto";
 
+// Request to get extra info for claim settlement
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_extra_info.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/claim/v1/claim_settlement_extra_info.proto.dot.svg)
 message ClaimSettlementExtraInfoRequest {
   // Message header
   cmp.types.v1.RequestHeader header = 1;
