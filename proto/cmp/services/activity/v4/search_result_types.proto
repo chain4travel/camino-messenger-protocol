@@ -27,7 +27,7 @@ message ActivitySearchResult {
   // See: ActivityExtendedInfo.units.code
   string unit_code = 3 [(buf.validate.field).string.max_bytes = 512];
 
-  // The code must match one of the defined units provided in the ProductList
+  // The code must match one of the defined services provided in the ProductList
   // and ProductInfo message.
   // See: ActivityExtendedInfo.services.code
   string service_code = 4 [(buf.validate.field).string.max_bytes = 512];

@@ -90,9 +90,9 @@ message SearchParameters {
   }];
 }
 
-// Search identifier
-message SearchIdentifier {
-  // Search ID that is returned in the search response message
+// Identifier for an individual result within a specific search.
+message SearchResultIdentifier {
+  // Search ID that is returned in the search response message.
   cmp.types.v4.UUID search_id = 1 [(buf.validate.field).required = true];
 
   // Result ID that is returned by `result_id` field of the search result

@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
 
 // This must be a UUID according to RFC 4122 standard.
 //
@@ -12,4 +13,16 @@ import "buf/validate/validate.proto";
 message UUID {
   // This ensures that value is a valid [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.2)
   string value = 1 [(buf.validate.field).string.uuid = true];
+}
+
+// Generic timed UUID with an explicit expiration for follow up processes using this ID.
+message ExpiringUUID {
+  // Unique ID
+  cmp.types.v4.UUID id = 1 [(buf.validate.field).required = true];
+
+  // Validity of the ID. When the timestamp is hit following requests using this
+  // ID will fail as it is no longer valid. For example, a search ID
+  // may only be valid for 15 minutes after which it cannot be used anymore for
+  // validation requests.
+  google.protobuf.Timestamp expiration = 2 [(buf.validate.field).required = true];
 }

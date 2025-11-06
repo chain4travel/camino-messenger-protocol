@@ -102,7 +102,7 @@ message SeatMapAvailabilityRequest {
     //
     // Example: For requesting seat availability for search results. In this case,
     // booking has not happened yet.
-    cmp.types.v4.SearchIdentifier search_identifier = 3;
+    cmp.types.v4.SearchResultIdentifier search_result_identifier = 3;
   }
 }
 

@@ -134,7 +134,7 @@ message ActivitySearchResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search_id to be used in subsequent requests like the "Validation Request".
-  cmp.types.v4.UUID search_id = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.ExpiringUUID search_id = 2 [(buf.validate.field).required = true];
 
   // Unique combinations of bookable search results, each identified by a result_id
   // that needs to be carried through to the validate request.

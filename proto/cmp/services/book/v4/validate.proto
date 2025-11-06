@@ -23,7 +23,7 @@ message ValidationResponse {
   cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique validation ID which can be used in the subsequent mint request.
-  cmp.types.v4.UUID validation_id = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.ExpiringUUID validation_id = 2 [(buf.validate.field).required = true];
 
   // The object which has been validated in this response.
   // This describes the product or service to be validated resulting from a previous search.
@@ -78,7 +78,7 @@ message ServiceFactSelection {
 // and therefore needs to be reflected in the `price_detail` of the `ValidationResponse`.
 message ValidationObject {
   // Search result identifier which uniquely identifies a certain search and a result in that search.
-  cmp.types.v4.SearchIdentifier search_identifier = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SearchResultIdentifier search_result_identifier = 1 [(buf.validate.field).required = true];
 
   // Optional seat selection for the validation.
   // Only applicable for products with (selectable) seats.
