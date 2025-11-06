@@ -32,6 +32,7 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/evm_address.proto";
+import "google/protobuf/timestamp.proto";
 
 // Header provides common metadata for CMP messages.
 //
@@ -113,6 +114,14 @@ message ResponseHeader {
   // response, such as informational messages, warnings, or specific errors.
   // In case of a failure, alerts must provide insights into the issue.
   repeated cmp.types.v4.Alert alerts = 3 [(buf.validate.field).repeated = {max_items: 25}];
+
+  // Validity of the response.
+  // This applies to all responses which are part of a message chain
+  // like Search -> Validate -> Mint.
+  // The field describes the point in time the response is becoming invalid
+  // to proceed in the process chain and is used to guard the responding system
+  // from having to store everything indefinitely.
+  google.protobuf.Timestamp valid_until = 4;
 }
 
 // Alert provides detailed feedback, which can be an error, warning, or

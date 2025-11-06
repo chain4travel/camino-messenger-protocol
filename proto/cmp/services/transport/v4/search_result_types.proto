@@ -7,7 +7,6 @@ import "cmp/services/transport/v4/trip_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/cancel_policy.proto";
 import "cmp/types/v4/change_policy.proto";
-import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/link.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/rate.proto";
@@ -68,24 +67,13 @@ message TransportSearchResult {
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v4.Bookability bookability = 9 [(buf.validate.field).required = true];
 
-  // FIXME: Do we also need validity (below) in accommodation/activity?
-
-  // Validity of the search option.
-  //
-  // `DateTimeRange` type with `start_date` and `end_date` in which the option can
-  // be booked. If the start_date is omitted, the offer can be booked until the
-  // end-date.
-  //
-  // FIXME: Clarify if datetime range is needed here or just a end_date timestamp is sufficient!
-  cmp.types.v4.DateTimeRange validity = 10 [(buf.validate.field).required = true];
-
   // Cancel Policy
-  cmp.types.v4.CancelPolicy cancel_policy = 11 [(buf.validate.field).required = true];
+  cmp.types.v4.CancelPolicy cancel_policy = 10 [(buf.validate.field).required = true];
 
   // Change Policy
-  cmp.types.v4.ChangePolicy change_policy = 12;
+  cmp.types.v4.ChangePolicy change_policy = 11;
 
   // Observations
   // FIXME: Clarify what this is used for?
-  string observations = 13 [(buf.validate.field).string.max_bytes = 512];
+  string observations = 12 [(buf.validate.field).string.max_bytes = 512];
 }
