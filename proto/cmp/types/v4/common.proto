@@ -32,7 +32,6 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/evm_address.proto";
-import "google/protobuf/timestamp.proto";
 
 // Header provides common metadata for CMP messages.
 //
