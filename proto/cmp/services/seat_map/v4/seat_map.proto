@@ -20,10 +20,7 @@ message SeatMapRequest {
   //
   // This is the map ID that is received in the search results and also from the
   // product info responses.
-  string map_id = 2 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
-  }];
+  cmp.types.v4.SeatMapID map_id = 2 [(buf.validate.field).required = true];
 
   // Requested Languages
   repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {

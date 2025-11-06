@@ -143,7 +143,7 @@ message Section {
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/seat_map.proto.dot.svg)
 message SeatMap {
   // Unique identifier for this entire seat map (e.g., "venueName-standardLayout").
-  SeatMapID id = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SeatMapID id = 1 [(buf.validate.field).required = true];
 
   // A list of top-level sections within the seat map. Sections can be nested.
   repeated cmp.types.v4.Section sections = 2 [(buf.validate.field).repeated = {
@@ -222,10 +222,7 @@ message SectionInventory {
 // used for purposes like seat selection or displaying seat availability.
 message SeatMapInventory {
   // Unique identifier of the `SeatMap` this inventory refers to.
-  string id = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 64
-  }];
+  cmp.types.v4.SeatMapID id = 1 [(buf.validate.field).required = true];
 
   // A list of inventory details for the top-level sections within the seat map.
   repeated cmp.types.v4.SectionInventory sections = 2 [(buf.validate.field).repeated = {
