@@ -33,7 +33,7 @@ service NotificationService {
 message TokenBought {
   uint64 token_id = 1;
   cmp.types.v4.EVMTransactionID tx_id = 2;
-  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
+  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true];
 }
 
 // Related on-chain event:
@@ -44,7 +44,7 @@ message TokenBought {
 message TokenReservationExpired {
   uint64 token_id = 1;
   cmp.types.v4.EVMTransactionID tx_id = 2;
-  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
+  cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true];
 }
 
 // Related on-chain events:
