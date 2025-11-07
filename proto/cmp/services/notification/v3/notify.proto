@@ -18,7 +18,7 @@ import "google/protobuf/empty.proto";
 /// @custom:cmp-service type:product routing:local on-chain:true
 service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
-  rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
+  rpc TokenReservationExpiredNotification(TokenReservationExpired) returns (google.protobuf.Empty);
   rpc CancellationPendingNotification(CancellationPending) returns (google.protobuf.Empty);
   rpc CancellationWithdrawnNotification(CancellationWithdrawn) returns (google.protobuf.Empty);
   rpc CancellationRejectedNotification(CancellationRejected) returns (google.protobuf.Empty);
@@ -32,18 +32,18 @@ service NotificationService {
 // ```
 message TokenBought {
   uint64 token_id = 1;
-  cmp.types.v4.EVMTransactionID tx_id = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.EVMTransactionID tx_id = 2;
   cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
 // Related on-chain event:
 //
 // ```solidity
-// event TokenExpired(uint256 indexed tokenId);
+// event TokenReservationExpired(uint256 indexed tokenId);
 // ```
-message TokenExpired {
+message TokenReservationExpired {
   uint64 token_id = 1;
-  cmp.types.v4.EVMTransactionID tx_id = 2 [(buf.validate.field).required = true];
+  cmp.types.v4.EVMTransactionID tx_id = 2;
   cmp.types.v4.UUID mint_id = 3 [(buf.validate.field).required = true]; // FIXME: check: should we make this required?
 }
 
