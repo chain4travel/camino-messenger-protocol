@@ -12,6 +12,18 @@ import "buf/validate/validate.proto";
 message PublicKey {
   string key = 1 [(buf.validate.field).string = {
     min_len: 32
-    max_bytes: 512 // FIXME: What types of public keys should we support here?
+    max_bytes: 512
   }];
+
+  cmp.types.v4.PublicKeyType type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+// The different types of public keys. Used to be future proof and potentially
+// support different public key algorithms in the future.
+enum PublicKeyType {
+  PUBLIC_KEY_TYPE_UNSPECIFIED = 0;
+  PUBLIC_KEY_TYPE_ECDSA_SECP256K1 = 1;
 }
