@@ -5,16 +5,11 @@ package cmp.types.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v4/evm_address.proto";
 
-// Token Reference
+// Booking token that represents to access to the service
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/token.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/token.proto.dot.svg)
-message TokenCurrency {
-  cmp.types.v4.EVMAddress contract_address = 1 [(buf.validate.field).required = true];
-} // TODO: Remove TokenCurrency and use EVMAddress directly
-
-// Booking token that represents to access to the service
 message Token {
   // Contract address of the smart contract or the address of natively implemented
   // asset on-chain.

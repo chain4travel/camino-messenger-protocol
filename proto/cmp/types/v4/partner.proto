@@ -4,7 +4,7 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v1/wallet.proto";
-import "cmp/types/v4/token.proto";
+import "cmp/types/v4/evm_address.proto";
 
 // TODO: Needs review and refinement
 
@@ -47,9 +47,9 @@ message Partner {
   // FIXME: Need review here!
   string domain = 4;
 
-  // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
+  // Supported tokens for payment (on-chain). If at least one currency is specified, this
   // then means that on-chain payment is supported.
-  repeated cmp.types.v4.TokenCurrency on_chain_currencies = 5 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.EVMAddress on_chain_currencies = 5 [(buf.validate.field).repeated = {
     max_items: 100 // Default max items
   }];
 

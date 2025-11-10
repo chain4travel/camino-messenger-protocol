@@ -3,7 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v4/token.proto";
+import "cmp/types/v4/evm_address.proto";
 import "google/protobuf/empty.proto";
 
 // Specifies the currency for a monetary value, which can be a standard
@@ -26,8 +26,8 @@ message Currency {
       not_in: [0]
     }];
 
-    // A specific token-based currency, such as a cryptocurrency
-    cmp.types.v4.TokenCurrency token_currency = 2;
+    // A specific token-based currency, specified as a evm blockchain address.
+    cmp.types.v4.EVMAddress token_currency = 2;
 
     // Indicates that the currency is the platform's native blockchain token.
     // The specific native token is implicitly understood by the context of the
