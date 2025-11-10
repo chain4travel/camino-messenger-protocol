@@ -88,10 +88,8 @@ message Unit {
   // Number of remaining units at the time of calculation
   uint32 remaining_units = 13;
 
-  // Property code which can be of different types
-  //
-  // FIXME: Should this be repeated? A unit can have multiple different property codes.
-  cmp.types.v4.ProductCode property_code = 14;
+  // Property code which can be of different types (like GIATA and GOAL)
+  repeated cmp.types.v4.ProductCode property_code = 14;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
   cmp.types.v4.SupplierProductCode supplier_code = 15 [(buf.validate.field).required = true];
