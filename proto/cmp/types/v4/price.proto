@@ -133,7 +133,9 @@ message TotalPrice {
 
   // Optional itemized breakdown showing how the total price was calculated.
   // Each PriceDetail in the breakdown can have further nested breakdowns.
-  repeated cmp.types.v4.PriceDetail breakdown = 2; // TODO: default limit
+  repeated cmp.types.v4.PriceDetail breakdown = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
 
   // Validation rule: Ensure the price value is not negative
   option (buf.validate.message).cel = {
