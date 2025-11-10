@@ -30,7 +30,6 @@ message ClaimSettlementDecisionRequest {
   // Claim Status
   cmp.services.claim.v1.ClaimStatus status = 4;
 
-  // TODO: Is this reference applied for Acceptance and Rejection ?
   string decision_reference = 5;
 
   // More info about decision such as rejection reason.
@@ -39,8 +38,6 @@ message ClaimSettlementDecisionRequest {
   // Pay-out transaction
   cmp.services.claim.v1.PayOutTransaction payout_transaction = 7;
 
-  // TODO: ask whether there could be multiple payouts for the same claim.
-  //
   // Amount
   cmp.types.v3.PriceDetail amount = 8;
 }

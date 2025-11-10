@@ -43,7 +43,6 @@ message ChangePolicy {
 }
 
 // ChangeTypes
-// TODO: Add documentation
 message ChangeType {
   // Change type code
   string code = 1;

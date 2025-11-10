@@ -154,8 +154,6 @@ message LocalizedSeatAttributeSet {
 // Defines a static attribute for a seat, which can be used for specifying features
 // and restrictions. Attributes include a name, a human-readable description, and a
 // value that can be used for various conditions or restrictions.
-//
-// FIXME: Can we make this a big enum?
 message SeatAttribute {
   // Name of the attribute, used to identify the feature or restriction.
   string name = 1;

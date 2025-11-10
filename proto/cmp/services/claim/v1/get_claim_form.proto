@@ -21,10 +21,6 @@ message ClaimGetFormRequest {
 
   // Booking token ID for the policy. You get it after minting an Insurance policy. This is not the booking token of the trip.
   uint64 policy_token_id = 3;
-
-  // TODO: If a form needs to be requested for a flight delay, cancellation, or baggage damage, is there a different reference
-  // that should be used? For missing baggage, you likely have a report filed at the airport that includes a reference
-  // (you can add the report itself later in the submit_claim_form message). Could this be a type of claim?
 }
 
 message ClaimGetFormResponse {

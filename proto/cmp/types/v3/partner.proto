@@ -31,8 +31,6 @@ message Partner {
   // Example DNS TXT Records:
   // `@   IN  TXT  "camino-t-addr=T-camino1tdkgjhfjq8z4glnvu8davxvdm66jx55tfr6qnz"  TTL 3600`
   // `@   IN  TXT  "camino-pubkey=043134d4b70236e59f99ae9e6ed9d1d512bacfa83506c9371ff4e372b7837844d82b1c56d81d04a23e25b18ff3f7eb531a5ef17df3bf5730b29e13f854a65b4651"  TTL 3600`
-  //
-  // FIXME: Need review here!
   string domain = 4;
 
   // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
@@ -58,21 +56,11 @@ message Partner {
 // Message representing a service sold by a partner.
 message PartnerService {
   // Name of the service.
-  //
-  // FIXME: Should we include package name also here? If not, how should the bot
-  // supposed to find the message? If yes, package name also includes the version
-  // which means partner will need to update supported services with every new
-  // version.
-  //
   // Ex: "cmp.services.accommodation.v1.AccommodationSearchService"
   string service_name = 1;
 
   // Response of the service.
-  //
   // Ex: "cmp.services.accommodation.v1.AccommodationSearchResponse"
-  //
-  // FIXME: Do we need this? One can check the service definition and see the
-  // response message type.
   string response_name = 2;
 
   // Result field
