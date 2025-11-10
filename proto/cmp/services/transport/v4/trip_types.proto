@@ -74,8 +74,6 @@ message SegmentExtended {
     max_bytes: 512
   }];
 
-  // TODO: Try to standardize the service types below.
-
   // Flights, trains and transfers often offer different service types
   // for a product. Think about economy or business for flights, first and second
   // class on trains and a shared shuttle or a private transfer.
@@ -84,12 +82,14 @@ message SegmentExtended {
   // flight: "Y", "J", "F".
   // train: "1st", "2nd" or "S", "C", "P"
   // transfer: "S", "P", "VIP", "SS"
+  // bus: no formal codes are known at the moment
   string service_type_code = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // Service type description examples:
   // flight: "Economy Class", "Business Class", "First Class"
   // train: "First Class", "Second Class" or "standard", "comfort", and "premium",..
   // transfer: "Shuttle", "Private", "VIP Limosine", "Speedy Shuttle",...
+  // bus: Classic, Panorama, Front, Table, Comfort, Extra, Single, Semi-bed, Bed
   string service_type_description = 3 [(buf.validate.field).string.max_bytes = 512];
 
   // Included, optional or compulsory services for this segment or leg. Just a code and
@@ -199,6 +199,13 @@ message Segment {
   // The seat map id for the offer when doing a search will then be
   // one of the seat_map_ids values defined here.
   repeated cmp.types.v4.SeatMapID seat_map_ids = 12;
+
+  // Specifies the type of transport for this segment
+  // Ex: `TransportType.TRANSPORT_TYPE_FLIGHT`
+  cmp.services.transport.v4.TransportType transport_type = 13 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 }
 
 // Represents a departure or arrival event
@@ -225,4 +232,12 @@ message TransitEventLocation {
     // Single geographic point represented by two double fields.
     cmp.types.v4.Coordinates location_coordinates = 2;
   }
+}
+
+enum TransportType {
+  TRANSPORT_TYPE_UNSPECIFIED = 0;
+  TRANSPORT_TYPE_FLIGHT = 1;
+  TRANSPORT_TYPE_TRAIN = 2;
+  TRANSPORT_TYPE_TRANSFER = 3;
+  TRANSPORT_TYPE_BUS = 4;
 }

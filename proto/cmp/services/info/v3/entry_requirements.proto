@@ -76,17 +76,18 @@ message CountryEntryRequirementsRequest {
     }
   }];
 
-  // FIXME: Improve docs for booleans here. Which items/categories they include or exclude.
-
+  // Flag to exclude categories (default: false)
+  // This will prevent the list of `CountryEntryRequirementCategory`
+  // from being included in the response.
   bool exclude_categories = 10;
 
+  // Flag to include items (default: false)
+  // This will include the list of `CountryEntryRequirementItem` in the response.
   bool include_items = 11;
-
-  // FIXME: Filter to an enum?
 
   // There is not yet any categorization standard and conclusively filters are
   // supplier specific and the filter type should be "FILTER_TYPE_PROVIDER_CODE"
-  // Examples:
+  // TODO: Define standard categories and implement them as enum?
   repeated cmp.types.v4.Filter filters = 12 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100

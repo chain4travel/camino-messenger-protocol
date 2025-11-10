@@ -16,7 +16,5 @@ message InsuranceSearchQuery {
 
   // Insurance specific search parameters Ex: Specific search parameters like
   // insured booking, nationality, blockchain, ... etc
-  //
-  // FIXME: This field should be required, otherwise it becomes an empty query, does it make sense?
   cmp.services.insurance.v3.InsuranceSearchParameters search_parameters_insurance = 2 [(buf.validate.field).required = true];
 }

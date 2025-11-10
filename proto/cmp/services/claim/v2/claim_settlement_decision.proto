@@ -40,9 +40,9 @@ message ClaimSettlementDecisionRequest {
   // Pay-out transaction
   cmp.services.claim.v2.PayOutTransaction payout_transaction = 7;
 
-  // TODO: ask whether there could be multiple payouts for the same claim.
-  //
   // Amount
+  // TODO: Is it possible that there are multiple payouts for different parties
+  // in one claim?
   cmp.types.v4.PriceDetail amount = 8;
 }
 

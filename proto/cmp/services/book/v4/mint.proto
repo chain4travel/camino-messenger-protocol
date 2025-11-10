@@ -38,7 +38,6 @@ message MintRequest {
   string comment = 5 [(buf.validate.field).string.max_bytes = 512];
 
   // Public keys that will be used to encrypt the private booking data
-  // TODO: When we implement the private booking data, we need to set min_items to 1.
   repeated cmp.types.v4.PublicKey public_keys = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100

@@ -7,7 +7,6 @@ import "cmp/services/transport/v4/trip_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/cancel_policy.proto";
 import "cmp/types/v4/change_policy.proto";
-import "cmp/types/v4/link.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/rate.proto";
 
@@ -57,23 +56,12 @@ message TransportSearchResult {
     max_items: 100
   }];
 
-  // Links
-  // FIXME: Clarify why this is needed?
-  repeated cmp.types.v4.Link links = 8 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
-
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v4.Bookability bookability = 9 [(buf.validate.field).required = true];
+  cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
 
   // Cancel Policy
-  cmp.types.v4.CancelPolicy cancel_policy = 10 [(buf.validate.field).required = true];
+  cmp.types.v4.CancelPolicy cancel_policy = 9 [(buf.validate.field).required = true];
 
   // Change Policy
-  cmp.types.v4.ChangePolicy change_policy = 11;
-
-  // Observations
-  // FIXME: Clarify what this is used for?
-  string observations = 12 [(buf.validate.field).string.max_bytes = 512];
+  cmp.types.v4.ChangePolicy change_policy = 10;
 }

@@ -54,7 +54,6 @@ message QueryTrip {
 // instead of a `datetime` object.
 message QueryTransitEvent {
   // Date time of the event
-  // FIXME: Do we also need the option to have a date range here?
   cmp.types.v4.Date date = 1 [(buf.validate.field).required = true];
 
   // Event location
