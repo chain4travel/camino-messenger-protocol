@@ -4,9 +4,6 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/evm_address.proto";
-import "cmp/types/v4/link.proto";
-
-// FIXME: Improve comments for this and other proto files below this.
 
 // Loyalty Program
 //
@@ -21,29 +18,15 @@ message LoyaltyProgram {
     // Smart Contract address of a loyalty program
     cmp.types.v4.EVMAddress contract_address = 1;
 
-    // Off-chain loyalty program
-    cmp.types.v4.OffChainLoyaltyProgram off_chain_loyalty = 2;
+    // Off-chain loyalty program identifier
+    string off_chain_loyalty = 2 [(buf.validate.field).string = {
+      min_len: 1
+      max_bytes: 512
+    }];
   }
 
-  // Official name of the loyalty program that might be required to map
-  string name = 3 [(buf.validate.field).string = {
-    min_len: 0
-    max_bytes: 512
-  }];
-
-  // Url to the details of the loyalty program
-  cmp.types.v4.Link link = 4;
-}
-
-message OffChainLoyaltyProgram {
-  // Identification number/code for the loyalty program
-  string id = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
-  }];
-
-  // Membership ID
-  string membership_id = 2 [(buf.validate.field).string = {
+  // The individual membership ID inside of the loyalty program
+  string membership_id = 3 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512
   }];
