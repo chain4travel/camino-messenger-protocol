@@ -4,6 +4,7 @@ package cmp.types.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/cancel_policy.proto";
+import "cmp/types/v4/change_policy.proto";
 import "cmp/types/v4/price.proto";
 
 // Represents the complete pricing information for a product or service, including
@@ -31,6 +32,11 @@ message TotalPrice {
   // it can be included here to inform about potential cancellation fees.
   // BEWARE: If it's not provided, it implies that this is a non-refundable price!
   cmp.types.v4.CancelPolicy cancel_policy = 3;
+
+  // In case this price belongs to a changeable product or service
+  // it can be included here to inform about potential change fees.
+  // BEWARE: If it's not provided, it implies that this is a non-changeable product!
+  cmp.types.v4.ChangePolicy change_policy = 4;
 
   // Validation rule: Ensure the price value is not negative
   option (buf.validate.message).cel = {

@@ -17,36 +17,32 @@ import "google/protobuf/timestamp.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/change_policy.proto.dot.svg)
 message ChangePolicy {
-  // the search result is changeable or not (at least one change type exists)
-  //
-  // FIXME: This boolean is not really required as it does have a change policy if the
-  // message is included. Refactor the message to remove it.
-  bool change_allowed = 1;
+  oneof policy_type {
+    option (buf.validate.oneof).required = true;
 
-  // The "free change upto" identifier specifies the exact DateTime upto when
-  // this search result can be changed free of charge.
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
-  //
-  // FIXME: Refine this as this can also be defined using the change types below.
-  google.protobuf.Timestamp free_change_upto = 2;
+    // The "free change upto" identifier specifies the exact DateTime upto when
+    // this search result can be changed free of charge.
+    //
+    // Timestamps may be used for both off-chain and on-chain operations.
+    // For on-chain operations, only seconds are supported, and nanoseconds
+    // will be ignored.
+    google.protobuf.Timestamp free_change_upto = 2;
 
-  // Full change policies can be complex and extensive. Inclusion in search
-  // messages should be avoided because they substantially increase the message size
-  // for each option and in general detailed cancellation information is required at
-  // a later step in the booking flow.
-  //
-  // Specify several change types with their change fee relative to the start
+    // Complex change types - see ComplexChangeTypes message for details
+    cmp.types.v4.ComplexChangeTypes complex_change_types = 3;
+  }
+}
+
+message ComplexChangeTypes {
+  // Specify several change types with their fees relative to the start
   // date-time of the service. When in the inventory system several entries with
   // different hours before specified, like for example 10€ from 240 hours (10 days)
   // before consumption, 50€ from 5 days before consumption and 100€ from 24 hours
   // before consumption, they must be computed to one uniform format of date ranges
   // and fees, related to the start DateTime of the service or product
   // delivery.
-  repeated cmp.types.v4.ChangeType change_types = 3 [(buf.validate.field).repeated = {
-    min_items: 0
+  repeated cmp.types.v4.ChangeType change_types = 1 [(buf.validate.field).repeated = {
+    min_items: 1
     max_items: 100
   }];
 }
