@@ -8,7 +8,6 @@ import "cmp/types/v1/travel_type.proto";
 import "cmp/types/v2/country.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/datetime_range.proto";
-import "cmp/types/v4/filter.proto";
 import "cmp/types/v4/localized.proto";
 import "cmp/types/v4/uuid.proto";
 import "google/protobuf/timestamp.proto";
@@ -84,14 +83,6 @@ message CountryEntryRequirementsRequest {
   // Flag to include items (default: false)
   // This will include the list of `CountryEntryRequirementItem` in the response.
   bool include_items = 11;
-
-  // There is not yet any categorization standard and conclusively filters are
-  // supplier specific and the filter type should be "FILTER_TYPE_PROVIDER_CODE"
-  // TODO: Define standard categories and implement them as enum?
-  repeated cmp.types.v4.Filter filters = 12 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
 }
 
 message CountryEntryRequirementsResponse {

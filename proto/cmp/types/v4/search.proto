@@ -7,7 +7,6 @@ import "cmp/types/v1/content_source.proto";
 import "cmp/types/v1/language.proto";
 import "cmp/types/v2/country.proto";
 import "cmp/types/v4/currency.proto";
-import "cmp/types/v4/filter.proto";
 import "cmp/types/v4/sorting.proto";
 import "cmp/types/v4/uuid.proto";
 
@@ -56,19 +55,13 @@ message SearchParameters {
   // defines the sorting type and order.
   cmp.types.v4.Sorting sorting = 8;
 
-  // Filters for the search. Various provider and product specific filters can be
-  // provided here in agreed name/value pairs.
-  repeated cmp.types.v4.Filter filters = 9 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
-
   // Free-text field to provide more details for better offer personalization. This
   // field can be provided in combination with a Geo location or as stand-alone.
   // If speech is provided as a recording for better offer personalization, then
   // the recording has to be processed to text.
   // This field can be provided in combination with a Geo location
   // or as stand-alone.
-  string search_description_text = 10 [(buf.validate.field).string = {
+  string search_description_text = 9 [(buf.validate.field).string = {
     min_len: 0
     max_len: 1000
   }];
@@ -79,7 +72,7 @@ message SearchParameters {
   // Ex: ContentSourceType.CONTENT_SOURCE_TYPE_GDS,
   // ContentSourceType.CONTENT_SOURCE_TYPE_NDC
   // ContentSourceType.CONTENT_SOURCE_TYPE_3RD_PARTY
-  repeated cmp.types.v1.ContentSourceType content_source_types = 11 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.ContentSourceType content_source_types = 10 [(buf.validate.field).repeated = {
     unique: true
     items: {
       enum: {
