@@ -96,77 +96,71 @@ message ActivityExtendedInfo {
     max_items: 100
   }];
 
-  // Tags
-  repeated cmp.services.activity.v4.ActivityTag tags = 7 [(buf.validate.field).repeated = {
-    min_items: 0
-    max_items: 100
-  }];
-
   // Languages in which the activity is available
-  repeated cmp.types.v1.Language spoken_languages = 8 [(buf.validate.field).repeated = {
+  repeated cmp.types.v1.Language spoken_languages = 7 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Contact Info; Address, Email, Phone, Urls
-  cmp.types.v4.ContactInfo contact_info = 9;
+  cmp.types.v4.ContactInfo contact_info = 8;
 
   // Images
-  repeated cmp.types.v4.Image images = 10 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Image images = 9 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Videos
-  repeated cmp.types.v4.Video videos = 11 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Video videos = 10 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // The category of this activity according to the defined enum
-  cmp.services.activity.v4.ActivityCategory category = 12 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.services.activity.v4.ActivityCategory category = 11 [(buf.validate.field).enum = {defined_only: true}];
 
   // Category name which describes the `category`
-  string category_name = 13 [(buf.validate.field).string.max_bytes = 512];
+  string category_name = 12 [(buf.validate.field).string.max_bytes = 512];
 
   // The type of this activity according to the defined enum
-  cmp.services.activity.v4.ActivityType type = 14 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.services.activity.v4.ActivityType type = 13 [(buf.validate.field).enum = {defined_only: true}];
 
   // Type name which describes `type`
-  string type_name = 15 [(buf.validate.field).string.max_bytes = 512];
+  string type_name = 14 [(buf.validate.field).string.max_bytes = 512];
 
   // Duration range (min, max) of the activity in minutes
-  cmp.types.v4.DurationRange duration_range = 16;
+  cmp.types.v4.DurationRange duration_range = 15;
 
   // Time given for confirmation before the offer expires
-  cmp.types.v4.Duration max_confirmation_duration = 17;
+  cmp.types.v4.Duration max_confirmation_duration = 16;
 
   // Allow Free Sale
-  bool allow_free_sale = 18;
+  bool allow_free_sale = 17;
 
   // The ability to confirm instantly
-  bool instant_confirmation = 19;
+  bool instant_confirmation = 18;
 
   // Can be delivered instantly
-  bool instant_delivery = 20;
+  bool instant_delivery = 19;
 
   // Check availability
-  bool availability_required = 21;
+  bool availability_required = 20;
 
   // Availability Type
-  cmp.services.activity.v4.ActivityAvailabilityType availability_type = 22 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.services.activity.v4.ActivityAvailabilityType availability_type = 21 [(buf.validate.field).enum = {defined_only: true}];
 
   // Delivery types for the activity.
   //
   // Formats; such as QR Code, NFT, Ticket, ... etc
   // Methods; such as Email, SMS, Post, ... etc
-  repeated cmp.types.v4.Delivery delivery_types = 23 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Delivery delivery_types = 22 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
   // Redemption method
-  repeated cmp.types.v4.RedemptionMethod redemption_methods = 24 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.RedemptionMethod redemption_methods = 23 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -174,17 +168,17 @@ message ActivityExtendedInfo {
   // Context for Inventory system concepts that need to be included in an info
   // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
   // etc. or a serialized combination of these codes.
-  string context = 25 [(buf.validate.field).string.max_bytes = 512];
+  string context = 24 [(buf.validate.field).string.max_bytes = 512];
 
   // Minimum number of participants required for the activity to proceed.
   // Ex: A jeep safari might require at least 5 participants to operate,
   // meaning the activity might be cancelled if fewer than 5 people book it.
-  uint32 min_participants = 26;
+  uint32 min_participants = 25;
 
   // Maximum number of participants allowed for the activity.
   // Ex: The same jeep safari might have a maximum capacity of 10 participants
   // due to vehicle size limitations or safety regulations.
-  uint32 max_participants = 27;
+  uint32 max_participants = 26;
 
   option (buf.validate.message) = {
     cel: {
@@ -324,6 +318,7 @@ message TransferZone {
   }];
 }
 
+// FIXME: This will be replaced by amenity definition
 message ActivityFeature {
   // Feature Code
   string code = 1 [(buf.validate.field).string = {
@@ -332,17 +327,6 @@ message ActivityFeature {
   }];
 
   // Feature description
-  string description = 2 [(buf.validate.field).string.max_bytes = 512];
-}
-
-message ActivityTag {
-  // Code or slug of the tag
-  string code = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
-  }];
-
-  // Description
   string description = 2 [(buf.validate.field).string.max_bytes = 512];
 }
 

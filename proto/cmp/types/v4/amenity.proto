@@ -36,6 +36,11 @@ import "buf/validate/validate.proto";
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/amenity.proto.dot.xs.svg)
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/amenity.proto.dot.svg)
+// FIXME: Make this an enum to cover features and amenity types
+// With the fields:
+// * Type (enum AmenityType) - The type of amenity (e.g., INTERNET, POOL, FOOD_BEVERAGE, KITESURFING, GOLF COURSE, BALCONY, ROOM_SIZE, etc).
+// * Value (int): The value associated with the amenity (e.g., speed in Mbps for INTERNET, size in square meters for ROOM_SIZE, etc).
+// * Unit (enum): The unit of measurement for the value (e.g., "Mbps", "sqm", "km", "booking currency", "local currency", "count",  etc).
 message Amenity {
   // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
   cmp.types.v4.AmenityType type = 1 [(buf.validate.field).enum = {
@@ -46,7 +51,7 @@ message Amenity {
   }];
 
   // Attributes of the amenity
-  map<string, string> attributes = 2; // FIXME: Needs discussion
+  map<string, string> attributes = 2;
 }
 
 enum AmenityType {
