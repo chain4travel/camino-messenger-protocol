@@ -368,14 +368,21 @@ def default_run():
 						included_by_latest[include].append(proto_file)
 	
 				if proto_file in latest_proto_files and include not in latest_proto_files:
-					print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The include '{include}' in '{proto_file}' is not the latest version!")
-	
-					if proto_file not in fix_needed:
-						fix_needed[proto_file] = [ include ]
+					if proto_file in type_files and proto_file not in included_by_latest:
+						# Edge-case scenario where a file was removed in newer versions
+						# With that an old version of this type is checked whether
+						# it includes the latest versions of its includes. But as
+						# this file shall not do that we just warn instead of erroring out.
+						print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is not including the latest version of '{include}', but as the type file is not included anywhere in the latest version this might be ok.")
 					else:
-						fix_needed[proto_file].append(include)
-	
-					global_error = True
+						print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The include '{include}' in '{proto_file}' is not the latest version!")
+
+						if proto_file not in fix_needed:
+							fix_needed[proto_file] = [ include ]
+						else:
+							fix_needed[proto_file].append(include)
+
+						global_error = True
 
 	# Now we have a nice dependency graph-like list to check
 	# Let's see whether one of the type proto files is currently not included anywhere
