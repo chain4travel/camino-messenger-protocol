@@ -116,31 +116,4 @@ message Price {
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }
 
-// Represents the complete pricing information for a product or service, including
-// both the total price value and an optional breakdown of price components.
-//
-// The value field contains the final, computed total price. When a breakdown is
-// provided, it should accurately decompose the total price into its constituent
-// parts (e.g., base price, taxes, fees, discounts).
-//
-// Example: A hotel booking total of €150 might break down into:
-// - Base rate: €120
-// - Tourism tax: €20
-// - Service charge: €10
-message TotalPrice {
-  // The final calculated total price for the product or service
-  cmp.types.v4.Price value = 1 [(buf.validate.field).required = true];
 
-  // Optional itemized breakdown showing how the total price was calculated.
-  // Each PriceDetail in the breakdown can have further nested breakdowns.
-  repeated cmp.types.v4.PriceDetail breakdown = 2 [(buf.validate.field).repeated = {
-    max_items: 100 // Default max items
-  }];
-
-  // Validation rule: Ensure the price value is not negative
-  option (buf.validate.message).cel = {
-    id: "total_price_non_negative"
-    message: "Total price value must not be negative"
-    expression: "!this.value.value.startsWith('-')"
-  };
-}

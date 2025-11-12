@@ -4,7 +4,7 @@ package cmp.services.insurance.v3;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/bookability.proto";
-import "cmp/types/v4/price.proto";
+import "cmp/types/v4/total_price.proto";
 
 // This type represents a search result and is used in the
 // `InsuranceSearchResponse` message.

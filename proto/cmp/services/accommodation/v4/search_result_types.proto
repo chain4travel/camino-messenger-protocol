@@ -6,8 +6,8 @@ import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v4/unit_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/cancel_policy.proto";
-import "cmp/types/v4/price.proto";
 import "cmp/types/v4/rate.proto";
+import "cmp/types/v4/total_price.proto";
 
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
@@ -42,13 +42,10 @@ message AccommodationSearchResult {
     max_items: 100
   }];
 
-  // The cancellation conditions related to an option
-  cmp.types.v4.CancelPolicy cancel_policy = 6 [(buf.validate.field).required = true];
-
   // Free text remarks without any functionality. Only for display purposes. Should
   // be in the requested language.
-  string remarks = 7 [(buf.validate.field).string.max_bytes = 512];
+  string remarks = 6 [(buf.validate.field).string.max_bytes = 512];
 
   // Status of the result, whether it is immediately bookable or not
-  cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
+  cmp.types.v4.Bookability bookability = 7 [(buf.validate.field).required = true];
 }

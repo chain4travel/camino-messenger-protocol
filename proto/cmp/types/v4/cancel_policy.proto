@@ -17,28 +17,27 @@ import "google/protobuf/timestamp.proto";
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/cancel_policy.proto.dot.svg)
 message CancelPolicy {
-  // The search result is refundable or not (at least one cancellation penalty exists
-  // that provides a (partial) refund.
-  //
-  // FIXME: This boolean is not really required as it does have a cancel policy if the
-  // message is included. Refactor the message to remove it.
-  bool refundable = 1;
+  oneof policy_type {
+    option (buf.validate.oneof).required = true;
+    // The "free cancellation upto" identifier specifies the exact DateTime upto when
+    // this booking can be cancelled free of charge.
+    //
+    // Timestamps may be used for both off-chain and on-chain operations.
+    // For on-chain operations, only seconds are supported, and nanoseconds
+    // will be ignored.
+    //
+    // This is a very simplified way to express a cancellation policy where
+    // only a single free cancellation timestamp is provided. More complex
+    // policies can be defined using the cancel penalties below.
+    google.protobuf.Timestamp free_cancellation_upto = 1;
 
-  // The "free cancellation upto" identifier specifies the exact DateTime upto when
-  // this booking can be cancelled free of charge.
-  //
-  // Timestamps may be used for both off-chain and on-chain operations.
-  // For on-chain operations, only seconds are supported, and nanoseconds
-  // will be ignored.
-  //
-  // FIXME: Refine this as this can also be defined using the cancel penalties below.
-  google.protobuf.Timestamp free_cancellation_upto = 2;
+    // Complex cancellation penalties - see ComplexCancelPenalties message
+    // for details
+    cmp.types.v4.ComplexCancelPenalties complex_cancel_penalties = 2;
+  }
+}
 
-  // Full cancellation policies can be complex and extensive. Inclusion in search
-  // messages should be avoided because they substantially increase the message size
-  // for each option and in general detailed cancellation information is required at
-  // a later step in the booking flow.
-  //
+message ComplexCancelPenalties {
   // Specify several date ranges with their penalties relative to the start
   // date-time of the service. When in the inventory system several entries with
   // different hours before specified, like for example 10€ from 240 hours (10 days)
@@ -46,8 +45,8 @@ message CancelPolicy {
   // before consumption, they must be computed to one uniform format of date ranges
   // and penalties, related to the start DateTime of the service or product
   // delivery.
-  repeated cmp.types.v4.CancelPenalty cancel_penalties = 3 [(buf.validate.field).repeated = {
-    min_items: 0
+  repeated cmp.types.v4.CancelPenalty cancel_penalties = 1 [(buf.validate.field).repeated = {
+    min_items: 1
     max_items: 10
   }];
 }

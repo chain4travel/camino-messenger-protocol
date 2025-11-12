@@ -79,22 +79,16 @@ message Unit {
   // The rate rule which applies to this unit
   cmp.types.v4.RateRule rate_rule = 11;
 
-  // The cancellation conditions
-  //
-  // Ex: 10-5 days before arrival x€, 4-1 days before arrival y€ and 0 days before
-  // arrival z€
-  cmp.types.v4.CancelPolicy cancel_policy = 12;
-
   // Number of remaining units at the time of calculation
-  uint32 remaining_units = 13;
+  uint32 remaining_units = 12;
 
   // Property code which can be of different types (like GIATA and GOAL)
-  repeated cmp.types.v4.ProductCode property_code = 14;
+  repeated cmp.types.v4.ProductCode property_code = 13;
 
   // Supplier Property code, consistent in ProductList, ProductInfo and Search
-  cmp.types.v4.SupplierProductCode supplier_code = 15 [(buf.validate.field).required = true];
+  cmp.types.v4.SupplierProductCode supplier_code = 14 [(buf.validate.field).required = true];
 
   // Non structural aspects related to the unit a supplier wants to include
   // in the search response. For display purposes only.
-  string remarks = 16 [(buf.validate.field).string.max_bytes = 512];
+  string remarks = 15 [(buf.validate.field).string.max_bytes = 512];
 }

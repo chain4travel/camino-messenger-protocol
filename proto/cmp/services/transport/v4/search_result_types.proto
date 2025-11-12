@@ -7,8 +7,8 @@ import "cmp/services/transport/v4/trip_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/cancel_policy.proto";
 import "cmp/types/v4/change_policy.proto";
-import "cmp/types/v4/price.proto";
 import "cmp/types/v4/rate.proto";
+import "cmp/types/v4/total_price.proto";
 
 // Transport search result
 //
@@ -59,9 +59,6 @@ message TransportSearchResult {
   // Status of the result, whether it is immediately bookable or not
   cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
 
-  // Cancel Policy
-  cmp.types.v4.CancelPolicy cancel_policy = 9 [(buf.validate.field).required = true];
-
   // Change Policy
-  cmp.types.v4.ChangePolicy change_policy = 10;
+  cmp.types.v4.ChangePolicy change_policy = 9;
 }
