@@ -13,16 +13,16 @@ for file in $(find proto/ -name "*.proto"); do
 	open_diagram_link_count=$(grep -Fc "(${BASEURL}${file}.dot.svg)" "$file")
 
 	if [ "$diagram_link_count" -ne 1 ] || [ "$open_diagram_link_count" -ne 1 ]; then
-		echo "Error: File '$file' does not contain the expected diagram links."
+		echo "❌ Error: File '$file' does not contain the expected diagram links."
 		echo "Found $diagram_link_count diagram link(s) and $open_diagram_link_count open diagram link(s)."
 		ERROR=1
 	fi
 done
 
 if [ "$ERROR" -ne 0 ]; then
-	echo "One or more files have invalid diagram links."
+	echo "❌ One or more files have invalid diagram links."
 	exit 1
 else
-	echo "All diagram links are valid."
+	echo "✅ All diagram links are valid."
 	exit 0
 fi
