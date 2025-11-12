@@ -4,9 +4,9 @@ package cmp.services.activity.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/bookability.proto";
-import "cmp/types/v4/total_price.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v4/total_price.proto";
 
 // This type represents a search result and is used in the `ActivitySearchResponse`
 // message.

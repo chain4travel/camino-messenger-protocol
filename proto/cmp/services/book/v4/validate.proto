@@ -4,9 +4,9 @@ package cmp.services.book.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/common.proto";
-import "cmp/types/v4/total_price.proto";
 import "cmp/types/v4/search.proto";
 import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v4/total_price.proto";
 import "cmp/types/v4/uuid.proto";
 
 message ValidationRequest {

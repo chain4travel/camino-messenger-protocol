@@ -131,7 +131,7 @@ message PolicyInfo {
   // Chain ID , where the policy token was issued
   int32 chain_id = 3;
 
-    // Payment method: wallet address or the IBAN of the claim issuer for pay-out
+  // Payment method: wallet address or the IBAN of the claim issuer for pay-out
   oneof payment_method {
     // Wallet address for on-chain payment
     string wallet_address = 4;

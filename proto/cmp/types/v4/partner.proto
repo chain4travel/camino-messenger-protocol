@@ -29,7 +29,7 @@ message Partner {
   // Business description
   string business_description = 3 [(buf.validate.field).string = {
     min_len: 0
-    max_len: 1000 
+    max_len: 1000
   }];
 
   // Domain for the partner

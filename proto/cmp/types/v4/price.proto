@@ -115,5 +115,3 @@ message Price {
   // The currency specification (fiat or cryptocurrency)
   cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
 }
-
-

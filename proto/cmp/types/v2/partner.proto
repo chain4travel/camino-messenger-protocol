@@ -31,7 +31,7 @@ message Partner {
   // Example DNS TXT Records:
   // `@   IN  TXT  "camino-t-addr=T-camino1tdkgjhfjq8z4glnvu8davxvdm66jx55tfr6qnz"  TTL 3600`
   // `@   IN  TXT  "camino-pubkey=043134d4b70236e59f99ae9e6ed9d1d512bacfa83506c9371ff4e372b7837844d82b1c56d81d04a23e25b18ff3f7eb531a5ef17df3bf5730b29e13f854a65b4651"  TTL 3600`
-    string domain = 4;
+  string domain = 4;
 
   // Supported tokens for payment (on-chain). If a TokenCurrency is specified, this
   // then means that on-chain payment is supported.
