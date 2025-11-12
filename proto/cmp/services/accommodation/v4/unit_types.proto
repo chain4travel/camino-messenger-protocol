@@ -4,7 +4,6 @@ package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
 import "cmp/types/v4/bed.proto";
-import "cmp/types/v4/cancel_policy.proto";
 import "cmp/types/v4/meal_plan.proto";
 import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";

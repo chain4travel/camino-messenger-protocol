@@ -5,7 +5,6 @@ package cmp.services.transport.v4;
 import "buf/validate/validate.proto";
 import "cmp/services/transport/v4/trip_types.proto";
 import "cmp/types/v4/bookability.proto";
-import "cmp/types/v4/cancel_policy.proto";
 import "cmp/types/v4/change_policy.proto";
 import "cmp/types/v4/rate.proto";
 import "cmp/types/v4/total_price.proto";
