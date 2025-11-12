@@ -18,6 +18,10 @@ import "cmp/types/v4/price.proto";
 // - Base rate: €120
 // - Tourism tax: €20
 // - Service charge: €10
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/total_price.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/total_price.proto.dot.svg)
 message TotalPrice {
   // The final calculated total price for the product or service
   cmp.types.v4.Price value = 1 [(buf.validate.field).required = true];
