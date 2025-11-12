@@ -45,65 +45,17 @@ syntax = "proto3";
 package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/services/accommodation/v4/search_query_types.proto";
+import "cmp/services/accommodation/v4/property_types.proto";
+import "cmp/services/accommodation/v4/search_parameters_types.proto";
 import "cmp/services/accommodation/v4/search_result_types.proto";
 import "cmp/types/v4/common.proto";
 import "cmp/types/v4/search.proto";
+import "cmp/types/v4/travel_period.proto";
 import "cmp/types/v4/traveller.proto";
 import "cmp/types/v4/uuid.proto";
 
 // The `Accommodation Search Request` message type facilitates the request for
-// accommodations like hotel and holiday home searches within the platform. In the
-// request the market, language and currency are specified at the top-level.
-//
-// In "queries" we specify the details of the trip like dates, properties or
-// locations or filters. The purpose of such a structure is to allow for multi-room
-// and multi-property search requests.
-//
-// For the response this means that there is no grouping of different
-// room, mealplan or rateplan options in single room or single property searches.
-// Each AccommodationSearchResult is one bookable option as a "result_id".
-//
-// Simple example:
-// a search for 1 room for 2 adults would be just 1 query, with one travel period and
-// one set of search parameters. The response has one query_id with many result_ids
-// for various rooms, mealplans and rateplans in one hotel and depending on the search
-// parameters, again for other hotels. Each property+room+rateplan+mealplan is one
-// result_id with just one unit.
-//
-// The simple example is also applicable for holiday homes where one or multiple
-// result_ids will be returned for various homes matching the query. The results will
-// probably not include a mealplan and in general no room information as all rooms in
-// the home are included. Flexible and non-refundable as well as packaging rateplans
-// are already surfacing in some distribution channels.
-//
-// Multi room example:
-// a search for 1 room for 2 adults in one query and another room for two adults and a
-// child of 8 in another room in the same hotel or destination for the same dates in
-// another query in the search request. This will lead to a search response with just
-// one unit for every possible option available for each query_id, with many result_ids.
-//
-// The same concept is valid for multiple homes for more than one family traveling
-// together to one park or destination.
-//
-// Road-trip or circuit example:
-// a search for one or multiple rooms or homes in queries that have sequential dates
-// and destinations. For example a trip to Las Vegas, a flight to New York and descending
-// the atlantic coastline to New Orleans or Orlando by car with stops in various places.
-//
-// The hostel, convention or groups example:
-// Often just 5 rooms for 10 people are requested or specific bed combinations like 5
-// single-use rooms (for 5 travellers) and 5 double rooms (10 travellers) are requested.
-// In this case the number of rooms is specified and the total amount of travellers,
-// but no distribution of travellers per room is detailed in the request. The response
-// then hold multiple units for one search_id and result_id, so that if 5 rooms are
-// requested, but only 2 standard rooms are available, the requested amount can be
-// completed with a different room type (superior, seaview,..)
-//
-// In general, the number of available rooms should be considered to ensure that for
-// requests with multiple rooms or homes, the same room or home is not offered twice
-// to different travellers.
-//
+// accommodations like hotel and holiday home searches within the platform.
 message AccommodationSearchRequest {
   // Common header which is used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
@@ -115,11 +67,30 @@ message AccommodationSearchRequest {
   // one kilometer from the beach, have a kids club and offer an a la carte restaurant
   cmp.types.v4.SearchParameters search_parameters = 2 [(buf.validate.field).required = true];
 
-  // This field represents a list of search queries that can be used to create
-  // multiroom multi location searches.
-  repeated cmp.services.accommodation.v4.AccommodationSearchQuery queries = 3 [(buf.validate.field).repeated = {
+  // Accommodation specific search parameters Ex: Specific search parameters like
+  // geo location, meal plan, rate plan and rate rules.
+  //
+  // While all fields in accommodation search parameters message are optional at the
+  // message level, each supplier may define their own minimum set of required
+  // filter parameters.
+  cmp.services.accommodation.v4.AccommodationSearchParameters search_parameters_accommodation = 3;
+
+  // The intended travel period to search for. Please note that this refers
+  // to the actual start and end times of the stay in the property and does not
+  // include potential travel times for transfer/transportation.
+  cmp.types.v4.TravelPeriod travel_period = 4 [(buf.validate.field).required = true];
+
+  // Definition of the travellers to match against the occupancy definitions
+  // of the properties.
+  repeated cmp.types.v4.BasicTraveller travellers = 5 [(buf.validate.field).repeated = {
     min_items: 1
-    max_items: 10
+    max_items: 15
+  }];
+
+  // Type of the property, like hotel or holiday home
+  cmp.services.accommodation.v4.PropertyType property_type = 6 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
   }];
 }
 

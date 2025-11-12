@@ -11,11 +11,7 @@ import "cmp/types/v4/rate.proto";
 import "cmp/types/v4/service_fact.proto";
 import "cmp/types/v4/travel_period.proto";
 
-// A Unit can represent a room in a hotel. One search option can have multiple units
-// for multi-room requests Ex: one request for 2 rooms for 4 adults, 2 in each room.
-//
-// A unit can also be a different property in a multi-property request for holiday
-// homes. Ex: 1 house for 4 persons and another house for 6 persons.
+// A Unit can represent a room in a hotel or an entire holiday home.
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/unit_types.proto.dot.xs.svg)
 //
