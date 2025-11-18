@@ -436,51 +436,91 @@ message PropertyShortListItem {
   }];
 }
 
+// Represents an attribute of a room (feature or amenity).
+// Examples:
+// - Room size (20 square meters)
+// - Air conditioning (present, not shared, free of charge)
+// - Shower (present, shared, free of charge)
+// - Safe (present, not shared, additional charge of 5.5 local currency units)
 message RoomAttribute {
-  // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
+  // The type defining the attribute itself. Ex: Room size, Air conditioning, Shower, etc.
   cmp.services.accommodation.v4.RoomAttributeType type = 1 [(buf.validate.field).enum = {
-    // Only allow defined types
     defined_only: true
-    // Do not allow UNSPECIFIED
     not_in: [0]
   }];
 
-  // Value associated with the attribute
-  float value = 2;
+  // This indicates whether the attribute is shared among multiple rooms
+  // Default is false which means it's exclusive to this room
+  bool shared = 2;
 
-  // Unit of measurement for the value
+  // The values associated with this attribute. Ex: 30 square meters for room size
+  // or 100 megabits per second for internet speed.
+  repeated cmp.services.accommodation.v4.RoomAttributeValue values = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of a room attribute along with its type and unit.
+// Example for room size:
+// - value: 30
+// - value_type: ROOM_ATTRIBUTE_VALUE_TYPE_SIZE
+// - unit: ROOM_ATTRIBUTE_UNIT_SQUARE_METERS
+message RoomAttributeValue {
+  float value = 1;
+
+  cmp.services.accommodation.v4.RoomAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
   cmp.services.accommodation.v4.RoomAttributeUnit unit = 3 [(buf.validate.field).enum = {
-    // Only allow defined types
     defined_only: true
-    // Do not allow UNSPECIFIED
     not_in: [0]
   }];
+}
+
+enum RoomAttributeValueType {
+  ROOM_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_VALUE_TYPE_SIZE = 1;
+  ROOM_ATTRIBUTE_VALUE_TYPE_SPEED = 2;
+  ROOM_ATTRIBUTE_VALUE_TYPE_LENGTH = 3;
+  ROOM_ATTRIBUTE_VALUE_TYPE_DISTANCE = 4;
+  ROOM_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 5;
+  ROOM_ATTRIBUTE_VALUE_TYPE_COUNT = 6;
 }
 
 enum RoomAttributeUnit {
   ROOM_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
   ROOM_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
   ROOM_ATTRIBUTE_UNIT_SQUARE_METERS = 2;
-  ROOM_ATTRIBUTE_UNIT_KILOMETERS = 3;
-  ROOM_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4;
-  ROOM_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5;
-  ROOM_ATTRIBUTE_UNIT_COUNT = 6;
+  ROOM_ATTRIBUTE_UNIT_SQUARE_FEET = 3;
+  ROOM_ATTRIBUTE_UNIT_KILOMETERS = 4;
+  ROOM_ATTRIBUTE_UNIT_MILES = 5;
+  ROOM_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 6; // The currency used for the booking
+  ROOM_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 7; // The local currency of the property's location
+  ROOM_ATTRIBUTE_UNIT_COUNT = 8;
 }
 
-// TODO: @Noctunus - Add good attributes and descriptions
 enum RoomAttributeType {
   ROOM_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
-  ROOM_ATTRIBUTE_TYPE_WIFI = 1;
-  ROOM_ATTRIBUTE_TYPE_HAS_SHOWER = 2;
-
-  /*
-     ROOM_ATTRIBUTE_TYPE_FOOD_AND_DRINK = 1;
-     ROOM_ATTRIBUTE_TYPE_POOL = 2;
-     ROOM_ATTRIBUTE_TYPE_BEACH = 3;
-     ROOM_ATTRIBUTE_TYPE_ATTRACTIONS = 4;
-     ROOM_ATTRIBUTE_TYPE_THEMES = 5;
-     ROOM_ATTRIBUTE_TYPE_INTERNET = 6;
-  */
+  ROOM_ATTRIBUTE_TYPE_SIZE = 1; // Room size or area measurement
+  ROOM_ATTRIBUTE_TYPE_ACCESSIBILITY = 2; // Room accessibility features for disabled guests
+  ROOM_ATTRIBUTE_TYPE_SHOWER = 3; // Room has shower facilities
+  ROOM_ATTRIBUTE_TYPE_BATHTUB = 4; // Room has bathtub facilities
+  ROOM_ATTRIBUTE_TYPE_TOILET = 5; // Room has toilet facilities
+  ROOM_ATTRIBUTE_TYPE_BIDET = 6; // Room has bidet facilities
+  ROOM_ATTRIBUTE_TYPE_AIR_CONDITIONING = 7; // Room has air conditioning system
+  ROOM_ATTRIBUTE_TYPE_HEATING = 8; // Room has heating system
+  ROOM_ATTRIBUTE_TYPE_TELEVISION = 9; // Room has television entertainment
+  ROOM_ATTRIBUTE_TYPE_MINIBAR = 10; // Room has minibar with beverages and snacks
+  ROOM_ATTRIBUTE_TYPE_KITCHEN = 11; // Room has kitchen or kitchenette facilities
+  ROOM_ATTRIBUTE_TYPE_SAFE = 12; // Room has in-room safe for valuables
+  ROOM_ATTRIBUTE_TYPE_WORKSPACE = 13; // Room has dedicated workspace or business area
+  ROOM_ATTRIBUTE_TYPE_DESK = 14; // Room has desk for work or writing
+  ROOM_ATTRIBUTE_TYPE_IRONING_BOARD = 15; // Room has ironing board and iron
+  ROOM_ATTRIBUTE_TYPE_HAIR_DRYER = 16; // Room has hair dryer in bathroom
+  ROOM_ATTRIBUTE_TYPE_SHAVING_OUTLET = 17; // Room has electrical outlet suitable for shavers
 }
 
 // Represents a transport hub (like an airport or train station) in the vicinity of the property.
