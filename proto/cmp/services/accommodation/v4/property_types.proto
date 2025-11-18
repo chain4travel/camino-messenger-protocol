@@ -3,17 +3,18 @@ syntax = "proto3";
 package cmp.services.accommodation.v4;
 
 import "buf/validate/validate.proto";
-import "cmp/types/v4/airport.proto";
-import "cmp/types/v4/amenity.proto";
 import "cmp/types/v4/bed.proto";
 import "cmp/types/v4/contact_info.proto";
 import "cmp/types/v4/description.proto";
+import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/file.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/meal_plan.proto";
+import "cmp/types/v4/measurement.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/product_status.proto";
 import "cmp/types/v4/service_fact.proto";
+import "cmp/types/v4/theme.proto";
 import "cmp/types/v4/traveller.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -94,13 +95,12 @@ message Property {
   // or are about to be completely removed soon.
   cmp.types.v4.ProductStatus status = 10 [(buf.validate.field).required = true];
 
-  // List of the airports in the vicinity of the property.
-  // The list should only include airports which have a reasonable distance
+  // List of the transport hubs in the vicinity of the property.
+  // The list should only include transport hubs which have a reasonable distance
   // and/or travel time to the property.
-  // Usually the airports are used both as a filter criteria for the distributor
-  // and to decide which flights / transfers to search for a specific property.
-  // Ex: ["PMI", "ZRH", "AYT"]
-  repeated cmp.types.v4.AirportCode airports = 11 [(buf.validate.field).repeated = {
+  // Usually the transport hubs are used both as a filter criteria for the distributor
+  // and to decide which transports / flights / transfers to search for a specific property.
+  repeated cmp.services.accommodation.v4.TransportHub transport_hubs = 11 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
   }];
@@ -114,9 +114,25 @@ message Property {
     not_in: [0]
   }];
 
+  // Additional classifications of the property to better define its type and
+  // intended target audience.
   repeated cmp.services.accommodation.v4.PropertyClassification classifications = 13 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
+  }];
+
+  // General themes associated with the property to better define its type and
+  // intended target audience.
+  repeated cmp.types.v4.Theme themes = 14 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 20
     unique: true
     items: {
       enum: {
@@ -314,8 +330,9 @@ message Room {
     max_items: 100
   }];
 
-  // Additional amenities which are possible for this room.
-  repeated cmp.types.v4.Amenity amenities = 11 [(buf.validate.field).repeated = {
+  // Additional attributes bound to the room (features and amenities).
+  // See `cmp.services.accommodation.v4.RoomAttribute` for more information.
+  repeated cmp.services.accommodation.v4.RoomAttribute attributes = 11 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -417,4 +434,64 @@ message PropertyShortListItem {
     defined_only: true
     not_in: [0]
   }];
+}
+
+message RoomAttribute {
+  // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
+  cmp.services.accommodation.v4.RoomAttributeType type = 1 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
+  }];
+
+  // Value associated with the attribute
+  float value = 2;
+
+  // Unit of measurement for the value
+  cmp.services.accommodation.v4.RoomAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
+  }];
+}
+
+enum RoomAttributeUnit {
+  ROOM_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
+  ROOM_ATTRIBUTE_UNIT_SQUARE_METERS = 2;
+  ROOM_ATTRIBUTE_UNIT_KILOMETERS = 3;
+  ROOM_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4;
+  ROOM_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5;
+  ROOM_ATTRIBUTE_UNIT_COUNT = 6;
+}
+
+// TODO: @Noctunus - Add good attributes and descriptions
+enum RoomAttributeType {
+  ROOM_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_TYPE_WIFI = 1;
+  ROOM_ATTRIBUTE_TYPE_HAS_SHOWER = 2;
+
+  /*
+     ROOM_ATTRIBUTE_TYPE_FOOD_AND_DRINK = 1;
+     ROOM_ATTRIBUTE_TYPE_POOL = 2;
+     ROOM_ATTRIBUTE_TYPE_BEACH = 3;
+     ROOM_ATTRIBUTE_TYPE_ATTRACTIONS = 4;
+     ROOM_ATTRIBUTE_TYPE_THEMES = 5;
+     ROOM_ATTRIBUTE_TYPE_INTERNET = 6;
+  */
+}
+
+// Represents a transport hub (like an airport or train station) in the vicinity of the property.
+message TransportHub {
+  // Location code of the transport hub which can be IATA or ICAO for airports
+  // or something different for trains, etc.
+  cmp.types.v4.LocationCode location_code = 1 [(buf.validate.field).required = true];
+
+  // Distance from the property to the transport hub
+  cmp.types.v4.Length distance = 2 [(buf.validate.field).required = true];
+
+  // Estimated travel time from the property to the transport hub in minutes
+  cmp.types.v4.Duration travel_time = 3 [(buf.validate.field).required = true];
 }

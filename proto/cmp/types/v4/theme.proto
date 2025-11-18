@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package cmp.types.v4;
+
+// Themes to describe the type of a destination, accommodation, activity, etc.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/theme.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/theme.proto.dot.svg)
+enum Theme {
+  THEME_UNSPECIFIED = 0;
+  THEME_BEACH = 1; // Beach and coastal destinations with sun, sand, and water activities
+  THEME_WELLNESS = 2; // Health and wellness focused experiences including spas, retreats, and relaxation
+  THEME_FAMILY = 3; // Family-friendly destinations and activities suitable for all ages
+  THEME_CULTURE = 4; // Cultural experiences including museums, art galleries, and local traditions
+  THEME_NATURE = 5; // Natural environments including parks, wildlife, and eco-tourism
+  THEME_SPORTS = 6; // Sports and athletic activities including adventure sports and recreational activities
+  THEME_CITY = 7; // Urban destinations with metropolitan attractions and city experiences
+  THEME_LUXURY = 8; // High-end, premium experiences with exclusive amenities and services
+  THEME_ADVENTURE = 9; // Exciting and thrilling activities for adventure seekers
+  THEME_ADULTS_ONLY = 10; // Adult-only venues and experiences not suitable for children
+  THEME_HISTORICAL = 11; // Historical sites, monuments, and heritage destinations
+  THEME_CULINARY = 12; // Food and beverage focused experiences including local cuisine and dining
+  THEME_ROMANTIC = 13; // Romantic destinations and experiences ideal for couples
+}

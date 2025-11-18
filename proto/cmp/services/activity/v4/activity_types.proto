@@ -90,8 +90,8 @@ message ActivityExtendedInfo {
     max_items: 100
   }];
 
-  // Activity Features
-  repeated cmp.services.activity.v4.ActivityFeature features = 6 [(buf.validate.field).repeated = {
+  // The attributes bound to the activity (features and amenities).
+  repeated cmp.services.activity.v4.ActivityAttribute attributes = 6 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -318,16 +318,46 @@ message TransferZone {
   }];
 }
 
-// FIXME: This will be replaced by amenity definition
-message ActivityFeature {
-  // Feature Code
-  string code = 1 [(buf.validate.field).string = {
-    min_len: 1
-    max_bytes: 512
+message ActivityAttribute {
+  // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
+  cmp.services.activity.v4.ActivityAttributeType type = 1 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
   }];
 
-  // Feature description
-  string description = 2 [(buf.validate.field).string.max_bytes = 512];
+  // Value associated with the attribute
+  float value = 2;
+
+  // Unit of measurement for the value
+  cmp.services.activity.v4.ActivityAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    // Only allow defined types
+    defined_only: true
+    // Do not allow UNSPECIFIED
+    not_in: [0]
+  }];
+}
+
+enum ActivityAttributeUnit {
+  ACTIVITY_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
+  ACTIVITY_ATTRIBUTE_UNIT_SQUARE_METERS = 2;
+  ACTIVITY_ATTRIBUTE_UNIT_KILOMETERS = 3;
+  ACTIVITY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4;
+  ACTIVITY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5;
+  ACTIVITY_ATTRIBUTE_UNIT_COUNT = 6;
+}
+
+// TODO: @Noctunus - Add good attributes and descriptions
+enum ActivityAttributeType {
+  ACTIVITY_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_TYPE_FOOD_AND_DRINK = 1;
+  ACTIVITY_ATTRIBUTE_TYPE_POOL = 2;
+  ACTIVITY_ATTRIBUTE_TYPE_BEACH = 3;
+  ACTIVITY_ATTRIBUTE_TYPE_ATTRACTIONS = 4;
+  ACTIVITY_ATTRIBUTE_TYPE_THEMES = 5;
+  ACTIVITY_ATTRIBUTE_TYPE_INTERNET = 6;
 }
 
 // This message is used to specify the supplier codes and their status.
@@ -381,57 +411,25 @@ enum ActivityAvailabilityType {
 
 // Enum representing broad categories of activities, including entertainment
 enum ActivityCategory {
-  // Default unspecified category
   ACTIVITY_CATEGORY_UNSPECIFIED = 0;
-
-  // Tours including guided sightseeing, city, or nature excursions
-  ACTIVITY_CATEGORY_TOUR = 1;
-
-  // Visits to museums, parks, historical sites, or attractions
-  ACTIVITY_CATEGORY_ATTRACTION = 2;
-
-  // Outdoor adventures like hiking, water sports, safaris, etc.
-  ACTIVITY_CATEGORY_ADVENTURE = 3;
-
-  // Experiences such as classes, workshops, tastings, or immersive activities
-  ACTIVITY_CATEGORY_EXPERIENCE = 4;
-
-  // Transportation services such as airports, hotels, or intercity shuttles
-  ACTIVITY_CATEGORY_TRANSFER = 5;
-
-  // Cruises, boat trips, or sea excursions
-  ACTIVITY_CATEGORY_CRUISE = 6;
-
-  // Entertainment events including concerts, live shows, theater, or music performances
-  ACTIVITY_CATEGORY_ENTERTAINMENT = 7; // Added to cover concerts and live performances.
+  ACTIVITY_CATEGORY_TOUR = 1; // Tours including guided sightseeing, city, or nature excursions
+  ACTIVITY_CATEGORY_ATTRACTION = 2; // Visits to museums, parks, historical sites, or attractions
+  ACTIVITY_CATEGORY_ADVENTURE = 3; // Outdoor adventures like hiking, water sports, safaris, etc.
+  ACTIVITY_CATEGORY_EXPERIENCE = 4; // Experiences such as classes, workshops, tastings, or immersive activities
+  ACTIVITY_CATEGORY_TRANSFER = 5; // Transportation services such as airports, hotels, or intercity shuttles
+  ACTIVITY_CATEGORY_CRUISE = 6; // Cruises, boat trips, or sea excursions
+  ACTIVITY_CATEGORY_ENTERTAINMENT = 7; // Entertainment events including concerts, live shows, theater, or music performances
 }
 
 // Enum specifying detailed activity types, including concerts and shows
 enum ActivityType {
-  // Default or unspecified type
   ACTIVITY_TYPE_UNSPECIFIED = 0;
-
-  // Guided city or sightseeing tours
-  ACTIVITY_TYPE_GUIDED_TOUR = 1;
-
-  // Self-guided exploration
-  ACTIVITY_TYPE_SELF_GUIDED = 2;
-
-  // Museum, gallery, or attraction tickets
-  ACTIVITY_TYPE_TICKET = 3;
-
-  // Cultural or entertainment shows like concerts, theater, dance
-  ACTIVITY_TYPE_SHOW = 4; // Suitable for concerts, performances, live music.
-
-  // Adventure activities like zip-lining, water sports, etc.
-  ACTIVITY_TYPE_ADVENTURE_SPORT = 5;
-
-  // Classes, workshops, tastings
-  ACTIVITY_TYPE_WORKSHOP = 6;
-
-  // Transfers (airport, hotel, etc.)
-  ACTIVITY_TYPE_SHUTTLE_TRANSFER = 7;
-
-  // Boat or sea excursions
-  ACTIVITY_TYPE_BOAT_TOUR = 8;
+  ACTIVITY_TYPE_GUIDED_TOUR = 1; // Guided city or sightseeing tours
+  ACTIVITY_TYPE_SELF_GUIDED = 2; // Self-guided exploration
+  ACTIVITY_TYPE_TICKET = 3; // Museum, gallery, or attraction tickets
+  ACTIVITY_TYPE_SHOW = 4; // Cultural or entertainment shows like concerts, theater, dance
+  ACTIVITY_TYPE_ADVENTURE_SPORT = 5; // Adventure activities like zip-lining, water sports, etc.
+  ACTIVITY_TYPE_WORKSHOP = 6; // Classes, workshops, tastings
+  ACTIVITY_TYPE_SHUTTLE_TRANSFER = 7; // Transfers (airport, hotel, etc.)
+  ACTIVITY_TYPE_BOAT_TOUR = 8; // Boat or sea excursions
 }
