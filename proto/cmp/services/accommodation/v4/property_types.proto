@@ -253,6 +253,13 @@ message PropertyExtendedInfo {
     min_items: 1
     max_items: 100
   }];
+
+  // Additional attributes bound to the property (features and amenities).
+  // See `cmp.services.accommodation.v4.PropertyAttribute` for more information.
+  repeated cmp.services.accommodation.v4.PropertyAttribute attributes = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Definition of a room (or room type). In case of Hotels this is usually
@@ -439,9 +446,9 @@ message PropertyShortListItem {
 // Represents an attribute of a room (feature or amenity).
 // Examples:
 // - Room size (20 square meters)
-// - Air conditioning (present, not shared, free of charge)
-// - Shower (present, shared, free of charge)
-// - Safe (present, not shared, additional charge of 5.5 local currency units)
+// - Air conditioning (not shared, free of charge)
+// - Shower (shared, free of charge)
+// - Safe (not shared, additional charge of 5.5 local currency units)
 message RoomAttribute {
   // The type defining the attribute itself. Ex: Room size, Air conditioning, Shower, etc.
   cmp.services.accommodation.v4.RoomAttributeType type = 1 [(buf.validate.field).enum = {
@@ -516,11 +523,117 @@ enum RoomAttributeType {
   ROOM_ATTRIBUTE_TYPE_MINIBAR = 10; // Room has minibar with beverages and snacks
   ROOM_ATTRIBUTE_TYPE_KITCHEN = 11; // Room has kitchen or kitchenette facilities
   ROOM_ATTRIBUTE_TYPE_SAFE = 12; // Room has in-room safe for valuables
-  ROOM_ATTRIBUTE_TYPE_WORKSPACE = 13; // Room has dedicated workspace or business area
-  ROOM_ATTRIBUTE_TYPE_DESK = 14; // Room has desk for work or writing
-  ROOM_ATTRIBUTE_TYPE_IRONING_BOARD = 15; // Room has ironing board and iron
-  ROOM_ATTRIBUTE_TYPE_HAIR_DRYER = 16; // Room has hair dryer in bathroom
-  ROOM_ATTRIBUTE_TYPE_SHAVING_OUTLET = 17; // Room has electrical outlet suitable for shavers
+  ROOM_ATTRIBUTE_TYPE_DESK = 13; // Room has desk for work or writing
+  ROOM_ATTRIBUTE_TYPE_IRONING_BOARD = 14; // Room has ironing board and iron
+  ROOM_ATTRIBUTE_TYPE_HAIR_DRYER = 15; // Room has hair dryer in bathroom
+  ROOM_ATTRIBUTE_TYPE_SHAVING_OUTLET = 16; // Room has electrical outlet suitable for shavers
+}
+
+// Represents an attribute of a property (feature or amenity).
+// Examples:
+// - Number of rooms (50)
+// - WiFi (free of charge)
+// - Parking (count 250, free of charge)
+// - Airport shuttle (additional charge of 15 booking currency units)
+message PropertyAttribute {
+  // The type defining the attribute itself. Ex: Number of rooms, WiFi, Parking, etc.
+  cmp.services.accommodation.v4.PropertyAttributeType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // The values associated with this attribute. Ex: 6 pools, 2 tennis courts
+  // or 100 megabits per second for internet speed.
+  repeated cmp.services.accommodation.v4.PropertyAttributeValue values = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of a property attribute along with its type and unit.
+// Example for number of rooms:
+// - value: 50
+// - value_type: PROPERTY_ATTRIBUTE_VALUE_TYPE_COUNT
+// - unit: PROPERTY_ATTRIBUTE_UNIT_COUNT
+// Example for internet speed:
+// - value: 100
+// - value_type: PROPERTY_ATTRIBUTE_VALUE_TYPE_SPEED
+// - unit: PROPERTY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND
+message PropertyAttributeValue {
+  float value = 1;
+
+  cmp.services.accommodation.v4.PropertyAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.services.accommodation.v4.PropertyAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum PropertyAttributeValueType {
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_SPEED = 1;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_DISTANCE = 2;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 3;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_COUNT = 4;
+}
+
+enum PropertyAttributeUnit {
+  PROPERTY_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  PROPERTY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
+  PROPERTY_ATTRIBUTE_UNIT_KILOMETERS = 2;
+  PROPERTY_ATTRIBUTE_UNIT_MILES = 3;
+  PROPERTY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4; // The currency used for the booking
+  PROPERTY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5; // The local currency of the property's location
+  PROPERTY_ATTRIBUTE_UNIT_COUNT = 6;
+}
+
+enum PropertyAttributeType {
+  PROPERTY_ATTRIBUTE_TYPE_UNSPECIFIED = 0; // Default/unspecified value - should not be used in practice
+  PROPERTY_ATTRIBUTE_TYPE_NUMBER_OF_ROOMS = 1; // Total number of rooms in the property
+  PROPERTY_ATTRIBUTE_TYPE_WIFI = 2; // Property has WiFi internet access
+  PROPERTY_ATTRIBUTE_TYPE_WORKSPACE = 3; // Property has dedicated workspace for business travelers
+  PROPERTY_ATTRIBUTE_TYPE_PARKING = 4; // Property has parking facilities available
+  PROPERTY_ATTRIBUTE_TYPE_AIRPORT_SHUTTLE = 5; // Property offers airport shuttle service
+  PROPERTY_ATTRIBUTE_TYPE_NON_SMOKING = 6; // Property is a non-smoking establishment
+  PROPERTY_ATTRIBUTE_TYPE_PET_FRIENDLY = 7; // Property allows pets
+  PROPERTY_ATTRIBUTE_TYPE_CHILD_FRIENDLY = 8; // Property is suitable and welcoming for children
+  PROPERTY_ATTRIBUTE_TYPE_ADULTS_ONLY = 9; // Property is exclusively for adults only
+  PROPERTY_ATTRIBUTE_TYPE_POOL = 10; // Property has swimming pool facilities
+  PROPERTY_ATTRIBUTE_TYPE_POOL_CHILDREN = 11; // Property has dedicated children's pool
+  PROPERTY_ATTRIBUTE_TYPE_FITNESS_CENTER = 12; // Property has fitness center or gym facilities
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_SPA = 13; // Property has spa and wellness facilities
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_YOGA = 14; // Property offers yoga facilities and classes
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_MEDITATION = 15; // Property offers meditation facilities and sessions
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_MASSAGE = 16; // Property offers massage services
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_THERAPY = 17; // Property offers therapy and treatment services
+  PROPERTY_ATTRIBUTE_TYPE_RESTAURANT = 18; // Property has on-site restaurant
+  PROPERTY_ATTRIBUTE_TYPE_BAR = 19; // Property has on-site bar or lounge
+  PROPERTY_ATTRIBUTE_TYPE_GAME_ROOM = 20; // Property has game room or arcade facilities
+  PROPERTY_ATTRIBUTE_TYPE_CHILDREN_PLAYGROUND = 21; // Property has children's playground area
+  PROPERTY_ATTRIBUTE_TYPE_CHILDREN_CLUB = 22; // Property has children's club with supervised activities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_TENNIS = 23; // Property has tennis courts available
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_GOLF = 24; // Property has golf course access or facilities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_WATER_SPORTS = 25; // Property offers water sports activities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_CYCLING = 26; // Property offers cycling facilities or bike rentals
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_MINI_GOLF = 27; // Property has mini-golf course
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_TABLE_TENNIS = 28; // Property has table tennis facilities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_PADEL = 29; // Property has padel courts available
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_SAND = 30; // Property is located near a sandy beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_ROCKY = 31; // Property is located near a rocky beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_SHINGLE = 32; // Property is located near a shingle beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_PRIVATE = 33; // Property has private beach area access
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_PUBLIC = 34; // Property has access to public beach area
+  PROPERTY_ATTRIBUTE_TYPE_POI_CITY_CENTER = 35; // Property is located near the city center
+  PROPERTY_ATTRIBUTE_TYPE_POI_ATTRACTION = 36; // Property is located near popular tourist attractions
+  PROPERTY_ATTRIBUTE_TYPE_POI_NATURE = 37; // Property is located near natural landmarks and parks
+  PROPERTY_ATTRIBUTE_TYPE_POI_SHOPPING = 38; // Property is located near shopping areas and malls
+  PROPERTY_ATTRIBUTE_TYPE_POI_DINING = 39; // Property is located near dining establishments and restaurants
+  PROPERTY_ATTRIBUTE_TYPE_POI_CULTURE = 40; // Property is located near cultural sites and museums
+  PROPERTY_ATTRIBUTE_TYPE_POI_NIGHTLIFE = 41; // Property is located near nightlife and entertainment venues
 }
 
 // Represents a transport hub (like an airport or train station) in the vicinity of the property.
