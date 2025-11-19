@@ -3,6 +3,7 @@ syntax = "proto3";
 package cmp.types.v4;
 
 import "buf/validate/validate.proto";
+import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/file.proto";
 import "cmp/types/v4/localized.proto";
 import "google/protobuf/wrappers.proto";
@@ -16,27 +17,9 @@ message SeatMapID {
   }];
 }
 
-// SeatAttributes define various characteristics and constraints of seats within a seat map.
-// They can be defined globally on the seat map level, the section level, or the individual seat level.
-// This allows a flexible and bandwidth-friendly definition of attributes.
-// The languages of the attributes must match those requested in the associated
-// `SeatMapRequest` in case they can be provided.
-message SeatAttributes {
-  // Features for display purposes (e.g., seat type, amenities like "extra legroom",
-  // "window seat").
-  repeated cmp.types.v4.SeatAttribute features = 1 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits the number of feature sets.
-  }];
-
-  // Restrictions for display purposes (e.g., "age limit", "accessibility requirements").
-  repeated cmp.types.v4.SeatAttribute restrictions = 2 [(buf.validate.field).repeated = {
-    max_items: 100 // Limits the number of restriction sets.
-  }];
-}
-
 // Represents a basic seat with attributes. Each seat has a
 // unique identifier and a location within a visual seat map (if provided for its
-// section). It can also have various static features and restrictions.
+// section). It can also have various attributes like features and restrictions.
 message Seat {
   // Unique identifier for the seat within its section (e.g., "12B", "A26").
   // This identifier, in conjunction with its parent section(s) IDs, forms a
@@ -54,7 +37,10 @@ message Seat {
   // Individual seat attribute definition. Only use this for special seats
   // inside of a section. If there are attributes which apply to all seats
   // of a section please use the section attributes instead to save bandwidth.
-  cmp.types.v4.SeatAttributes attributes = 3;
+  repeated cmp.types.v4.SeatAttribute attributes = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Represents a list of individual seats, typically within a section.
@@ -121,7 +107,10 @@ message Section {
 
   // SeatAttributes which apply to all seats within this section. And also to
   // all seats in nested sub-sections.
-  cmp.types.v4.SeatAttributes attributes = 7;
+  repeated cmp.types.v4.SeatAttribute attributes = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Representation of a seat map structure, defining the layout and structure
@@ -149,7 +138,10 @@ message SeatMap {
 
   // Attributes which apply to all seats within the entire seat map.
   // These might describe general venue features or seating policies.
-  cmp.types.v4.SeatAttributes attributes = 4;
+  repeated cmp.types.v4.SeatAttribute attributes = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
 }
 
 // Represents a collection of seat identifiers, used for specifying
@@ -224,45 +216,116 @@ message SeatMapInventory {
 
 /* Helper messages */
 
-// Defines a static attribute for a seat, which can be used for specifying features
-// and restrictions. Attributes include a name, a human-readable description, and a
-// value that can be used for various conditions or restrictions.
+// Represents an attribute of a seat (feature or restriction).
+// Examples:
+// - "WINDOW_SEAT"
+// - "EXTRA_LEGROOM" (optional with associated value to specify how much extra legroom)
+// - "LIMITED_RECLINE" (optional with associated value to specify max recline angle)
+// - "WHEELCHAIR_ACCESSIBLE": When it's for example wheelchair accessible
+// - "AGE": When there's a minimum age requirement to occupy the seat
+// - "WEIGHT": When there's a weight restriction for the seat
+// - "HEIGHT": When there's a height restriction for the seat
 message SeatAttribute {
+  // The type defining the attribute itself. Ex: LIMITED_RECLINE, RESTRICTED_VIEW, AGE, etc.
   cmp.types.v4.SeatAttributeType type = 1 [(buf.validate.field).enum = {
     defined_only: true
     not_in: [0]
   }];
 
-  // Integer value associated with the attribute, which can be used for conditions
-  // or restrictions, such as "min_age". Mind the unit of the value depending on the attribute type.
-  int32 value = 2;
+  // The values associated with this attribute. Ex: "minimum age 18", "max weight 120.5 kg"
+  repeated cmp.types.v4.SeatAttributeValue values = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Climate control" only during summer months
+  // If the system only has the seasons (e.g., "Summer"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
 }
 
-// Proposal for seat attribut types to standardize common seat features and restrictions.
 enum SeatAttributeType {
-  SEAT_ATTRIBUTE_TYPE_UNSPECIFIED = 0; // Unspecified value, should not be used (enforced by validation).
+  SEAT_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
   SEAT_ATTRIBUTE_TYPE_WINDOW_SEAT = 1; // Seat is located next to a window
   SEAT_ATTRIBUTE_TYPE_AISLE_SEAT = 2; // Seat is located next to the aisle for easy access
   SEAT_ATTRIBUTE_TYPE_EXIT_ROW = 3; // Seat is located in an emergency exit row (may have restrictions)
   SEAT_ATTRIBUTE_TYPE_WHEELCHAIR_ACCESSIBLE = 4; // Seat is accessible for wheelchair users
   SEAT_ATTRIBUTE_TYPE_EXTRA_LEGROOM = 5; // Seat has additional legroom space
   SEAT_ATTRIBUTE_TYPE_LIMITED_RECLINE = 6; // Seat has limited or no recline capability
-  SEAT_ATTRIBUTE_TYPE_HAS_RESTRICTED_VIEW = 7; // Seat has a restricted or obstructed view
-  SEAT_ATTRIBUTE_TYPE_HAS_POWER_OUTLET = 8; // Seat has an electrical power outlet available
-  SEAT_ATTRIBUTE_TYPE_HAS_TABLE = 9; // Seat has a table or tray table
-  SEAT_ATTRIBUTE_TYPE_HAS_SCREEN = 10; // Seat has an entertainment screen
-  SEAT_ATTRIBUTE_TYPE_HAS_STORAGE = 11; // Seat has storage compartments
-  SEAT_ATTRIBUTE_TYPE_HAS_CLIMATE_CONTROL = 12; // Seat has individual climate control (air vents, heating)
-  SEAT_ATTRIBUTE_TYPE_HAS_ARMREST = 13; // Seat has dedicated armrests
-  SEAT_ATTRIBUTE_TYPE_HAS_SHARED_ARMREST = 14; // Seat shares armrests with adjacent seats
+  SEAT_ATTRIBUTE_TYPE_RESTRICTED_VIEW = 7; // Seat has a restricted or obstructed view
+  SEAT_ATTRIBUTE_TYPE_POWER_OUTLET = 8; // Seat has an electrical power outlet available
+  SEAT_ATTRIBUTE_TYPE_TABLE = 9; // Seat has a table or tray table
+  SEAT_ATTRIBUTE_TYPE_SCREEN = 10; // Seat has an entertainment screen
+  SEAT_ATTRIBUTE_TYPE_STORAGE = 11; // Seat has storage compartments
+  SEAT_ATTRIBUTE_TYPE_CLIMATE_CONTROL = 12; // Seat has individual climate control (air vents, heating)
+  SEAT_ATTRIBUTE_TYPE_ARMREST = 13; // Seat has dedicated armrests
+  SEAT_ATTRIBUTE_TYPE_SHARED_ARMREST = 14; // Seat shares armrests with adjacent seats
   SEAT_ATTRIBUTE_TYPE_VIP_SEATING = 15; // Seat is designated as VIP or premium seating
   SEAT_ATTRIBUTE_TYPE_NEAR_STAGE = 16; // Seat is located near the performance stage or focal point
   SEAT_ATTRIBUTE_TYPE_NEAR_BAR = 17; // Seat is located near a bar or beverage service area
   SEAT_ATTRIBUTE_TYPE_NEAR_RESTROOM = 18; // Seat is located near restroom facilities
   SEAT_ATTRIBUTE_TYPE_NEAR_GALLEY = 19; // Seat is located near galley or kitchen area (aviation/transport)
   SEAT_ATTRIBUTE_TYPE_NEAR_EMERGENCY_EXIT = 20; // Seat is located near emergency exit points
-  SEAT_ATTRIBUTE_TYPE_MIN_AGE = 21; // Seat has a minimum age requirement for occupancy (in years)
-  SEAT_ATTRIBUTE_TYPE_MAX_WEIGHT_LIMIT = 22; // Seat has a maximum weight limit for occupancy (in kg)
+  SEAT_ATTRIBUTE_TYPE_AGE = 21; // Seat has an age requirement
+  SEAT_ATTRIBUTE_TYPE_WEIGHT = 22; // Seat has a weight restriction for occupancy
+  SEAT_ATTRIBUTE_TYPE_HEIGHT = 23; // Seat has a height restriction for occupancy
+}
+
+// Represents a value of a seat attribute along with its type and unit.
+// Examples
+// "Distance to":
+// - value: 70
+// - value_type: DISTANCE
+// - unit: CENTIMETER
+// "Minimum age":
+// - value: 18
+// - value_type: MIN_AGE
+// - unit: YEARS
+message SeatAttributeValue {
+  float value = 1;
+
+  cmp.types.v4.SeatAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.types.v4.SeatAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum SeatAttributeValueType {
+  SEAT_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  SEAT_ATTRIBUTE_VALUE_TYPE_DISTANCE = 1;
+  SEAT_ATTRIBUTE_VALUE_TYPE_MAX_ANGLE = 2;
+  SEAT_ATTRIBUTE_VALUE_TYPE_MIN_AGE = 3;
+  SEAT_ATTRIBUTE_VALUE_TYPE_MIN_HEIGHT = 4;
+  SEAT_ATTRIBUTE_VALUE_TYPE_MAX_HEIGHT = 5;
+  SEAT_ATTRIBUTE_VALUE_TYPE_MAX_WEIGHT = 6;
+  SEAT_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 7;
+  SEAT_ATTRIBUTE_VALUE_TYPE_COUNT = 8;
+}
+
+enum SeatAttributeUnit {
+  SEAT_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  SEAT_ATTRIBUTE_UNIT_CENTIMETER = 1;
+  SEAT_ATTRIBUTE_UNIT_INCH = 2;
+  SEAT_ATTRIBUTE_UNIT_METER = 3;
+  SEAT_ATTRIBUTE_UNIT_FOOT = 4;
+  SEAT_ATTRIBUTE_UNIT_KILOMETER = 5;
+  SEAT_ATTRIBUTE_UNIT_MILES = 6;
+  SEAT_ATTRIBUTE_UNIT_KILOGRAM = 7;
+  SEAT_ATTRIBUTE_UNIT_POUND = 8;
+  SEAT_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 9; // The currency used for the booking
+  SEAT_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 10; // The local currency of the property's location
+  SEAT_ATTRIBUTE_UNIT_DEGREE = 11; // Unit for angles (e.g., seat recline angle)
+  SEAT_ATTRIBUTE_UNIT_YEARS = 12; // Unit for age-related attributes
 }
 
 // Enumerates the geometric shapes used to define clickable regions for seats
