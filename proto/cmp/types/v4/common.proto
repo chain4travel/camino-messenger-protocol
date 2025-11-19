@@ -123,7 +123,7 @@ message Alert {
 
   // The optional human-readable alert message to further specify the alert.
   string message = 1 [(buf.validate.field).string = {
-    min_len: 0 // Message cannot be empty.
+    min_len: 0
     max_bytes: 512 // Constrains message length.
   }];
 }
@@ -135,8 +135,7 @@ enum AlertCode {
   ALERT_CODE_NO_CONTENT = 1;
   ALERT_CODE_DEPRECATED_VERSION = 2; // The version used is deprecated and may not be supported in the future.
   ALERT_CODE_LANGUAGE_NOT_SUPPORTED = 3; // One or more requested languages are not supported.
-  ALERT_CODE_CURRENCY_NOT_SUPPORTED = 4; // One or more requested currencies are not supported.
-  ALERT_CODE_INFORMATIONAL = 5; // An informational alert that does not indicate an error or warning.
+  ALERT_CODE_INFORMATIONAL = 4; // An informational alert that does not indicate an error or warning.
 }
 
 // Errors provides detailed feedback about why a request failed.
@@ -156,9 +155,10 @@ enum ErrorCode {
   ERROR_CODE_UNSPECIFIED = 0;
   ERROR_CODE_INVALID_PROTO = 1; // The request did not conform to the expected Protobuf schema and/or validation rules.
   ERROR_CODE_INVALID_IDENTIFIERS = 2; // The request contained invalid or unrecognized identifiers (e.g. ExpiringUUIDs).
-  ERROR_CODE_UNIMPLEMENTED = 3; // The request contained fields which are not supported (and can't be ignored).
-  ERROR_CODE_UNAUTHORIZED = 4; // The requester is not authorized to perform the operation.
-  ERROR_CODE_INTERNAL = 5; // An internal server error occurred.
-  ERROR_CODE_TEMPORARY_UNAVAILABLE = 6; // The service is temporarily unavailable.
-  ERROR_CODE_RATE_LIMIT_EXCEEDED = 7; // The request exceeded the allowed rate limit.
+  ERROR_CODE_INVALID_CURRENCY = 3; // The request contained invalid or unsupported currency codes.
+  ERROR_CODE_UNIMPLEMENTED = 4; // The request contained fields which are not supported (and can't be ignored).
+  ERROR_CODE_UNAUTHORIZED = 5; // The requester is not authorized to perform the operation.
+  ERROR_CODE_INTERNAL = 6; // An internal server error occurred.
+  ERROR_CODE_TEMPORARY_UNAVAILABLE = 7; // The service is temporarily unavailable.
+  ERROR_CODE_RATE_LIMIT_EXCEEDED = 8; // The request exceeded the allowed rate limit.
 }
