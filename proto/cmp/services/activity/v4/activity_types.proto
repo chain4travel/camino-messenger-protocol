@@ -330,46 +330,107 @@ message TransferZone {
   }];
 }
 
+// Represents an attribute of an activity (feature or amenity).
+// Examples:
+// - Accessibility: When it's for example wheelchair accessible
+// - Equipment: Helmet provided (free of charge: without additional attributes)
+// - Equipment: Wetsuit ("can be rented for an additional charge" expressed via ActivityAttributeValue)
 message ActivityAttribute {
-  // Amenity type like INTERNET, POOL, FOOD_BEVERAGE
+  // The type defining the attribute itself. Ex: ACCESSIBILITY, EQUIPMENT_HELMET, etc.
   cmp.services.activity.v4.ActivityAttributeType type = 1 [(buf.validate.field).enum = {
-    // Only allow defined types
     defined_only: true
-    // Do not allow UNSPECIFIED
     not_in: [0]
   }];
 
-  // Value associated with the attribute
-  float value = 2;
+  bool bring_your_own = 2; // Special case for equipment: Indicates if the equipment needs to be brought by the participant
 
-  // Unit of measurement for the value
+  // The values associated with this attribute. Ex: "can be rented for an additional charge" with value 15.0
+  repeated cmp.services.activity.v4.ActivityAttributeValue values = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Ski equipment provided" only during winter months
+  // If the system only has the seasons (e.g., "Winter"), these can be represented as start and end dates
+  // covering the entire season.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of an activity attribute along with its type and unit.
+// Examples
+// "Can be rented for an additional charge":
+// - value: 15.0
+// - value_type: ADDITIONAL_CHARGE
+// - unit: LOCAL_CURRENCY
+// "Distance to":
+// - value: 2.5
+// - value_type: DISTANCE
+// - unit: KILOMETERS
+message ActivityAttributeValue {
+  float value = 1;
+
+  cmp.services.activity.v4.ActivityAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
   cmp.services.activity.v4.ActivityAttributeUnit unit = 3 [(buf.validate.field).enum = {
-    // Only allow defined types
     defined_only: true
-    // Do not allow UNSPECIFIED
     not_in: [0]
   }];
+}
+
+enum ActivityAttributeValueType {
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_DISTANCE = 1;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 2;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_COUNT = 3;
 }
 
 enum ActivityAttributeUnit {
   ACTIVITY_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
-  ACTIVITY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
-  ACTIVITY_ATTRIBUTE_UNIT_SQUARE_METERS = 2;
-  ACTIVITY_ATTRIBUTE_UNIT_KILOMETERS = 3;
-  ACTIVITY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4;
-  ACTIVITY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5;
-  ACTIVITY_ATTRIBUTE_UNIT_COUNT = 6;
+  ACTIVITY_ATTRIBUTE_UNIT_KILOMETERS = 1;
+  ACTIVITY_ATTRIBUTE_UNIT_MILES = 2;
+  ACTIVITY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 3; // The currency used for the booking
+  ACTIVITY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 4; // The local currency of the property's location
+  ACTIVITY_ATTRIBUTE_UNIT_COUNT = 5;
 }
 
-// TODO: @Noctunus - Add good attributes and descriptions
 enum ActivityAttributeType {
   ACTIVITY_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
-  ACTIVITY_ATTRIBUTE_TYPE_FOOD_AND_DRINK = 1;
-  ACTIVITY_ATTRIBUTE_TYPE_POOL = 2;
-  ACTIVITY_ATTRIBUTE_TYPE_BEACH = 3;
-  ACTIVITY_ATTRIBUTE_TYPE_ATTRACTIONS = 4;
-  ACTIVITY_ATTRIBUTE_TYPE_THEMES = 5;
-  ACTIVITY_ATTRIBUTE_TYPE_INTERNET = 6;
+  ACTIVITY_ATTRIBUTE_TYPE_ACCESSIBILITY = 1; // Activity accessibility features for disabled guests
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_BOOTS = 2; // Boots (including Roller/Ice-Skates) provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_HELMET = 3; // Helmet provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_WETSUIT = 4; // Wetsuit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_DIVING_GEAR = 5; // Diving gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SNORKELING_GEAR = 6; // Snorkeling gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_LIFE_JACKET = 7; // Life jacket provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_PROTECTIVE_GEAR = 8; // Protective gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SUNCREAM = 9; // Suncream provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SKIS = 10; // Skis provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SNOWBOARD = 11; // Snowboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SWIMSUIT = 12; // Swimsuit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_BINOCULARS = 13; // Binoculars provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_CAMERA = 14; // Camera provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_GLOVES = 15; // Gloves provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_FISHING_GEAR = 16; // Fishing gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_VEHICLE = 17; // Vehicle (Bike, Motorbike, Quad, Trike, Jetski, Snowski, etc) provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_FLASHLIGHT = 18; // Flashlight provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SURFBOARD = 19; // Surfboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_PADDLEBOARD = 20; // Paddleboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_COSPLAY = 21; // Cosplay outfit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_GPS_TRACKER = 22; // GPS tracker provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_POI_CITY_CENTER = 23; // Activity is located near the city center
+  ACTIVITY_ATTRIBUTE_TYPE_POI_ATTRACTION = 24; // Activity is located near popular tourist attractions
+  ACTIVITY_ATTRIBUTE_TYPE_POI_NATURE = 25; // Activity is located near natural landmarks and parks
+  ACTIVITY_ATTRIBUTE_TYPE_POI_SHOPPING = 26; // Activity is located near shopping areas and malls
+  ACTIVITY_ATTRIBUTE_TYPE_POI_DINING = 27; // Activity is located near dining establishments and restaurants
+  ACTIVITY_ATTRIBUTE_TYPE_POI_CULTURE = 28; // Activity is located near cultural sites and museums
+  ACTIVITY_ATTRIBUTE_TYPE_POI_NIGHTLIFE = 29; // Activity is located near nightlife and entertainment venues
 }
 
 // This message is used to specify the supplier codes and their status.

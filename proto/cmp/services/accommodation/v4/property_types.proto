@@ -5,6 +5,7 @@ package cmp.services.accommodation.v4;
 import "buf/validate/validate.proto";
 import "cmp/types/v4/bed.proto";
 import "cmp/types/v4/contact_info.proto";
+import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/description.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/file.proto";
@@ -466,6 +467,16 @@ message RoomAttribute {
     min_items: 0
     max_items: 10
   }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Heating provided" only during winter months
+  // If the system only has the seasons (e.g., "Winter"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
 }
 
 // Represents a value of a room attribute along with its type and unit.
@@ -545,6 +556,16 @@ message PropertyAttribute {
   // The values associated with this attribute. Ex: 6 pools, 2 tennis courts
   // or 100 megabits per second for internet speed.
   repeated cmp.services.accommodation.v4.PropertyAttributeValue values = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Pool available" only during summer months
+  // If the system only has the seasons (e.g., "Summer"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 3 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
   }];
