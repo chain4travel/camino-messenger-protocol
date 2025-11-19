@@ -136,8 +136,7 @@ enum AlertCode {
   ALERT_CODE_DEPRECATED_VERSION = 2; // The version used is deprecated and may not be supported in the future.
   ALERT_CODE_LANGUAGE_NOT_SUPPORTED = 3; // One or more requested languages are not supported.
   ALERT_CODE_CURRENCY_NOT_SUPPORTED = 4; // One or more requested currencies are not supported.
-  ALERT_CODE_RATE_LIMIT_EXCEEDED = 5; // The request exceeded the allowed rate limit.
-  ALERT_CODE_INFORMATIONAL = 6; // An informational alert that does not indicate an error or warning.
+  ALERT_CODE_INFORMATIONAL = 5; // An informational alert that does not indicate an error or warning.
 }
 
 // Errors provides detailed feedback about why a request failed.
