@@ -85,9 +85,9 @@ message CountryEntryRequirementsRequest {
   bool include_items = 11;
 }
 
-message CountryEntryRequirementsResponse {
+message CountryEntryRequirementsSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // This must be a UUID according to RFC 4122
   cmp.types.v4.UUID response_id = 2 [(buf.validate.field).required = true];
@@ -103,6 +103,19 @@ message CountryEntryRequirementsResponse {
     min_items: 0
     max_items: 10000
   }];
+}
+
+message CountryEntryRequirementsErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message CountryEntryRequirementsResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.info.v3.CountryEntryRequirementsSuccessResponse success_response = 1;
+    cmp.services.info.v3.CountryEntryRequirementsErrorResponse error_response = 2;
+  }
 }
 
 // Types

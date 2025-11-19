@@ -26,9 +26,9 @@ message AcceptCancellationRequest {
 }
 
 // Response for cancellation acceptance
-message AcceptCancellationResponse {
+message AcceptCancellationSuccessResponse {
   // Response header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for the cancellation proposal acceptance.
   // This transaction can be verified on-chain to:
@@ -36,4 +36,17 @@ message AcceptCancellationResponse {
   // 2. Validate the accepted refund amount
   // 3. Prevent disputes about acceptance terms
   cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message AcceptCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message AcceptCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.AcceptCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.AcceptCancellationErrorResponse error_response = 2;
+  }
 }

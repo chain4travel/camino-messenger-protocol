@@ -46,10 +46,23 @@ message ClaimSettlementDecisionRequest {
   cmp.types.v4.PriceDetail amount = 8;
 }
 
-message ClaimSettlementDecisionResponse {
+message ClaimSettlementDecisionSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Claim Message Response to respond with claim ids (processing, carrier and submission) and message status
   cmp.services.claim.v2.ClaimMessageResponse claim_message_response = 2;
+}
+
+message ClaimSettlementDecisionErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ClaimSettlementDecisionResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.claim.v2.ClaimSettlementDecisionSuccessResponse success_response = 1;
+    cmp.services.claim.v2.ClaimSettlementDecisionErrorResponse error_response = 2;
+  }
 }

@@ -27,9 +27,9 @@ message RejectCancellationRequest {
 }
 
 // Response for cancellation rejection
-message RejectCancellationResponse {
+message RejectCancellationSuccessResponse {
   // Response Header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for the cancellation proposal rejection.
   //
@@ -38,4 +38,17 @@ message RejectCancellationResponse {
   // 2. Validate the rejection reason
   // 3. Prevent disputes about the cancellation
   cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message RejectCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message RejectCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.RejectCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.RejectCancellationErrorResponse error_response = 2;
+  }
 }

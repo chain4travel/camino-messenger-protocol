@@ -60,9 +60,9 @@ message CheckCancellationRequest {
 // - CONFIRM: Cancellation allowed, refund_amount shows what customer will receive
 // - REJECT: Cancellation denied, rejection_reason explains why
 // - ALREADY_CANCELLED: Booking was previously cancelled, no action needed
-message CheckCancellationResponse {
+message CheckCancellationSuccessResponse {
   // The response header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Echo of the booking token_id from the request for correlation
   uint64 token_id = 2;
@@ -109,6 +109,19 @@ message CheckCancellationResponse {
       expression: "this.status != cmp.services.cancellation.v2.CancellationCheckStatus.CANCELLATION_CHECK_STATUS_REJECT || this.rejection_reason != 0"
     }
   };
+}
+
+message CheckCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message CheckCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.CheckCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.CheckCancellationErrorResponse error_response = 2;
+  }
 }
 
 enum CancellationCheckStatus {

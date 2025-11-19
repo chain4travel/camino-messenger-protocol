@@ -22,14 +22,27 @@ message ActivityProductListRequest {
   }];
 }
 
-message ActivityProductListResponse {
+message ActivityProductListSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // List of basic identifiers and informations for activities
   // Used to decide whether to pull the full information for mapping purposes
   // With a ActivityProductInfoRequest.
   repeated cmp.services.activity.v4.ActivityInfo activities = 2;
+}
+
+message ActivityProductListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ActivityProductListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.activity.v4.ActivityProductListSuccessResponse success_response = 1;
+    cmp.services.activity.v4.ActivityProductListErrorResponse error_response = 2;
+  }
 }
 
 // This service is used to get a product list for activities.

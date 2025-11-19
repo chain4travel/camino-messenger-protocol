@@ -56,9 +56,9 @@ message MintRequest {
   cmp.types.v4.Price expected_price = 9 [(buf.validate.field).required = true];
 }
 
-message MintResponse {
+message MintSuccessResponse {
   // Common header which is used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique mint ID for the minting operation.
   cmp.types.v4.UUID mint_id = 2 [(buf.validate.field).required = true];
@@ -117,6 +117,19 @@ message MintResponse {
   // of the blockchain would be undermined. Disputes will reoccur. This kind of flows
   // are strongly discouraged.
   bool cancellable = 12;
+}
+
+message MintErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message MintResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.book.v4.MintSuccessResponse success_response = 1;
+    cmp.services.book.v4.MintErrorResponse error_response = 2;
+  }
 }
 
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v4/mint.proto.dot.xs.svg)

@@ -35,15 +35,28 @@ message InsuranceProductInfoRequest {
   }];
 }
 
-message InsuranceProductInfoResponse {
+message InsuranceProductInfoSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Insurances
   repeated cmp.services.insurance.v3.PolicyExtendedInfo insurances = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
+}
+
+message InsuranceProductInfoErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message InsuranceProductInfoResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.insurance.v3.InsuranceProductInfoSuccessResponse success_response = 1;
+    cmp.services.insurance.v3.InsuranceProductInfoErrorResponse error_response = 2;
+  }
 }
 
 // Insurance product info service definition

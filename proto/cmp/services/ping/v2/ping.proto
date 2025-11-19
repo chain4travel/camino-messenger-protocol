@@ -25,9 +25,9 @@ message PingRequest {
   google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
 }
 
-message PingResponse {
+message PingSuccessResponse {
   // Message Header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Ping message
   string message = 2 [(buf.validate.field).string.max_bytes = 512];
@@ -38,6 +38,19 @@ message PingResponse {
   // For on-chain operations, only seconds are supported, and nanoseconds
   // will be ignored.
   google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
+}
+
+message PingErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message PingResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.ping.v2.PingSuccessResponse success_response = 1;
+    cmp.services.ping.v2.PingErrorResponse error_response = 2;
+  }
 }
 
 // The Ping Service definition

@@ -128,10 +128,10 @@ message ActivitySearchRequest {
   }
 }
 
-message ActivitySearchResponse {
+message ActivitySearchSuccessResponse {
   // Message header. Contains API version, message info string and end user wallet
   // address.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search_id to be used in subsequent requests like the "Validation Request".
   cmp.types.v4.ExpiringUUID search_id = 2 [(buf.validate.field).required = true];
@@ -148,6 +148,19 @@ message ActivitySearchResponse {
     min_items: 1
     max_items: 15
   }];
+}
+
+message ActivitySearchErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ActivitySearchResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.activity.v4.ActivitySearchSuccessResponse success_response = 1;
+    cmp.services.activity.v4.ActivitySearchErrorResponse error_response = 2;
+  }
 }
 
 // Activity Search Service

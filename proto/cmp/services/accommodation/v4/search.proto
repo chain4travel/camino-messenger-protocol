@@ -94,16 +94,9 @@ message AccommodationSearchRequest {
   }];
 }
 
-// The `Accommodation Search Response` message type facilitates the response for
-// accommodations like hotel and holiday home searches within the platform.
-//
-// In the response a search_id must be included and a search_option_id for every
-// bookable option responded. Included, compulsory and optional services can be
-// included. A simple "free cancellation upto" can be set or full cancellation
-// policies can be included.
-message AccommodationSearchResponse {
-  // Common response header used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+message AccommodationSearchSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Search_id to be used in subsequent requests like the "Validation Request".
   cmp.types.v4.ExpiringUUID search_id = 2 [(buf.validate.field).required = true];
@@ -117,9 +110,29 @@ message AccommodationSearchResponse {
   // Global definition of the travellers for all results to be used via the
   // traveller_id in each unit.
   repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
-    min_items: 0
+    min_items: 1
     max_items: 15
   }];
+}
+
+message AccommodationSearchErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// The `Accommodation Search Response` message type facilitates the response for
+// accommodations like hotel and holiday home searches within the platform.
+//
+// In the response a search_id must be included and a search_option_id for every
+// bookable option responded. Included, compulsory and optional services can be
+// included. A simple "free cancellation upto" can be set or full cancellation
+// policies can be included.
+message AccommodationSearchResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v4.AccommodationSearchSuccessResponse success_response = 1;
+    cmp.services.accommodation.v4.AccommodationSearchErrorResponse error_response = 2;
+  }
 }
 
 // Service definition for Accommodation search

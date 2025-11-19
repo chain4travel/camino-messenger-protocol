@@ -31,9 +31,9 @@ message CounterCancellationRequest {
 }
 
 // Response for countering a cancellation
-message CounterCancellationResponse {
+message CounterCancellationSuccessResponse {
   // Response header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for the cancellation proposal counter.
   // This transaction can be verified on-chain to:
@@ -41,4 +41,17 @@ message CounterCancellationResponse {
   // 2. Validate the counter refund amount
   // 3. Prevent disputes about counter terms
   cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message CounterCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message CounterCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.CounterCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.CounterCancellationErrorResponse error_response = 2;
+  }
 }

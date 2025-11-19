@@ -29,9 +29,9 @@ message InitiateCancellationRequest {
   }];
 }
 
-message InitiateCancellationResponse {
+message InitiateCancellationSuccessResponse {
   // The response header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for the cancellation proposal initiation. This
   // transaction proves the initiation of the cancellation proposal on-chain.
@@ -41,4 +41,17 @@ message InitiateCancellationResponse {
   // 2. Validate the refund amount
   // 3. Prevent disputes about the cancellation terms
   cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message InitiateCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message InitiateCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.InitiateCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.InitiateCancellationErrorResponse error_response = 2;
+  }
 }

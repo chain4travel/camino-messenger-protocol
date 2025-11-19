@@ -27,15 +27,28 @@ message ActivityProductInfoRequest {
   }];
 }
 
-message ActivityProductInfoResponse {
+message ActivityProductInfoSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Activities
   repeated cmp.services.activity.v4.ActivityExtendedInfo activities = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100 // Default max items
   }];
+}
+
+message ActivityProductInfoErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ActivityProductInfoResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.activity.v4.ActivityProductInfoSuccessResponse success_response = 1;
+    cmp.services.activity.v4.ActivityProductInfoErrorResponse error_response = 2;
+  }
 }
 
 // Activity product info service definition

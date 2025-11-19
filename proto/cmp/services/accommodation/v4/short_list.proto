@@ -19,15 +19,28 @@ message AccommodationProductShortListRequest {
   google.protobuf.Timestamp modified_after = 2;
 }
 
-// Respond a list of modified accommodations.
-message AccommodationProductShortListResponse {
-  // Common response header used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+message AccommodationProductShortListSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Supplier codes and status for the products that are modified after the timestamp
   // in the `AccommodationProductShortListRequest`. If there are no changes, the list
   // will be empty.
   repeated cmp.services.accommodation.v4.PropertyShortListItem property_short_list_items = 2;
+}
+
+message AccommodationProductShortListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond a list of modified accommodations.
+message AccommodationProductShortListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v4.AccommodationProductShortListSuccessResponse success_response = 1;
+    cmp.services.accommodation.v4.AccommodationProductShortListErrorResponse error_response = 2;
+  }
 }
 
 // Accommodation product short list service definition. This is an alternative

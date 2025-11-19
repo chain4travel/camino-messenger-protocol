@@ -23,16 +23,29 @@ message AccommodationProductListRequest {
   }];
 }
 
-// Respond basic (static) information about accommodations for mapping purposes.
-message AccommodationProductListResponse {
-  // Common response header used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+message AccommodationProductListSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // The list of properties which should match the requested supplier codes.
   // In case the supplier is unable to return all requested properties, it should
   // return a warning in the response. This can happen if a property is no longer
   // a valid product.
   repeated cmp.services.accommodation.v4.Property properties = 2;
+}
+
+message AccommodationProductListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond basic (static) information about accommodations for mapping purposes.
+message AccommodationProductListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v4.AccommodationProductListSuccessResponse success_response = 1;
+    cmp.services.accommodation.v4.AccommodationProductListErrorResponse error_response = 2;
+  }
 }
 
 // Accommodation product list service definition.

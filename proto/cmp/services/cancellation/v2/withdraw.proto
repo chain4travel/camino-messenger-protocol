@@ -27,9 +27,9 @@ message WithdrawCancellationRequest {
 }
 
 // Response for withdrawal of an active cancellation proposal
-message WithdrawCancellationResponse {
+message WithdrawCancellationSuccessResponse {
   // Response header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Transaction ID on-chain for withdrawing the cancellation proposal.
   //
@@ -38,4 +38,17 @@ message WithdrawCancellationResponse {
   // 2. Validate the accepted refund amount
   // 3. Prevent disputes about acceptance terms
   cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message WithdrawCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message WithdrawCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v2.WithdrawCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v2.WithdrawCancellationErrorResponse error_response = 2;
+  }
 }

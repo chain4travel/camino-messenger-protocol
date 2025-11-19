@@ -18,9 +18,9 @@ message ValidationRequest {
   cmp.services.book.v4.ValidationObject validation_object = 2 [(buf.validate.field).required = true];
 }
 
-message ValidationResponse {
+message ValidationSuccessResponse {
   // Common header which is used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique validation ID which can be used in the subsequent mint request.
   cmp.types.v4.ExpiringUUID validation_id = 2 [(buf.validate.field).required = true];
@@ -37,6 +37,19 @@ message ValidationResponse {
   // Additionally any selected optional services like seat selections or service fact selections
   // must be reflected in this total price and the optional breakdown.
   cmp.types.v4.TotalPrice total_price = 4 [(buf.validate.field).required = true];
+}
+
+message ValidationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ValidationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.book.v4.ValidationSuccessResponse success_response = 1;
+    cmp.services.book.v4.ValidationErrorResponse error_response = 2;
+  }
 }
 
 // Additional layer to allow for selecting seats in different segments.

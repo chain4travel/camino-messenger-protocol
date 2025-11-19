@@ -19,15 +19,28 @@ message InsuranceProductListRequest {
   google.protobuf.Timestamp modified_after = 2;
 }
 
-message InsuranceProductListResponse {
+message InsuranceProductListSuccessResponse {
   // Message header
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Insurance
   repeated cmp.services.insurance.v3.Insurance insurances = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
+}
+
+message InsuranceProductListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message InsuranceProductListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.insurance.v3.InsuranceProductListSuccessResponse success_response = 1;
+    cmp.services.insurance.v3.InsuranceProductListErrorResponse error_response = 2;
+  }
 }
 
 // This service is used to get a product list for insurances.

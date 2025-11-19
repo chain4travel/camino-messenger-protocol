@@ -106,17 +106,30 @@ message SeatMapAvailabilityRequest {
   }
 }
 
+message SeatMapAvailabilitySuccessResponse {
+  // Message header
+  //
+  // Header contains information about the response
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Required. Seat map availability data.
+  cmp.types.v4.SeatMapInventory seat_map = 2;
+}
+
+message SeatMapAvailabilityErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
 // Response for seat map availability request
 //
 // Contains the seat map availability data for a given map ID
 message SeatMapAvailabilityResponse {
-  // Message header
-  //
-  // Header contains information about the response
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
-
-  // Required. Seat map availability data.
-  cmp.types.v4.SeatMapInventory seat_map = 2;
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.seat_map.v4.SeatMapAvailabilitySuccessResponse success_response = 1;
+    cmp.services.seat_map.v4.SeatMapAvailabilityErrorResponse error_response = 2;
+  }
 }
 
 // Service for requesting seat map availability data

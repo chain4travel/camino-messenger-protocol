@@ -34,10 +34,9 @@ message AccommodationProductInfoRequest {
   }];
 }
 
-// Respond detailed (static) information about accommodations.
-message AccommodationProductInfoResponse {
-  // Common response header used in every response.
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+message AccommodationProductInfoSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // The list of properties which should match the requested supplier codes.
   // In case the supplier is unable to return all requested properties, it should
@@ -49,6 +48,20 @@ message AccommodationProductInfoResponse {
     min_items: 0
     max_items: 100 // Default max items
   }];
+}
+
+message AccommodationProductInfoErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond detailed (static) information about accommodations.
+message AccommodationProductInfoResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v4.AccommodationProductInfoSuccessResponse success_response = 1;
+    cmp.services.accommodation.v4.AccommodationProductInfoErrorResponse error_response = 2;
+  }
 }
 
 // Accommodation product info service definition

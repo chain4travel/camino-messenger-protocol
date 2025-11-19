@@ -36,19 +36,32 @@ message SeatMapRequest {
   }];
 }
 
-// Response for seat map request
-//
-// Contains the seat map data for a given map ID
-message SeatMapResponse {
+message SeatMapSuccessResponse {
   // Response header
   //
   // Header contains information about the response
-  cmp.types.v4.ResponseHeader header = 1 [(buf.validate.field).required = true];
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Seat map data
   //
   // Contains the seat map data for the requested map ID
   cmp.types.v4.SeatMap seat_map = 2;
+}
+
+message SeatMapErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Response for seat map request
+//
+// Contains the seat map data for a given map ID
+message SeatMapResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.seat_map.v4.SeatMapSuccessResponse success_response = 1;
+    cmp.services.seat_map.v4.SeatMapErrorResponse error_response = 2;
+  }
 }
 
 // Service for requesting seat map data for a given map ID
