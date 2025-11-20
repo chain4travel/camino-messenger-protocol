@@ -132,41 +132,35 @@ message ActivityExtendedInfo {
     }
   }];
 
-  // Category name which describes the `category`
-  string category_name = 12 [(buf.validate.field).string.max_bytes = 512];
-
   // The type of this activity according to the defined enum
-  cmp.services.activity.v4.ActivityType type = 13 [(buf.validate.field).enum = {defined_only: true}];
-
-  // Type name which describes `type`
-  string type_name = 14 [(buf.validate.field).string.max_bytes = 512];
+  cmp.services.activity.v4.ActivityType type = 12 [(buf.validate.field).enum = {defined_only: true}];
 
   // Duration range (min, max) of the activity in minutes
-  cmp.types.v4.DurationRange duration_range = 15;
+  cmp.types.v4.DurationRange duration_range = 13;
 
   // Time given for confirmation before the offer expires
-  cmp.types.v4.Duration max_confirmation_duration = 16;
+  cmp.types.v4.Duration max_confirmation_duration = 14;
 
   // Allow Free Sale
-  bool allow_free_sale = 17;
+  bool allow_free_sale = 15;
 
   // The ability to confirm instantly
-  bool instant_confirmation = 18;
+  bool instant_confirmation = 16;
 
   // Can be delivered instantly
-  bool instant_delivery = 19;
+  bool instant_delivery = 17;
 
   // Check availability
-  bool availability_required = 20;
+  bool availability_required = 18;
 
   // Availability Type
-  cmp.services.activity.v4.ActivityAvailabilityType availability_type = 21 [(buf.validate.field).enum = {defined_only: true}];
+  cmp.services.activity.v4.ActivityAvailabilityType availability_type = 19 [(buf.validate.field).enum = {defined_only: true}];
 
   // Delivery types for the activity.
   //
   // Formats; such as QR Code, NFT, Ticket, ... etc
   // Methods; such as Email, SMS, Post, ... etc
-  repeated cmp.types.v4.Delivery delivery_types = 22 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.Delivery delivery_types = 20 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -354,6 +348,7 @@ message ActivityAttribute {
   // Usually used to indicate seasonal attributes, e.g., "Ski equipment provided" only during winter months
   // If the system only has the seasons (e.g., "Winter"), these can be represented as start and end dates
   // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
   repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 10
@@ -487,13 +482,15 @@ enum ActivityType {
   ACTIVITY_TYPE_UNSPECIFIED = 0;
   ACTIVITY_TYPE_GUIDED_TOUR = 1; // Guided city or sightseeing tours
   ACTIVITY_TYPE_SELF_GUIDED = 2; // Self-guided exploration
-  ACTIVITY_TYPE_MUSEUM = 3;
-  ACTIVITY_TYPE_CONCERT = 4; // Live music concerts or performances
+  ACTIVITY_TYPE_MUSEUM = 3; // Museum visits or exhibitions
+  ACTIVITY_TYPE_CONCERT = 4; // Live music concerts
   ACTIVITY_TYPE_THEATER = 5; // Theater performances or plays
-  ACTIVITY_TYPE_SPORT_ACTIVITY = 6; // Sport activities like zip-lining, water sports, etc.
-  ACTIVITY_TYPE_SPORTS_EVENT = 7; // Sporting events like football matches, basketball games, etc.
-  ACTIVITY_TYPE_EXPERIENCE = 8; // Experiences such as classes, workshops, tastings, or immersive activities
-  ACTIVITY_TYPE_TRANSFER = 9; // Transportation services such as airports, hotels, or intercity shuttles
-  ACTIVITY_TYPE_BOAT_TOUR = 10; // Boat or sea excursions
-  ACTIVITY_TYPE_ADVENTURE = 11; // Outdoor adventures like hiking, safaris, etc.
+  ACTIVITY_TYPE_CIRCUS = 6; // Circus shows
+  ACTIVITY_TYPE_PERFORMANCE = 7; // Other live performances like dance shows, magic shows, etc.
+  ACTIVITY_TYPE_SPORT_ACTIVITY = 8; // Sport activities like zip-lining, water sports, etc.
+  ACTIVITY_TYPE_SPORTS_EVENT = 9; // Sporting events like football matches, basketball games, etc.
+  ACTIVITY_TYPE_EXPERIENCE = 10; // Experiences such as classes, workshops, tastings, or immersive activities
+  ACTIVITY_TYPE_TRANSFER = 11; // Transportation services such as airports, hotels, or intercity shuttles
+  ACTIVITY_TYPE_BOAT_TOUR = 12; // Boat or sea excursions
+  ACTIVITY_TYPE_ADVENTURE = 13; // Outdoor adventures like hiking, safaris, etc.
 }

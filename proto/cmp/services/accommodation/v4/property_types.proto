@@ -538,6 +538,7 @@ enum RoomAttributeType {
   ROOM_ATTRIBUTE_TYPE_IRONING_BOARD = 14; // Room has ironing board and iron
   ROOM_ATTRIBUTE_TYPE_HAIR_DRYER = 15; // Room has hair dryer in bathroom
   ROOM_ATTRIBUTE_TYPE_SHAVING_OUTLET = 16; // Room has electrical outlet suitable for shavers
+  ROOM_ATTRIBUTE_TYPE_BALCONY = 17; // Room has balcony or terrace
 }
 
 // Represents an attribute of a property (feature or amenity).
