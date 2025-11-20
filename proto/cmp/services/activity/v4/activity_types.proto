@@ -106,13 +106,13 @@ message ActivityExtendedInfo {
   // Contact Info; Address, Email, Phone, Urls
   cmp.types.v4.ContactInfo contact_info = 8;
 
-  // Images
+  // Visual media showcasing the activity (photos, galleries, promotional images)
   repeated cmp.types.v4.Image images = 9 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
 
-  // Videos
+  // Video content demonstrating or promoting the activity experience
   repeated cmp.types.v4.Video videos = 10 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -150,10 +150,10 @@ message ActivityExtendedInfo {
   // Can be delivered instantly
   bool instant_delivery = 17;
 
-  // Check availability
+  // Whether real-time availability checking is required before booking
   bool availability_required = 18;
 
-  // Availability Type
+  // How availability is managed for this activity (fixed times, flexible, etc.)
   cmp.services.activity.v4.ActivityAvailabilityType availability_type = 19 [(buf.validate.field).enum = {defined_only: true}];
 
   // Delivery types for the activity.
@@ -165,7 +165,7 @@ message ActivityExtendedInfo {
     max_items: 100
   }];
 
-  // Redemption method
+  // How customers can redeem/use their booking (digital codes, physical tickets, etc.)
   repeated cmp.types.v4.RedemptionMethod redemption_methods = 23 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
@@ -281,7 +281,7 @@ message ActivityUnit {
 // transfer from our hotel included. Do we book the VIP ticket with or without
 // alcoholic drinks included?
 message ActivityService {
-  // Service Code
+  // Unique identifier for this specific service within the activity
   string code = 1 [(buf.validate.field).string = {
     min_len: 1
     max_bytes: 512

@@ -100,12 +100,12 @@ message SegmentExtended {
     max_items: 100
   }];
 
-  // Min PAX
+  // Minimum number of passengers required for this segment to operate
   //
   // Ex: `1`
   uint32 min_pax = 5;
 
-  // Max PAX
+  // Maximum number of passengers that can be accommodated on this segment
   //
   // Ex: `3`
   uint32 max_pax = 6;
@@ -217,7 +217,7 @@ message TransitEvent {
   // will be ignored.
   google.protobuf.Timestamp date_time = 1 [(buf.validate.field).required = true];
 
-  // Event location
+  // Physical location where this departure or arrival event occurs
   cmp.services.transport.v4.TransitEventLocation location = 2 [(buf.validate.field).required = true];
 }
 
@@ -235,9 +235,9 @@ message TransitEventLocation {
 }
 
 enum TransportType {
-  TRANSPORT_TYPE_UNSPECIFIED = 0;
-  TRANSPORT_TYPE_FLIGHT = 1;
-  TRANSPORT_TYPE_TRAIN = 2;
-  TRANSPORT_TYPE_TRANSFER = 3;
-  TRANSPORT_TYPE_BUS = 4;
+  TRANSPORT_TYPE_UNSPECIFIED = 0; // Default/unspecified transport type
+  TRANSPORT_TYPE_FLIGHT = 1; // Air transport via aircraft
+  TRANSPORT_TYPE_TRAIN = 2; // Rail transport via train or railway
+  TRANSPORT_TYPE_TRANSFER = 3; // Transfer services like shuttles or private cars
+  TRANSPORT_TYPE_BUS = 4; // Road transport via bus or coach
 }

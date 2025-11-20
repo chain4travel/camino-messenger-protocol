@@ -42,7 +42,9 @@ message TotalPrice {
   // BEWARE: If it's not provided, it implies that this is a non-changeable product!
   cmp.types.v4.ChangePolicy change_policy = 4;
 
-  // Validation rule: Ensure the price value is not negative
+  // Validation rule: Ensure the total price is not negative
+  // Note: Price.value field already validates pattern ^-?[0-9]{1,78}$ which allows negatives,
+  // but for TotalPrice we want to ensure non-negative values only
   option (buf.validate.message).cel = {
     id: "total_price_non_negative"
     message: "Total price value must not be negative"

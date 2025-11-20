@@ -7,11 +7,11 @@ import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
 import "google/protobuf/timestamp.proto";
 
-// Change Policy: The change policy section consists of 3 options:
-//
-// - A simple boolean for changeable or non-changable search results
-// - A "free change upto" DateTime for a search result
-// - Multiple change types with start/end DateTime stamps for a search result
+// Change Policy: The change policy section consists of 2 different
+// ways to express change policies:
+// - A simple "free change upto" structure (essentially only a timestamp)
+// - Complex change policies with from/to DateTime stamps, individual prices
+//   and rateplan applicability
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/change_policy.proto.dot.xs.svg)
 //

@@ -8,7 +8,7 @@ import "cmp/types/v4/common.proto";
 import "google/protobuf/timestamp.proto";
 
 message TransportProductListRequest {
-  // Message header
+  // Common request header used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Only respond with the products that are modified after this timestamp
@@ -20,7 +20,7 @@ message TransportProductListRequest {
 }
 
 message TransportProductListSuccessResponse {
-  // Message header
+  // Standard response metadata for successful operations
   cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Trips

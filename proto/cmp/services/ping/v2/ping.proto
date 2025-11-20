@@ -11,10 +11,10 @@ import "google/protobuf/timestamp.proto";
 // to test the network latency as in the gRPC metadata information the DateTime is
 // stored of each hop.
 message PingRequest {
-  // Message Header
+  // Common request header used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
-  // Ping message
+  // Optional message payload to echo back in the ping response
   string message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping request
@@ -26,10 +26,10 @@ message PingRequest {
 }
 
 message PingSuccessResponse {
-  // Message Header
+  // Standard response metadata for successful operations
   cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
-  // Ping message
+  // Echo of the message sent in the ping request
   string message = 2 [(buf.validate.field).string.max_bytes = 512];
 
   // DateTime of the ping response

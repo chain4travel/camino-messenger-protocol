@@ -11,9 +11,7 @@ import "cmp/types/v4/seat_map.proto";
 //
 // Requests the seat map data for a given map ID
 message SeatMapRequest {
-  // Request header
-  //
-  // Header contains information about the request
+  // Common request header used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Unique identifier for the seat map
@@ -22,7 +20,7 @@ message SeatMapRequest {
   // product info responses.
   cmp.types.v4.SeatMapID map_id = 2 [(buf.validate.field).required = true];
 
-  // Requested Languages
+  // Languages in which seat map labels and descriptions should be returned
   repeated cmp.types.v1.Language languages = 3 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 100

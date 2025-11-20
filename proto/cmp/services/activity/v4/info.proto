@@ -9,7 +9,7 @@ import "cmp/types/v4/common.proto";
 import "cmp/types/v4/product_code.proto";
 
 message ActivityProductInfoRequest {
-  // Message header
+  // Common request header used in every request.
   cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
 
   // Languages to be included in the response for descriptions. Minimum of 1
@@ -28,7 +28,7 @@ message ActivityProductInfoRequest {
 }
 
 message ActivityProductInfoSuccessResponse {
-  // Message header
+  // Standard response metadata for successful operations
   cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
 
   // Product list: Activities

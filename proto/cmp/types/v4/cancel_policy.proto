@@ -7,11 +7,11 @@ import "cmp/types/v4/datetime_range.proto";
 import "cmp/types/v4/price.proto";
 import "google/protobuf/timestamp.proto";
 
-// Cancellation Policy: The cancellation policy section consists of 3 options:
-//
-// - A simple boolean for refundable or non-refundable options
-// - A "free cancellation upto" DateTime
-// - Complete cancellation policies with from/to DateTime stamps
+// Cancellation Policy: The cancellation policy section consists of 2 different
+// ways to express cancellation policies:
+// - A simple "free cancellation upto" structure (essentially only a timestamp)
+// - Complex cancellation policies with from/to DateTime stamps, individual penalties
+//   and rateplan applicability
 //
 // ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/cancel_policy.proto.dot.xs.svg)
 //

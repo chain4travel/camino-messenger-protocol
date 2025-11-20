@@ -65,10 +65,10 @@ message ActivitySearchRequest {
   // for, set min or mar duration or price.
   cmp.services.activity.v4.ActivitySearchParameters search_parameters_activity = 3;
 
-  // Travel period
+  // Date range for when the activity will take place or be available
   cmp.types.v4.TravelPeriod travel_period = 4 [(buf.validate.field).required = true];
 
-  // Travellers
+  // Information about each person who will participate in the activity
   repeated cmp.types.v4.BasicTraveller travellers = 5 [(buf.validate.field).repeated = {
     min_items: 1
     max_items: 15
