@@ -482,15 +482,16 @@ enum ActivityType {
   ACTIVITY_TYPE_UNSPECIFIED = 0;
   ACTIVITY_TYPE_GUIDED_TOUR = 1; // Guided city or sightseeing tours
   ACTIVITY_TYPE_SELF_GUIDED = 2; // Self-guided exploration
-  ACTIVITY_TYPE_MUSEUM = 3; // Museum visits or exhibitions
-  ACTIVITY_TYPE_CONCERT = 4; // Live music concerts
-  ACTIVITY_TYPE_THEATER = 5; // Theater performances or plays
-  ACTIVITY_TYPE_CIRCUS = 6; // Circus shows
-  ACTIVITY_TYPE_PERFORMANCE = 7; // Other live performances like dance shows, magic shows, etc.
-  ACTIVITY_TYPE_SPORT_ACTIVITY = 8; // Sport activities like zip-lining, water sports, etc.
-  ACTIVITY_TYPE_SPORTS_EVENT = 9; // Sporting events like football matches, basketball games, etc.
-  ACTIVITY_TYPE_EXPERIENCE = 10; // Experiences such as classes, workshops, tastings, or immersive activities
-  ACTIVITY_TYPE_TRANSFER = 11; // Transportation services such as airports, hotels, or intercity shuttles
-  ACTIVITY_TYPE_BOAT_TOUR = 12; // Boat or sea excursions
-  ACTIVITY_TYPE_ADVENTURE = 13; // Outdoor adventures like hiking, safaris, etc.
+  ACTIVITY_TYPE_MUSEUM = 3; // Museum visits
+  ACTIVITY_TYPE_EXHIBITION = 4; // Exhibitions (art, history, science, etc.)
+  ACTIVITY_TYPE_CONCERT = 5; // Live music concerts
+  ACTIVITY_TYPE_THEATER = 6; // Theater performances or plays
+  ACTIVITY_TYPE_CIRCUS = 7; // Circus shows
+  ACTIVITY_TYPE_PERFORMANCE = 8; // Other live performances like dance shows, magic shows, etc.
+  ACTIVITY_TYPE_SPORT_ACTIVITY = 9; // Sport activities like zip-lining, water sports, etc.
+  ACTIVITY_TYPE_SPORTS_EVENT = 10; // Sporting events like football matches, basketball games, etc.
+  ACTIVITY_TYPE_EXPERIENCE = 11; // Experiences such as classes, workshops, tastings, or immersive activities
+  ACTIVITY_TYPE_TRANSFER = 12; // Transportation services such as airports, hotels, or intercity shuttles
+  ACTIVITY_TYPE_BOAT_TOUR = 13; // Boat or sea excursions
+  ACTIVITY_TYPE_ADVENTURE = 14; // Outdoor adventures like hiking, safaris, etc.
 }
