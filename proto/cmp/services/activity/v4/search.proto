@@ -171,7 +171,7 @@ message ActivitySearchResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v4/search.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:false
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
 service ActivitySearchService {
   rpc ActivitySearch(ActivitySearchRequest) returns (ActivitySearchResponse);
 }

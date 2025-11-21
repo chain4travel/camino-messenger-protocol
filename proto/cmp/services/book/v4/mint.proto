@@ -136,7 +136,7 @@ message MintResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v4/mint.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:true
+/// @custom:cmp-service type:product routing:p2p on-chain:true structure:2
 service MintService {
   rpc Mint(MintRequest) returns (MintResponse);
 }

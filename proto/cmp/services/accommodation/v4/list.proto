@@ -65,7 +65,7 @@ message AccommodationProductListResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/list.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:false
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
 service AccommodationProductListService {
   // Returns product list for accommodation (properties)
   rpc AccommodationProductList(AccommodationProductListRequest) returns (AccommodationProductListResponse);

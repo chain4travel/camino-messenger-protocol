@@ -114,7 +114,7 @@ message InsuranceSearchResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v3/search.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:false
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
 service InsuranceSearchService {
   // Insurance Search method
   rpc InsuranceSearch(InsuranceSearchRequest) returns (InsuranceSearchResponse);

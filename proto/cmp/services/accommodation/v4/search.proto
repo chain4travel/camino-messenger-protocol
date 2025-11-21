@@ -141,7 +141,7 @@ message AccommodationSearchResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:false
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
 service AccommodationSearchService {
   // Accommodation Search method
   rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);

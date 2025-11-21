@@ -49,7 +49,7 @@ message InsuranceProductListResponse {
 //
 // [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v3/list.proto.dot.svg)
 //
-/// @custom:cmp-service type:product routing:p2p on-chain:false
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
 service InsuranceProductListService {
   // Gets an optional `modified_after` date and returns a product list.
   rpc InsuranceProductList(InsuranceProductListRequest) returns (InsuranceProductListResponse);
