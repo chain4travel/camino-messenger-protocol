@@ -12,7 +12,7 @@ for protobuf service definitions.
 The tag follows this format:
 
 ```protobuf
-/// @custom:cmp-service type:{TYPE} routing:{PATTERN} on-chain:[true|false]
+/// @custom:cmp-service type:{TYPE} routing:{PATTERN} [on-chain:{true|false}] [structure:{VERSION}]
 service ServiceName {
   // service definition
 }
@@ -49,12 +49,27 @@ omitted.
 - `true` - For services that involve any on-chain interaction, including read or
   write actions (e.g., listening for events, minting, cancellation)
 
+## Structure Version
+
+The `structure` tag identifies which version of the structure the service uses. This
+is independent of the protobuf package version and indicates significant structural
+changes in how requests and responses are formatted. The value is an integer
+representing the structure version.
+
+- **Default**: `1` (if tag is omitted)
+- **Values**: Any positive integer (1, 2, 3, ...)
+
+> [!NOTE] 
+> This tag is primarily used by code generators to produce compatible code
+> for each structure variant. If the tag is not specified, the service is assumed to
+> use structure version `1`.
+
 ## Examples
 
 ### P2P Product Service (in package cmp.services.accommodation.v2)
 
 ```protobuf
-/// @custom:cmp-service type:product routing:p2p
+/// @custom:cmp-service type:product routing:p2p structure:2
 service AccommodationSearchService {
   rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);
 }
@@ -63,7 +78,7 @@ service AccommodationSearchService {
 ### Local Service (in package cmp.services.notification.v1)
 
 ```protobuf
-/// @custom:cmp-service type:product routing:local on-chain:true
+/// @custom:cmp-service type:product routing:local on-chain:true structure:1
 service NotificationService {
   rpc TokenBoughtNotification(TokenBought) returns (google.protobuf.Empty);
   rpc TokenExpiredNotification(TokenExpired) returns (google.protobuf.Empty);
@@ -73,7 +88,7 @@ service NotificationService {
 ### Core System Service (in package cmp.services.ping.v1)
 
 ```protobuf
-/// @custom:cmp-service type:core routing:p2p on-chain:false
+/// @custom:cmp-service type:core routing:p2p on-chain:false structure:1
 service PingService {
   rpc Ping(PingRequest) returns (PingResponse);
 }
@@ -106,6 +121,11 @@ Required attributes:
 - The tag must include both `type` and `routing` attributes
 - `routing` must be one of the defined patterns
 - `type` must be one of the defined types
+
+Optional attributes:
+
+- `structure` - If omitted, defaults to `1`. If provided, must be a positive integer
+- `on-chain` - If omitted, defaults to `false`. If provided, must be `true` or `false`
 
 ## Migration Guide
 
