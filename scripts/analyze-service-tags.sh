@@ -47,8 +47,8 @@ check_service() {
     fi
 
     # First, check basic format (more permissive)
-    if ! [[ $tag =~ ^@custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:([[:alnum:]]+))?$ ]]; then
-        invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format: must follow '@custom:cmp-service type:<TYPE> routing:<ROUTING> [on-chain:<BOOL>]'")
+    if ! [[ $tag =~ ^@custom:cmp-service[[:space:]]+type:([[:alnum:]]+)[[:space:]]+routing:([[:alnum:]]+)([[:space:]]+on-chain:([[:alnum:]]+))?([[:space:]]+structure:([[:digit:]]+))?$ ]]; then
+        invalid_tag_services+=("$filepath:$service_name|$tag - Malformed tag format: must follow '@custom:cmp-service type:<TYPE> routing:<ROUTING> [on-chain:<BOOL>] [structure:<INT>]'")
         return
     fi
 
@@ -56,6 +56,7 @@ check_service() {
     type="${BASH_REMATCH[1]}"
     routing="${BASH_REMATCH[2]}"
     onchain="${BASH_REMATCH[4]:-false}"
+    structure="${BASH_REMATCH[6]:-1}"
 
     # Validate type
     if [[ ! " ${valid_types[@]} " =~ " ${type} " ]]; then
@@ -119,8 +120,10 @@ colorize_tag() {
     local ONCHAIN_TRUE="${LPURPLE}"
     local ONCHAIN_FALSE="${LCYAN}"
 
+    local STRUCTURE="${LYELLOW}"
+
     # Extract each part using regex
-    if [[ $tag =~ ^(@custom:cmp-service)[[:space:]]+(type:([[:alnum:]]+))[[:space:]]+(routing:([[:alnum:]]+))([[:space:]]+on-chain:([[:alnum:]]+))?$ ]]; then
+    if [[ $tag =~ ^(@custom:cmp-service)[[:space:]]+(type:([[:alnum:]]+))[[:space:]]+(routing:([[:alnum:]]+))([[:space:]]+on-chain:([[:alnum:]]+))?([[:space:]]+structure:([[:digit:]]+))?$ ]]; then
         local prefix="${BASH_REMATCH[1]}"
         local type_full="${BASH_REMATCH[2]}"
         local type_value="${BASH_REMATCH[3]}"
@@ -128,6 +131,8 @@ colorize_tag() {
         local routing_value="${BASH_REMATCH[5]}"
         local onchain_full="${BASH_REMATCH[6]}"
         local onchain_value="${BASH_REMATCH[7]}"
+        local structure_full="${BASH_REMATCH[8]}"
+        local structure_value="${BASH_REMATCH[9]}"
 
         # Select color for type
         local type_color
@@ -160,6 +165,9 @@ colorize_tag() {
         if [ ! -z "$onchain_full" ]; then
             #result+=" on-chain:${onchain_color}${onchain_value}${NC}"
             result+=" ${onchain_color}on-chain:${onchain_value}${NC}"
+        fi
+        if [ ! -z "$structure_full" ]; then
+            result+=" ${STRUCTURE}structure:${structure_value}${NC}"
         fi
 
         echo "$result"
