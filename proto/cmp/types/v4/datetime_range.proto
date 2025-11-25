@@ -23,8 +23,14 @@ message DateTimeRange {
   // truncated by the blockchain.
   google.protobuf.Timestamp start = 1 [(buf.validate.field).required = true];
 
-  // The inclusive end date and time of the range. It is expected that `end` is
+  // The **exclusive** end date and time of the range. It is expected that `end` is
   // later than or equal to `start`.
+  // The end date is exclusive because it allows for representing ranges that
+  // naturally align with common time intervals. For example, a range from
+  // `2024-01-01T00:00:00Z` to `2024-01-02T00:00:00Z` clearly indicates that the range
+  // includes all moments on January 1st, 2024, but does not include any part of
+  // January 2nd, 2024. This exclusivity is particularly useful in scheduling
+  // and booking systems where end times often signify the start of a new period.
   //
   // Similar to `start`, this timestamp can be used for both off-chain and on-chain
   // operations. For on-chain use, nanosecond precision may not be supported, with

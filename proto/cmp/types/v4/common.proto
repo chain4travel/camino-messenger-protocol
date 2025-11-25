@@ -161,4 +161,9 @@ enum ErrorCode {
   ERROR_CODE_INTERNAL = 6; // An internal server error occurred.
   ERROR_CODE_TEMPORARY_UNAVAILABLE = 7; // The service is temporarily unavailable.
   ERROR_CODE_RATE_LIMIT_EXCEEDED = 8; // The request exceeded the allowed rate limit.
+  // An error occurred in the context of the overall business process.
+  // This could involve issues like proto-valid field values which are invalid in the context of the process
+  // payment failures, or other domain-specific errors.
+  ERROR_CODE_BUSINESS_PROCESS_ERROR = 9;
+  ERROR_CODE_BLOCKCHAIN_ERROR = 10; // An error occurred while interacting with the blockchain.
 }
