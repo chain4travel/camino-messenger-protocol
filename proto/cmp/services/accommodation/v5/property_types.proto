@@ -1,0 +1,672 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/bed.proto";
+import "cmp/types/v4/contact_info.proto";
+import "cmp/types/v4/datetime_range.proto";
+import "cmp/types/v4/description.proto";
+import "cmp/types/v4/duration.proto";
+import "cmp/types/v4/file.proto";
+import "cmp/types/v4/location.proto";
+import "cmp/types/v4/meal_plan.proto";
+import "cmp/types/v4/measurement.proto";
+import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/product_status.proto";
+import "cmp/types/v5/service_fact.proto";
+import "cmp/types/v4/theme.proto";
+import "cmp/types/v4/traveller.proto";
+import "google/protobuf/timestamp.proto";
+
+// Represents a basic set of property info for an accommodation product.
+// This message is used to convey essential details about a property without
+// including all the potentially extensive information found in the full
+// property info message.
+// Essentially it provides a summary of the most important details that are
+// likely to be needed for initial decision-making whether this property shall
+// be used by the distributor.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.svg)
+message Property {
+  // Timestamp of the last modification date of **any** of the property info.
+  // This not only includes the fields which are part of this message but rather
+  // if any information has been updated. It might also be that for instance
+  // only images have been changed which are not part of this message.
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp last_modified = 1 [(buf.validate.field).required = true];
+
+  // The supplier specific product code used to identify the property in every
+  // context. This code is essential to link back to the the static data when
+  // search results are received which only contain the supplier_code.
+  cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
+
+  // Additional product codes, which also identify the property but usually
+  // from external mapping providers. Especially useful in the context of
+  // receiving properties from different suppliers to identify whether
+  // they are the same property as the supplier specific codes will be different.
+  repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 500
+  }];
+
+  // The name of the property in the native language of the property location
+  // Ex: "Beach Hotel Alanya"
+  string name = 4 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Identifier of the property chain. Usually used for hotel chains.
+  // Might be used by a distributor for instance to decide whether they want to
+  // include specific chain hotels into their inventory.
+  // Ex: "Hilton"
+  string chain = 5 [(buf.validate.field).string.max_bytes = 512];
+
+  // Certain properties can have a category rating. The officially obtained rating
+  // should be used here.
+  // Especially for hotels this is an indication of their quality and service level.
+  // Please note that category ratings can vary between different regions and
+  // Ex: CATEGORY_RATING_4_5
+  cmp.services.accommodation.v5.CategoryRating category_rating = 6;
+
+  // There are different rating systems for different types of properties.
+  // This field is to define which rating system is being used for the
+  // `category_rating` field.
+  // Ex: CATEGORY_UNIT_PALMS
+  cmp.services.accommodation.v5.CategoryUnit category_unit = 7;
+
+  // Information about how to contact this property.
+  cmp.types.v4.ContactInfo contact_info = 8 [(buf.validate.field).required = true];
+
+  // Specific coordinates of this property. Not only useful to show this on a
+  // map but also essential for searches based on geo-coordinates like geo-circle
+  // or polygon searches.
+  cmp.types.v4.Coordinates coordinates = 9 [(buf.validate.field).required = true];
+
+  // The general status of this property. Only active properties can be taken
+  // into account for further processing and will only be returned in search
+  // results. Deactivated properties can be still included in the static data
+  // but this state is reserved for properties which are about to be listed
+  // or are about to be completely removed soon.
+  cmp.types.v4.ProductStatus status = 10 [(buf.validate.field).required = true];
+
+  // List of the transport hubs in the vicinity of the property.
+  // The list should only include transport hubs which have a reasonable distance
+  // and/or travel time to the property.
+  // Usually the transport hubs are used both as a filter criteria for the distributor
+  // and to decide which transports / flights / transfers to search for a specific property.
+  repeated cmp.services.accommodation.v5.TransportHub transport_hubs = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Used to distinguish between hotels and holiday homes.
+  // All Rooms defined in this property must have the same `PropertyType` when returned
+  // via the search results.
+  // Ex: `PropertyType.PROPERTY_TYPE_HOTEL`
+  cmp.services.accommodation.v5.PropertyType type = 12 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // Additional classifications of the property to better define its type and
+  // intended target audience.
+  repeated cmp.services.accommodation.v5.PropertyClassification classifications = 13 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
+  }];
+
+  // General themes associated with the property to better define its type and
+  // intended target audience.
+  repeated cmp.types.v4.Theme themes = 14 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 20
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
+  }];
+
+  // If category_rating is provided, category_unit must also be provided
+  option (buf.validate.message).cel = {
+    id: "category_rating_unit_dependency"
+    message: "If category_rating is provided, category_unit must also be provided"
+    expression: "this.category_rating == cmp.services.accommodation.v4.CategoryRating.CATEGORY_RATING_UNSPECIFIED || this.category_unit != cmp.services.accommodation.v4.CategoryUnit.CATEGORY_UNIT_UNSPECIFIED"
+  };
+
+  // Property contact_info must have at least one address
+  option (buf.validate.message).cel = {
+    id: "contact_info_address_required"
+    message: "Property contact_info must have at least one address"
+    expression: "size(this.contact_info.addresses) > 0"
+  };
+}
+
+enum CategoryRating {
+  CATEGORY_RATING_UNSPECIFIED = 0; // Unspecified rating - should not be used
+  CATEGORY_RATING_0_5 = 1; // 0.5 rating (half star)
+  CATEGORY_RATING_1_0 = 2; // 1.0 rating (1 star)
+  CATEGORY_RATING_1_5 = 3; // 1.5 rating (1.5 stars)
+  CATEGORY_RATING_2_0 = 4; // 2.0 rating (2 stars)
+  CATEGORY_RATING_2_5 = 5; // 2.5 rating (2.5 stars)
+  CATEGORY_RATING_3_0 = 6; // 3.0 rating (3 stars)
+  CATEGORY_RATING_3_5 = 7; // 3.5 rating (3.5 stars)
+  CATEGORY_RATING_4_0 = 8; // 4.0 rating (4 stars)
+  CATEGORY_RATING_4_5 = 9; // 4.5 rating (4.5 stars)
+  CATEGORY_RATING_5_0 = 10; // 5.0 rating (5 stars)
+  CATEGORY_RATING_5_5 = 11; // 5.5 rating (5.5 stars)
+  CATEGORY_RATING_6_0 = 12; // 6.0 rating (6 stars)
+  CATEGORY_RATING_6_5 = 13; // 6.5 rating (6.5 stars)
+  CATEGORY_RATING_7_0 = 14; // 7.0 rating (7 stars)
+  CATEGORY_RATING_7_5 = 15; // 7.5 rating (7.5 stars)
+  CATEGORY_RATING_8_0 = 16; // 8.0 rating (8 stars)
+  CATEGORY_RATING_8_5 = 17; // 8.5 rating (8.5 stars)
+  CATEGORY_RATING_9_0 = 18; // 9.0 rating (9 stars)
+  CATEGORY_RATING_9_5 = 19; // 9.5 rating (9.5 stars)
+  CATEGORY_RATING_10_0 = 20; // 10.0 rating (10 stars)
+}
+
+enum CategoryUnit {
+  CATEGORY_UNIT_UNSPECIFIED = 0;
+  CATEGORY_UNIT_STARS = 1;
+  CATEGORY_UNIT_PALMS = 2;
+}
+
+enum PropertyType {
+  PROPERTY_TYPE_UNSPECIFIED = 0;
+  PROPERTY_TYPE_HOTEL = 1;
+  PROPERTY_TYPE_HOLIDAY_HOME = 2;
+}
+
+// A general classification of the property in various aspects.
+// Can be used by a distributor to better understand the property and its
+// intended target audience and to potentially provide filter options to
+// show (or exclude) certain types of properties.
+enum PropertyClassification {
+  PROPERTY_CLASSIFICATION_UNSPECIFIED = 0;
+  PROPERTY_CLASSIFICATION_APARTMENT = 1;
+  PROPERTY_CLASSIFICATION_BOATEL = 2;
+  PROPERTY_CLASSIFICATION_CABIN_OR_BUNGALOW = 3;
+  PROPERTY_CLASSIFICATION_CAMPGROUND = 4;
+  PROPERTY_CLASSIFICATION_CHALET = 5;
+  PROPERTY_CLASSIFICATION_CRUISE = 6;
+  PROPERTY_CLASSIFICATION_FERRY = 7;
+  PROPERTY_CLASSIFICATION_HOSTEL = 8;
+  PROPERTY_CLASSIFICATION_INN = 9;
+  PROPERTY_CLASSIFICATION_LODGE = 10;
+  PROPERTY_CLASSIFICATION_MOTEL = 11;
+  PROPERTY_CLASSIFICATION_PENSION = 12;
+  PROPERTY_CLASSIFICATION_RECREATIONAL_VEHICLE_PARK = 13;
+  PROPERTY_CLASSIFICATION_VILLA = 14;
+}
+
+// Represents a more detailed set of property info for an accommodation product.
+// This message is used to convey detailed information about a property without
+// Essentially it provides every important detail for displaying the property
+// to a customer.
+// As this info can potentially become big depending on the property, it is
+// intentionally split from the basic information found in the `Property` message
+// to allow a process where this is only retrieved in case the distributor is
+// actually interested in this level of detail.
+message PropertyExtendedInfo {
+  // Basic property information usually used for mapping / decision-making
+  cmp.services.accommodation.v5.Property property = 1 [(buf.validate.field).required = true];
+
+  // General images of the property. Please note that the room images shall not
+  // be included here as they're part of the room information.
+  repeated cmp.types.v4.Image images = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // General videos of the property. Please note that the room videos shall not
+  // be included here as they're part of the room information.
+  repeated cmp.types.v4.Video videos = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // General description of the property. Please note that room descriptions
+  // shall not be included here as they're part of the room information.
+  repeated cmp.types.v4.LocalizedDescriptionSet localized_descriptions = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Definition of the individual rooms (or room types).
+  repeated cmp.services.accommodation.v5.Room rooms = 5 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+
+  // Additional attributes bound to the property (features and amenities).
+  // See `cmp.services.accommodation.v4.PropertyAttribute` for more information.
+  repeated cmp.services.accommodation.v5.PropertyAttribute attributes = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+// Definition of a room (or room type). In case of Hotels this is usually
+// a specific room type (e.g. "Deluxe Room", "Suite", etc.) while for
+// holiday homes it describes the individual rooms which are part of the property
+// like "Bed Room", "Living Room", "Kitchen", etc.
+message Room {
+  // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must
+  // explicitly match the supplier_room_code in the ProductList and the
+  // ProductInfo messages, so that the static data like room  amenities,
+  // descriptions, images etc. can be matched to the dynamic price and
+  // availability data for display to the end user.
+  // Even though it's unusual for holiday homes to have a unique identifier for
+  // their rooms it's still needed in this context to be able to match the room
+  // between search results and static data.
+  string supplier_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Room name. In case of hotel a standardized room name is often derived from
+  // room code structures. Example: "superior sea view room".
+  // For holiday homes we expect names like "Master Bedroom", "Second Bedroom" or
+  // "Bathroom" when specific descriptions for each room are available.
+  string supplier_name = 2 [(buf.validate.field).string.max_bytes = 512];
+
+  // Original room name as assigned by the hotel. In case of specifically designated room
+  // names by chains and both the chain and the customer wants to adhere to them.
+  // Ex: "CEIBA CLUB", "CEIBA GOVERNORS SUITE", "GOVERNORS SUITE" or "ENCLAVE NATURE VIEW"
+  // For hotel(chain) specific room names can be given for frequent guests
+  // (i.e. Royale Governor Suite Oceanfront).
+  // For holiday homes specific room names if available can be given.
+  string original_name = 3 [(buf.validate.field).string.max_bytes = 512];
+
+  // Similar to a property a room can (and should have) have individual images.
+  repeated cmp.types.v4.Image images = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // If there are videos available for the individual rooms they can be added here.
+  repeated cmp.types.v4.Video videos = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Description of the room for display purposes.
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Possible meal plans for this room (also known as board codes).
+  repeated cmp.types.v4.MealPlan meal_plans = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // How many of which bed type are present in this room.
+  repeated cmp.types.v4.Bed beds = 8 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // How many of which person types can occupy this room.
+  // For holiday homes the individual bedrooms need to be considered. The
+  // distributor then needs to sum up the individual room occupancies to
+  // get the total occupancy of the holiday home.
+  cmp.services.accommodation.v5.Occupancy total_occupancy = 9;
+
+  // Definition of services which are possible for this room.
+  // The actual offer may contain less services.
+  repeated cmp.types.v5.ServiceFactDefinition services = 10 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Additional attributes bound to the room (features and amenities).
+  // See `cmp.services.accommodation.v4.RoomAttribute` for more information.
+  repeated cmp.services.accommodation.v5.RoomAttribute attributes = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+// Occupancy definition of a room defining the constrains depending on the room type.
+message Occupancy {
+  // The minimum amount of guests which can occupy this room.
+  // If `occupancy_options` are given this value must match the sum of the `min`
+  // field of all options.
+  // One exception to take into account is when `infant_counted_in_total_guests`
+  // is true and infants are given in the `occupancy_options` field.
+  uint32 min_guests = 1 [(buf.validate.field).uint32 = {gt: 0}];
+
+  // The maximum amount of guests which can occupy this room.
+  // If `occupancy_options` are given this value must match the sum of the `max`
+  // field of all options.
+  // One exception to take into account is when `infant_counted_in_total_guests`
+  // is true and infants are given in the `occupancy_options` field.
+  uint32 max_guests = 2 [(buf.validate.field).uint32 = {gt: 0}];
+
+  // Flag to specify whether infants are counted in total guests or not
+  bool infant_counted_in_total_guests = 3;
+
+  // Individual occupancy options which when given must match with the constrains
+  // of the occupancy. With this certain guest types and age ranges can be
+  // defined for the guests. For more information see the message description.
+  repeated cmp.services.accommodation.v5.OccupancyOption occupancy_options = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Max guests must be greater than or equal to min guests
+  option (buf.validate.message).cel = {
+    id: "max_guests_gte_min_guests"
+    message: "max_guests must be greater than or equal to min_guests"
+    expression: "this.max_guests >= this.min_guests"
+  };
+}
+
+// An occupancy option defines constrains based on specific guest types
+// within a specific age range.
+message OccupancyOption {
+  // Guest type like adult, child, infant.
+  cmp.types.v4.TravellerType guest_type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // Minimum amount of guests of the specified `guest_type`
+  uint32 min = 2;
+
+  // Maximum amount of guests of the specified `guest_type`
+  uint32 max = 3 [(buf.validate.field).uint32 = {gt: 0}];
+
+  // The minimum age of the specified `guest_type`
+  uint32 min_age = 4;
+
+  // The maximum age of the specified `guest_type`
+  uint32 max_age = 5;
+
+  // Max guests must be greater than or equal to min guests
+  option (buf.validate.message).cel = {
+    id: "max_guests_gte_min_guests"
+    message: "max must be greater than or equal to min"
+    expression: "this.max >= this.min"
+  };
+
+  // Max age must be greater than or equal to min age
+  option (buf.validate.message).cel = {
+    id: "max_age_gte_min_age"
+    message: "max_age must be greater than or equal to min_age"
+    expression: "this.max_age >= this.min_age"
+  };
+
+  // If guest_type is not ADULT, max_age must be greater than zero
+  option (buf.validate.message).cel = {
+    id: "max_age_required_for_non_adults"
+    message: "If guest_type is not ADULT, max_age must be greater than zero"
+    expression: "this.guest_type == cmp.types.v4.TravellerType.TRAVELLER_TYPE_ADULT || this.max_age > 0"
+  };
+}
+
+// This message is used to specify the supplier codes and their status.
+message PropertyShortListItem {
+  // Supplier codes for the products that are modified after the timestamp in
+  // `AccommodationProductShortListRequest`. The supplier codes can be used in
+  // the `AccommodationProductListRequest` or in the `AccommodationProductInfoRequest`
+  // for more or all details.
+  cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
+
+  // Status of the property. This is used when the "ShortList" or the "ProductList"
+  // are pulled. New or modified products have "activated" and properties that are
+  // no longer available from this supplier, will have the status "deactivated".
+  // In case a property has the status "deactivated" no search results will be
+  // returned for that property and a ProductInfo request might not return any
+  // details.
+  cmp.types.v4.ProductStatus status = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+// Represents an attribute of a room (feature or amenity).
+// Examples:
+// - Room size (20 square meters)
+// - Air conditioning (not shared, free of charge)
+// - Shower (shared, free of charge)
+// - Safe (not shared, additional charge of 5.5 local currency units)
+message RoomAttribute {
+  // The type defining the attribute itself. Ex: Room size, Air conditioning, Shower, etc.
+  cmp.services.accommodation.v5.RoomAttributeType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // This indicates whether the attribute is shared among multiple rooms
+  // Default is false which means it's exclusive to this room
+  bool shared = 2;
+
+  // The values associated with this attribute. Ex: 30 square meters for room size
+  // or 100 megabits per second for internet speed.
+  repeated cmp.services.accommodation.v5.RoomAttributeValue values = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Heating provided" only during winter months
+  // If the system only has the seasons (e.g., "Winter"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of a room attribute along with its type and unit.
+// Example for room size:
+// - value: 30
+// - value_type: ROOM_ATTRIBUTE_VALUE_TYPE_SIZE
+// - unit: ROOM_ATTRIBUTE_UNIT_SQUARE_METERS
+message RoomAttributeValue {
+  float value = 1;
+
+  cmp.services.accommodation.v5.RoomAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.services.accommodation.v5.RoomAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum RoomAttributeValueType {
+  ROOM_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_VALUE_TYPE_SIZE = 1;
+  ROOM_ATTRIBUTE_VALUE_TYPE_SPEED = 2;
+  ROOM_ATTRIBUTE_VALUE_TYPE_LENGTH = 3;
+  ROOM_ATTRIBUTE_VALUE_TYPE_DISTANCE = 4;
+  ROOM_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 5;
+  ROOM_ATTRIBUTE_VALUE_TYPE_COUNT = 6;
+}
+
+enum RoomAttributeUnit {
+  ROOM_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
+  ROOM_ATTRIBUTE_UNIT_SQUARE_METERS = 2;
+  ROOM_ATTRIBUTE_UNIT_SQUARE_FEET = 3;
+  ROOM_ATTRIBUTE_UNIT_KILOMETERS = 4;
+  ROOM_ATTRIBUTE_UNIT_MILES = 5;
+  ROOM_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 6; // The currency used for the booking
+  ROOM_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 7; // The local currency of the property's location
+  ROOM_ATTRIBUTE_UNIT_COUNT = 8;
+}
+
+enum RoomAttributeType {
+  ROOM_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ROOM_ATTRIBUTE_TYPE_SIZE = 1; // Room size or area measurement
+  ROOM_ATTRIBUTE_TYPE_ACCESSIBILITY = 2; // Room accessibility features for disabled guests
+  ROOM_ATTRIBUTE_TYPE_SHOWER = 3; // Room has shower facilities
+  ROOM_ATTRIBUTE_TYPE_BATHTUB = 4; // Room has bathtub facilities
+  ROOM_ATTRIBUTE_TYPE_TOILET = 5; // Room has toilet facilities
+  ROOM_ATTRIBUTE_TYPE_BIDET = 6; // Room has bidet facilities
+  ROOM_ATTRIBUTE_TYPE_AIR_CONDITIONING = 7; // Room has air conditioning system
+  ROOM_ATTRIBUTE_TYPE_HEATING = 8; // Room has heating system
+  ROOM_ATTRIBUTE_TYPE_TELEVISION = 9; // Room has television entertainment
+  ROOM_ATTRIBUTE_TYPE_MINIBAR = 10; // Room has minibar with beverages and snacks
+  ROOM_ATTRIBUTE_TYPE_KITCHEN = 11; // Room has kitchen or kitchenette facilities
+  ROOM_ATTRIBUTE_TYPE_SAFE = 12; // Room has in-room safe for valuables
+  ROOM_ATTRIBUTE_TYPE_DESK = 13; // Room has desk for work or writing
+  ROOM_ATTRIBUTE_TYPE_IRONING_BOARD = 14; // Room has ironing board and iron
+  ROOM_ATTRIBUTE_TYPE_HAIR_DRYER = 15; // Room has hair dryer in bathroom
+  ROOM_ATTRIBUTE_TYPE_SHAVING_OUTLET = 16; // Room has electrical outlet suitable for shavers
+  ROOM_ATTRIBUTE_TYPE_BALCONY = 17; // Room has balcony or terrace
+}
+
+// Represents an attribute of a property (feature or amenity).
+// Examples:
+// - Number of rooms (50)
+// - WiFi (free of charge)
+// - Parking (count 250, free of charge)
+// - Airport shuttle (additional charge of 15 booking currency units)
+message PropertyAttribute {
+  // The type defining the attribute itself. Ex: Number of rooms, WiFi, Parking, etc.
+  cmp.services.accommodation.v5.PropertyAttributeType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // The values associated with this attribute. Ex: 6 pools, 2 tennis courts
+  // or 100 megabits per second for internet speed.
+  repeated cmp.services.accommodation.v5.PropertyAttributeValue values = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Pool available" only during summer months
+  // If the system only has the seasons (e.g., "Summer"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of a property attribute along with its type and unit.
+// Example for number of rooms:
+// - value: 50
+// - value_type: PROPERTY_ATTRIBUTE_VALUE_TYPE_COUNT
+// - unit: PROPERTY_ATTRIBUTE_UNIT_COUNT
+// Example for internet speed:
+// - value: 100
+// - value_type: PROPERTY_ATTRIBUTE_VALUE_TYPE_SPEED
+// - unit: PROPERTY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND
+message PropertyAttributeValue {
+  float value = 1;
+
+  cmp.services.accommodation.v5.PropertyAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.services.accommodation.v5.PropertyAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum PropertyAttributeValueType {
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_SPEED = 1;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_DISTANCE = 2;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 3;
+  PROPERTY_ATTRIBUTE_VALUE_TYPE_COUNT = 4;
+}
+
+enum PropertyAttributeUnit {
+  PROPERTY_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  PROPERTY_ATTRIBUTE_UNIT_MEGABITS_PER_SECOND = 1;
+  PROPERTY_ATTRIBUTE_UNIT_KILOMETERS = 2;
+  PROPERTY_ATTRIBUTE_UNIT_MILES = 3;
+  PROPERTY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 4; // The currency used for the booking
+  PROPERTY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 5; // The local currency of the property's location
+  PROPERTY_ATTRIBUTE_UNIT_COUNT = 6;
+}
+
+enum PropertyAttributeType {
+  PROPERTY_ATTRIBUTE_TYPE_UNSPECIFIED = 0; // Default/unspecified value - should not be used in practice
+  PROPERTY_ATTRIBUTE_TYPE_NUMBER_OF_ROOMS = 1; // Total number of rooms in the property
+  PROPERTY_ATTRIBUTE_TYPE_WIFI = 2; // Property has WiFi internet access
+  PROPERTY_ATTRIBUTE_TYPE_WORKSPACE = 3; // Property has dedicated workspace for business travelers
+  PROPERTY_ATTRIBUTE_TYPE_PARKING = 4; // Property has parking facilities available
+  PROPERTY_ATTRIBUTE_TYPE_AIRPORT_SHUTTLE = 5; // Property offers airport shuttle service
+  PROPERTY_ATTRIBUTE_TYPE_NON_SMOKING = 6; // Property is a non-smoking establishment
+  PROPERTY_ATTRIBUTE_TYPE_PET_FRIENDLY = 7; // Property allows pets
+  PROPERTY_ATTRIBUTE_TYPE_CHILD_FRIENDLY = 8; // Property is suitable and welcoming for children
+  PROPERTY_ATTRIBUTE_TYPE_ADULTS_ONLY = 9; // Property is exclusively for adults only
+  PROPERTY_ATTRIBUTE_TYPE_POOL = 10; // Property has swimming pool facilities
+  PROPERTY_ATTRIBUTE_TYPE_POOL_CHILDREN = 11; // Property has dedicated children's pool
+  PROPERTY_ATTRIBUTE_TYPE_FITNESS_CENTER = 12; // Property has fitness center or gym facilities
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_SPA = 13; // Property has spa and wellness facilities
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_YOGA = 14; // Property offers yoga facilities and classes
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_MEDITATION = 15; // Property offers meditation facilities and sessions
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_MASSAGE = 16; // Property offers massage services
+  PROPERTY_ATTRIBUTE_TYPE_WELLNESS_THERAPY = 17; // Property offers therapy and treatment services
+  PROPERTY_ATTRIBUTE_TYPE_RESTAURANT = 18; // Property has on-site restaurant
+  PROPERTY_ATTRIBUTE_TYPE_BAR = 19; // Property has on-site bar or lounge
+  PROPERTY_ATTRIBUTE_TYPE_GAME_ROOM = 20; // Property has game room or arcade facilities
+  PROPERTY_ATTRIBUTE_TYPE_CHILDREN_PLAYGROUND = 21; // Property has children's playground area
+  PROPERTY_ATTRIBUTE_TYPE_CHILDREN_CLUB = 22; // Property has children's club with supervised activities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_TENNIS = 23; // Property has tennis courts available
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_GOLF = 24; // Property has golf course access or facilities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_WATER_SPORTS = 25; // Property offers water sports activities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_CYCLING = 26; // Property offers cycling facilities or bike rentals
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_MINI_GOLF = 27; // Property has mini-golf course
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_TABLE_TENNIS = 28; // Property has table tennis facilities
+  PROPERTY_ATTRIBUTE_TYPE_SPORT_PADEL = 29; // Property has padel courts available
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_SAND = 30; // Property is located near a sandy beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_ROCKY = 31; // Property is located near a rocky beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_SHINGLE = 32; // Property is located near a shingle beach
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_PRIVATE = 33; // Property has private beach area access
+  PROPERTY_ATTRIBUTE_TYPE_BEACH_PUBLIC = 34; // Property has access to public beach area
+  PROPERTY_ATTRIBUTE_TYPE_POI_CITY_CENTER = 35; // Property is located near the city center
+  PROPERTY_ATTRIBUTE_TYPE_POI_ATTRACTION = 36; // Property is located near popular tourist attractions
+  PROPERTY_ATTRIBUTE_TYPE_POI_NATURE = 37; // Property is located near natural landmarks and parks
+  PROPERTY_ATTRIBUTE_TYPE_POI_SHOPPING = 38; // Property is located near shopping areas and malls
+  PROPERTY_ATTRIBUTE_TYPE_POI_DINING = 39; // Property is located near dining establishments and restaurants
+  PROPERTY_ATTRIBUTE_TYPE_POI_CULTURE = 40; // Property is located near cultural sites and museums
+  PROPERTY_ATTRIBUTE_TYPE_POI_NIGHTLIFE = 41; // Property is located near nightlife and entertainment venues
+}
+
+// Represents a transport hub (like an airport or train station) in the vicinity of the property.
+message TransportHub {
+  // Location code of the transport hub which can be IATA or ICAO for airports
+  // or something different for trains, etc.
+  cmp.types.v4.LocationCode location_code = 1 [(buf.validate.field).required = true];
+
+  // Distance from the property to the transport hub
+  cmp.types.v4.Length distance = 2 [(buf.validate.field).required = true];
+
+  // Estimated travel time from the property to the transport hub in minutes
+  cmp.types.v4.Duration travel_time = 3 [(buf.validate.field).required = true];
+}

@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/accommodation/v5/property_types.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/product_code.proto";
+
+// Request basic (static) information about accommodations for mapping purposes.
+message AccommodationProductListRequest {
+  // Common request header used in every request.
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // The supplier product codes can be used to pull more details for (new & updated)
+  // properties that are required for mapping, after the "ShortList" was pulled with the
+  // "modified_after" parameter. This is specifically useful to avoid pulling the
+  // complete "Product Info" twice, once for mapping and once to store the multi-lingual
+  // content and imagery.
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
+}
+
+message AccommodationProductListSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // The list of properties which should match the requested supplier codes.
+  // In case the supplier is unable to return all requested properties, it should
+  // return a warning in the response. This can happen if a property is no longer
+  // a valid product.
+  repeated cmp.services.accommodation.v5.Property properties = 2;
+}
+
+message AccommodationProductListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond basic (static) information about accommodations for mapping purposes.
+message AccommodationProductListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v5.AccommodationProductListSuccessResponse success_response = 1;
+    cmp.services.accommodation.v5.AccommodationProductListErrorResponse error_response = 2;
+  }
+}
+
+// Accommodation product list service definition.
+//
+// This type of information is typically called static data and is not expected
+// to change frequently.
+// The intention of the list is to provide a quick overview of all available
+// accommodation products without the need for detailed information retrieval.
+// This is particularly useful for distributors who want to get a sense of the
+// available inventory at a glance for deciding whether they want to use this
+// property at all. The AccommodationProductList provides more information than
+// the AccommodationProductShortList to identify and map the property. If the
+// property is approved, then it makes sense to get further information with the
+// AccommodationProductInfoService.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/list.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/list.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service AccommodationProductListService {
+  // Returns product list for accommodation (properties)
+  rpc AccommodationProductList(AccommodationProductListRequest) returns (AccommodationProductListResponse);
+}

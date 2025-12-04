@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package cmp.services.accommodation.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/accommodation/v5/property_types.proto";
+import "cmp/types/v1/language.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/product_code.proto";
+
+// Request detailed (static) information about accommodations.
+message AccommodationProductInfoRequest {
+  // Common request header used in every request.
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // For static data it's always necessary to specify the languages expected in
+  // the results. Every distributor has a certain target audience and knows
+  // which languages they are providing to their customers. Therefore, in order
+  // to reduce the amount of unnecessary languages returned they need to be
+  // specified here. Additionally if a supplier is unable to provide a certain
+  // requested language they should return a warning in the response unless
+  // all requested languages are unavailable, which would lead to an error.
+  repeated cmp.types.v1.Language languages = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 10
+    unique: true
+  }];
+
+  // Supplier specific product codes of the properties received via product
+  // (short) list responses.
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
+}
+
+message AccommodationProductInfoSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // The list of properties which should match the requested supplier codes.
+  // In case the supplier is unable to return all requested properties, it should
+  // return a warning in the response. This can happen if a property is no longer
+  // a valid product. In this case the property should have been already de-listed
+  // in the (short) list response by providing the status "DEACTIVATED".
+  // See PropertyShortListItem.status / Property.status for more details.
+  repeated cmp.services.accommodation.v5.PropertyExtendedInfo properties = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100 // Default max items
+  }];
+}
+
+message AccommodationProductInfoErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond detailed (static) information about accommodations.
+message AccommodationProductInfoResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v5.AccommodationProductInfoSuccessResponse success_response = 1;
+    cmp.services.accommodation.v5.AccommodationProductInfoErrorResponse error_response = 2;
+  }
+}
+
+// Accommodation product info service definition
+//
+// This type of information is typically called static data and is not expected
+// to change frequently.
+// Usually the distributor requests this information in advance to get all the
+// necessary information about products they have already decided to take into
+// account for selling and store them in an inventory system.
+// Often the same property can be delivered from multiple suppliers and content
+// needs to be consolidated, which is not a real-time process.
+// Requesting this on-demand after receiving search results would result in a
+// more complex and potentially slower process, as the distributor would need
+// to gather all the necessary information at that time.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/info.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/info.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service AccommodationProductInfoService {
+  // Returns product list for accommodation (properties)
+  rpc AccommodationProductInfo(AccommodationProductInfoRequest) returns (AccommodationProductInfoResponse);
+}

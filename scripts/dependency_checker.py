@@ -242,6 +242,7 @@ def is_service_file(proto_file_path):
 print_graph, fix, debug = extract_command_line_args()
 fixed_new_version_files = []
 fixed_removed_files = []
+fixed_version_upgrades = {}
 directory_path = "proto/"
 c4tfiles, c4tfolders = getC4TFiles()
 
@@ -367,13 +368,32 @@ def default_run():
 					else:
 						included_by_latest[include].append(proto_file)
 	
+	# Now let's go through the proto files again and check whether they need fixes
+	for proto_file in all_proto_files:
+		if debug:
+			print(f"🔍 Checking the file {proto_file} for broken/missing dependencies")
+
+		includes = extract_proto_includes(directory_path + proto_file)
+		for include in includes:
+			if include.startswith("cmp/"): # we're only interested in our includes
 				if proto_file in latest_proto_files and include not in latest_proto_files:
-					if proto_file in type_files and proto_file not in included_by_latest:
+					if include in fixed_version_upgrades:
+						# Edge-case scenario where a file was upgraded in a previous iteration
+						# Therefore it needs to be fixed here as well
+						print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The include '{include}' in '{proto_file}' is not the latest version! It was already upgraded to '{fixed_version_upgrades[include]}' in this run - adding to fix list.")
+						if proto_file not in fix_needed:
+							fix_needed[proto_file] = [ include ]
+						else:
+							fix_needed[proto_file].append(include)
+						global_error = True
+
+					elif proto_file in type_files and proto_file not in included_by_latest:
 						# Edge-case scenario where a file was removed in newer versions
 						# With that an old version of this type is checked whether
 						# it includes the latest versions of its includes. But as
 						# this file shall not do that we just warn instead of erroring out.
 						print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is not including the latest version of '{include}', but as the type file is not included anywhere in the latest version this might be ok.")
+
 					else:
 						print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The include '{include}' in '{proto_file}' is not the latest version!")
 
@@ -381,7 +401,6 @@ def default_run():
 							fix_needed[proto_file] = [ include ]
 						else:
 							fix_needed[proto_file].append(include)
-
 						global_error = True
 
 	# Now we have a nice dependency graph-like list to check
@@ -394,9 +413,12 @@ def default_run():
 				print(f"❌ {Colors.RED}ERROR{Colors.RESET}: The type file '{proto_file}' is never included anywhere in the proto files!")
 				global_error = True
 			else:
-				print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
-				if remove_file(proto_file):
-					fixed_removed_files.append(proto_file)
+				if len(fix_needed) > 0:
+					print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is never included anywhere. There are still other fixes needed so skipping automatic removal for now...")
+				else:
+					print(f"⚠️ {Colors.YELLOW}WARNING{Colors.RESET}: The type file '{proto_file}' is never included anywhere. Fixing it by removing the file...")
+					if remove_file(proto_file):
+						fixed_removed_files.append(proto_file)
 				global_error = True
 
 		elif proto_file in latest_proto_files and proto_file not in included_by_latest:
@@ -521,6 +543,7 @@ if fix:
 
 					search_replace_in_file(directory_path + new_filename, search_replace_fixes)
 					fixed_new_version_files.append(new_filename)
+					fixed_version_upgrades[file] = new_filename
 
 
 		print()

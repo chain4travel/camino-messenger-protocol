@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package cmp.types.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/localized.proto";
+import "cmp/types/v4/price.proto";
+
+// Service fact message type
+// Service facts are smaller services that are included, can be booked optionally
+// or must be booked together with a main product or service. For example on Christmas
+// eve a gala dinner is included in the stay. Or an early check-in can be booked when
+// travellers have an early flight. Or cleaning cost must be included for every booking
+// of a holiday home.
+//
+// It is important that these optional, included or compulsory services are simple. For
+// complex combinations like a hotel with a rent-a-car or a skipass or ski lessons, packages
+// should be used so that each service can be described properly and a choice of what car,
+// which ski pass and what level of ski class that be properly selected.
+//
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/service_fact.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v4/service_fact.proto.dot.svg)
+message ServiceFact {
+  // A code for the specific service, when a service is optional, this code is
+  // referenced in the validate request, so that the optional service will be added
+  // to the booking.
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // The price and price breakdown of the service
+  // As a service fact can also reference to other service facts (like priority boarding
+  // which includes also an optional larger carry-on bag), the price detail here
+  // is only for this specific service fact shall not include the price details
+  // of the referenced service facts in the `details` field!
+  cmp.types.v4.PriceDetail price_detail = 3;
+
+  // whether the service is included, optional or compulsory. When a price is
+  // mentioned and the service is included, then the price of the service is already
+  // included in the total price of this option and it is better to omit the
+  // price_detail field. In case of an optional or compulsory service, the service
+  // must be specifically be booked and the price is added to the total price.
+  cmp.types.v4.ServiceAvailabilityType availability_type = 4 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // We can use a single ServiceFact to express just one service.
+  // But services can actually be a combination of several services, like
+  // priority boarding, which also allows for an optional larger carry-on bag.
+  //
+  // IMPORTANT: Please be careful about this recursion as only a handful of cases
+  // are well-known combinations of different service availability types.
+  // Distributors might only implement on their end a very limited set of combinations,
+  // therefore it would be better to clarify first what the commonly used ones
+  // are before trying to express business cases which are simply not supported.
+  repeated cmp.types.v5.ServiceFact details = 5 [(buf.validate.field).repeated = {max_items: 100}];
+
+  // The count of the number of services. In case the service requires specification
+  // of the number or frequency of the products that will be included. For example
+  // "bouquet of roses, qty=24" or "baggage qty=2".
+  uint32 quantity = 6;
+}
+
+// Static data definition of the service fact to be used in product information
+message ServiceFactDefinition {
+  // A code for the specific service, when a service is optional, this code is
+  // referenced in the validate request, so that the optional service will be added
+  // to the booking.
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // A description of the service like "business class", "shuttle transfer", "early
+  // check-in" etc.
+  repeated cmp.types.v4.LocalizedString description = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+}
+
+enum ServiceAvailabilityType {
+  SERVICE_AVAILABILITY_TYPE_UNSPECIFIED = 0;
+  SERVICE_AVAILABILITY_TYPE_INCLUDED = 1;
+  SERVICE_AVAILABILITY_TYPE_COMPULSORY = 2;
+  SERVICE_AVAILABILITY_TYPE_OPTIONAL = 3;
+}

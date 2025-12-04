@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+// ## Accommodation Services
+//
+// The Accommodation services are used for both hotels and holiday homes, often
+// called short term rentals.
+//
+// Just like any search message response in the Camino Messenger Protocol, the
+// "AccommodationSearch" only includes dynamic data. Static data can be cached
+// and kept up to data with the Product List and Product Details messages.
+//
+// The Accommodation service also has the "ShortList" service, which only returns
+// the supplier codes. It can be used without the "modified_after" parameter to
+// obtain a full list of all codes for a specific supplier, but the intention is
+// usage with the "modified_after" set, to refresh updated products and create a
+// list of new and discontinued products.
+//
+// The workflow to onboard and update properties is as follows:
+// * The list of new/updated properties is received via the ShortList request.
+// * The products which are not yet mapped by the distributor can be obtained via
+//   the ProductList request.
+// * The products which are already mapped and needs to be updated in the
+//   distributor system shall be requested via the ProductInfo request
+//
+// The more extensive Accommodation Product List is meant to include all details
+// required to map a new property with more details like location, rating, to
+// which chain it belongs, address, airports, etc.
+// This is being used to decide whether or not this product shall become a
+// property sold by the distributor.
+//
+// Both the "ShortList" and the "ProductList" service contain a status field
+// with either "activated" or "deactivated" values, so that Distributors can
+// take the properties that are no longer supplied, off-sale for the specific
+// Supplier.
+//
+// Once we have mapped the property we need to download all details. Multiple
+// languages can be specified. In case a Distributor requests an unsupported
+// language in the request, the supplier should not include that language and
+// include a warning in the response. I.e: a Distributor specifies EN, DE, FR
+// and NL, the supplier does not support NL and includes descriptions in EN, DE
+// and FR, and adding a warning that "NL" is not supported.
+//
+// Finally, the purchase process that is the same for all message types, can be
+// initiated: (Accommodation)Search, Validate, Mint and Cancel.
+package cmp.services.accommodation.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/accommodation/v5/property_types.proto";
+import "cmp/services/accommodation/v4/search_parameters_types.proto";
+import "cmp/services/accommodation/v5/search_result_types.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/search.proto";
+import "cmp/types/v4/travel_period.proto";
+import "cmp/types/v4/traveller.proto";
+import "cmp/types/v4/uuid.proto";
+
+// The `Accommodation Search Request` message type facilitates the request for
+// accommodations like hotel and holiday home searches within the platform.
+message AccommodationSearchRequest {
+  // Common header which is used in every request.
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Generic search parameters Ex: Inclusion of OnRequest options and inclusion of
+  // only the cheapest or all options.
+  // In the search parameters multiple filters can be applied for upfront filtering
+  // of the search results to for example to only include hotels that are less than
+  // one kilometer from the beach, have a kids club and offer an a la carte restaurant
+  cmp.types.v4.SearchParameters search_parameters = 2 [(buf.validate.field).required = true];
+
+  // Accommodation specific search parameters Ex: Specific search parameters like
+  // geo location, meal plan, rate plan and rate rules.
+  //
+  // While all fields in accommodation search parameters message are optional at the
+  // message level, each supplier may define their own minimum set of required
+  // filter parameters.
+  cmp.services.accommodation.v4.AccommodationSearchParameters search_parameters_accommodation = 3;
+
+  // The intended travel period to search for. Please note that this refers
+  // to the actual start and end times of the stay in the property and does not
+  // include potential travel times for transfer/transportation.
+  cmp.types.v4.TravelPeriod travel_period = 4 [(buf.validate.field).required = true];
+
+  // Definition of the travellers to match against the occupancy definitions
+  // of the properties.
+  repeated cmp.types.v4.BasicTraveller travellers = 5 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 15
+  }];
+
+  // Type of the property, like hotel or holiday home
+  cmp.services.accommodation.v5.PropertyType property_type = 6 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+message AccommodationSearchSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Search_id to be used in subsequent requests like the "Validation Request".
+  cmp.types.v4.ExpiringUUID search_id = 2 [(buf.validate.field).required = true];
+
+  // Unique combinations of bookable search results
+  repeated cmp.services.accommodation.v5.AccommodationSearchResult results = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10000
+  }];
+
+  // Global definition of the travellers for all results to be used via the
+  // traveller_id in each unit.
+  repeated cmp.types.v4.BasicTraveller travellers = 4 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 15
+  }];
+}
+
+message AccommodationSearchErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// The `Accommodation Search Response` message type facilitates the response for
+// accommodations like hotel and holiday home searches within the platform.
+//
+// In the response a search_id must be included and a search_option_id for every
+// bookable option responded. Included, compulsory and optional services can be
+// included. A simple "free cancellation upto" can be set or full cancellation
+// policies can be included.
+message AccommodationSearchResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.accommodation.v5.AccommodationSearchSuccessResponse success_response = 1;
+    cmp.services.accommodation.v5.AccommodationSearchErrorResponse error_response = 2;
+  }
+}
+
+// Service definition for Accommodation search
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service AccommodationSearchService {
+  // Accommodation Search method
+  rpc AccommodationSearch(AccommodationSearchRequest) returns (AccommodationSearchResponse);
+}
