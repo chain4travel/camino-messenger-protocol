@@ -14,9 +14,9 @@ import "cmp/types/v4/meal_plan.proto";
 import "cmp/types/v4/measurement.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/product_status.proto";
-import "cmp/types/v5/service_fact.proto";
 import "cmp/types/v4/theme.proto";
 import "cmp/types/v4/traveller.proto";
+import "cmp/types/v5/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 
 // Represents a basic set of property info for an accommodation product.
@@ -27,9 +27,9 @@ import "google/protobuf/timestamp.proto";
 // likely to be needed for initial decision-making whether this property shall
 // be used by the distributor.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/property_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/property_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/property_types.proto.dot.svg)
 message Property {
   // Timestamp of the last modification date of **any** of the property info.
   // This not only includes the fields which are part of this message but rather
@@ -147,7 +147,7 @@ message Property {
   option (buf.validate.message).cel = {
     id: "category_rating_unit_dependency"
     message: "If category_rating is provided, category_unit must also be provided"
-    expression: "this.category_rating == cmp.services.accommodation.v4.CategoryRating.CATEGORY_RATING_UNSPECIFIED || this.category_unit != cmp.services.accommodation.v4.CategoryUnit.CATEGORY_UNIT_UNSPECIFIED"
+    expression: "this.category_rating == cmp.services.accommodation.v5.CategoryRating.CATEGORY_RATING_UNSPECIFIED || this.category_unit != cmp.services.accommodation.v5.CategoryUnit.CATEGORY_UNIT_UNSPECIFIED"
   };
 
   // Property contact_info must have at least one address

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v4;
+
+import "buf/validate/validate.proto";
+import "cmp/services/insurance/v4/insurance_types.proto";
+import "cmp/types/v2/country.proto";
+import "cmp/types/v4/loyalty_program.proto";
+import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/travel_period.proto";
+import "cmp/types/v4/traveller.proto";
+import "cmp/types/v5/price.proto";
+
+// This type is used in search requests for parameters like insured booking, network, ... etc
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v4/search_parameters_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v4/search_parameters_types.proto.dot.svg)
+message InsuranceSearchParameters {
+  // Product code list
+  // Here a list of product codes would be used that could be for various specific
+  // insurances from the InsuranceProductList the insurance supplier offers, in
+  // case one or more specific policies are requested.
+  repeated cmp.types.v4.ProductCode product_codes = 1 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 500
+  }];
+
+  // Insurances can also be requested by type, in case not a specific policy is
+  // requested through the product codes above
+  cmp.services.insurance.v4.PolicyType policy_type = 2;
+
+  // Insured product type has to be specified. It can only be one product type
+  // from the enumeration in each query. Separate queries or requests have to be
+  // submitted for different insured product types
+  cmp.services.insurance.v4.InsuredProductType insured_product_type = 3;
+
+  // Value of booking to be insured, only valid with CFAR, Flight? and Rantal Car? insurances
+  cmp.types.v5.Price amount_purchase = 4;
+
+  // Insurance location and its references. Location can be on-chain or off-chain.
+  cmp.services.insurance.v4.InsuredBooking booking_to_insure = 5;
+
+  // The country code of the end-consumer nationality. This code is optional for normal NFT, but required for an NFT that is a receipt for a physical product.
+  cmp.types.v2.Country nationality = 6;
+
+  // The country code of the end-consumer place of residence
+  cmp.types.v2.Country country_residence = 7;
+
+  // Travel period
+  cmp.types.v4.TravelPeriod travel_period = 8;
+
+  // Travellers
+  repeated cmp.types.v4.BasicTraveller travellers = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 15
+  }];
+
+  // Loyalty Program
+  cmp.types.v4.LoyaltyProgram loyalty_program = 10;
+}
+
+enum InsuredProductType {
+  INSURED_PRODUCT_TYPE_UNSPECIFIED = 0;
+  INSURED_PRODUCT_TYPE_FLIGHT = 1;
+  INSURED_PRODUCT_TYPE_TRAIN_TRIP = 2;
+  INSURED_PRODUCT_TYPE_TRANSFER = 3;
+  INSURED_PRODUCT_TYPE_HOTEL = 4;
+  INSURED_PRODUCT_TYPE_HOLIDAY_HOME = 5;
+  INSURED_PRODUCT_TYPE_HOSTAL = 6;
+  INSURED_PRODUCT_TYPE_RENTAL_CAR = 7;
+  INSURED_PRODUCT_TYPE_CAMPER = 8;
+  INSURED_PRODUCT_TYPE_BICYCLE = 9;
+  INSURED_PRODUCT_TYPE_MOTOR_BIKE = 10;
+  INSURED_PRODUCT_TYPE_ACTIVITY = 11;
+  INSURED_PRODUCT_TYPE_EVENT = 12;
+  INSURED_PRODUCT_TYPE_CONCERT = 13;
+  INSURED_PRODUCT_TYPE_HOLIDAY_PACKAGE = 14;
+}

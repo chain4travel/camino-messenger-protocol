@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v3;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/evm_transaction.proto";
+import "cmp/types/v5/price.proto";
+
+// Request for cancellation acceptance
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/accept.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/accept.proto.dot.svg)
+message AcceptCancellationRequest {
+  // Request header
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Booking token ID this request is for
+  uint64 token_id = 2;
+
+  // Refund amount that must match the original cancellation proposal for on-chain
+  // validation. The transaction will fail if the amounts don't match. This is used
+  // to prevent front-running attacks.
+  cmp.types.v5.Price refund_amount = 3 [(buf.validate.field).required = true];
+}
+
+// Response for cancellation acceptance
+message AcceptCancellationSuccessResponse {
+  // Response header
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Transaction ID on-chain for the cancellation proposal acceptance.
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of acceptance
+  // 2. Validate the accepted refund amount
+  // 3. Prevent disputes about acceptance terms
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message AcceptCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message AcceptCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v3.AcceptCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v3.AcceptCancellationErrorResponse error_response = 2;
+  }
+}

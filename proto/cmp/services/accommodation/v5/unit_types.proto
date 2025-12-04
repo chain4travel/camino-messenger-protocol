@@ -5,17 +5,17 @@ package cmp.services.accommodation.v5;
 import "buf/validate/validate.proto";
 import "cmp/types/v4/bed.proto";
 import "cmp/types/v4/meal_plan.proto";
-import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/rate.proto";
-import "cmp/types/v5/service_fact.proto";
 import "cmp/types/v4/travel_period.proto";
+import "cmp/types/v5/price.proto";
+import "cmp/types/v5/service_fact.proto";
 
 // A Unit can represent a room in a hotel or an entire holiday home.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/unit_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/unit_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/unit_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/unit_types.proto.dot.svg)
 message Unit {
   // Room code of the unit in case of hotel. Ex: "RMSDDB0000". This code must explicitly
   // match the supplier_room_code in the ProductList and the ProductInfo messages, so that
@@ -56,7 +56,7 @@ message Unit {
   }];
 
   // Price in detail with breakdowns
-  cmp.types.v4.PriceDetail price_detail = 7;
+  cmp.types.v5.PriceDetail price_detail = 7;
 
   // Included, compulsory and optional services available
   repeated cmp.types.v5.ServiceFact services = 8 [(buf.validate.field).repeated = {

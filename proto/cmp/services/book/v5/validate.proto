@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package cmp.services.book.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/search.proto";
+import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v4/uuid.proto";
+import "cmp/types/v5/total_price.proto";
+
+message ValidationRequest {
+  // Common header which is used in every request.
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // The object to be validated with this request.
+  // This describes the product or service to be validated resulting from a previous search.
+  cmp.services.book.v5.ValidationObject validation_object = 2 [(buf.validate.field).required = true];
+}
+
+message ValidationSuccessResponse {
+  // Common header which is used in every response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Unique validation ID which can be used in the subsequent mint request.
+  cmp.types.v4.ExpiringUUID validation_id = 2 [(buf.validate.field).required = true];
+
+  // The object which has been validated in this response.
+  // This describes the product or service to be validated resulting from a previous search.
+  // It must always match the one in the request, a different one must be treated as an error.
+  cmp.services.book.v5.ValidationObject validation_object = 3 [(buf.validate.field).required = true];
+
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  // This could differ from the original total price in the search result due to
+  // a price difference which might be acceptable by the requesting party.
+  // Additionally any selected optional services like seat selections or service fact selections
+  // must be reflected in this total price and the optional breakdown.
+  cmp.types.v5.TotalPrice total_price = 4 [(buf.validate.field).required = true];
+}
+
+message ValidationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ValidationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.book.v5.ValidationSuccessResponse success_response = 1;
+    cmp.services.book.v5.ValidationErrorResponse error_response = 2;
+  }
+}
+
+// Additional layer to allow for selecting seats in different segments.
+message SeatSelection {
+  // Segment ID for the seat selection. For example a flight segment, necessary as
+  // the seat map id may be the same for different segments.
+  string segment_id = 1 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
+
+  // Seat selection based on the segment
+  cmp.types.v4.SeatMapInventory seat_map_inventory = 2 [(buf.validate.field).required = true];
+}
+
+// Additional layer to allow for selecting optional service facts
+// in different segments.
+message ServiceFactSelection {
+  // Segment ID for the service fact selection. For example a flight segment,
+  // necessary as the service fact id may be the same for different segments. In
+  // case no segments are present like for accommodation this field is empty.
+  string segment_id = 1 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
+
+  // Service fact code selection based on the segment.
+  // This needs to be the `code` of the `ServiceFact` message.
+  string service_fact_code = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+}
+
+// Validation message that represents a single offer
+// to be validated for the mint request.
+// This can also contain additional (optional) selections
+// for seats and service facts which can add additional costs to the offer
+// and therefore needs to be reflected in the `price_detail` of the `ValidationResponse`.
+message ValidationObject {
+  // Search result identifier which uniquely identifies a certain search and a result in that search.
+  cmp.types.v4.SearchResultIdentifier search_result_identifier = 1 [(buf.validate.field).required = true];
+
+  // Optional seat selection for the validation.
+  // Only applicable for products with (selectable) seats.
+  repeated cmp.services.book.v5.SeatSelection seat_selections = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 1000
+  }];
+
+  // Optional service fact selection for the validation.
+  // Only applicable for products with (optional) service facts.
+  repeated cmp.services.book.v5.ServiceFactSelection service_fact_selections = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v5/validate.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/book/v5/validate.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service ValidationService {
+  rpc Validation(ValidationRequest) returns (ValidationResponse);
+}

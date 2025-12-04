@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v3;
+
+import "buf/validate/validate.proto";
+import "cmp/services/cancellation/v1/reason.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v5/price.proto";
+import "google/protobuf/timestamp.proto";
+
+// Service for validating booking cancellations with supplier systems.
+//
+// This service acts as a pre-cancellation verification step, allowing clients to:
+// - Check if a booking can be cancelled according to supplier policies
+// - Determine the exact refund amount before proceeding with actual cancellation
+// - Understand rejection reasons when cancellation is not permitted
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/check.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/check.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service CheckCancellationService {
+  // Validates whether a booking cancellation is permitted and calculates refund
+  // details.
+  //
+  // This is a read-only operation that does NOT actually cancel the booking. This
+  // can be used to show customers cancellation terms before they confirm the
+  // cancellation.
+  rpc CheckCancellation(CheckCancellationRequest) returns (CheckCancellationResponse);
+}
+
+// Request to check if a booking cancellation is allowed and determine refund details.
+// This call verifies cancellation eligibility with the supplier system and calculates
+// the potential refund amount based on cancellation policies.
+message CheckCancellationRequest {
+  // The request header
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Unique identifier of the booking to be cancelled.
+  uint64 token_id = 2;
+
+  // Expected or requested refund amount for this cancellation. This may be used by
+  // the supplier to validate against their own calculations or left empty to let
+  // the supplier determine the refund amount.
+  cmp.types.v5.Price refund_amount = 3;
+
+  // Reason provided for the cancellation request.
+  // This helps suppliers apply appropriate policies and may affect refund calculations.
+  cmp.services.cancellation.v1.CancellationReason reason = 4 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }];
+}
+
+// Response containing the supplier's decision on whether the cancellation is allowed
+// and the calculated refund amount. This response provides all information needed
+// to present cancellation terms to the customer before they proceed with actual cancellation.
+//
+// Response scenarios:
+// - CONFIRM: Cancellation allowed, refund_amount shows what customer will receive
+// - REJECT: Cancellation denied, rejection_reason explains why
+// - ALREADY_CANCELLED: Booking was previously cancelled, no action needed
+message CheckCancellationSuccessResponse {
+  // The response header
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Echo of the booking token_id from the request for correlation
+  uint64 token_id = 2;
+
+  // Actual refund amount calculated by the supplier based on their cancellation
+  // policies. This represents the final amount the customer will receive if they
+  // proceed with cancellation. Always provided, even for rejected cancellations
+  // (may be zero for non-refundable bookings).
+  cmp.types.v5.Price refund_amount = 3 [(buf.validate.field).required = true];
+
+  // Identifier of the specific cancellation policy applied by the supplier. This
+  // can be used for audit trails, customer service references, or displaying policy
+  // details to customers. Optional field - suppliers may not expose internal policy
+  // IDs.
+  //
+  // If the policy id is defined in the supplier system it is recommended to be
+  // returned here.
+  string policy_id_applied = 4 [(buf.validate.field).string.max_bytes = 512];
+
+  // Supplier's decision on the cancellation request.
+  // - CONFIRM: Cancellation is permitted, customer can proceed
+  // - REJECT: Cancellation is not allowed, see rejection_reason for details
+  // - ALREADY_CANCELLED: This booking was previously cancelled
+  cmp.services.cancellation.v3.CancellationCheckStatus status = 5 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
+
+  // Reason why the cancellation was rejected.
+  // Required (can not be UNSPECIFIED (0)) when status is REJECT.
+  cmp.services.cancellation.v1.RejectionReason rejection_reason = 6 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }];
+
+  // When the supplier system performed this cancellation check.
+  // Important for time-sensitive policies where cancellation windows may expire.
+  // Should reflect the supplier's system time, not the intermediary's processing time.
+  google.protobuf.Timestamp timestamp = 7 [(buf.validate.field).required = true];
+
+  option (buf.validate.message) = {
+    cel: {
+      id: "rejection_reason_required_when_reject"
+      message: "rejection_reason must be specified (non-zero) when status is REJECT"
+      expression: "this.status != cmp.services.cancellation.v3.CancellationCheckStatus.CANCELLATION_CHECK_STATUS_REJECT || this.rejection_reason != 0"
+    }
+  };
+}
+
+message CheckCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message CheckCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v3.CheckCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v3.CheckCancellationErrorResponse error_response = 2;
+  }
+}
+
+enum CancellationCheckStatus {
+  CANCELLATION_CHECK_STATUS_UNSPECIFIED = 0;
+  CANCELLATION_CHECK_STATUS_ALREADY_CANCELLED = 1;
+  CANCELLATION_CHECK_STATUS_CONFIRM = 2;
+  CANCELLATION_CHECK_STATUS_REJECT = 3;
+}

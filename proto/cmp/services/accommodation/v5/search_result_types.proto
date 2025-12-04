@@ -6,14 +6,14 @@ import "buf/validate/validate.proto";
 import "cmp/services/accommodation/v5/unit_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/rate.proto";
-import "cmp/types/v4/total_price.proto";
+import "cmp/types/v5/total_price.proto";
 
 // This type represents a search result and is used in the
 // `AccommodationSearchResponse` message.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_result_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/search_result_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v4/search_result_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/accommodation/v5/search_result_types.proto.dot.svg)
 message AccommodationSearchResult {
   // ID for the search result. This is an increasing number starting at 0 and
   // increasing by 1 for every search result.
@@ -27,7 +27,7 @@ message AccommodationSearchResult {
 
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 3 [(buf.validate.field).required = true];
+  cmp.types.v5.TotalPrice total_price = 3 [(buf.validate.field).required = true];
 
   // The RateRule specifies whether a search result is non-refundable or not
   repeated cmp.types.v4.RateRule rate_rules = 4 [(buf.validate.field).repeated = {

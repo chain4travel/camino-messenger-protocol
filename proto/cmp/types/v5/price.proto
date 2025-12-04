@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package cmp.types.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/currency.proto";
+import "cmp/types/v5/price_types.proto";
+
+// This message consists of the value as a Price object and additional fields as
+// binding, concept, and breakdown.
+//
+// Breakdown is a recursively inherited object of PriceDetail. This way complex
+// pricing structures can be represented.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/price.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/price.proto.dot.svg)
+message PriceDetail {
+  // Principle price element
+  cmp.types.v5.Price price = 1 [(buf.validate.field).required = true];
+
+  // The ChargeType defines whether a price is per person, per group or per unit.
+  cmp.types.v5.ChargeType charge_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  // Identification whether the price must be respected towards the end-user
+  // and the product or service cannot be offered for a lower price.
+  bool binding = 3;
+
+  // Description of the product or service this price(element) is valid for.
+  string description = 4 [(buf.validate.field).string = {
+    min_len: 0
+    max_bytes: 512
+  }];
+
+  // If not specified, the default of the boolean is false which means it is
+  // included in the price. If set to True, it means that this PriceDetail is only
+  // payable locally. For example local tourism tax that you pay at the reception of
+  // a hotel. Intended to be used in the breakdown.
+  bool locally_payable = 5;
+
+  // Type of price breakdown. This is meant to be used in price breakdown
+  // definitions, when we want to specify the different elements of how a total
+  // price was computed.
+  cmp.types.v5.PriceBreakdownType type = 6;
+
+  // We can use a single PriceDetail to represent a price breakdown.
+  repeated cmp.types.v5.PriceDetail breakdowns = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+// Represents a monetary value with arbitrary precision using a string-based integer
+// representation. This design supports both traditional fiat currencies and
+// cryptocurrencies that may require high precision decimal handling.
+//
+// The price is expressed as: actual_value = value / 10^decimals
+//
+// ## Key Principles
+//
+// 1. **Always represent the main currency unit**, not fractions:
+//    - Use EUR (not euro-cents), BTC (not satoshis), ETH (not wei)
+//    - Example: €1.23 is stored as value="123", decimals=2
+//
+// 2. **String-based value prevents precision loss**:
+//    - Essential for cryptocurrencies with 18+ decimal places
+//    - Avoids floating-point rounding errors
+//    - Supports values up to uint256 range
+//
+// 3. **Flexible decimal precision**:
+//    - Accommodates different currency requirements
+//    - Fiat currencies typically use 2 decimals
+//    - Cryptocurrencies may use 6-18 decimals
+//
+// ## Implementation Examples
+//
+// ### Fiat Currency
+// ```
+// €100.50 → value="10050", decimals=2
+// $0.99 → value="99", decimals=2
+// ```
+//
+// ### Cryptocurrency Display
+// ```
+// 0.0065 BTC → value="65", decimals=4 (for UI display)
+// 1.5 ETH → value="15", decimals=1
+// ```
+//
+// ### Blockchain Operations
+// For on-chain transactions, convert to the blockchain's native precision:
+// ```
+// Display: 0.0065 WBTC (value="65", decimals=4)
+// On-chain: 650000 (multiply by 10^(8-4) for 8-decimal blockchain)
+// ```
+//
+// ## Important Notes
+//
+// - Never round cryptocurrency values - use exact decimal arithmetic
+// - The decimals field specifies how many decimal places are represented
+// - For blockchain operations, additional conversion may be needed to match
+//   the on-chain decimal precision
+message Price {
+  // The price value as a string representation of an integer.
+  // To get the actual value: actual_value = value / 10^decimals
+  // Example: value="12345" with decimals=2 represents 123.45
+  string value = 1 [(buf.validate.field).string = {pattern: "^-?[0-9]{1,78}$"}];
+
+  // Number of decimal places represented in the value.
+  // Example: decimals=2 means the value should be divided by 100
+  uint32 decimals = 2;
+
+  // The currency specification (fiat or cryptocurrency)
+  cmp.types.v4.Currency currency = 3 [(buf.validate.field).required = true];
+}

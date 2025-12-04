@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package cmp.services.insurance.v4;
+
+import "buf/validate/validate.proto";
+import "cmp/services/insurance/v4/search_parameters_types.proto";
+
+// Insurance Search Query
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v4/search_query_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/insurance/v4/search_query_types.proto.dot.svg)
+message InsuranceSearchQuery {
+  // Integer query ID, unique per search request
+  uint32 query_id = 1;
+
+  // Insurance specific search parameters Ex: Specific search parameters like
+  // insured booking, nationality, blockchain, ... etc
+  cmp.services.insurance.v4.InsuranceSearchParameters search_parameters_insurance = 2 [(buf.validate.field).required = true];
+}

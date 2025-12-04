@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v3;
+
+import "buf/validate/validate.proto";
+import "cmp/services/cancellation/v1/reason.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/evm_transaction.proto";
+import "cmp/types/v5/price.proto";
+
+// Request for initiation of a cancellation proposal
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/initiate.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/initiate.proto.dot.svg)
+message InitiateCancellationRequest {
+  // The request header
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Booking token ID this request is for
+  uint64 token_id = 2;
+
+  // The amount to be refunded
+  cmp.types.v5.Price refund_amount = 3 [(buf.validate.field).required = true];
+
+  // The cancellation reason
+  cmp.services.cancellation.v1.CancellationReason reason = 4 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values, including UNSPECIFIED (0)
+  }];
+}
+
+message InitiateCancellationSuccessResponse {
+  // The response header
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Transaction ID on-chain for the cancellation proposal initiation. This
+  // transaction proves the initiation of the cancellation proposal on-chain.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of initiation of the cancellation proposal
+  // 2. Validate the refund amount
+  // 3. Prevent disputes about the cancellation terms
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message InitiateCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message InitiateCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v3.InitiateCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v3.InitiateCancellationErrorResponse error_response = 2;
+  }
+}

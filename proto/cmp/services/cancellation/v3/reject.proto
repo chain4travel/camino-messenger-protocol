@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package cmp.services.cancellation.v3;
+
+import "buf/validate/validate.proto";
+import "cmp/services/cancellation/v1/reason.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/evm_transaction.proto";
+
+// Request for cancellation rejection
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/reject.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/cancellation/v3/reject.proto.dot.svg)
+message RejectCancellationRequest {
+  // Request Header
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Booking token ID this request is for
+  uint64 token_id = 2;
+
+  // Reason for rejection
+  cmp.services.cancellation.v1.RejectionReason reason = 3 [(buf.validate.field).enum = {
+    defined_only: true // Only allow defined enum values
+    not_in: [0] /* Exclude unspecified value */
+  }];
+}
+
+// Response for cancellation rejection
+message RejectCancellationSuccessResponse {
+  // Response Header
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Transaction ID on-chain for the cancellation proposal rejection.
+  //
+  // This transaction can be verified on-chain to:
+  // 1. Prove the exact time of the rejection
+  // 2. Validate the rejection reason
+  // 3. Prevent disputes about the cancellation
+  cmp.types.v4.EVMTransactionID transaction_id = 2 [(buf.validate.field).required = true];
+}
+
+message RejectCancellationErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message RejectCancellationResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.cancellation.v3.RejectCancellationSuccessResponse success_response = 1;
+    cmp.services.cancellation.v3.RejectCancellationErrorResponse error_response = 2;
+  }
+}

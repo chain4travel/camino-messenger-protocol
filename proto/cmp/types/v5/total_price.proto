@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cmp.types.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v5/cancel_policy.proto";
+import "cmp/types/v5/change_policy.proto";
+import "cmp/types/v5/price.proto";
+
+// Represents the complete pricing information for a product or service, including
+// both the total price value and an optional breakdown of price components.
+//
+// The value field contains the final, computed total price. When a breakdown is
+// provided, it should accurately decompose the total price into its constituent
+// parts (e.g., base price, taxes, fees, discounts).
+//
+// Example: A hotel booking total of €150 might break down into:
+// - Base rate: €120
+// - Tourism tax: €20
+// - Service charge: €10
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/total_price.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/total_price.proto.dot.svg)
+message TotalPrice {
+  // The final calculated total price for the product or service
+  cmp.types.v5.Price value = 1 [(buf.validate.field).required = true];
+
+  // Optional itemized breakdown showing how the total price was calculated.
+  // Each PriceDetail in the breakdown can have further nested breakdowns.
+  repeated cmp.types.v5.PriceDetail breakdown = 2 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+  }];
+
+  // In case this price belongs to a refundable product or service
+  // it can be included here to inform about potential cancellation fees.
+  // BEWARE: If it's not provided, it implies that this is a non-refundable price!
+  cmp.types.v5.CancelPolicy cancel_policy = 3;
+
+  // In case this price belongs to a changeable product or service
+  // it can be included here to inform about potential change fees.
+  // BEWARE: If it's not provided, it implies that this is a non-changeable product!
+  cmp.types.v5.ChangePolicy change_policy = 4;
+
+  // Validation rule: Ensure the total price is not negative
+  // Note: Price.value field already validates pattern ^-?[0-9]{1,78}$ which allows negatives,
+  // but for TotalPrice we want to ensure non-negative values only
+  option (buf.validate.message).cel = {
+    id: "total_price_non_negative"
+    message: "Total price value must not be negative"
+    expression: "!this.value.value.startsWith('-')"
+  };
+}

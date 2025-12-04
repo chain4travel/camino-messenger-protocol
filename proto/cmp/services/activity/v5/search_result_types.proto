@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cmp.services.activity.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/bookability.proto";
+import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v5/total_price.proto";
+
+// This type represents a search result and is used in the `ActivitySearchResponse`
+// message.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/search_result_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/search_result_types.proto.dot.svg)
+message ActivitySearchResult {
+  // This is an increasing number starting at 0 and increasing by 1 for every search
+  // result.
+  uint32 result_id = 1;
+
+  // Supplier Product codes for the result.
+  cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
+
+  // The code must match one of the defined units provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.units.code
+  string unit_code = 3 [(buf.validate.field).string.max_bytes = 512];
+
+  // The code must match one of the defined services provided in the ProductList
+  // and ProductInfo message.
+  // See: ActivityExtendedInfo.services.code
+  string service_code = 4 [(buf.validate.field).string.max_bytes = 512];
+
+  // Reference to the applicable seat map of this activity offer. Must match a
+  // seat_map_id which was already defined in the static data.
+  // See: ActivityExtendedInfo.seat_map_ids
+  cmp.types.v4.SeatMapID seat_map_id = 5;
+
+  // Identifiers of the transfer zones applicable for this search result.
+  // Meaning that every PickupDropoffEvent in these zones is valid for this result.
+  repeated string zone_codes = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Represents the complete pricing information for a product or service, including
+  // both the total price value and an optional breakdown of price components.
+  cmp.types.v5.TotalPrice total_price = 7 [(buf.validate.field).required = true];
+
+  // Status of the result, whether it is immediately bookable or not
+  cmp.types.v4.Bookability bookability = 8 [(buf.validate.field).required = true];
+}

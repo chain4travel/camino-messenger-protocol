@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package cmp.types.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/datetime_range.proto";
+import "cmp/types/v5/price.proto";
+import "google/protobuf/timestamp.proto";
+
+// Change Policy: The change policy section consists of 2 different
+// ways to express change policies:
+// - A simple "free change upto" structure (essentially only a timestamp)
+// - Complex change policies with from/to DateTime stamps, individual prices
+//   and rateplan applicability
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/change_policy.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/change_policy.proto.dot.svg)
+message ChangePolicy {
+  oneof policy_type {
+    option (buf.validate.oneof).required = true;
+
+    // The "free change upto" identifier specifies the exact DateTime upto when
+    // this search result can be changed free of charge.
+    //
+    // Timestamps may be used for both off-chain and on-chain operations.
+    // For on-chain operations, only seconds are supported, and nanoseconds
+    // will be ignored.
+    google.protobuf.Timestamp free_change_upto = 2;
+
+    // Complex change types - see ComplexChangeTypes message for details
+    cmp.types.v5.ComplexChangeTypes complex_change_types = 3;
+  }
+}
+
+message ComplexChangeTypes {
+  // Specify several change types with their fees relative to the start
+  // date-time of the service. When in the inventory system several entries with
+  // different hours before specified, like for example 10€ from 240 hours (10 days)
+  // before consumption, 50€ from 5 days before consumption and 100€ from 24 hours
+  // before consumption, they must be computed to one uniform format of date ranges
+  // and fees, related to the start DateTime of the service or product
+  // delivery.
+  repeated cmp.types.v5.ChangeType change_types = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+}
+
+// ChangeTypes Different change types can be defined depending on what part of a
+// travel booking requires to be changed (like for example the common "name change",
+// "date change" or the change of a service booked to another service). Each of these
+// changes can be possible or not in relation to the time until the service is
+// delivered or the cost of the change may vary closer to the delivery of the
+// service.
+message ChangeType {
+  // Change type code in case the change type has a specific code
+  string code = 1 [(buf.validate.field).string.max_bytes = 512];
+
+  // When this change type and date is valid. Either use the start and end date of
+  // the DateTime range
+  cmp.types.v4.DateTimeRange datetime_range = 2 [(buf.validate.field).required = true];
+
+  // change fee. Percentages of the selling price are purposely not allowed for
+  // simplicity and uniformity.
+  cmp.types.v5.Price value = 3 [(buf.validate.field).required = true];
+
+  // Description of the change in a non computable manner. The Description should be
+  // in the language that is specified in the request.
+  string description = 4 [(buf.validate.field).string.max_bytes = 512];
+
+  // For which rateplan the policy is valid.
+  repeated string valid_for_rate_plans = 5 [(buf.validate.field).repeated = {
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
+}

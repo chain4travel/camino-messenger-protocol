@@ -7,17 +7,17 @@ import "cmp/types/v4/baggage.proto";
 import "cmp/types/v4/duration.proto";
 import "cmp/types/v4/location.proto";
 import "cmp/types/v4/measurement.proto";
-import "cmp/types/v4/price.proto";
 import "cmp/types/v4/product_code.proto";
 import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v5/price.proto";
 import "cmp/types/v5/service_fact.proto";
 import "google/protobuf/timestamp.proto";
 
 // This message type represents a one way trip, either travelling or returning.
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/trip_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/trip_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/trip_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/trip_types.proto.dot.svg)
 message TripExtended {
   // Trip supplier code
   cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
@@ -30,7 +30,7 @@ message TripExtended {
   // Price
   //
   // Ex: `Price(net=240, currency=Currency.CURRENCY_EUR)
-  cmp.types.v4.Price price = 3 [(buf.validate.field).required = true];
+  cmp.types.v5.Price price = 3 [(buf.validate.field).required = true];
 
   // Trip segments are the legs offered. Here we use extended segments type.
   //

@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package cmp.types.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v4/datetime_range.proto";
+import "cmp/types/v5/price.proto";
+import "google/protobuf/timestamp.proto";
+
+// Cancellation Policy: The cancellation policy section consists of 2 different
+// ways to express cancellation policies:
+// - A simple "free cancellation upto" structure (essentially only a timestamp)
+// - Complex cancellation policies with from/to DateTime stamps, individual penalties
+//   and rateplan applicability
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/cancel_policy.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/types/v5/cancel_policy.proto.dot.svg)
+message CancelPolicy {
+  oneof policy_type {
+    option (buf.validate.oneof).required = true;
+    // The "free cancellation upto" identifier specifies the exact DateTime upto when
+    // this booking can be cancelled free of charge.
+    //
+    // Timestamps may be used for both off-chain and on-chain operations.
+    // For on-chain operations, only seconds are supported, and nanoseconds
+    // will be ignored.
+    //
+    // This is a very simplified way to express a cancellation policy where
+    // only a single free cancellation timestamp is provided. More complex
+    // policies can be defined using the cancel penalties below.
+    google.protobuf.Timestamp free_cancellation_upto = 1;
+
+    // Complex cancellation penalties - see ComplexCancelPenalties message
+    // for details
+    cmp.types.v5.ComplexCancelPenalties complex_cancel_penalties = 2;
+  }
+}
+
+message ComplexCancelPenalties {
+  // Specify several date ranges with their penalties relative to the start
+  // date-time of the service. When in the inventory system several entries with
+  // different hours before specified, like for example 10€ from 240 hours (10 days)
+  // before consumption, 50€ from 5 days before consumption and 100€ from 24 hours
+  // before consumption, they must be computed to one uniform format of date ranges
+  // and penalties, related to the start DateTime of the service or product
+  // delivery.
+  repeated cmp.types.v5.CancelPenalty cancel_penalties = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 10
+  }];
+}
+
+// Cancellation Penalty
+message CancelPenalty {
+  // When this penalty is valid. Either use the start and end date of the DateTime
+  // range
+  cmp.types.v4.DateTimeRange datetime_range = 1 [(buf.validate.field).required = true];
+
+  // Penalty value. Percentages of the selling price are purposely not allowed for
+  // simplicity and uniformity.
+  cmp.types.v5.Price value = 2 [(buf.validate.field).required = true];
+
+  // Description of the penalty in a non computable manner. The Description should
+  // be in the language that is specified in the request.
+  string description = 3 [(buf.validate.field).string = {max_bytes: 512}];
+
+  // For which rateplan the penalty is valid.
+  repeated string valid_for_rate_plans = 4 [(buf.validate.field).repeated = {
+    max_items: 100 // Default max items
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
+}

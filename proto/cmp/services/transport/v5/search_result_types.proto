@@ -6,13 +6,13 @@ import "buf/validate/validate.proto";
 import "cmp/services/transport/v5/trip_types.proto";
 import "cmp/types/v4/bookability.proto";
 import "cmp/types/v4/rate.proto";
-import "cmp/types/v4/total_price.proto";
+import "cmp/types/v5/total_price.proto";
 
 // Transport search result
 //
-// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/search_result_types.proto.dot.xs.svg)
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/search_result_types.proto.dot.xs.svg)
 //
-// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v4/search_result_types.proto.dot.svg)
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/search_result_types.proto.dot.svg)
 message TransportSearchResult {
   // Unique result ID
   uint32 result_id = 1;
@@ -46,7 +46,7 @@ message TransportSearchResult {
 
   // Represents the complete pricing information for a product or service, including
   // both the total price value and an optional breakdown of price components.
-  cmp.types.v4.TotalPrice total_price = 6 [(buf.validate.field).required = true];
+  cmp.types.v5.TotalPrice total_price = 6 [(buf.validate.field).required = true];
 
   // Rate Rules
   repeated cmp.types.v4.RateRule rate_rules = 7 [(buf.validate.field).repeated = {

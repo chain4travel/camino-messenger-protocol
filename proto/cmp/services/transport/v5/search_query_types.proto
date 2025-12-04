@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package cmp.services.transport.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/transport/v5/search_parameters_types.proto";
+import "cmp/types/v4/date.proto";
+import "cmp/types/v4/location.proto";
+import "cmp/types/v4/traveller.proto";
+
+// Transport search query. Multiple trips can be send, each representing multi-leg
+// journey.
+//
+// Ex:
+// - 1 trip in trips : One way journey from PMI to BCN.
+// - 2 trips in trips: Roundtrip journey from PMI to BCN and then BCN to PMI.
+// - 3 trips in trips: PMI->BCN + BCN->BER + BER->PMI (1 two legged flight (connection) and 1 direct (return) flight)
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/search_query_types.proto.dot.xs.svg)
+// [Open Message
+// Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/transport/v5/search_query_types.proto.dot.svg)
+message TransportSearchQuery {
+  // ID
+  uint32 query_id = 1;
+
+  // Global definition of the travellers for all requests to be used via the traveller_id
+  repeated cmp.types.v4.BasicTraveller travellers = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+
+  // Trips
+  repeated cmp.services.transport.v5.QueryTrip trips = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+}
+
+// Version of `Trip` object in `trip_types.proto` for search request's queries. It
+// contains only departure and arrival objects, lacking the segments field.
+message QueryTrip {
+  // Departure event
+  cmp.services.transport.v5.QueryTransitEvent departure = 1 [(buf.validate.field).required = true];
+
+  // Arrival event
+  cmp.services.transport.v5.QueryTransitEvent arrival = 2 [(buf.validate.field).required = true];
+
+  // Transport specific search parameters
+  cmp.services.transport.v5.TransportSearchParameters search_parameters_transport = 3;
+}
+
+// Represents a departure or arrival event for search request's query. This type is
+// different from `TransitEvent` in `trip_types.proto` by having a `date` object
+// instead of a `datetime` object.
+message QueryTransitEvent {
+  // Date time of the event
+  cmp.types.v4.Date date = 1 [(buf.validate.field).required = true];
+
+  // Event location
+  cmp.services.transport.v5.QueryTransitEventLocation location = 2 [(buf.validate.field).required = true];
+}
+
+// Represents a departure or arrival event's location
+message QueryTransitEventLocation {
+  oneof location {
+    option (buf.validate.oneof).required = true; // One must be provided
+
+    // A list of location codes or just one code.
+    cmp.types.v4.LocationCodes location_codes = 1;
+
+    // Single geographic point represented by two double fields.
+    cmp.types.v4.Coordinates location_coordinates = 2;
+
+    // Geo tree type, represented by Country, Region, and City_or_Resort.
+    cmp.types.v4.GeoTree location_geo_tree = 3;
+
+    // Geo circle. Represented by a coordinate and a distance for radius
+    cmp.types.v4.GeoCircle location_geo_circle = 4;
+
+    // Geo polygon. Represented by a list of coordinate points.
+    cmp.types.v4.GeoPolygon location_geo_polygon = 5;
+  }
+}
