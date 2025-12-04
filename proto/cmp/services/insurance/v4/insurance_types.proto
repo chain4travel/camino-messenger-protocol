@@ -22,12 +22,8 @@ message Insurance {
   // etc. or a serialized combination of these codes.
   string context = 1 [(buf.validate.field).string.max_bytes = 512];
 
-  // An identifier for external sessions, aiding in tracking and continuity across
-  // sessions.
-  string external_session_id = 2 [(buf.validate.field).string.max_bytes = 512];
-
   // List of insurance policies
-  repeated cmp.services.insurance.v4.Policy policies = 3 [(buf.validate.field).repeated = {
+  repeated cmp.services.insurance.v4.Policy policies = 2 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 100
   }];
@@ -35,7 +31,7 @@ message Insurance {
 
 message Policy {
   // Unique identifier for this insurance product
-  cmp.types.v4.ProductCode product_code = 1;
+  cmp.types.v4.SupplierProductCode product_code = 1;
 
   // Human-readable description of the insurance policy coverage and benefits
   string description = 2 [(buf.validate.field).string.max_bytes = 512];

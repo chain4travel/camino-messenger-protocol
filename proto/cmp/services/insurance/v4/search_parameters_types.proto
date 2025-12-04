@@ -21,7 +21,7 @@ message InsuranceSearchParameters {
   // Here a list of product codes would be used that could be for various specific
   // insurances from the InsuranceProductList the insurance supplier offers, in
   // case one or more specific policies are requested.
-  repeated cmp.types.v4.ProductCode product_codes = 1 [(buf.validate.field).repeated = {
+  repeated cmp.types.v4.SupplierProductCode product_codes = 1 [(buf.validate.field).repeated = {
     min_items: 0
     max_items: 500
   }];
