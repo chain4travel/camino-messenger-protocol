@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package cmp.services.activity.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/activity/v5/activity_types.proto";
+import "cmp/types/v4/common.proto";
+import "cmp/types/v4/product_code.proto";
+
+message ActivityProductListRequest {
+  // Message header
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // The supplier product codes can be used to pull more details for (new & updated)
+  // activities that are required for mapping, after the "ShortList" was pulled with the
+  // "modified_after" parameter. This is specifically useful to avoid pulling the
+  // complete "Product Info" twice, once for mapping and once to store the multi-lingual
+  // content and imagery.
+  repeated cmp.types.v4.SupplierProductCode supplier_codes = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100 // Default max items
+  }];
+}
+
+message ActivityProductListSuccessResponse {
+  // Message header
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // List of basic identifiers and informations for activities
+  // Used to decide whether to pull the full information for mapping purposes
+  // With a ActivityProductInfoRequest.
+  repeated cmp.services.activity.v5.ActivityInfo activities = 2;
+}
+
+message ActivityProductListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+message ActivityProductListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.activity.v5.ActivityProductListSuccessResponse success_response = 1;
+    cmp.services.activity.v5.ActivityProductListErrorResponse error_response = 2;
+  }
+}
+
+// This service is used to get a product list for activities.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/list.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/list.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service ActivityProductListService {
+  rpc ActivityProductList(ActivityProductListRequest) returns (ActivityProductListResponse);
+}

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package cmp.services.activity.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/services/activity/v5/activity_types.proto";
+import "cmp/types/v4/common.proto";
+import "google/protobuf/timestamp.proto";
+
+// Request a list of modified activities.
+message ActivityProductShortListRequest {
+  // Common request header used in every request.
+  cmp.types.v4.RequestHeader header = 1 [(buf.validate.field).required = true];
+
+  // Only respond with the products that are modified after this timestamp
+  //
+  // The "modified_after" parameter is used to identify updated products from
+  // Suppliers.
+  google.protobuf.Timestamp modified_after = 2;
+}
+
+message ActivityProductShortListSuccessResponse {
+  // Common response header used in every successful response.
+  cmp.types.v4.SuccessResponseHeader header = 1 [(buf.validate.field).required = true];
+
+  // Supplier codes and status for the products that are modified after the timestamp
+  // in the `ActivityProductShortListRequest`. If there are no changes, the list
+  // will be empty.
+  repeated cmp.services.activity.v5.ActivityShortListItem activity_short_list_items = 2;
+}
+
+message ActivityProductShortListErrorResponse {
+  // Common error response header used in every error response.
+  cmp.types.v4.ErrorResponseHeader header = 1 [(buf.validate.field).required = true];
+}
+
+// Respond a list of modified activities.
+message ActivityProductShortListResponse {
+  oneof response {
+    option (buf.validate.oneof).required = true; // One must be provided
+    cmp.services.activity.v5.ActivityProductShortListSuccessResponse success_response = 1;
+    cmp.services.activity.v5.ActivityProductShortListErrorResponse error_response = 2;
+  }
+}
+
+// Activity product short list service definition. This is an alternative
+// to `ActivityProductListService`.
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/short_list.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/short_list.proto.dot.svg)
+//
+/// @custom:cmp-service type:product routing:p2p on-chain:false structure:2
+service ActivityProductShortListService {
+  // Returns product list for activity with only supplier codes.
+  // This can then be used to identify new or updated activities for mapping purposes.
+  rpc ActivityProductShortList(ActivityProductShortListRequest) returns (ActivityProductShortListResponse);
+}

@@ -1,0 +1,497 @@
+syntax = "proto3";
+
+package cmp.services.activity.v5;
+
+import "buf/validate/validate.proto";
+import "cmp/types/v1/language.proto";
+import "cmp/types/v4/address.proto";
+import "cmp/types/v4/contact_info.proto";
+import "cmp/types/v4/datetime_range.proto";
+import "cmp/types/v4/delivery.proto";
+import "cmp/types/v4/description.proto";
+import "cmp/types/v4/duration.proto";
+import "cmp/types/v4/file.proto";
+import "cmp/types/v4/localized.proto";
+import "cmp/types/v4/location.proto";
+import "cmp/types/v4/product_code.proto";
+import "cmp/types/v4/product_status.proto";
+import "cmp/types/v4/redemption.proto";
+import "cmp/types/v4/seat_map.proto";
+import "cmp/types/v4/theme.proto";
+import "google/protobuf/timestamp.proto";
+
+// Activity
+//
+// ![Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/activity_types.proto.dot.xs.svg)
+//
+// [Open Message Diagram](https://storage.googleapis.com/docs-cmp-files/diagrams/proto/cmp/services/activity/v5/activity_types.proto.dot.svg)
+message ActivityInfo {
+  // Ex: "2023-08-28T12:03:50", specifying when the static data of a product was
+  // last updated
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp last_modified = 1;
+
+  // Supplier Product codes for the activity. This is the main identifier
+  // for an activity product.
+  cmp.types.v4.SupplierProductCode supplier_code = 2 [(buf.validate.field).required = true];
+
+  // Additional product codes, which also identify the activity but usually
+  // from external mapping providers. Especially useful in the context of
+  // receiving activities from different suppliers to identify whether
+  // they are the same as the supplier specific codes will be different.
+  repeated cmp.types.v4.ProductCode product_codes = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 500
+  }];
+
+  // Location of where the activity takes place
+  cmp.services.activity.v5.ActivityLocation location = 4 [(buf.validate.field).required = true];
+
+  // The general status of this property. Only active properties can be taken
+  // into account for further processing and will only be returned in search
+  // results. Deactivated properties can be still included in the static data
+  // but this state is reserved for properties which are about to be listed
+  // or are about to be completely removed soon.
+  cmp.types.v4.ProductStatus status = 5 [(buf.validate.field).required = true];
+}
+
+// Activity static info
+message ActivityExtendedInfo {
+  // Basic activity information usually used for mapping / decision-making
+  cmp.services.activity.v5.ActivityInfo activity = 1 [(buf.validate.field).required = true];
+
+  // Definition of the units provided in this activity. This allows different
+  // activities for one product like "Windsurfing" and "Kitesurfing"
+  // under "Salou Playa Llarga".
+  repeated cmp.services.activity.v5.ActivityUnit units = 2 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+
+  // Definition of the services available in this activity. Several different
+  // packages could be included like "Windsurfing" with or without "Wetsuit".
+  repeated cmp.services.activity.v5.ActivityService services = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Transfer Zone(s) in which participants of the activity can be used for pick-up
+  // and drop-off
+  repeated cmp.services.activity.v5.TransferZone zones = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Descriptions with different languages
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 5 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // The attributes bound to the activity (features and amenities).
+  repeated cmp.services.activity.v5.ActivityAttribute attributes = 6 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Languages in which the activity is available
+  repeated cmp.types.v1.Language spoken_languages = 7 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Contact Info; Address, Email, Phone, Urls
+  cmp.types.v4.ContactInfo contact_info = 8;
+
+  // Visual media showcasing the activity (photos, galleries, promotional images)
+  repeated cmp.types.v4.Image images = 9 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Video content demonstrating or promoting the activity experience
+  repeated cmp.types.v4.Video videos = 10 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // General themes associated with the activity to better define its type and
+  // intended target audience.
+  repeated cmp.types.v4.Theme themes = 11 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 20
+    unique: true
+    items: {
+      enum: {
+        defined_only: true
+        not_in: [0]
+      }
+    }
+  }];
+
+  // The type of this activity according to the defined enum
+  cmp.services.activity.v5.ActivityType type = 12 [(buf.validate.field).enum = {defined_only: true}];
+
+  // Duration range (min, max) of the activity in minutes
+  cmp.types.v4.DurationRange duration_range = 13;
+
+  // Time given for confirmation before the offer expires
+  cmp.types.v4.Duration max_confirmation_duration = 14;
+
+  // Allow Free Sale
+  bool allow_free_sale = 15;
+
+  // The ability to confirm instantly
+  bool instant_confirmation = 16;
+
+  // Can be delivered instantly
+  bool instant_delivery = 17;
+
+  // Whether real-time availability checking is required before booking
+  bool availability_required = 18;
+
+  // How availability is managed for this activity (fixed times, flexible, etc.)
+  cmp.services.activity.v5.ActivityAvailabilityType availability_type = 19 [(buf.validate.field).enum = {defined_only: true}];
+
+  // Delivery types for the activity.
+  //
+  // Formats; such as QR Code, NFT, Ticket, ... etc
+  // Methods; such as Email, SMS, Post, ... etc
+  repeated cmp.types.v4.Delivery delivery_types = 20 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // How customers can redeem/use their booking (digital codes, physical tickets, etc.)
+  repeated cmp.types.v4.RedemptionMethod redemption_methods = 23 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Context for Inventory system concepts that need to be included in an info
+  // response, like an OwnerCode, PTC_OfferParameters, Tax codes, Disclosure RefID,
+  // etc. or a serialized combination of these codes.
+  string context = 24 [(buf.validate.field).string.max_bytes = 512];
+
+  // Minimum number of participants required for the activity to proceed.
+  // Ex: A jeep safari might require at least 5 participants to operate,
+  // meaning the activity might be cancelled if fewer than 5 people book it.
+  uint32 min_participants = 25;
+
+  // Maximum number of participants allowed for the activity.
+  // Ex: The same jeep safari might have a maximum capacity of 10 participants
+  // due to vehicle size limitations or safety regulations.
+  uint32 max_participants = 26;
+
+  option (buf.validate.message) = {
+    cel: {
+      id: "max_participants_not_less_than_min"
+      message: "max_participants cannot be smaller than min_participants when both are set"
+      expression: "this.max_participants == 0u || this.max_participants >= this.min_participants"
+    }
+  };
+
+  // In case this activity has a seat maps defined, refer to the correct map_ids,
+  // so that a SeatMap request can be made. (See SeatMap.id)
+  // The field is repeated because the same activity could have a multitude of
+  // different seat maps when different venue configurations or vehicles (like planes, trains, busses) are used.
+  // This enables distributors to get the seat maps prior to a search to cache
+  // them for only requesting seat map availabilities after each search.
+  // The seat map id for the offer when doing a search will then be
+  // one of the seat_map_ids values defined here.
+  repeated cmp.types.v4.SeatMapID seat_map_ids = 28 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+message ActivityLocation {
+  // Ex: Ctra. de la Porrassa, s/n, Magaluf, ES 07181 in structured fields
+  cmp.types.v4.Address address = 1;
+
+  // Geo Tree. Country, region, city_or_resort
+  cmp.types.v4.GeoTree geo_tree = 2;
+
+  // Exact coordinates of the activity location
+  cmp.types.v4.Coordinates coordinates = 3;
+
+  // At least one location field must be provided
+  option (buf.validate.message).cel = {
+    id: "at_least_one_location_required"
+    message: "At least one of address, geo_tree, or coordinates must be provided"
+    expression: "has(this.address) || has(this.geo_tree) || has(this.coordinates)"
+  };
+}
+
+message PickupDropoffEvent {
+  // Supplier specific pick-up code. Avoid using this and use a more generic concept
+  // where possible, so that the integration is suitable for more than one partner.
+  //
+  // Ex: "AESPMI43NU",
+  string location_code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Ex: "Sunny Beach Hotel",
+  string location_name = 2 [(buf.validate.field).string.max_bytes = 512];
+
+  // Ex: "OTHERS / Parking Varadero (bus stop css nº50)",
+  string other_info = 3 [(buf.validate.field).string.max_bytes = 512];
+
+  // Datetime of the pickup dropoff event as Unix timestamp
+  //
+  // Timestamps may be used for both off-chain and on-chain operations.
+  // For on-chain operations, only seconds are supported, and nanoseconds
+  // will be ignored.
+  google.protobuf.Timestamp date_time = 4 [(buf.validate.field).required = true];
+
+  // Longitude and Latitude of the location
+  cmp.types.v4.Coordinates coordinates = 5;
+}
+
+// The unit gives us a choice of the different options that are available in an
+// activity, like for example a normal ticket or a VIP ticket. a 2 hour or 4 hour
+// jeep safari. A ticket to a specific section of a stadium.
+message ActivityUnit {
+  // Unique identifier of a unit inside of an activity
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Schedule of this particular unit with one defined start and end
+  cmp.types.v4.DateTimeRange schedule = 2;
+
+  repeated cmp.types.v4.LocalizedString names = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+}
+
+// Services can be selected like do we go to the activity by ourselves or is a
+// transfer from our hotel included. Do we book the VIP ticket with or without
+// alcoholic drinks included?
+message ActivityService {
+  // Unique identifier for this specific service within the activity
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  repeated cmp.types.v4.LocalizedString names = 2 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  repeated cmp.types.v4.LocalizedDescriptionSet descriptions = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+  }];
+
+  // Included items in the activity service
+  repeated string included = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 100
+    items: {
+      string: {max_bytes: 512}
+    }
+  }];
+}
+
+message TransferZone {
+  // Zone Code used in transfer operations
+  string code = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_bytes: 512
+  }];
+
+  // Geo tree type, represented by Country, Region, and City_or_Resort.
+  cmp.types.v4.GeoTree geo_tree = 2 [(buf.validate.field).required = true];
+
+  // pick-up and drop-off information about location and time
+  repeated cmp.services.activity.v5.PickupDropoffEvent pickup_dropoff_events = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+    max_items: 100
+  }];
+}
+
+// Represents an attribute of an activity (feature or amenity).
+// Examples:
+// - Accessibility: When it's for example wheelchair accessible
+// - Equipment: Helmet provided (free of charge: without additional attributes)
+// - Equipment: Wetsuit ("can be rented for an additional charge" expressed via ActivityAttributeValue)
+message ActivityAttribute {
+  // The type defining the attribute itself. Ex: ACCESSIBILITY, EQUIPMENT_HELMET, etc.
+  cmp.services.activity.v5.ActivityAttributeType type = 1 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  bool bring_your_own = 2; // Special case for equipment: Indicates if the equipment needs to be brought by the participant
+
+  // The values associated with this attribute. Ex: "can be rented for an additional charge" with value 15.0
+  repeated cmp.services.activity.v5.ActivityAttributeValue values = 3 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+
+  // Time periods in which this attribute is applicable
+  // Usually used to indicate seasonal attributes, e.g., "Ski equipment provided" only during winter months
+  // If the system only has the seasons (e.g., "Winter"), these can be represented as start and end dates
+  // covering the entire season.
+  // If the attribute is valid year-round, this field can be left empty.
+  repeated cmp.types.v4.DateTimeRange valid_periods = 4 [(buf.validate.field).repeated = {
+    min_items: 0
+    max_items: 10
+  }];
+}
+
+// Represents a value of an activity attribute along with its type and unit.
+// Examples
+// "Can be rented for an additional charge":
+// - value: 15.0
+// - value_type: ADDITIONAL_CHARGE
+// - unit: LOCAL_CURRENCY
+// "Distance to":
+// - value: 2.5
+// - value_type: DISTANCE
+// - unit: KILOMETERS
+message ActivityAttributeValue {
+  float value = 1;
+
+  cmp.services.activity.v5.ActivityAttributeValueType value_type = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  cmp.services.activity.v5.ActivityAttributeUnit unit = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum ActivityAttributeValueType {
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_DISTANCE = 1;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_ADDITIONAL_CHARGE = 2;
+  ACTIVITY_ATTRIBUTE_VALUE_TYPE_COUNT = 3;
+}
+
+enum ActivityAttributeUnit {
+  ACTIVITY_ATTRIBUTE_UNIT_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_UNIT_KILOMETERS = 1;
+  ACTIVITY_ATTRIBUTE_UNIT_MILES = 2;
+  ACTIVITY_ATTRIBUTE_UNIT_BOOKING_CURRENCY = 3; // The currency used for the booking
+  ACTIVITY_ATTRIBUTE_UNIT_LOCAL_CURRENCY = 4; // The local currency of the property's location
+  ACTIVITY_ATTRIBUTE_UNIT_COUNT = 5;
+}
+
+enum ActivityAttributeType {
+  ACTIVITY_ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ACTIVITY_ATTRIBUTE_TYPE_ACCESSIBILITY = 1; // Activity accessibility features for disabled guests
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_BOOTS = 2; // Boots (including Roller/Ice-Skates) provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_HELMET = 3; // Helmet provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_WETSUIT = 4; // Wetsuit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_DIVING_GEAR = 5; // Diving gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SNORKELING_GEAR = 6; // Snorkeling gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_LIFE_JACKET = 7; // Life jacket provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_PROTECTIVE_GEAR = 8; // Protective gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SUNCREAM = 9; // Suncream provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SKIS = 10; // Skis provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SNOWBOARD = 11; // Snowboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SWIMSUIT = 12; // Swimsuit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_BINOCULARS = 13; // Binoculars provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_CAMERA = 14; // Camera provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_GLOVES = 15; // Gloves provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_FISHING_GEAR = 16; // Fishing gear provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_VEHICLE = 17; // Vehicle (Bike, Motorbike, Quad, Trike, Jetski, Snowski, etc) provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_FLASHLIGHT = 18; // Flashlight provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_SURFBOARD = 19; // Surfboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_PADDLEBOARD = 20; // Paddleboard provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_COSPLAY = 21; // Cosplay outfit provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_EQUIPMENT_GPS_TRACKER = 22; // GPS tracker provided for the activity
+  ACTIVITY_ATTRIBUTE_TYPE_POI_CITY_CENTER = 23; // Activity is located near the city center
+  ACTIVITY_ATTRIBUTE_TYPE_POI_ATTRACTION = 24; // Activity is located near popular tourist attractions
+  ACTIVITY_ATTRIBUTE_TYPE_POI_NATURE = 25; // Activity is located near natural landmarks and parks
+  ACTIVITY_ATTRIBUTE_TYPE_POI_SHOPPING = 26; // Activity is located near shopping areas and malls
+  ACTIVITY_ATTRIBUTE_TYPE_POI_DINING = 27; // Activity is located near dining establishments and restaurants
+  ACTIVITY_ATTRIBUTE_TYPE_POI_CULTURE = 28; // Activity is located near cultural sites and museums
+  ACTIVITY_ATTRIBUTE_TYPE_POI_NIGHTLIFE = 29; // Activity is located near nightlife and entertainment venues
+}
+
+// This message is used to specify the supplier codes and their status.
+message ActivityShortListItem {
+  // Supplier codes for the products that are modified after the timestamp in
+  // `ActivityProductShortListRequest`. The supplier codes can be used in
+  // the `ActivityProductShortListRequest` or in the `ActivityProductInfoRequest`
+  // for more or all details.
+  cmp.types.v4.SupplierProductCode supplier_code = 1 [(buf.validate.field).required = true];
+
+  // Status of the activity. This is used when the "ShortList" or the "ProductList"
+  // are pulled. New or modified products have "activated" and activities that are
+  // no longer available from this supplier, will have the status "deactivated".
+  // In case a activity has the status "deactivated" no search results will be
+  // returned for that activity and a ProductInfo request might not return any
+  // details.
+  cmp.types.v4.ProductStatus status = 2 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+}
+
+enum ActivityAvailabilityType {
+  // Default/unspecified state.
+  // Must be zero according to protobuf best practices.
+  ACTIVITY_AVAILABILITY_TYPE_UNSPECIFIED = 0;
+
+  // Activities or products with fixed start or departure times.
+  // Users must select a particular start time from predefined options.
+  // Common for scheduled tours, shows, or transfers with set timings.
+  ACTIVITY_AVAILABILITY_TYPE_START_TIME = 1;
+
+  // Activities available during certain venue opening hours.
+  // Users can visit or participate anytime within the defined time window.
+  // Suitable for museums, parks, exhibits where no fixed start time is required.
+  ACTIVITY_AVAILABILITY_TYPE_OPENING_HOURS = 2;
+
+  // Activities or products offering flexible scheduling without fixed times.
+  // Customers have freedom to choose a date/time within a broad range.
+  // Often for rentals, self-guided experiences, or services adaptable to user needs.
+  ACTIVITY_AVAILABILITY_TYPE_FLEXIBLE = 3;
+
+  // Activities available starting on a specific date but not tied to fixed start times.
+  // Useful for seasonal openings or availability windows beginning on a date.
+  ACTIVITY_AVAILABILITY_TYPE_OPEN_DATE = 4;
+
+  // Activities available on multiple discrete dates which can be selected from a calendar.
+  // Provides a user interface for date selection, commonly used for events, classes, or limited-time offers.
+  ACTIVITY_AVAILABILITY_TYPE_CALENDAR = 5;
+}
+
+// Enum specifying detailed activity types, including concerts and shows
+enum ActivityType {
+  ACTIVITY_TYPE_UNSPECIFIED = 0;
+  ACTIVITY_TYPE_GUIDED_TOUR = 1; // Guided city or sightseeing tours
+  ACTIVITY_TYPE_SELF_GUIDED = 2; // Self-guided exploration
+  ACTIVITY_TYPE_MUSEUM = 3; // Museum visits
+  ACTIVITY_TYPE_EXHIBITION = 4; // Exhibitions (art, history, science, etc.)
+  ACTIVITY_TYPE_CONCERT = 5; // Live music concerts
+  ACTIVITY_TYPE_THEATER = 6; // Theater performances or plays
+  ACTIVITY_TYPE_CIRCUS = 7; // Circus shows
+  ACTIVITY_TYPE_PERFORMANCE = 8; // Other live performances like dance shows, magic shows, etc.
+  ACTIVITY_TYPE_SPORT_ACTIVITY = 9; // Sport activities like zip-lining, water sports, etc.
+  ACTIVITY_TYPE_SPORTS_EVENT = 10; // Sporting events like football matches, basketball games, etc.
+  ACTIVITY_TYPE_EXPERIENCE = 11; // Experiences such as classes, workshops, tastings, or immersive activities
+  ACTIVITY_TYPE_TRANSFER = 12; // Transportation services such as airports, hotels, or intercity shuttles
+  ACTIVITY_TYPE_BOAT_TOUR = 13; // Boat or sea excursions
+  ACTIVITY_TYPE_ADVENTURE = 14; // Outdoor adventures like hiking, safaris, etc.
+}
