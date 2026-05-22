@@ -35,6 +35,26 @@ function read_justified_missing_files {
 	fi
 }
 
+ALLOWED_EXISTING_FOLDERS=()
+function read_allowed_existing_folders {
+	if [ -f "allowed_existing_folders.txt" ] ; then
+		echo "🔧 Reading allowed existing folders from 'allowed_existing_folders.txt'"
+		while IFS= read -r line; do
+			ALLOWED_EXISTING_FOLDERS+=("$line")
+		done < "allowed_existing_folders.txt"
+	fi
+}
+
+function is_allowed_existing_folder {
+	DIR=$1
+	for allowed_dir in "${ALLOWED_EXISTING_FOLDERS[@]}"; do
+		if [[ "$allowed_dir" == "$DIR" ]]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
 function is_justified_missing_file {
 	FILE=$1
 	for justified_file in "${JUSTIFIED_MISSING_FILES[@]}"; do
@@ -64,10 +84,14 @@ function check_added_file {
 
 	# check whether this folder does already exist in the origin branch
 	if git show origin/$ORIGIN:$DIRNAME > /dev/null 2>&1 ; then
-		# This does already exist! 
-		echo -e "❌ ${RED}[FAIL] ERROR${NC}: The folder ${PURPLE}$DIRNAME${NC} is already present the origin branch. The newly added file ${PURPLE}$FILE${NC} should be in a new version folder not present in the origin branch!"
-		ERROR_FILES+=("$FILE")
-		return
+		if is_allowed_existing_folder "$DIRNAME" ; then
+			echo -e "✅ ${GREEN}[PASS] INFO${NC}: Found (allowed existing) folder: ${PURPLE}$DIRNAME${NC} for newly added file: ${PURPLE}$FILE${NC}"
+		else
+			# This does already exist! 
+			echo -e "❌ ${RED}[FAIL] ERROR${NC}: The folder ${PURPLE}$DIRNAME${NC} is already present the origin branch. The newly added file ${PURPLE}$FILE${NC} should be in a new version folder not present in the origin branch!"
+			ERROR_FILES+=("$FILE")
+			return
+		fi
 	fi
 
 	if [[ "$FILE_VERSION" == "1" ]] ; then
@@ -143,6 +167,7 @@ echo -e "⏳ Fetching the latest changes from the origin branch: ${PURPLE}$ORIGI
 git fetch origin $ORIGIN > /dev/null 2>&1
 
 read_justified_missing_files
+read_allowed_existing_folders
 
 echo -e "🔍 Checking for illegal filesystem changes like removing/moving existing files"
 while read FILE ; do
