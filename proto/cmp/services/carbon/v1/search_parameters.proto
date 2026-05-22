@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package cmp.services.carbon.v1;
+
+message CarbonSearchParameters {
+  cmp.services.carbon.v1.CompensationType compensation_type = 1;
+}
+
+enum CompensationType {
+  COMPENSATION_TYPE_UNSPECIFIED = 0;
+  COMPENSATION_TYPE_CO2_DEBITS = 1;
+  COMPENSATION_TYPE_PURCHASE_TREE = 2;
+}
